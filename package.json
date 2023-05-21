@@ -2,7 +2,10 @@
   "name": "crm_italia",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
+  "env": {
+    "node": true,
+    "vue/setup-compiler-macros": true
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
