@@ -43,11 +43,9 @@ export function prepareQuery(args) {
         params.search = search;
     }
     if (sort && sort.hasOwnProperty('column') && sort.hasOwnProperty('direction')) {
-        // if (sort.column && sort.direction) {
-        //     params.sort_by = sort.column;
-        //     params.sort = sort.direction;
-        // }
-        params.sort = sort.direction === 'desc' ? '-' : '' + sort.column;
+        if (sort.column && sort.direction) {           
+            params.sort = `${sort.direction === 'desc' ? '-' : ''}${sort.column}`;
+        }
     }
     if (filters) {
         for (let key in filters) {
