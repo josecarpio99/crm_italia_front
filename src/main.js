@@ -19,6 +19,7 @@ import i18n from "@/plugins/i18n";
 import App from "@/App";
 
 import "./styles/main.css";
+import "./styles/icons.css";
 
 
 const app = createApp(App)

@@ -4,7 +4,7 @@ export default class UserService extends ModelService {
 
     constructor() {
         super();
-        this.url = '/users';
+        this.url = 'v1/user';
     }
 
     public updateAvatar(id, payload) {

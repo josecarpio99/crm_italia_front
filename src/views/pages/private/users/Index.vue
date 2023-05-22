@@ -37,18 +37,7 @@
                             </div>
                         </div>
                     </div>
-                </template>
-                <template v-slot:content-status="props">
-                    <span v-if="props.item.email_verified_at" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800" v-html="trans('users.status.verified')"></span>
-                    <span v-else class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" v-html="trans('users.status.not_verified')"></span>
-                </template>
-                <template v-slot:content-role="props">
-                    {{
-                        props.item.roles.map((entry) => {
-                            return entry.title
-                        }).join(', ')
-                    }}
-                </template>
+                </template>            
             </Table>
         </template>
     </Page>
@@ -147,16 +136,14 @@ export default defineComponent({
 
         const table = reactive({
             headers: {
-                id: trans('users.labels.id_pound'),
-                first_name: trans('users.labels.first_name'),
-                last_name: trans('users.labels.last_name'),
+                // id: trans('users.labels.id_pound'),
+                name: trans('users.labels.name'),
                 email: trans('users.labels.email'),
-                status: trans('users.labels.status'),
                 role: trans('users.labels.role'),
             },
             sorting: {
-                first_name: true,
-                last_name: true
+                name: true,
+                email: true
             },
             pagination: {
                 meta: null,
