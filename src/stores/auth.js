@@ -5,6 +5,8 @@ import {useAlertStore} from "@/stores/alert";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/UserService";
 import {trans} from "@/helpers/i18n";
+import roles from "@/stub/roles";
+
 
 export const useAuthStore = defineStore("auth", {
     state: () => {
@@ -131,6 +133,17 @@ export const useAuthStore = defineStore("auth", {
 
             return isAvailable
         },
+
+        hasAccessByRole(role) {
+            if (
+                this.user.role === roles.SUPERADMIN ||
+                this.user.role === role
+            ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     },
     getters: {
         isAdmin: (state) => {

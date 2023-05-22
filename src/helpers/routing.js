@@ -8,6 +8,7 @@ export const getAbilitiesForRoute = function (names) {
     }
 
     let objects = flattenObjectAsArray(routes, 'children');
+    
     let abilities = [];
     for (let j in names) {
 

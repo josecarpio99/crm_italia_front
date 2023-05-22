@@ -11,7 +11,7 @@ import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
 import {default as PageUsersEdit} from "@/views/pages/private/users/Edit";
 
-import abilities from "@/stub/abilities";
+import roles from "@/stub/roles";
 
 const routes = [
     {
@@ -42,19 +42,19 @@ const routes = [
                     {
                         name: "users.list",
                         path: "list",
-                        meta: {requiresAuth: true, requiresAbility: abilities.LIST_USER},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: PageUsers,
                     },
                     {
                         name: "users.create",
                         path: "create",
-                        meta: {requiresAuth: true, requiresAbility: abilities.CREATE_USER},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: PageUsersCreate,
                     },
                     {
                         name: "users.edit",
                         path: ":id/edit",
-                        meta: {requiresAuth: true, requiresAbility: abilities.EDIT_USER},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: PageUsersEdit,
                     },
                 ]

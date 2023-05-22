@@ -19,17 +19,19 @@ router.beforeEach(async (to, from, next) => {
         authStore.clearBrowserData();
     }
    
-    const requiresAbility = to.meta.requiresAbility;
+    const requiresRole = to.meta.requiresRole;
     const requiresAuth = to.meta.requiresAuth;
     const belongsToOwnerOnly = to.meta.isOwner;
-    if (requiresAbility && requiresAuth) {
-        if (authStore.hasAbilities(requiresAbility)) {
-            next()
+    if (requiresRole && requiresAuth) {
+        
+        if (authStore.hasAccessByRole(requiresRole)) {
+            next()            
         } else {
             next({
                 name: 'profile'
             })
         }
+
     } else if (belongsToOwnerOnly) {
         if (authStore.user.is_owner) {
             next()

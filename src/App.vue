@@ -105,6 +105,8 @@ import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
 import {getAbilitiesForRoute} from "@/helpers/routing";
+import roles from "@/stub/roles";
+
 
 export default {
   name: "app",
@@ -146,7 +148,7 @@ export default {
                   icon: 'users',
                   showDesktop: true,
                   showMobile: true,
-                  requiresAbility: getAbilitiesForRoute(['users.list', 'users.create', 'users.edit']),
+                  requiresRole: roles.SUPERADMIN,
                   to: '/panel/users/list',
                   children: [
                       {
@@ -154,7 +156,7 @@ export default {
                           icon: '',
                           showDesktop: true,
                           showMobile: true,
-                          requiresAbility: getAbilitiesForRoute('users.list'),
+                          requiresRole: roles.SUPERADMIN,
                           to: '/panel/users/list',
                       },
                       {
@@ -162,7 +164,7 @@ export default {
                           icon: '',
                           showDesktop: true,
                           showMobile: true,
-                          requiresAbility: getAbilitiesForRoute('users.create'),
+                          requiresRole: roles.SUPERADMIN,
                           to: '/panel/users/create',
                       }
                   ]
@@ -182,13 +184,7 @@ export default {
               icon: 'plus',
               to: '',
               href: '#',
-          },
-          footerLeftLink: {
-              name: trans('global.buttons.documentation'),
-              icon: 'paperclip',
-              to: '',
-              href: '#',
-          },
+          },       
           isAccountDropdownOpen: false,
           isMobileMenuOpen: false,
           currentExpandedMenuItem: null,

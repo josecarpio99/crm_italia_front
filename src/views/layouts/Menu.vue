@@ -92,7 +92,11 @@ export default defineComponent({
 
             if (!obj) {
                 return false;
-            }
+            }            
+
+            if (obj.hasOwnProperty('requiresRole') && false !== obj.requiresRole) {
+                return authStore.hasAccessByRole(obj.requiresRole);
+            }          
 
             let hasPermission = obj.hasOwnProperty('requiresAbility') && false !== obj.requiresAbility ? authStore.hasAbilities(obj.requiresAbility) : true;
 
