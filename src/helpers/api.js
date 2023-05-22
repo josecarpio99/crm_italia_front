@@ -43,10 +43,11 @@ export function prepareQuery(args) {
         params.search = search;
     }
     if (sort && sort.hasOwnProperty('column') && sort.hasOwnProperty('direction')) {
-        if (sort.column && sort.direction) {
-            params.sort_by = sort.column;
-            params.sort = sort.direction;
-        }
+        // if (sort.column && sort.direction) {
+        //     params.sort_by = sort.column;
+        //     params.sort = sort.direction;
+        // }
+        params.sort = sort.direction === 'desc' ? '-' : '' + sort.column;
     }
     if (filters) {
         for (let key in filters) {
@@ -66,7 +67,8 @@ export function prepareQuery(args) {
                 }
             }
             if(cleanValues.length > 0) {
-                params['filters[' + key + ']'] = key + ';' + comparison + ';' + cleanValues.join('|');
+                // params['filter[' + key + ']'] = key + ';' + comparison + ';' + cleanValues.join('|');
+                params['filter[' + key + ']'] = cleanValues.join(',');
             }
         }
     }

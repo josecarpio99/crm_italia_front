@@ -5,16 +5,10 @@
             <Filters @clear="onFiltersClear">
                 <FiltersRow>
                     <FiltersCol>
-                        <TextInput name="first_name" :label="trans('users.labels.first_name')" v-model="mainQuery.filters.first_name.value"></TextInput>
-                    </FiltersCol>
+                        <TextInput name="search" :label="trans('global.buttons.search')" v-model="mainQuery.filters.search.value"></TextInput>
+                    </FiltersCol>                 
                     <FiltersCol>
-                        <TextInput name="last_name" :label="trans('users.labels.last_name')" v-model="mainQuery.filters.last_name.value"></TextInput>
-                    </FiltersCol>
-                    <FiltersCol>
-                        <TextInput name="email" type="email" :label="trans('users.labels.email')" v-model="mainQuery.filters.email.value"></TextInput>
-                    </FiltersCol>
-                    <FiltersCol>
-                        <Dropdown name="role" :server="'roles/search'" :multiple="true" :label="trans('users.labels.role')" v-model="mainQuery.filters.role.value"></Dropdown>
+                        <Dropdown name="role" :options="roleOptions" :label="trans('users.labels.role')" v-model="mainQuery.filters.role.value"></Dropdown>
                     </FiltersCol>
                 </FiltersRow>
             </Filters>
@@ -78,8 +72,16 @@ export default defineComponent({
 
         const roleOptions = [
             {
+                id: 'superadmin',
+                title: 'Superadmin'
+            },
+            {
                 id: 'admin',
                 title: 'Admin'
+            },
+            {
+                id: 'operador',
+                title: 'Operador'
             }
         ];
 
@@ -88,19 +90,11 @@ export default defineComponent({
             search: '',
             sort: '',
             filters: {
-                first_name: {
+                search: {
                     value: '',
                     comparison: '='
-                },
-                last_name: {
-                    value: '',
-                    comparison: '='
-                },
+                },              
                 role: {
-                    value: '',
-                    comparison: '='
-                },
-                email: {
                     value: '',
                     comparison: '='
                 }
@@ -189,8 +183,7 @@ export default defineComponent({
             }
         }
 
-        function onPageAction(params) {
-            console.log('llego');
+        function onPageAction(params) {           
             switch (params.action.id) {
                 case 'filters':
                     page.toggleFilters = !page.toggleFilters;
