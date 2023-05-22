@@ -49,7 +49,6 @@ export const useAuthStore = defineStore("auth", {
             } catch (error) {
                 this.loading = false
                 this.user = null;
-                console.log(error);
                 this.error = getResponseError(error);
             }
             return this.user;

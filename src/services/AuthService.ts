@@ -15,7 +15,7 @@ export default class AuthService extends BaseService {
 
     async getCurrentUser() {
         await this.get("/sanctum/csrf-cookie");
-        return this.get("/api/users/auth");
+        return this.get("/api/v1/user/auth");
     }
 
     async forgotPassword(payload) {
