@@ -11,12 +11,12 @@
             </router-link>
         </div>
 
-        <div class="mt-3 text-sm flex justify-between items-center text-[#002D74]">
+        <!-- <div class="mt-3 text-sm flex justify-between items-center text-[#002D74]">
             <p>{{ trans('global.phrases.register_ask') }}</p>
             <router-link to="/register" class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300">
                 {{ trans('global.buttons.register') }}
             </router-link>
-        </div>
+        </div> -->
     </Auth>
 </template>
 

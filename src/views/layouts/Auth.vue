@@ -1,12 +1,12 @@
 <template>
-    <main class="bg-theme-500 flex items-center justify-center min-h-screen">
-        <div class="bg-theme-50 flex rounded-2xl shadow-lg max-w-5xl items-center">
-            <div class="md:w-1/2 px-8 md:px-16 py-8">
+    <main class="bg-white flex items-center justify-center min-h-screen">
+        <div class="bg-gray-50 border-4 flex rounded-2xl shadow-lg w-1/2 max-w-lg items-center">
+            <div class="w-full px-8 md:px-16 py-8">
                 <slot></slot>
             </div>
-            <div class="md:block hidden w-1/2">
+            <!-- <div class="md:block hidden w-1/2">
                 <img :alt="AppConfig.name" class="rounded-2xl" src="/assets/images/login.jpg">
-            </div>
+            </div> -->
         </div>
     </main>
 </template>

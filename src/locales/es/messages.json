@@ -39,6 +39,7 @@
   "global": {
     "pages": {
       "home": "Panel",
+      "welcome": "Bienvenido",
       "users": "Usuarios",
       "users_create": "Nuevo Usuario",
       "users_edit": "editar usuario",
@@ -53,8 +54,8 @@
       "clear_filters": "Limpiar todo",
       "loading": "Cargando...",
       "sign_out": "Cerrar sesión",
-      "all_records": "Todos los registros",
-      "argh": "¡Argh!",
+      "all_records": "Listar",
+      "argh": "Oops!",
       "success": "¡Éxito!",
       "fix_errors": "Por favor corrige los siguientes errores:",
       "no_records": "No se encontraron registros.",

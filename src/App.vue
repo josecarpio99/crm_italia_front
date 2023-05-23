@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100 flex" v-if="authStore.user && authStore.user.hasOwnProperty('id')">
-      <aside class="relative bg-theme-600 h-screen w-64 hidden sm:block shadow-xl">
+      <aside class="relative bg-theme-700 h-screen w-64 hidden sm:block shadow-xl">
           <div class="p-6 border-b border-theme-600">
               <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/panel/dashboard">
                   <template v-if="state.app.logo">
@@ -72,10 +72,7 @@
               </div>
               <nav :class="state.isMobileMenuOpen ? 'flex': 'hidden'" class="flex flex-col pt-4 text-base text-white">
                   <Menu :state="state" :type="'mobile'"/>
-                  <button class="w-full bg-theme-800 text-white font-semibold py-2 mt-3 rounded-lg shadow-lg hover:shadow-xl hover:text-theme-800 hover:bg-gray-300 flex items-center justify-center">
-                      <Icon name="paperclip" class="mr-3"/>
-                      {{ trans('global.buttons.documentation') }}
-                  </button>
+                  
               </nav>
           </header>
 
@@ -178,13 +175,7 @@ export default {
                   onClick: onLogout,
                   to: '',
               }
-          ],
-          headerLeftLink: {
-              name: trans('global.buttons.new_record'),
-              icon: 'plus',
-              to: '',
-              href: '#',
-          },       
+          ],            
           isAccountDropdownOpen: false,
           isMobileMenuOpen: false,
           currentExpandedMenuItem: null,
