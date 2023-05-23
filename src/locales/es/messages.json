@@ -1,0 +1,121 @@
+{
+  "users": {
+    "status": {
+      "verified": "Verificado",
+      "not_verified": "No verificado",
+      "ask_verify": "Verificar correo electrónico"
+    },
+    "roles": {
+      "regular": "Regular",
+      "admin": "Administración"
+    },
+    "labels": {
+      "id": "IDENTIFICACIÓN",
+      "id_pound": "",
+      "first_name": "Nombre de pila",
+      "last_name": "Apellido",
+      "middle_name": "Segundo nombre",
+      "name": "Nombre",
+      "avatar": "Avatar",
+      "email": "Correo electrónico",
+      "role": "Role",
+      "roles": "roles",
+      "status": "Estado",
+      "current_password": "Contraseña actual",
+      "password": "Contraseña",
+      "new_password": "Nueva contraseña",
+      "confirm_password": "confirmar Contraseña",
+      "ask_upload_avatar": "Subir avatar",
+      "new_record": "Nuevo Usuario",
+      "edit_record": "editar usuario",
+      "general_settings": "Configuración general",
+      "password_settings": "Configuración de contraseña",
+      "avatar_settings": "Configuración de avatares"
+    }
+  },
+  "messages": {
+    "name": "Mensaje"
+  },
+  "global": {
+    "pages": {
+      "home": "Panel",
+      "users": "Usuarios",
+      "users_create": "Nuevo Usuario",
+      "users_edit": "editar usuario",
+      "profile": "Perfil",
+      "register": "Registro",
+      "login": "Acceso",
+      "logout": "Cerrar sesión",
+      "forgot_password": "Has olvidado tu contraseña",
+      "reset_password": "Restablecer la contraseña"
+    },
+    "phrases": {
+      "clear_filters": "Limpiar todo",
+      "loading": "Cargando...",
+      "sign_out": "Cerrar sesión",
+      "all_records": "Todos los registros",
+      "argh": "¡Argh!",
+      "success": "¡Éxito!",
+      "fix_errors": "Por favor corrige los siguientes errores:",
+      "no_records": "No se encontraron registros.",
+      "login_desc": "Si ya eres miembro, inicia sesión fácilmente.",
+      "login_not_verified": "Por favor, verifique su correo electrónico para poder iniciar sesión.",
+      "register_desc": "Si no tienes una cuenta, regístrate.",
+      "reset_password_desc": "Complete el formulario para restablecer su contraseña.",
+      "login_ask": "¿Ya tienes una cuenta?",
+      "register_ask": "¿No tienes una cuenta?",
+      "forgot_password_desc": "Si olvidó su contraseña, reiníciela a continuación.",
+      "forgot_password_ask": "¿Olvidaste tu contraseña?",
+      "forgot_password_login": "¿Tienes tu contraseña? ",
+      "already_registered_login": "¿Ya hecho? ",
+      "inspire": "¡Construyamos algo divertido!",
+      "copyright": "Todos los derechos reservados.",
+      "record_created": "Registro creado con éxito.",
+      "record_not_created": "No se puede crear el registro.",
+      "record_updated": "Registro actualizado con éxito.",
+      "record_not_updated": "No se puede actualizar el registro.",
+      "file_uploaded": "El archivo ha subido correctamente",
+      "file_not_uploaded": "Incapaz de cargar el archivo",
+      "password_updated": "Contraseña actualizada exitosamente",
+      "password_not_updated": "No se puede actualizar la contraseña",
+      "profile_updated": "perfil actualizado con éxito",
+      "profile_not_updated": "No se puede actualizar la contraseña",
+      "not_found_title": "404",
+      "not_found_text": "La página que estás buscando no está aquí.",
+      "not_found_back": "Regresa",
+      "input_files_select": "Coloque los archivos aquí o haga clic para cargar | ",
+      "input_files_selected": "{contar} archivo seleccionado | ",
+      "email_verified": "Correo electrónico verificado con éxito!",
+      "member_since": "Miembro desde: {fecha}",
+      "verification_sent": "Enlace de verificación de correo electrónico enviado."
+    },
+    "buttons": {
+      "add_new": "Agregar nuevo",
+      "filters": "filtros",
+      "save": "Ahorrar",
+      "send": "Enviar",
+      "submit": "Entregar",
+      "login": "Acceso",
+      "register": "Registro",
+      "search": "Buscar",
+      "new_record": "Nuevo record",
+      "documentation": "Documentación",
+      "back": "Atrás",
+      "upload": "Subir",
+      "update": "Actualizar",
+      "change_avatar": "Cambiar avatar"
+    },
+    "actions": {
+      "name": "Comportamiento",
+      "edit": "Editar",
+      "delete": "Borrar"
+    },
+    "alerts": {
+      "success": "¡Éxito!",
+      "warning": "¡Advertencia!",
+      "danger": "¡Error!",
+      "confirm": "¡Confirmar!",
+      "confirm_action_message": "¿Está seguro de que desea realizar esta acción?"
+    }
+  }
+}
