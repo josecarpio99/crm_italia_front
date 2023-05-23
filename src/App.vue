@@ -105,7 +105,7 @@ import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
 import {getAbilitiesForRoute} from "@/helpers/routing";
-import roles from "@/stub/roles";
+import {roles} from "@/stub/roles";
 
 
 export default {

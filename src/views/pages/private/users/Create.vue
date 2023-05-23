@@ -26,6 +26,7 @@ import UserService from "@/services/UserService";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {toUrl} from "@/helpers/routing";
 import Form from "@/views/components/Form";
+import {roleOptions} from "@/stub/roles";
 
 export default defineComponent({
     components: {Form, FileInput, Panel, Alert, Dropdown, TextInput, Button, Page},
@@ -37,21 +38,6 @@ export default defineComponent({
             role: '',
             password: '',
         });
-
-        const roleOptions = [
-            {
-                id: 'superadmin',
-                title: 'Superadmin'
-            },
-            {
-                id: 'admin',
-                title: 'Admin'
-            },
-            {
-                id: 'operador',
-                title: 'Operador'
-            }
-        ];
 
         const page = reactive({
             id: 'create_users',

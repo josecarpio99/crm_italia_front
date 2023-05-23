@@ -5,7 +5,7 @@ import {useAlertStore} from "@/stores/alert";
 import AuthService from "@/services/AuthService";
 import UserService from "@/services/UserService";
 import {trans} from "@/helpers/i18n";
-import roles from "@/stub/roles";
+import {roles} from "@/stub/roles";
 
 
 export const useAuthStore = defineStore("auth", {

@@ -1,13 +1,10 @@
 <template>
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onAction" :is-loading="page.loading">
         <Panel>
-            <Form id="edit-user" @submit.prevent="onSubmit">
-                <TextInput class="mb-4" type="text" :required="true" name="first_name" v-model="form.first_name" :label="trans('users.labels.first_name')"/>
-                <TextInput class="mb-4" type="text" :required="true" name="last_name" v-model="form.last_name" :label="trans('users.labels.last_name')"/>
-                <TextInput class="mb-4" type="text" name="middle_name" v-model="form.middle_name" :label="trans('users.labels.middle_name')"/>
+            <Form id="edit-user" @submit.prevent="onSubmit">           
+                <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('users.labels.name')"/>
                 <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
-                <Dropdown class="mb-4" multiple="multiple" :server="'roles/search'" :server-per-page="15" :required="true" name="type" v-model="form.roles" :label="trans('users.labels.role')"/>
-                <FileInput class="mb-4" name="avatar" v-model="form.avatar" accept="image/*" :label="trans('users.labels.avatar')" @click="form.avatar = ''"></FileInput>
+                <Dropdown class="mb-4" :options="roleOptions" :required="true" name="type" v-model="form.role" :label="trans('users.labels.role')"/>                 
                 <TextInput class="mb-4" type="password" name="password" v-model="form.password" :label="trans('users.labels.password')"/>
             </Form>
         </Panel>
@@ -30,6 +27,7 @@ import Panel from "@/views/components/Panel";
 import Page from "@/views/layouts/Page";
 import FileInput from "@/views/components/input/FileInput";
 import Form from "@/views/components/Form";
+import {roleOptions} from "@/stub/roles";
 
 export default defineComponent({
     components: {
@@ -45,13 +43,10 @@ export default defineComponent({
     setup() {
         const {user} = useAuthStore();
         const route = useRoute();
-        const form = reactive({
-            first_name: '',
-            last_name: '',
-            middle_name: '',
+        const form = reactive({            
+            name: '',
             email: '',
-            roles: [],
-            avatar: '',
+            role: '',
             password: '',
         });
 
@@ -90,8 +85,9 @@ export default defineComponent({
         const service = new UserService();
 
         onBeforeMount(() => {
-            service.edit(route.params.id).then((response) => {
-                fillObject(form, response.data.model);
+            service.find(route.params.id).then((response) => {
+                fillObject(form, response.data.data);                
+                form.role = roleOptions.find(option => option.id === form.role);
                 page.loading = false;
             })
         });
@@ -105,7 +101,7 @@ export default defineComponent({
         }
 
         function onSubmit() {
-            service.handleUpdate('edit-user', route.params.id, reduceProperties(form, 'roles', 'id'));
+            service.handleUpdate('edit-user', route.params.id, reduceProperties(form, 'role', 'id'));
             return false;
         }
 
@@ -115,7 +111,8 @@ export default defineComponent({
             form,
             onSubmit,
             onAction,
-            page
+            page,
+            roleOptions
         }
     }
 })

@@ -11,7 +11,7 @@ import {default as PageUsers} from "@/views/pages/private/users/Index";
 import {default as PageUsersCreate} from "@/views/pages/private/users/Create";
 import {default as PageUsersEdit} from "@/views/pages/private/users/Edit";
 
-import roles from "@/stub/roles";
+import {roles} from "@/stub/roles";
 
 const routes = [
     {
