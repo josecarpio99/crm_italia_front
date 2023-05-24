@@ -15,7 +15,7 @@
         </template>
 
         <template #default>
-            <Table :id="page.id" v-if="table" :headers="table.headers" :sorting="table.sorting" :actions="table.actions" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
+            <Table :id="page.id" v-if="table" :headers="table.headers" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
                 <template v-slot:content-id="props">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-10 w-10">
@@ -54,6 +54,7 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import {roleOptions} from "@/stub/roles";
 
 export default defineComponent({
     components: {
@@ -69,22 +70,7 @@ export default defineComponent({
     setup() {
         const service = new UserService();
         const alertStore = useAlertStore();
-
-        const roleOptions = [
-            {
-                id: 'superadmin',
-                title: 'Superadmin'
-            },
-            {
-                id: 'admin',
-                title: 'Admin'
-            },
-            {
-                id: 'operador',
-                title: 'Operador'
-            }
-        ];
-
+   
         const mainQuery = reactive({
             page: 1,
             search: '',
@@ -160,7 +146,12 @@ export default defineComponent({
                 }
             },
             loading: false,
-            records: null
+            records: null,
+            editableFields: {
+                name: {
+                    type: 'input'
+                }
+            }
         })
 
         function onTableSort(params) {

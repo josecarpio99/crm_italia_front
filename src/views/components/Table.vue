@@ -19,9 +19,15 @@
             </thead>
             <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
             <tr v-for="(record, i) in records">
-                <td v-for="(header, j) in headers" class="px-6 py-4 whitespace-nowrap text-sm">
+                <td v-for="(header, j) in headers" 
+                    class="px-6 py-4 whitespace-nowrap text-sm"
+                    :class="{ editable: isEditable(j) }"
+                >
                     <slot :item="record" :name="'content-'+j">
                         {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
+                        <span v-if="isEditable(j)" class="cursor-pointer hidden text-gray-400 hover:text-gray-700 ml-2">
+                            <i class="fa fa-pencil"></i>
+                        </span>
                     </slot>
                 </td>
                 <td v-if="actions" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -101,6 +107,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        editableFields: {
+            type: [Array, Object],
+            default: []
+        }
     },
     setup(props, {emit}) {
 
@@ -185,6 +195,12 @@ export default defineComponent({
             currentSort.direction = null;
         }
 
+        function isEditable(field) {
+            // this.editablesFields.length == 0;
+            console.log(this.editableFields, this.editableFields.hasOwnProperty(field));
+            return this.editableFields.hasOwnProperty(field);
+        }
+
         const currentPage = computed(() => {
             return getPaginationMeta('current_page');
         })
@@ -203,6 +219,7 @@ export default defineComponent({
             sortControlClasses,
             headersLength,
             trans,
+            isEditable
         }
     }
 });
@@ -220,5 +237,9 @@ export default defineComponent({
 
 .sort-arrows .fa {
     font-size: 15px;
+}
+
+.editable:hover > span {
+    display: inline-block;
 }
 </style>
