@@ -10,14 +10,11 @@ export const useAlertStore = defineStore({
     },
     actions: {
         success(message) {
-            this.clear();
-            this.push(message);
-            this.type = 'success'
+            this.alert(message, 'success');            
         },
         error(message) {
-            this.clear();
-            this.push(message);
-            this.type = 'error'
+            this.alert(message, 'error');            
+
         },
         push(message) {
             if (Array.isArray(message) || (typeof message === 'object' && message != null)) {
@@ -44,5 +41,15 @@ export const useAlertStore = defineStore({
         hasMultiple() {
             return (Array.isArray(this.messages.length) && this.messages.length > 1) || ((typeof this.messages === 'object' && this.messages != null)  &&Object.keys(this.messages).length > 1);
         },
+        alert(message, type) {
+            this.clear();
+            this.push(message);
+            this.type = type;
+            if (type === 'success') {
+                setTimeout(() => {
+                    this.clear();
+                }, 2000);
+            }
+        }
     }
 });

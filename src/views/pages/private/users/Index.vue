@@ -35,9 +35,9 @@
                 <template v-slot:content-name="{ item }">
                     <TableCell 
                         :cellvalue="item.name"
-                        :recordId="item.id" 
+                        :record="item" 
                         cellkey="name" 
-                        @changed="handleChange"
+                        @changed="handleCellChange"
                     >                        
                         {{ item.name }}
                     </TableCell>                   
@@ -143,10 +143,12 @@ export default defineComponent({
                     key: 'name',
                     label: trans('users.labels.name'),
                     editable: true,
+                    sorteable: true
                 },
                 {
                     key: 'email',
                     label: trans('users.labels.email'),
+                    sorteable: true
                 },
                 {
                     key: 'role',
@@ -238,9 +240,8 @@ export default defineComponent({
                 });
         }
 
-        function handleChange(payload) {
-            console.log(payload);
-            const record = table.records.find((item) => item.id == payload.id);          
+        function handleCellChange(payload) {
+            const record = table.records.find((item) => item.id == payload.record.id);          
             record[payload.key] = payload.value.toString();            
             service.handleUpdate(page.id, record.id, record);
         }
@@ -264,7 +265,7 @@ export default defineComponent({
             onPageAction,
             onFiltersClear,
             mainQuery,
-            handleChange
+            handleCellChange
         }
 
     },

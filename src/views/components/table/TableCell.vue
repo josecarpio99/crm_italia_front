@@ -20,8 +20,8 @@ import { ref, watch } from "vue";
 
 
 const props = defineProps({
-  recordId: {
-    type: [String, Number],
+  record: {
+    type: [Object,],
     required: true
   },
   cellkey: {
@@ -62,7 +62,7 @@ function handleEnter()
 {
     showInput.value = false
     emit('changed', {
-      id: props.recordId, 
+      record: props.record, 
       key: props.cellkey, 
       value: inputValue.value
     })
