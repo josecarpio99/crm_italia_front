@@ -3,15 +3,15 @@
     <table class="w-full divide-y divide-gray-200 table-auto">
       <thead class="bg-gray-50">
         <tr>
-          <th v-for="(item, i) in headers" scope="col"
+          <th v-for="(column, i) in columns" scope="col"
             class="align-middle px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-            <slot :name="'header-' + i">
-              <div class="leading-loose inline-block">{{ item }}</div>
-              <div class="sort-arrows inline-block text-center absolute" v-if="sorting.hasOwnProperty(i) && sorting[i]">
-                <span @click.prevent="onSortChange(i, 'asc')" :class="sortControlClasses(i, 'asc')"
+            <slot :name="'column-' + i">
+              <div class="leading-loose inline-block">{{ column.label }}</div>
+              <div class="sort-arrows inline-block text-center absolute" v-if="column.sorteable">
+                <span @click.prevent="onSortChange(column.key, 'asc')" :class="sortControlClasses(i, 'asc')"
                   class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
                     class="fa fa-caret-up"></i></span>
-                <span @click.prevent="onSortChange(i, 'desc')" :class="sortControlClasses(i, 'desc')"
+                <span @click.prevent="onSortChange(column.key, 'desc')" :class="sortControlClasses(i, 'desc')"
                   class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
                     class="fa fa-caret-down"></i></span>
               </div>
@@ -24,16 +24,23 @@
         </tr>
       </thead>
       <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
-        <tr v-for="(record, i) in records">
-          <td v-for="(header, j) in headers" class="px-6 py-4 whitespace-nowrap text-sm"
-            :class="{ editable: isEditable(j) }">
+        <tr v-for="(record, i) in records">          
+          <template v-for="(header, j) in headers">
+            <slot :item="record" :name="'content-' + j">
+              <td class="px-6 py-4 whitespace-nowrap text-sm">
+                {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
+              </td>
+            </slot> 
+          </template>
+          <!-- <td v-for="(header, j) in headers" class="px-6 py-4 whitespace-nowrap text-sm"
+            >
             <slot :item="record" :name="'content-' + j">
               {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
               <span v-if="isEditable(j)" class="cursor-pointer hidden text-gray-400 hover:text-gray-700 ml-2">
                 <i class="fa fa-pencil"></i>
               </span>
             </slot>
-          </td>
+          </td> -->
           <td v-if="actions" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <slot :name="'actions-' + j" v-for="(action, j) in actions">
               <router-link v-if="action.hasOwnProperty('to') && action.to" :to="getActionPage(action, record)"
@@ -78,6 +85,10 @@ const props = defineProps({
   id: {
     type: String,
     default: "",
+  },
+  columns: {
+    type: [Array, Object],
+    default: [],
   },
   headers: {
     type: [Array, Object],
@@ -199,7 +210,7 @@ function clearSorting() {
 }
 
 function isEditable(field) {
-  return this.editableFields.hasOwnProperty(field);
+  return props.editableFields.hasOwnProperty(field);
 }
 
 const currentPage = computed(() => {
@@ -226,6 +237,7 @@ const lastPage = computed(() => {
   font-size: 15px;
 }
 
-.editable:hover>span {
+/* .editable:hover>span {
   display: inline-block;
-}</style>
+} */
+</style>

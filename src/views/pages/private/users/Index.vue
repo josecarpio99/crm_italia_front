@@ -15,7 +15,7 @@
         </template>
 
         <template #default>
-            <Table2 :id="page.id" v-if="table" :headers="table.headers" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
+            <Table2 :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
                 <template v-slot:content-id="props">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-10 w-10">
@@ -31,7 +31,17 @@
                             </div>
                         </div>
                     </div>
-                </template>                       
+                </template>    
+                <template v-slot:content-name="{ item }">
+                    <TableCell 
+                        :cellvalue="item.name"
+                        :recordId="item.id" 
+                        cellkey="name" 
+                        @changed="handleChange"
+                    >                        
+                        {{ item.name }}
+                    </TableCell>                   
+                </template>    
             </Table2>
         </template>
     </Page>
@@ -41,14 +51,15 @@
 
 import {trans} from "@/helpers/i18n";
 import UserService from "@/services/UserService";
-import {watch, onMounted, defineComponent, reactive, ref} from 'vue';
+import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
 import Page from "@/views/layouts/Page";
 // import Table from "@/views/components/Table";
-import Table2 from "@/views/components/Table";
+import Table2 from "@/views/components/Table2";
+import TableCell from "@/views/components/table/TableCell";
 import Avatar from "@/views/components/icons/Avatar";
 import Filters from "@/views/components/filters/Filters";
 import FiltersRow from "@/views/components/filters/FiltersRow";
@@ -66,7 +77,8 @@ export default defineComponent({
         Filters,
         Page,
         Table2,
-        Avatar
+        Avatar,
+        TableCell
     },
     setup() {
         const service = new UserService();
@@ -126,6 +138,23 @@ export default defineComponent({
                 name: true,
                 email: true
             },
+            columns: [
+                {
+                    key: 'name',
+                    label: trans('users.labels.name'),
+                    editable: true,
+                },
+                {
+                    key: 'email',
+                    label: trans('users.labels.email'),
+                },
+                {
+                    key: 'role',
+                    label: trans('users.labels.role'),
+                    sortable: false,
+                },
+                
+            ],           
             pagination: {
                 meta: null,
                 links: null,
@@ -153,7 +182,7 @@ export default defineComponent({
                     type: 'input'
                 }
             }
-        })
+        })  
 
         function onTableSort(params) {
             mainQuery.sort = params;
@@ -209,6 +238,13 @@ export default defineComponent({
                 });
         }
 
+        function handleChange(payload) {
+            console.log(payload);
+            const record = table.records.find((item) => item.id == payload.id);          
+            record[payload.key] = payload.value.toString();            
+            service.handleUpdate(page.id, record.id, record);
+        }
+
         watch(mainQuery, (newTableState) => {
             fetchPage(mainQuery);
         });
@@ -227,7 +263,8 @@ export default defineComponent({
             onTableSort,
             onPageAction,
             onFiltersClear,
-            mainQuery
+            mainQuery,
+            handleChange
         }
 
     },
