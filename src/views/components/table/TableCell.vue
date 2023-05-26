@@ -10,14 +10,23 @@
       </span>
      </div>
 
-     <input type="text" ref="inputElement" @blur="handleBlur" @keypress.enter="handleEnter"
+     <input v-if="props.type == 'input'" type="text" ref="inputElement" @blur="handleBlur" @keypress.enter="handleEnter"
      v-model="inputValue" class="border text-sm border-gray focus:outline-none focus:ring focus:ring-transparent focus:border-gray-500" :class="`${showInput ? 'block' : 'hidden'}`">
+     
+     <Dropdown v-else-if="props.type == 'list'" 
+      :options="props.options" 
+      name="type" 
+      v-model="inputValue" 
+      :showLabel="false"
+      :class="{hidden : !showInput}"      
+      @closed="handleBlur"
+     /> 
   </td>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-
+import { ref, watch, onBeforeMount } from "vue";
+import Dropdown from "@/views/components/input/Dropdown";
 
 const props = defineProps({
   record: {
@@ -31,6 +40,14 @@ const props = defineProps({
   cellvalue: {
     type: String,
     required: true
+  },
+  type: {
+    type: String,
+    default: 'input'
+  },
+  options: {
+    type: [Array, Object],
+    required: false,
   }
 });
 
@@ -42,18 +59,26 @@ watch(() => props.cellvalue, (newValue) => {
     inputValue.value = newValue
 });
 
+onBeforeMount(() => {
+  if (props.type == 'list') {
+    inputValue.value = props.options.find(option => option.id === inputValue.value);    
+  }
+});
+
 const emit = defineEmits(['changed'])
 
 function handleClick()
 {
- showInput.value = true
- setTimeout(()=>{
-     (inputElement.value).focus()
- }, 200)
+  showInput.value = true
+  if (props.type == 'input') {
+    setTimeout(()=>{
+        (inputElement.value).focus()
+    }, 200)  
+  }
 }
 
 function handleBlur()
-{    
+{        
     showInput.value = false;
     inputValue.value = props.cellvalue;
 }

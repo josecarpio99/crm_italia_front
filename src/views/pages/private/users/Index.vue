@@ -42,6 +42,18 @@
                         {{ item.name }}
                     </TableCell>                   
                 </template>    
+                <template v-slot:content-role="{ item }">
+                    <TableCell 
+                        :cellvalue="item.role"
+                        :record="item" 
+                        :options="roleOptions"
+                        type="list"
+                        cellkey="role" 
+                        @changed="handleCellChange"
+                    >                        
+                        {{ item.role }}
+                    </TableCell>                   
+                </template>    
             </Table2>
         </template>
     </Page>

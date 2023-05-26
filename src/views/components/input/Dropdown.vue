@@ -3,7 +3,7 @@
         <label :for="name" class="text-sm text-gray-500" :class="{ 'sr-only': !showLabel }" v-if="label">
             {{ label }}<span class="text-red-600" v-if="$props.required">*</span>
         </label>
-        <Multiselect track-by="id" label="title" v-model="value" :id="$props.name" :name="$props.name" :disabled="disabled" :placeholder="$props.placeholder" :options="selectOptions" :multiple="$props.multiple" :searchable="!!$props.server" :loading="isLoading" :internal-search="false" :clear-on-select="false" :close-on-select="$props.closeOnSelect" :max-height="400" :show-no-results="false" :hide-selected="false" open-direction="bottom" @search-change="handleSearch">
+        <Multiselect track-by="id" label="title" v-model="value" :id="$props.name" :name="$props.name" :disabled="disabled" :placeholder="$props.placeholder" :options="selectOptions" :multiple="$props.multiple" :searchable="!!$props.server" :loading="isLoading" :internal-search="false" :clear-on-select="false" :close-on-select="$props.closeOnSelect" :max-height="400" :show-no-results="false" :hide-selected="false" open-direction="bottom" @search-change="handleSearch" @close="handleClose">
         </Multiselect>
     </div>
 </template>
@@ -72,7 +72,7 @@ export default defineComponent({
             default: 3
         }
     },
-    emits: ['update:modelValue', 'input'],
+    emits: ['update:modelValue', 'input', 'closed'],
     setup(props, {emit}) {
 
         let selectOptionsArr = ref(props.options);
@@ -120,12 +120,16 @@ export default defineComponent({
             })
         }
 
+        function handleClose() {
+            emit('closed');
+        }
 
         return {
             value,
             selectOptions,
             handleSearch,
             isLoading,
+            handleClose
         }
     }
 });
