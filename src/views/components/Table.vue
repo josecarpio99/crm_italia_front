@@ -195,9 +195,7 @@ export default defineComponent({
             currentSort.direction = null;
         }
 
-        function isEditable(field) {
-            // this.editablesFields.length == 0;
-            console.log(this.editableFields, this.editableFields.hasOwnProperty(field));
+        function isEditable(field) {            
             return this.editableFields.hasOwnProperty(field);
         }
 
