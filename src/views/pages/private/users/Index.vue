@@ -44,7 +44,7 @@
                 </template>    
                 <template v-slot:content-role="{ item }">
                     <TableCell 
-                        :cellvalue="item.role"
+                        :cellvalue="roleOptions.find(option => option.id === item.role)"
                         :record="item" 
                         :options="roleOptions"
                         type="list"

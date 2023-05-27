@@ -78,19 +78,8 @@ const inputElement = ref();
 const inputValue = ref(props.cellvalue); 
 const showInput = ref(false);
 
-watch(() => props.cellvalue, (newValue) => {
-    if (props.type == 'list') {    
-      inputValue.value = props.options.find(option => option.id === newValue);
-    } else {
-      inputValue.value = newValue;
-    }
-
-});
-
-onBeforeMount(() => {
-  if (props.type == 'list') {
-    inputValue.value = props.options.find(option => option.id === inputValue.value);    
-  }
+watch(() => props.cellvalue, (newValue) => {  
+    inputValue.value = newValue;
 });
 
 const emit = defineEmits(['changed'])
@@ -108,9 +97,7 @@ function handleClick()
 function handleBlur()
 {        
     showInput.value = false;
-    if (props.type == 'input') {
-      inputValue.value = props.cellvalue;
-    }
+    inputValue.value = props.cellvalue;    
 }
 
 function handleEnter()
