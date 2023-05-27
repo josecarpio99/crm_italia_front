@@ -13,14 +13,37 @@
      <input v-if="props.type == 'input'" type="text" ref="inputElement" @blur="handleBlur" @keypress.enter="handleEnter"
      v-model="inputValue" class="border text-sm border-gray focus:outline-none focus:ring focus:ring-transparent focus:border-gray-500" :class="`${showInput ? 'block' : 'hidden'}`">
      
-     <Dropdown v-else-if="props.type == 'list'" 
+     <!-- <Dropdown v-else-if="props.type == 'list'" 
       :options="props.options" 
       name="type" 
       v-model="inputValue" 
       :showLabel="false"
       :class="{hidden : !showInput}"      
       @closed="handleBlur"
-     /> 
+     />  -->
+
+     <VDropdown
+      v-else-if="props.type == 'list'"
+      :triggers="[]"
+      :shown="showInput"
+      auto-size
+      :prevent-overflow="false"
+      @hide="handleBlur"
+     >
+        <template #popper>        
+          <Dropdown  
+            :options="props.options" 
+            name="type" 
+            v-model="inputValue" 
+            :showLabel="false"
+            :showPointer="false"
+            :placeholder="'Buscar...'"
+            @selected="handleEnter"
+
+          /> 
+
+        </template>
+     </VDropdown>
   </td>
 </template>
 
@@ -56,7 +79,12 @@ const inputValue = ref(props.cellvalue);
 const showInput = ref(false);
 
 watch(() => props.cellvalue, (newValue) => {
-    inputValue.value = newValue
+    if (props.type == 'list') {    
+      inputValue.value = props.options.find(option => option.id === newValue);
+    } else {
+      inputValue.value = newValue;
+    }
+
 });
 
 onBeforeMount(() => {
@@ -80,7 +108,9 @@ function handleClick()
 function handleBlur()
 {        
     showInput.value = false;
-    inputValue.value = props.cellvalue;
+    if (props.type == 'input') {
+      inputValue.value = props.cellvalue;
+    }
 }
 
 function handleEnter()
@@ -97,5 +127,9 @@ function handleEnter()
 <style>
 .editable:hover span {
   display: inline-block;
+}
+
+.v-popper__inner {
+  overflow-y: visible !important;
 }
 </style>

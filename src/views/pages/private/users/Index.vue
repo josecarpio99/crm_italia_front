@@ -254,7 +254,7 @@ export default defineComponent({
 
         function handleCellChange(payload) {
             const record = table.records.find((item) => item.id == payload.record.id);          
-            record[payload.key] = payload.value.toString();            
+            record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString();                   
             service.handleUpdate(page.id, record.id, record);
         }
 
