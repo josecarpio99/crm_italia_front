@@ -16,22 +16,7 @@
 
         <template #default>
             <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
-                <template v-slot:content-id="props">
-                    <div class="flex items-center">
-                        <div class="flex-shrink-0 h-10 w-10">
-                            <img v-if="props.item.avatar_url" :src="props.item.avatar_url" class="h-10 w-10 rounded-full" alt=""/>
-                            <Avatar v-else class="w-10 h-10 text-gray-400 rounded-full"/>
-                        </div>
-                        <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">
-                                {{ props.item.full_name }}
-                            </div>
-                            <div class="text-sm text-gray-500">
-                                {{ trans('users.labels.id') + ': ' + props.item.id }}
-                            </div>
-                        </div>
-                    </div>
-                </template>    
+              
                 <template v-slot:content-name="{ item }">
                     <TableCell 
                         :cellvalue="item.name"
@@ -42,6 +27,18 @@
                         {{ item.name }}
                     </TableCell>                   
                 </template>    
+
+                <template v-slot:content-email="{ item }">
+                    <TableCell 
+                        :cellvalue="item.email"
+                        :record="item" 
+                        cellkey="email" 
+                        @changed="handleCellChange"
+                    >                        
+                        {{ item.email }}
+                    </TableCell>                   
+                </template>    
+
                 <template v-slot:content-role="{ item }">
                     <TableCell 
                         :cellvalue="roleOptions.find(option => option.id === item.role)"
