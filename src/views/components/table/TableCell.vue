@@ -61,7 +61,7 @@ const props = defineProps({
     required: true
   },
   cellvalue: {
-    type: String,
+    type: [String, Object],
     required: true
   },
   type: {
