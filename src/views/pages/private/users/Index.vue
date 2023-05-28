@@ -15,7 +15,7 @@
         </template>
 
         <template #default>
-            <Table2 :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
+            <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
                 <template v-slot:content-id="props">
                     <div class="flex items-center">
                         <div class="flex-shrink-0 h-10 w-10">
@@ -54,7 +54,7 @@
                         {{ item.role }}
                     </TableCell>                   
                 </template>    
-            </Table2>
+            </Table>
         </template>
     </Page>
 </template>
@@ -69,8 +69,7 @@ import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
 import Page from "@/views/layouts/Page";
-// import Table from "@/views/components/Table";
-import Table2 from "@/views/components/Table2";
+import Table from "@/views/components/Table";
 import TableCell from "@/views/components/table/TableCell";
 import Avatar from "@/views/components/icons/Avatar";
 import Filters from "@/views/components/filters/Filters";
