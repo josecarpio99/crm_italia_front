@@ -141,6 +141,14 @@ export default {
                   to: '/panel/dashboard',
               },
               {
+                  name: trans('global.pages.customers'),
+                  icon: 'users',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/customers/list',
+              },
+              {
                   name: trans('global.pages.users'),
                   icon: 'users',
                   showDesktop: true,

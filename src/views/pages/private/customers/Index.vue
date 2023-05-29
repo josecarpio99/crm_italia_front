@@ -73,8 +73,8 @@ const page = reactive({
 
 const table = reactive({
   headers: {
-      name: trans('customers.labels.name'),
-      email: trans('customers.labels.email')
+      name: trans('global.labels.name'),
+      email: trans('global.labels.email')
   },
   sorting: {
       name: true,
@@ -83,21 +83,15 @@ const table = reactive({
   columns: [
       {
           key: 'name',
-          label: trans('customers.labels.name'),
+          label: trans('global.labels.name'),
           editable: true,
           sorteable: true
       },
       {
           key: 'email',
-          label: trans('customers.labels.email'),
+          label: trans('global.labels.email'),
           sorteable: true
-      },
-      {
-          key: 'role',
-          label: trans('customers.labels.role'),
-          sortable: false,
-      },
-      
+      }      
   ],           
   pagination: {
       meta: null,
