@@ -12,6 +12,17 @@
                   >                        
                       {{ item.name }}
                   </TableCell>                   
+              </template> 
+
+              <template v-slot:cell-email="{ item }">
+                  <TableCell 
+                      :cellvalue="item.email"
+                      :record="item" 
+                      cellkey="email" 
+                      @changed="handleCellChange"
+                  >                        
+                      {{ item.email }}
+                  </TableCell>                   
               </template>           
               
           </Table>
@@ -177,7 +188,8 @@ function fetchPage(params) {
 }
 
 function handleCellChange(payload) {
-  const record = table.records.find((item) => item.id == payload.record.id);          
+  const record = table.records.find((item) => item.id == payload.record.id);
+  record.category_id = record.category.id;
   record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString();                   
   service.handleUpdate(page.id, record.id, record);
 }
