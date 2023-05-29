@@ -82,8 +82,10 @@ export default defineComponent({
         }
 
         function onSubmit() {
-            service.handleCreate('create-user', reduceProperties(form, 'role', 'id')).then(() => {
-                clearObject(form)
+            service.handleCreate('create-user', reduceProperties(form, 'role', 'id')).then((res) => {                
+                if (res?.status == 200 || res?.status == 201) {
+                    clearObject(form)
+                }
             })
             
             return false;

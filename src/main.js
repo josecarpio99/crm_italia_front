@@ -9,15 +9,16 @@ window.AppConfig = {
 
 
 import {createApp} from 'vue'
-import { createPinia } from 'pinia'
-
-
-       
+import { createPinia } from 'pinia'       
 
 import router from "@/router";
 import i18n from "@/plugins/i18n";
 import App from "@/App";
+import {  
+  Dropdown
+} from 'floating-vue'
 
+import 'floating-vue/dist/style.css'
 import "./styles/main.css";
 import "./styles/icons.css";
 
@@ -28,6 +29,7 @@ app.use(createPinia());
 
 app.use(router);
 app.use(i18n);
+app.component('VDropdown', Dropdown)
 
 app.mount('#app');
 
