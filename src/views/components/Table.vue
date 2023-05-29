@@ -1,6 +1,6 @@
 <template>
   <div class="w-full shadow border-b border-gray-200 mb-8 sm:rounded-lg overflow-auto">
-    <table class="w-full divide-y divide-gray-200 table-auto">
+    <table class="w-full divide-y divide-gray-200 table-fixed">
       <thead class="bg-gray-50">
         <tr>
           <th v-for="(column, i) in columns" scope="col"
@@ -26,7 +26,7 @@
       <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
         <tr v-for="(record, i) in records">          
           <template v-for="(header, j) in headers">
-            <slot :item="record" :name="'content-' + j">
+            <slot :item="record" :name="'cell-' + j">
               <td class="px-6 py-4 whitespace-nowrap text-sm">
                 {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
               </td>

@@ -17,7 +17,7 @@
         <template #default>
             <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
               
-                <template v-slot:content-name="{ item }">
+                <template v-slot:cell-name="{ item }">
                     <TableCell 
                         :cellvalue="item.name"
                         :record="item" 
@@ -28,7 +28,7 @@
                     </TableCell>                   
                 </template>    
 
-                <template v-slot:content-email="{ item }">
+                <template v-slot:cell-email="{ item }">
                     <TableCell 
                         :cellvalue="item.email"
                         :record="item" 
@@ -39,7 +39,7 @@
                     </TableCell>                   
                 </template>    
 
-                <template v-slot:content-role="{ item }">
+                <template v-slot:cell-role="{ item }">
                     <TableCell 
                         :cellvalue="roleOptions.find(option => option.id === item.role)"
                         :record="item" 
