@@ -1,19 +1,5 @@
 <template>
-    <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">
-
-        <template #filters v-if="page.toggleFilters">
-            <Filters @clear="onFiltersClear">
-                <FiltersRow>
-                    <FiltersCol>
-                        <TextInput name="search" :label="trans('global.buttons.search')" v-model="mainQuery.filters.search.value"></TextInput>
-                    </FiltersCol>                 
-                    <FiltersCol>
-                        <Dropdown name="role" :options="roleOptions" :label="trans('users.labels.role')" v-model="mainQuery.filters.role.value"></Dropdown>
-                    </FiltersCol>
-                </FiltersRow>
-            </Filters>
-        </template>
-
+    <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
         <template #default>
             <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
               
@@ -104,27 +90,12 @@ const page = reactive({
             to: toUrl('/users'),
             active: true,
         }
-    ],
-    actions: [
-        {
-            id: 'filters',
-            name: trans('global.buttons.filters'),
-            icon: "fa fa-filter",
-            theme: 'outline',
-        },
-        {
-            id: 'new',
-            name: trans('global.buttons.add_new'),
-            icon: "fa fa-plus",
-            to: toUrl('/users/create')
-        }
-    ],
+    ],  
     toggleFilters: false,
 });
 
 const table = reactive({
     headers: {
-        // id: trans('users.labels.id_pound'),
         name: trans('users.labels.name'),
         email: trans('users.labels.email'),
         role: trans('users.labels.role'),
