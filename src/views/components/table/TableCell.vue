@@ -109,6 +109,7 @@ function handleEnter()
       value: inputValue.value
     })
 }
+
 </script>
 
 <style>

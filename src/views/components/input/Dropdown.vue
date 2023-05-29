@@ -12,7 +12,7 @@
 
 <script>
 
-import {computed, defineComponent, ref} from "vue";
+import {computed, defineComponent, ref, onMounted} from "vue";
 
 import SearchService from "@/services/SearchService";
 import Multiselect from 'vue-multiselect';
@@ -129,6 +129,10 @@ export default defineComponent({
         function handleSelect() {
             emit('selected');
         }
+
+        onMounted(() => {  
+            // document.querySelector('.multiselect__content-wrapper').style.display = 'block';
+        });
 
         return {
             value,
