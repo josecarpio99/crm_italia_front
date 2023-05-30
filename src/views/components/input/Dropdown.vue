@@ -3,10 +3,20 @@
         <label :for="name" class="text-sm text-gray-500" :class="{ 'sr-only': !showLabel }" v-if="label">
             {{ label }}<span class="text-red-600" v-if="$props.required">*</span>
         </label>
-        <Multiselect track-by="id" label="title" v-model="value" :id="$props.name" :name="$props.name" :disabled="disabled" :placeholder="$props.placeholder" :options="selectOptions" :multiple="$props.multiple" :searchable="true" :loading="isLoading"  :clear-on-select="false" :close-on-select="$props.closeOnSelect" :show-no-results="false" :hide-selected="false" open-direction="bottom" @close="handleClose" @select="handleSelect"
+        <!-- <Multiselect track-by="id" label="title" v-model="value" :id="$props.name" :name="$props.name" :disabled="disabled" :placeholder="$props.placeholder" :options="selectOptions" :multiple="$props.multiple" :searchable="true" :loading="isLoading"  :clear-on-select="false" :close-on-select="$props.closeOnSelect" :show-no-results="false" :hide-selected="false" open-direction="bottom" @close="handleClose" @select="handleSelect"
         :showLabels="false"
         >
-        </Multiselect>
+        </Multiselect> -->
+        <VSelect 
+            v-model="value" 
+            :options="selectOptions" 
+            :id="$props.name" 
+            :name="$props.name"
+            :closeOnSelect="$props.closeOnSelect"
+            @option:selected="handleSelect"
+        >
+
+        </VSelect>
     </div>
 </template>
 
@@ -84,7 +94,7 @@ export default defineComponent({
             let val = [];
             for (let i in selectOptionsArr.value) {
                 if (typeof selectOptionsArr.value[i] === 'object') {
-                    val.push({id: selectOptionsArr.value[i].id, title: selectOptionsArr.value[i].title});
+                    val.push({id: selectOptionsArr.value[i].id, label: selectOptionsArr.value[i].label});
                 } else {
                     val.push(selectOptionsArr.value[i])
                 }

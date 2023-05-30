@@ -14,11 +14,13 @@ import { createPinia } from 'pinia'
 import router from "@/router";
 import i18n from "@/plugins/i18n";
 import App from "@/App";
+import vSelect from 'vue-select';
 import {  
   Dropdown
-} from 'floating-vue'
+} from 'floating-vue';
 
 import 'floating-vue/dist/style.css'
+import 'vue-select/dist/vue-select.css';
 import "./styles/main.css";
 import "./styles/icons.css";
 
@@ -30,6 +32,7 @@ app.use(createPinia());
 app.use(router);
 app.use(i18n);
 app.component('VDropdown', Dropdown)
+app.component('VSelect', vSelect)
 
 app.mount('#app');
 

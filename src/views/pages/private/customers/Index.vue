@@ -23,7 +23,20 @@
                   >                        
                       {{ item.email }}
                   </TableCell>                   
-              </template>           
+              </template>     
+              
+              <template v-slot:cell-category="{ item }">
+                    <TableCell 
+                        :cellvalue="customerCategories.find(option => option.id === item.category.id)"
+                        :record="item" 
+                        :options="customerCategories"
+                        type="list"
+                        cellkey="category" 
+                        @changed="handleCellChange"
+                    >                        
+                        {{ item.category.name }}
+                    </TableCell>                   
+                </template>   
               
           </Table>
       </template>
@@ -48,7 +61,7 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import {roleOptions} from "@/stub/roles";
+import {customerCategories} from "@/stub/categories";
 
 const service = new CustomerService();
 const alertStore = useAlertStore();
@@ -85,7 +98,8 @@ const page = reactive({
 const table = reactive({
   headers: {
       name: trans('global.labels.name'),
-      email: trans('global.labels.email')
+      email: trans('global.labels.email'),
+      category: trans('global.labels.category'),
   },
   sorting: {
       name: true,
@@ -102,7 +116,12 @@ const table = reactive({
           key: 'email',
           label: trans('global.labels.email'),
           sorteable: true
-      }      
+      },    
+      {
+          key: 'category',
+          label: trans('global.labels.category'),
+          sorteable: false
+      },    
   ],           
   pagination: {
       meta: null,
@@ -188,9 +207,20 @@ function fetchPage(params) {
 }
 
 function handleCellChange(payload) {
+  console.log(payload);
   const record = table.records.find((item) => item.id == payload.record.id);
   record.category_id = record.category.id;
-  record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString();                   
+  if (payload.key == 'category') {
+
+    record.category_id = payload.value.id;
+    record.category = {
+        id: payload.value.id,
+        name: payload.value.label
+    };
+
+  } else {
+    record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
+  }
   service.handleUpdate(page.id, record.id, record);
 }
 

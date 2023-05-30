@@ -127,6 +127,7 @@
       "middle_name": "Segundo nombre",
       "name": "Nombre",
       "avatar": "Avatar",
+      "category": "Categoría",
       "email": "Correo electrónico",
       "role": "Role",
       "roles": "roles",

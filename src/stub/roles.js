@@ -7,14 +7,14 @@ export const roles = {
 export const roleOptions = [
   {
       id: 'superadmin',
-      title: 'Superadmin'
+      label: 'Superadmin'
   },
   {
       id: 'admin',
-      title: 'Admin'
+      label: 'Admin'
   },
   {
       id: 'operador',
-      title: 'Operador'
+      label: 'Operador'
   }
 ];
