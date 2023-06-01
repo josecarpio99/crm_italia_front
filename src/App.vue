@@ -38,12 +38,27 @@
       <div class="relative w-full flex flex-col h-screen overflow-y-hidden">
           <!-- Desktop Header -->
           <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
-              <div class="w-1/2"></div>
+              <!-- <div class="w-1/2"></div> -->
+              <div class="relative w-1/2 flex">
+                  <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAddMenuOpen = !state.isAddMenuOpen">
+                      <span class="relative pt-3 mr-2">{{ trans('global.buttons.add') }} <Icon :name="state.isAddMenuOpen ? 'angle-up' : 'angle-down'"/></span>
+                  </a>
+                  <button v-if="state.isAddMenuOpen" @click="state.isAddMenuOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
+                  <div v-if="state.isAddMenuOpen" class="absolute w-42 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
+                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreatePersonModal')">
+                          {{ trans('Contacto: Persona') }}
+                      </a>
+                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
+                          {{ trans('Contacto: Empresa') }}
+                      </a>
+                  </div>
+              </div>
+
               <div class="relative w-1/2 flex justify-end">
                   <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAccountDropdownOpen = !state.isAccountDropdownOpen">
-                      <span class="relative pt-3 mr-2">{{ authStore.user.full_name }} <Icon :name="state.isAccountDropdownOpen ? 'angle-up' : 'angle-down'"/></span>
+                      <span class="relative pt-3 mr-2">{{ authStore.user.name }} <Icon :name="state.isAccountDropdownOpen ? 'angle-up' : 'angle-down'"/></span>
                       <button class="relative z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
-                          <img :alt="authStore.user.full_name" v-if="authStore.user.avatar_url" :src="authStore.user.avatar_url">
+                          <img :alt="authStore.user.name" v-if="authStore.user.avatar_url" :src="authStore.user.avatar_url">
                           <AvatarIcon v-else/>
                       </button>
                   </a>
@@ -84,6 +99,7 @@
           </div>
 
       </div>
+        <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
   </div>
   <template v-else>
       <router-view/>
@@ -96,6 +112,7 @@ import {computed, onBeforeMount, reactive} from "vue";
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
+import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useGlobalStateStore} from "@/stores";
@@ -104,13 +121,13 @@ import {useAlertStore} from "@/stores";
 import {getAbilitiesForRoute} from "@/helpers/routing";
 import {roles} from "@/stub/roles";
 
-
 export default {
   name: "app",
   components: {
       AvatarIcon,
       Menu,
-      Icon
+      Icon,
+      CreatePersonModal
   },
   setup() {
 
@@ -139,6 +156,14 @@ export default {
                   showMobile: true,
                   requiresAbility: false,
                   to: '/panel/dashboard',
+              },
+              {
+                  name: trans('global.pages.customers'),
+                  icon: 'users',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/customers/list',
               },
               {
                   name: trans('global.pages.users'),
@@ -177,13 +202,22 @@ export default {
               }
           ],            
           isAccountDropdownOpen: false,
+          isAddMenuOpen: false,
           isMobileMenuOpen: false,
+          showCreatePersonModal: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
       });
 
       function onLogout() {
           authStore.logout()
+      }
+
+      function toggleModal(key) {
+        state.isAddMenuOpen = false;
+        if (key === 'CreatePersonModal') {
+            state.showCreatePersonModal = !state.showCreatePersonModal;
+        }
       }
 
       onBeforeMount(() => {
@@ -199,6 +233,7 @@ export default {
           trans,
           onLogout,
           isLoading,
+          toggleModal
       }
   }
 };

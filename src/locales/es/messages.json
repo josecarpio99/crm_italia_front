@@ -40,6 +40,7 @@
     "pages": {
       "home": "Panel",
       "welcome": "Bienvenido",
+      "customers": "Contactos",
       "users": "Usuarios",
       "users_create": "Nuevo Usuario",
       "users_edit": "editar usuario",
@@ -91,6 +92,7 @@
       "verification_sent": "Enlace de verificación de correo electrónico enviado."
     },
     "buttons": {
+      "add": "Agregar",
       "add_new": "Agregar nuevo",
       "filters": "filtros",
       "save": "Guardar",
@@ -117,6 +119,30 @@
       "danger": "¡Error!",
       "confirm": "¡Confirmar!",
       "confirm_action_message": "¿Está seguro de que desea realizar esta acción?"
+    },
+    "labels": {
+      "id": "IDENTIFICACIÓN",
+      "id_pound": "",
+      "first_name": "Nombre de pila",
+      "last_name": "Apellido",
+      "middle_name": "Segundo nombre",
+      "name": "Nombre",
+      "avatar": "Avatar",
+      "category": "Categoría",
+      "owner": "Propiedad",
+      "email": "Correo electrónico",
+      "role": "Role",
+      "roles": "roles",
+      "status": "Estado",
+      "current_password": "Contraseña actual",
+      "password": "Contraseña",
+      "new_password": "Nueva contraseña",
+      "confirm_password": "confirmar Contraseña",
+      "ask_upload_avatar": "Subir avatar",
+      "new_record": "Nuevo registro",
+      "edit_record": "Editar registro",
+      "general_settings": "Configuración general",
+      "password_settings": "Configuración de contraseña"
     }
   }
 }
