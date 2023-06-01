@@ -36,7 +36,18 @@
                     >                        
                         {{ item.category.name }}
                     </TableCell>                   
-                </template>   
+                </template>
+                
+                <template v-slot:cell-owner="{ item }">
+                  <TableCell 
+                      :cellvalue="item.owner"
+                      :record="item" 
+                      cellkey="owner" 
+                      @changed="handleCellChange"
+                  >                        
+                      {{ item.owner.name }}
+                  </TableCell>                   
+              </template>     
               
           </Table>
       </template>
@@ -100,6 +111,7 @@ const table = reactive({
       name: trans('global.labels.name'),
       email: trans('global.labels.email'),
       category: trans('global.labels.category'),
+      owner: trans('global.labels.owner')
   },
   sorting: {
       name: true,
@@ -120,6 +132,11 @@ const table = reactive({
       {
           key: 'category',
           label: trans('global.labels.category'),
+          sorteable: false
+      },    
+      {
+          key: 'owner',
+          label: trans('global.labels.owner'),
           sorteable: false
       },    
   ],           
