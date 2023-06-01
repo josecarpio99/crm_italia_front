@@ -45,7 +45,7 @@
                   </a>
                   <button v-if="state.isAddMenuOpen" @click="state.isAddMenuOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
                   <div v-if="state.isAddMenuOpen" class="absolute w-42 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
-                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
+                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreatePersonModal')">
                           {{ trans('Contacto: Persona') }}
                       </a>
                       <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
@@ -99,6 +99,7 @@
           </div>
 
       </div>
+        <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
   </div>
   <template v-else>
       <router-view/>
@@ -111,6 +112,7 @@ import {computed, onBeforeMount, reactive} from "vue";
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
+import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useGlobalStateStore} from "@/stores";
@@ -119,13 +121,13 @@ import {useAlertStore} from "@/stores";
 import {getAbilitiesForRoute} from "@/helpers/routing";
 import {roles} from "@/stub/roles";
 
-
 export default {
   name: "app",
   components: {
       AvatarIcon,
       Menu,
-      Icon
+      Icon,
+      CreatePersonModal
   },
   setup() {
 
@@ -202,12 +204,20 @@ export default {
           isAccountDropdownOpen: false,
           isAddMenuOpen: false,
           isMobileMenuOpen: false,
+          showCreatePersonModal: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
       });
 
       function onLogout() {
           authStore.logout()
+      }
+
+      function toggleModal(key) {
+        state.isAddMenuOpen = false;
+        if (key === 'CreatePersonModal') {
+            state.showCreatePersonModal = !state.showCreatePersonModal;
+        }
       }
 
       onBeforeMount(() => {
@@ -223,6 +233,7 @@ export default {
           trans,
           onLogout,
           isLoading,
+          toggleModal
       }
   }
 };
