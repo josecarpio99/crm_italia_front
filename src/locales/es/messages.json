@@ -92,6 +92,7 @@
       "verification_sent": "Enlace de verificación de correo electrónico enviado."
     },
     "buttons": {
+      "add": "Agregar",
       "add_new": "Agregar nuevo",
       "filters": "filtros",
       "save": "Guardar",
