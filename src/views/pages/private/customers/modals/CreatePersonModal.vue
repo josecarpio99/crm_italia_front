@@ -1,9 +1,11 @@
 <template>
   <BaseModal @close-modal="$emit('close-modal')">
+    <template #title>{{ trans('customers.labels.add_person') }}</template>
+
     <Form id="create-user" @submit.prevent="onSubmit" class="w-[640px]">
       <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>             
       <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('global.labels.email')"/>
-  </Form>
+    </Form>
   </BaseModal>
 </template>
 

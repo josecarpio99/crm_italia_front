@@ -8,15 +8,28 @@
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="p-4 bg-white self-start mt-32 max-w-screen-lg"
+            class="bg-white self-start mt-32 max-w-screen-lg"
           >
-            <slot />
-            <button
-              class="text-white mt-8 bg-theme-500 py-2 px-6"
-              @click="$emit('close-modal')"
-            >
-              Close
-            </button>
+            <div class="border-b-[1px] border-gray-200 p-4">
+              <h2><slot name="title" /></h2>
+            </div>
+            <div class="p-4">
+              <slot />
+            </div>
+            
+            <div class="p-4 text-right bg-gray-100">
+                <Button
+                  theme="outline"
+                  class="bg-white border-theme-700 border-[1px] mr-2"
+                  :label="trans('global.buttons.close')"
+                  @click="$emit('close-modal')"
+                />
+
+                <Button
+                  :label="trans('global.buttons.save')"
+                  @click="$emit('save-modal')"
+                />
+            </div>
           </div>
         </Transition>
       </div>
@@ -25,7 +38,10 @@
 </template>
 
 <script setup>
-defineEmits(["close-modal"]);
+import {trans} from "@/helpers/i18n";
+import Button from "@/views/components/input/Button";
+
+defineEmits(["close-modal", "save-modal"]);
 defineProps({
   modalActive: {
     type: Boolean,
