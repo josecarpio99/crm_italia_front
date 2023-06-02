@@ -8,7 +8,7 @@
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="bg-white self-start mt-32 max-w-screen-lg"
+            class="bg-white self-start mt-32 max-w-[95%]"
           >
             <div class="border-b-[1px] border-gray-200 p-4">
               <h2><slot name="title" /></h2>

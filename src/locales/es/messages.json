@@ -35,7 +35,10 @@
   },
   "customers": {
     "labels": {
-      "add_person": "Agregar persona"
+      "add_person": "Agregar persona",
+      "phone": "Número de trabajo",
+      "mobile": "Número de móvil",
+      "customer_status": "Estado del cliente"
     }
   },
   "messages": {
@@ -133,6 +136,7 @@
       "last_name": "Apellido",
       "middle_name": "Segundo nombre",
       "name": "Nombre",
+      "phone": "Teléfono",
       "avatar": "Avatar",
       "category": "Categoría",
       "owner": "Propiedad",
