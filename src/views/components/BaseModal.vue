@@ -3,17 +3,17 @@
     <Transition name="modal-outer">
       <div
         v-show="modalActive"
-        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center px-8"
+        class="absolute w-full bg-black bg-opacity-30 h-screen top-0 left-0 flex justify-center items-center px-8"
       >
         <Transition name="modal-inner">
           <div
             v-if="modalActive"
-            class="bg-white self-start mt-32 max-w-[95%]"
+            class="bg-white max-w-[95%] max-h-[80vh] overflow-x-hidden flex flex-col"
           >
             <div class="border-b-[1px] border-gray-200 p-4">
               <h2><slot name="title" /></h2>
             </div>
-            <div class="p-4">
+            <div class="p-4 overflow-x-hidden">
               <slot />
             </div>
             

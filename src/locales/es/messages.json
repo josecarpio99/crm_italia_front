@@ -38,7 +38,14 @@
       "add_person": "Agregar persona",
       "phone": "Número de trabajo",
       "mobile": "Número de móvil",
+      "origin": "Origen",
+      "position": "Cargo",
+      "category": "Clasificación",
       "customer_status": "Estado del cliente",
+      "owner": "Dueño",
+      "city": "Ciudad",
+      "postcode": "Código Postal",
+      "website": "Sitio web",
       "potential_customer_status": "Estado del cliente potencial"
     }
   },

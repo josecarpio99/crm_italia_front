@@ -47,7 +47,7 @@ export const clearObject = (object) => {
  * @param singleProperty
  * @returns {*}
  */
-export const reduceProperties = (data, properties, singleProperty) => {
+export const reduceProperties = (data, properties, singleProperty, removeEmpty = true) => {
     let obj = {};
     for (let i in data) {
         obj[i] = data[i];
@@ -73,5 +73,7 @@ export const reduceProperties = (data, properties, singleProperty) => {
         }
     }
 
-    return obj;
+    return removeEmpty ? 
+        Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null))
+        : obj;
 };
