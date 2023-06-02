@@ -28,7 +28,12 @@
             /> 
           </div>
           <div class="w-full lg:w-1/2">
-              <TextInput class="mb-4" type="text" :required="true" name="phone" v-model="form.name" :label="trans('customers.labels.mobile')"/>
+            <Dropdown  
+              :label="trans('customers.labels.potential_customer_status')"
+              :options="potentialCustomerStatuses" 
+              name="potential_customer_status" 
+              v-model="form.potential_customer_status"              
+            /> 
           </div>
         </div>
       </div>
@@ -43,7 +48,9 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { customerStatuses } from "@/stub/statuses";
+import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
+import CustomerService from "@/services/CustomerService";
+import {clearObject, reduceProperties} from "@/helpers/data";
 
 defineEmits(["close-modal"]);
 
@@ -52,11 +59,21 @@ const form = reactive({
   email: '',
   phone: '',
   mobile: '',
-  customer_status: ''
+  customer_status: '',
+  potential_customer_status: '',
 });
 
 function onSubmit() {
   console.log('llego');
+  console.log(reduceProperties(form, ['customer_status', 'potential_customer_status'], 'id'));
+  return;
+  service.handleCreate('create-user', reduceProperties(form, 'role', 'id')).then((res) => {                
+    if (res?.status == 200 || res?.status == 201) {
+        clearObject(form)
+    }
+  })
+  
+  return false;
 }
 
 </script>
