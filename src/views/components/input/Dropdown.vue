@@ -168,4 +168,26 @@ export default defineComponent({
     outline-offset: 0 !important;
     box-shadow: none !important;
 }
+
+.vs__dropdown-toggle {
+    padding: .25rem .5rem .25rem .5rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.25rem !important;
+    --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+    --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color) !important;
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow) !important;
+    --tw-border-opacity: 1 !important;
+    border-color: rgb(209 213 219 / var(--tw-border-opacity)) !important;
+    border-width: 1px !important;
+    border-radius: 0.375rem !important;
+}
+
+.vs__search {
+    border-width: 0;
+    border-color: transparent;
+}
+
+.vs__selected-options {
+    padding: 0 !important;
+}
 </style>

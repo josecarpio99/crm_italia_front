@@ -37,12 +37,14 @@
         <div class="flex gap-2 flex-col lg:flex-row">
           <div class="w-full lg:w-1/2">
             <Dropdown  
+              class="mb-4"            
               :label="trans('customers.labels.customer_status')"
               :options="customerStatuses" 
               name="customer_status" 
               v-model="form.customer_status"              
             /> 
             <Dropdown  
+              class="mb-4"
               :label="trans('customers.labels.potential_customer_status')"
               :options="potentialCustomerStatuses" 
               name="potential_customer_status" 

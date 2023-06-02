@@ -19,9 +19,9 @@ import {
   Dropdown
 } from 'floating-vue';
 
+import "./styles/main.css";
 import 'floating-vue/dist/style.css'
 import 'vue-select/dist/vue-select.css';
-import "./styles/main.css";
 import "./styles/icons.css";
 
 
