@@ -1,8 +1,9 @@
 <template>
   <BaseModal @close-modal="$emit('close-modal')" @save-modal="onSubmit">
     <template #title>{{ trans('customers.labels.add_person') }}</template>
+    <Alert class="mb-4"/>
 
-    <Form id="create-user" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
+    <Form ref="formRef" id="create-user" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4">
         <div class="flex gap-2 flex-col lg:flex-row">
          
@@ -72,11 +73,12 @@
       </div>
 
     </Form>
+
   </BaseModal>
 </template>
 
 <script setup>
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
@@ -85,11 +87,13 @@ import Dropdown from "@/views/components/input/Dropdown";
 import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
+import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
+import {useAlertStore} from "@/stores";
 
 defineEmits(["close-modal"]);
 
-const form = reactive({
+const initialState = {
   is_company: 0,
   name: '',           
   email: '',
@@ -104,19 +108,25 @@ const form = reactive({
   postcode: '',
   customer_status: '',
   potential_customer_status: '',
-});
+};
+
+const form = reactive({...initialState});
 
 const service = new CustomerService();
+const alertStore = useAlertStore();
+const formRef = ref(null);
 
 function onSubmit() {
-  console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id', true));
-
+  console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id'));
+  
+  alertStore.clear();
   service.handleCreate(
       'create-user', 
       reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id')
     ).then((res) => {                
-    if (res?.status == 200 || res?.status == 201) {
-        clearObject(form)
+    if (res?.status == 200 || res?.status == 201) {        
+        Object.assign(form, initialState);
+
     }
   })
   

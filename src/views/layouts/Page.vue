@@ -1,6 +1,5 @@
 <template>
     <div class="p-5 mt-4 xl:px-0">
-        <Alert class="mb-4"/>
         <div class="flex flex-wrap justify-between mb-6">
             <div>
                 <h2 class="bold text-2xl mb-3">{{ $props.title }}</h2>
