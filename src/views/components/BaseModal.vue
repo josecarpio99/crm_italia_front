@@ -13,10 +13,12 @@
             <div class="border-b-[1px] border-gray-200 p-4">
               <h2><slot name="title" /></h2>
             </div>
-            <div class="p-4 overflow-x-hidden">
+            <div v-if="!isLoading" class="p-4 overflow-x-hidden">
               <slot />
             </div>
-            
+            <div v-else class="flex justify-center items-center w-[600px] max-w-[100%] h-[300px] max-h-[100%]">
+              <Spinner :text-new-line="true"></Spinner>
+            </div>
             <div class="p-4 text-right bg-gray-100">
                 <Button
                   theme="outline"
@@ -40,6 +42,8 @@
 <script setup>
 import {trans} from "@/helpers/i18n";
 import Button from "@/views/components/input/Button";
+import Spinner from "@/views/components/icons/Spinner";
+
 
 defineEmits(["close-modal", "save-modal"]);
 defineProps({
@@ -47,6 +51,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLoading: {
+    type: Boolean,
+    dafault: false
+  }
 });
 </script>
 

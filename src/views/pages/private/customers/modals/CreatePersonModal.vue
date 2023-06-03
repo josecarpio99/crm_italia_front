@@ -1,5 +1,5 @@
 <template>
-  <BaseModal @close-modal="$emit('close-modal')" @save-modal="onSubmit">
+  <BaseModal :isLoading="isLoading" @close-modal="$emit('close-modal')" @save-modal="onSubmit">
     <template #title>{{ trans('customers.labels.add_person') }}</template>
     <Alert class="mb-4"/>
 
@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import {reactive, ref} from "vue";
+import {reactive, ref, onMounted} from "vue";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
@@ -89,6 +89,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
+import SectorService from "@/services/SectorService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
@@ -114,15 +115,18 @@ const initialState = {
 
 const form = reactive({...initialState});
 
-const service = new CustomerService();
+const customerService = new CustomerService();
+const sectorService = new SectorService();
 const alertStore = useAlertStore();
 const formRef = ref(null);
+let isLoading = true;
+let sectors = null;
 
 function onSubmit() {
   console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id'));
   
   alertStore.clear();
-  service.handleCreate(
+  customerService.handleCreate(
       'create-user', 
       reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id')
     ).then((res) => {                
@@ -134,5 +138,10 @@ function onSubmit() {
   
   return false;
 }
+
+onMounted( async () => {
+  sectors = await sectorService.index().then(res => res.data);
+  isLoading = false;
+});
 
 </script>
