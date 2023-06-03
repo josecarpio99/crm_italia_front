@@ -9,9 +9,10 @@
         </Multiselect> -->
         <VSelect 
             v-model="value" 
-            :options="selectOptions" 
+            :options="$props.options" 
             :id="$props.name" 
             :name="$props.name"
+            :label="$props.selectLabel"            
             :closeOnSelect="$props.closeOnSelect"
             @option:selected="handleSelect"
         >
@@ -43,6 +44,10 @@ export default defineComponent({
         label: {
             type: String,
             default: "",
+        },
+        selectLabel: {
+            type: String,
+            default: "label",
         },
         modelValue: {
             type: [Object, String],
@@ -167,6 +172,11 @@ export default defineComponent({
     outline: none !important;
     outline-offset: 0 !important;
     box-shadow: none !important;
+}
+
+.vs__dropdown-menu {
+    max-height: 200px !important;
+    font-size: 0.875rem !important;
 }
 
 .vs__dropdown-toggle {

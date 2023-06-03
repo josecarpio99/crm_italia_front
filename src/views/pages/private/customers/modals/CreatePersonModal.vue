@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :isLoading="isLoading" @close-modal="$emit('close-modal')" @save-modal="onSubmit">
+  <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
     <template #title>{{ trans('customers.labels.add_person') }}</template>
     <Alert class="mb-4"/>
 
@@ -22,6 +22,15 @@
               <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="phone" v-model="form.phone" :label="trans('customers.labels.phone')"/>
             </div>
             <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
+
+            <Dropdown  
+              class="mb-4"            
+              :label="trans('customers.labels.sector')"
+              selectLabel="name"
+              :options="sectors" 
+              name="sector" 
+              v-model="form.sector_id"              
+            /> 
 
             <div class="flex flex-col sm:flex-row gap-2">
               <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
@@ -94,7 +103,7 @@ import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 
-defineEmits(["close-modal"]);
+const emit = defineEmits(["close-modal"]);
 
 const initialState = {
   is_company: 0,
@@ -104,6 +113,7 @@ const initialState = {
   mobile: '',
   website: '',
   origin: '',
+  sector_id: null,
   category_id: null,
   owner_id: null,
   position: '',
@@ -123,12 +133,12 @@ let isLoading = true;
 let sectors = null;
 
 function onSubmit() {
-  console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id'));
+  console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id'], 'id'));
   
   alertStore.clear();
   customerService.handleCreate(
       'create-user', 
-      reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id'], 'id')
+      reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
@@ -137,6 +147,11 @@ function onSubmit() {
   })
   
   return false;
+}
+
+function onCloseModal() {
+  Object.assign(form, initialState);
+  emit('close-modal');
 }
 
 onMounted( async () => {
