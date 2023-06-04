@@ -43,9 +43,12 @@
       "category": "Clasificación",
       "customer_status": "Estado del cliente",
       "owner": "Dueño",
+      "company_name": "Nombre de la compañia",
       "city": "Ciudad",
       "sector": "Sector",
       "postcode": "Código Postal",
+      "state": "Estado o región",
+      "country": "País",
       "website": "Sitio web",
       "potential_customer_status": "Estado del cliente potencial"
     }
@@ -148,6 +151,8 @@
       "phone": "Teléfono",
       "avatar": "Avatar",
       "category": "Categoría",
+      "state": "Estado",
+      "country": "País",
       "owner": "Propiedad",
       "email": "Correo electrónico",
       "role": "Role",

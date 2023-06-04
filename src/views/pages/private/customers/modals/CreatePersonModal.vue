@@ -10,7 +10,14 @@
           <div class="w-full lg:w-1/2">
             <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>
             
-            <TextInput class="mb-4" type="text" name="company" :label="trans('Por definir')"/>
+            <Dropdown  
+              class="mb-4"            
+              :label="trans('customers.labels.company_name')"
+              selectLabel="name"
+              :options="companies" 
+              name="company" 
+              v-model="form.parent_id"              
+            /> 
 
             <TextInput class="mb-4" type="text" :required="false" name="position" v-model="form.position" :label="trans('customers.labels.position')"/>
 
@@ -35,6 +42,19 @@
             <div class="flex flex-col sm:flex-row gap-2">
               <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
               <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('customers.labels.postcode')"/>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2">
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="state" v-model="form.state" :label="trans('customers.labels.state')"/>
+
+              <Dropdown  
+                class="mb-4 w-full lg:w-1/2"            
+                :label="trans('customers.labels.country')"
+                selectLabel="name"
+                :options="countries" 
+                name="country" 
+                v-model="form.country_id"              
+              /> 
             </div>
 
           </div>
@@ -69,7 +89,6 @@
               :options="users" 
               v-model="form.owner_id"              
             />
-            <!-- <TextInput class="mb-4" type="text" name="owner" :label="trans('Por definir')"/> -->
             <TextInput class="mb-4" type="text" name="website" v-model="form.website" :label="trans('customers.labels.website')"/>             
           </div>
         </div>
@@ -108,6 +127,7 @@ import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
 import SectorService from "@/services/SectorService";
+import CountryService from "@/services/CountryService";
 import UserService from "@/services/UserService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
@@ -126,9 +146,12 @@ const initialState = {
   sector_id: null,
   category_id: null,
   owner_id: null,
+  parent_id: null,
   position: '',
   city: '',
   postcode: '',
+  state: '',
+  country_id: '',
   customer_status: '',
   potential_customer_status: '',
 };
@@ -138,11 +161,14 @@ const form = reactive({...initialState});
 const customerService = new CustomerService();
 const sectorService = new SectorService();
 const userService = new UserService();
+const countryService = new CountryService();
 const alertStore = useAlertStore();
 const formRef = ref(null);
-let isLoading = true;
+let isLoading = false;
 let sectors = null;
 let users = null;
+let companies = null;
+let countries = null;
 
 function onSubmit() {
   console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id'], 'id'));
@@ -150,7 +176,7 @@ function onSubmit() {
   alertStore.clear();
   customerService.handleCreate(
       'create-user', 
-      reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id'], 'id')
+      reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id', 'country_id', 'parent_id', 'owner_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
@@ -167,9 +193,11 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
+  isLoading = true;
   sectors = await sectorService.index().then(res => res.data);
   users = await userService.list().then(res => res.data);
-  console.log(users);
+  countries = await countryService.index().then(res => res.data);
+  companies = await customerService.list({company: 1}).then(res => res.data);
   isLoading = false;
 });
 
