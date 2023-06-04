@@ -36,6 +36,7 @@
   "customers": {
     "labels": {
       "add_person": "Agregar persona",
+      "add_company": "Agregar compañia",
       "phone": "Número de trabajo",
       "mobile": "Número de móvil",
       "origin": "Origen",
@@ -44,6 +45,7 @@
       "customer_status": "Estado del cliente",
       "owner": "Dueño",
       "company_name": "Nombre de la compañia",
+      "parent_company": "Compañia matriz",
       "city": "Ciudad",
       "sector": "Sector",
       "postcode": "Código Postal",

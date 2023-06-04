@@ -1,9 +1,9 @@
 <template>
   <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
-    <template #title>{{ trans('customers.labels.add_person') }}</template>
+    <template #title>{{ trans('customers.labels.add_company') }}</template>
     <Alert class="mb-4"/>
 
-    <Form ref="formRef" id="create-person" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
+    <Form ref="formRef" id="create-company" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4">
         <div class="flex gap-2 flex-col lg:flex-row">
          
@@ -12,7 +12,7 @@
             
             <Dropdown  
               class="mb-4"            
-              :label="trans('customers.labels.company_name')"
+              :label="trans('customers.labels.parent_company')"
               selectLabel="name"
               :options="companies" 
               name="company" 
@@ -136,7 +136,7 @@ import {useAlertStore} from "@/stores";
 const emit = defineEmits(["close-modal"]);
 
 const initialState = {
-  is_company: 0,
+  is_company: 1,
   name: '',           
   email: '',
   phone: '',
@@ -173,7 +173,7 @@ let countries = null;
 function onSubmit() {  
   alertStore.clear();
   customerService.handleCreate(
-      'create-person', 
+      'create-company', 
       reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id', 'country_id', 'parent_id', 'owner_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
