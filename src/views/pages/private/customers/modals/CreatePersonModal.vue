@@ -61,10 +61,12 @@
             />
           </div>
           <div class="w-full lg:w-1/2">
-            <InfiniteDropdown  
+            <Dropdown  
               class="mb-4"
               :label="trans('customers.labels.owner')"
+              selectLabel="name"
               name="owner" 
+              :options="users" 
               v-model="form.owner_id"              
             />
             <!-- <TextInput class="mb-4" type="text" name="owner" :label="trans('Por definir')"/> -->
@@ -106,6 +108,7 @@ import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
 import SectorService from "@/services/SectorService";
+import UserService from "@/services/UserService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
@@ -134,10 +137,12 @@ const form = reactive({...initialState});
 
 const customerService = new CustomerService();
 const sectorService = new SectorService();
+const userService = new UserService();
 const alertStore = useAlertStore();
 const formRef = ref(null);
 let isLoading = true;
 let sectors = null;
+let users = null;
 
 function onSubmit() {
   console.log(reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id'], 'id'));
@@ -163,6 +168,8 @@ function onCloseModal() {
 
 onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
+  users = await userService.list().then(res => res.data);
+  console.log(users);
   isLoading = false;
 });
 
