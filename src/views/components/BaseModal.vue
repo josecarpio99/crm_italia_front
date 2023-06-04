@@ -40,13 +40,14 @@
 </template>
 
 <script setup>
+import {watch} from "vue";
 import {trans} from "@/helpers/i18n";
 import Button from "@/views/components/input/Button";
 import Spinner from "@/views/components/icons/Spinner";
 
 
 defineEmits(["close-modal", "save-modal"]);
-defineProps({
+const props = defineProps({
   modalActive: {
     type: Boolean,
     default: false,
@@ -56,6 +57,7 @@ defineProps({
     dafault: false
   }
 });
+
 </script>
 
 <style scoped>

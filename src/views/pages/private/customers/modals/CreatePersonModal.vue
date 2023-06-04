@@ -164,7 +164,7 @@ const userService = new UserService();
 const countryService = new CountryService();
 const alertStore = useAlertStore();
 const formRef = ref(null);
-let isLoading = false;
+const isLoading = ref(true);
 let sectors = null;
 let users = null;
 let companies = null;
@@ -191,12 +191,11 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  isLoading = true;
   sectors = await sectorService.index().then(res => res.data);
   users = await userService.list().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
   companies = await customerService.list({company: 1}).then(res => res.data);
-  isLoading = false;
+  isLoading.value = false;
 });
 
 </script>
