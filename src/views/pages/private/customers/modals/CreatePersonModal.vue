@@ -61,7 +61,13 @@
             />
           </div>
           <div class="w-full lg:w-1/2">
-            <TextInput class="mb-4" type="text" name="owner" :label="trans('Por definir')"/>
+            <InfiniteDropdown  
+              class="mb-4"
+              :label="trans('customers.labels.owner')"
+              name="owner" 
+              v-model="form.owner_id"              
+            />
+            <!-- <TextInput class="mb-4" type="text" name="owner" :label="trans('Por definir')"/> -->
             <TextInput class="mb-4" type="text" name="website" v-model="form.website" :label="trans('customers.labels.website')"/>             
           </div>
         </div>
@@ -95,6 +101,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import InfiniteDropdown from "@/views/components/input/InfiniteDropdown";
 import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
