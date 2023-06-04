@@ -56,6 +56,15 @@ export default abstract class ModelService extends BaseService {
         return this.get(path, {});
     }
 
+    public list(params = {}) {
+        let path = this.url + '/list';
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, {});
+    }
+
     public handleUpdate(ui_element_id, object_id, data) {
         const alertStore = useAlertStore();
         const globalUserState = useGlobalStateStore();
