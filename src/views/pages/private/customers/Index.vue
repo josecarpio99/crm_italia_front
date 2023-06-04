@@ -23,31 +23,58 @@
                   >                        
                       {{ item.email }}
                   </TableCell>                   
+              </template> 
+
+              <template v-slot:cell-mobile="{ item }">
+                  <TableCell 
+                      :cellvalue="item.mobile"
+                      :record="item" 
+                      cellkey="mobile" 
+                      @changed="handleCellChange"
+                  >                        
+                      {{ item.mobile }}
+                  </TableCell>                   
               </template>     
               
               <template v-slot:cell-category="{ item }">
                     <TableCell 
-                        :cellvalue="customerCategories.find(option => option.id === item.category.id)"
+                        :cellvalue="customerCategories.find(option => option.id === item.category?.id)"
                         :record="item" 
                         :options="customerCategories"
                         type="list"
                         cellkey="category" 
                         @changed="handleCellChange"
                     >                        
-                        {{ item.category.name }}
+                        {{ item.category?.name }}
                     </TableCell>                   
                 </template>
                 
                 <template v-slot:cell-owner="{ item }">
                   <TableCell 
-                      :cellvalue="item.owner"
+                      :cellvalue="users.find(option => option.id === item.owner?.id)"
                       :record="item" 
+                      :options="users"
+                      selectLabel="name"
+                      type="list"
                       cellkey="owner" 
                       @changed="handleCellChange"
                   >                        
-                      {{ item.owner.name }}
+                      {{ item.owner?.name }}
                   </TableCell>                   
-              </template>     
+              </template>  
+              
+              <template v-slot:cell-customer_status="{ item }">
+                    <TableCell 
+                        :cellvalue="item.customer_status"
+                        :record="item" 
+                        :options="customerStatuses"
+                        type="list"
+                        cellkey="customer_status" 
+                        @changed="handleCellChange"
+                    >                        
+                        {{ item.customer_status }}
+                    </TableCell>                   
+                </template>
               
           </Table>
       </template>
@@ -58,6 +85,7 @@
 
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
+import UserService from "@/services/UserService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -73,9 +101,13 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
+import { customerStatuses } from "@/stub/statuses";
+
 
 const service = new CustomerService();
+const userService = new UserService();
 const alertStore = useAlertStore();
+let users = null;
 
 const mainQuery = reactive({
   page: 1,
@@ -110,8 +142,10 @@ const table = reactive({
   headers: {
       name: trans('global.labels.name'),
       email: trans('global.labels.email'),
+      mobile: trans('global.labels.mobile'),
       category: trans('global.labels.category'),
-      owner: trans('global.labels.owner')
+      owner: trans('global.labels.owner'),
+      customer_status: trans('global.labels.customer_status'),
   },
   sorting: {
       name: true,
@@ -130,13 +164,23 @@ const table = reactive({
           sorteable: true
       },    
       {
-          key: 'category',
-          label: trans('global.labels.category'),
+          key: 'mobile',
+          label: trans('customers.header.phone'),
           sorteable: false
+      },    
+      {
+          key: 'category',
+          label: trans('customers.labels.category'),
+          sorteable: false,
       },    
       {
           key: 'owner',
           label: trans('global.labels.owner'),
+          sorteable: false
+      },    
+      {
+          key: 'customer_status',
+          label: trans('customers.labels.customer_status'),
           sorteable: false
       },    
   ],           
@@ -226,7 +270,7 @@ function fetchPage(params) {
 function handleCellChange(payload) {
   console.log(payload);
   const record = table.records.find((item) => item.id == payload.record.id);
-  record.category_id = record.category.id;
+  record.category_id = record.category?.id;
   if (payload.key == 'category') {
 
     record.category_id = payload.value.id;
@@ -235,7 +279,14 @@ function handleCellChange(payload) {
         name: payload.value.label
     };
 
-  } else {
+  } else if (payload.key == 'owner') {
+    record.owner_id = payload.value.id;
+    record.owner = {
+        id: payload.value.id,
+        name: payload.value.name
+    };
+  }
+   else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
   }
   service.handleUpdate(page.id, record.id, record);
@@ -245,7 +296,8 @@ watch(mainQuery, (newTableState) => {
   fetchPage(mainQuery);
 });
 
-onMounted(() => {
+onMounted(async () => {
+  users = await userService.list().then(res => res.data);
   fetchPage(mainQuery);
 });
 

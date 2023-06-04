@@ -53,6 +53,9 @@
       "country": "País",
       "website": "Sitio web",
       "potential_customer_status": "Estado del cliente potencial"
+    },
+    "header": {
+      "phone": "Número de teléfono"
     }
   },
   "messages": {

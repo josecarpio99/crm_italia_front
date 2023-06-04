@@ -1,10 +1,10 @@
 <template>
-  <td class="px-6 py-4 whitespace-nowrap text-sm editable">
+  <td class="px-6 py-4 whitespace-nowrap text-sm editable" :class="$props.class">
      <div :class="{hidden:showInput}">
       <slot />
       <span 
         @click="handleClick" 
-        class="cursor-pointer hidden text-gray-400 hover:text-gray-700 ml-2"
+        class="cursor-pointer invisible text-gray-400 hover:text-gray-700 ml-2"
       >
         <i class="fa fa-pencil"></i>
       </span>
@@ -32,7 +32,8 @@
      >
         <template #popper>        
           <Dropdown  
-            :options="props.options" 
+            :options="props.options"
+            :selectLabel="props.selectLabel"
             name="type" 
             v-model="inputValue" 
             :showLabel="false"
@@ -52,6 +53,7 @@ import { ref, watch, onBeforeMount } from "vue";
 import Dropdown from "@/views/components/input/Dropdown";
 
 const props = defineProps({
+  class: String,
   record: {
     type: [Object,],
     required: true
@@ -62,7 +64,7 @@ const props = defineProps({
   },
   cellvalue: {
     type: [String, Object],
-    required: true
+    required: false
   },
   type: {
     type: String,
@@ -71,7 +73,11 @@ const props = defineProps({
   options: {
     type: [Array, Object],
     required: false,
-  }
+  },
+  selectLabel: {
+    type: String,
+    default: "label",
+  },
 });
 
 const inputElement = ref();
@@ -114,7 +120,7 @@ function handleEnter()
 
 <style>
 .editable:hover span {
-  display: inline-block;
+  visibility: visible;
 }
 
 .v-popper__inner {

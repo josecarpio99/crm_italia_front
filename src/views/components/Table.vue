@@ -1,10 +1,10 @@
 <template>
   <div class="w-full shadow border-b border-gray-200 mb-8 sm:rounded-lg overflow-auto">
-    <table class="w-full divide-y divide-gray-200 table-fixed">
+    <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
           <th v-for="(column, i) in columns" scope="col"
-            class="align-middle px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            class="align-middle px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" :class="column.class">
             <slot :name="'column-' + i">
               <div class="leading-loose inline-block">{{ column.label }}</div>
               <div class="sort-arrows inline-block text-center absolute" v-if="column.sorteable">

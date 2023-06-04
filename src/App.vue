@@ -170,7 +170,7 @@ export default {
               },
               {
                   name: trans('global.pages.users'),
-                  icon: 'users',
+                  icon: 'user',
                   showDesktop: true,
                   showMobile: true,
                   requiresRole: roles.SUPERADMIN,
