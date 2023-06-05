@@ -270,7 +270,11 @@ function fetchPage(params) {
 function handleCellChange(payload) {
   console.log(payload);
   const record = table.records.find((item) => item.id == payload.record.id);
-  record.category_id = record.category?.id;
+  
+  if (record.category) {
+    record.category_id = record.category?.id;    
+  }
+
   if (payload.key == 'category') {
 
     record.category_id = payload.value.id;

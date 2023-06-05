@@ -96,6 +96,7 @@
         <div class="flex gap-2 flex-col lg:flex-row">
           <div class="w-full lg:w-1/2">
             <Dropdown  
+              :required="true"
               :label="trans('customers.labels.category')"
               :options="customerCategories" 
               name="category" 
@@ -148,7 +149,7 @@ const initialState = {
   city: '',
   postcode: '',
   state: '',
-  country_id: '',
+  country_id: null,
   customer_status: '',
   potential_customer_status: '',
 };

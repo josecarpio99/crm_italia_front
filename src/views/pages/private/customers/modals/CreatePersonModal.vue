@@ -151,7 +151,7 @@ const initialState = {
   city: '',
   postcode: '',
   state: '',
-  country_id: '',
+  country_id: null,
   customer_status: '',
   potential_customer_status: '',
 };
