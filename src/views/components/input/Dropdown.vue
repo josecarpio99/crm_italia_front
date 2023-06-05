@@ -15,6 +15,8 @@
             :label="$props.selectLabel"            
             :closeOnSelect="$props.closeOnSelect"
             @option:selected="handleSelect"
+            :dropdown-should-open="dropdownShouldOpen"
+            ref="select"
         >
 
         </VSelect>
@@ -60,6 +62,10 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        open: {
+            type: Boolean,
+            default: false
+        },
         disabled: {
             type: Boolean,
             default: false
@@ -83,7 +89,7 @@ export default defineComponent({
         serverPerPage: {
             type: Number,
             default: 5
-        },
+        },        
         serverSearchMinCharacters: {
             type: Number,
             default: 3
@@ -94,6 +100,7 @@ export default defineComponent({
 
         let selectOptionsArr = ref(props.options);
         let isLoading = ref(false);
+        let select = ref(null);
 
         const selectOptions = computed(() => {
             let val = [];
@@ -145,9 +152,9 @@ export default defineComponent({
             emit('selected');
         }
 
-        onMounted(() => {  
-            // document.querySelector('.multiselect__content-wrapper').style.display = 'block';
-        });
+        function dropdownShouldOpen(VSelect) {
+            return props.open;
+        }       
 
         return {
             value,
@@ -155,7 +162,9 @@ export default defineComponent({
             handleSearch,
             isLoading,
             handleClose,
-            handleSelect
+            handleSelect,
+            select,
+            dropdownShouldOpen
         }
     }
 });

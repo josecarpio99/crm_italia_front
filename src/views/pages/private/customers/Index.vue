@@ -142,10 +142,10 @@ const table = reactive({
   headers: {
       name: trans('global.labels.name'),
       email: trans('global.labels.email'),
-      mobile: trans('global.labels.mobile'),
+      mobile: trans('customers.labels.mobile'),
       category: trans('global.labels.category'),
       owner: trans('global.labels.owner'),
-      customer_status: trans('global.labels.customer_status'),
+      customer_status: trans('customers.labels.customer_status'),
   },
   sorting: {
       name: true,
@@ -204,7 +204,7 @@ const table = reactive({
           danger: true,
       }
   },
-  loading: false,
+  loading: true,
   records: null,
   editableFields: {
       name: {
@@ -268,7 +268,6 @@ function fetchPage(params) {
 }
 
 function handleCellChange(payload) {
-  console.log(payload);
   const record = table.records.find((item) => item.id == payload.record.id);
   
   if (record.category) {

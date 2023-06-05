@@ -32,6 +32,7 @@
      >
         <template #popper>        
           <Dropdown  
+            :open="true"
             :options="props.options"
             :selectLabel="props.selectLabel"
             name="type" 
