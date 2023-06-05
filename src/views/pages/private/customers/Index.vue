@@ -102,7 +102,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
 import { customerStatuses } from "@/stub/statuses";
-
+import {clearObject, removeEmpty} from "@/helpers/data";
 
 const service = new CustomerService();
 const userService = new UserService();
@@ -268,8 +268,9 @@ function fetchPage(params) {
 }
 
 function handleCellChange(payload) {
-  const record = table.records.find((item) => item.id == payload.record.id);
-  
+  let record = table.records.find((item) => item.id == payload.record.id);
+//   record = removeEmpty(record);
+
   if (record.category) {
     record.category_id = record.category?.id;    
   }
@@ -292,7 +293,7 @@ function handleCellChange(payload) {
    else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
   }
-  service.handleUpdate(page.id, record.id, record);
+  service.handleUpdate(page.id, record.id, removeEmpty(record));
 }
 
 watch(mainQuery, (newTableState) => {
