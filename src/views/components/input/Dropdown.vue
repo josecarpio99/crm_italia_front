@@ -14,8 +14,8 @@
             :name="$props.name"
             :label="$props.selectLabel"            
             :closeOnSelect="$props.closeOnSelect"
-            @option:selected="handleSelect"
             :dropdown-should-open="dropdownShouldOpen"
+            @option:selected="handleSelect"
             ref="select"
         >
 
@@ -152,9 +152,13 @@ export default defineComponent({
             emit('selected');
         }
 
-        function dropdownShouldOpen(VSelect) {
-            return props.open;
-        }       
+        function dropdownShouldOpen({ noDrop: e, open: t, mutableLoading: s }) {            
+            if (props.open) {
+                return true;
+            }
+
+            return e ? !1 : t && !s;          
+        }        
 
         return {
             value,

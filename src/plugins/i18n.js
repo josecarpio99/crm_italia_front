@@ -31,6 +31,7 @@ const i18n = createI18n({
     fallbackLocale: defaultLocale,
     messages,
     legacy: false,
+    globalInjection: true
 })
 
 export default i18n;
