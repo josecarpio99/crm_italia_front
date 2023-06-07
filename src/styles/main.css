@@ -2,16 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-.v-popper__inner {  
+.v-popper--theme-tooltip .v-popper__inner {  
   background-color: theme('colors.theme.500') !important;
   font-size: .75rem;
 }
 
-.v-popper__arrow-container {
+.v-popper--theme-tooltip  .v-popper__arrow-container {
   color: theme('colors.theme.500') !important;
   background-color: theme('colors.theme.500') !important;
 }
 
-.v-popper__arrow-outer {
+.v-popper--theme-tooltip  .v-popper__arrow-outer {
   border-color: theme('colors.theme.500') !important;
 }
