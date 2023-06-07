@@ -68,10 +68,10 @@ export default defineComponent({
                     value += 'text-white bg-red-600 hover:bg-red-800 focus:bg-red-800 focus:ring-red-800';
                     break;
                 case 'outline':
-                    value += 'text-theme-600 border-2 border-theme-500 border-solid hover:bg-theme-800 hover:text-white hover:border-transparent'
+                    value += 'text-theme-500 border-2 border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
                     break;
                 default:
-                    value += 'text-white bg-theme-600 hover:bg-theme-800 focus:bg-theme-800 focus:ring-theme-800';
+                    value += 'text-white bg-theme-500 hover:bg-theme-600 focus:bg-theme-600 focus:ring-theme-600';
                     break;
             }
 
