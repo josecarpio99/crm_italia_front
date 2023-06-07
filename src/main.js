@@ -16,6 +16,9 @@ import i18n from "@/plugins/i18n";
 import App from "@/App";
 import vSelect from 'vue-select';
 import {  
+  // Directives
+  VTooltip,
+  // Components
   Dropdown
 } from 'floating-vue';
 
@@ -31,8 +34,9 @@ app.use(createPinia());
 
 app.use(router);
 app.use(i18n);
-app.component('VDropdown', Dropdown)
-app.component('VSelect', vSelect)
+app.directive('tooltip', VTooltip);
+app.component('VDropdown', Dropdown);
+app.component('VSelect', vSelect);
 
 app.mount('#app');
 

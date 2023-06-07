@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 flex" v-if="authStore.user && authStore.user.hasOwnProperty('id')">
-      <aside class="relative bg-theme-700 h-screen w-64 hidden sm:block shadow-xl">
-          <div class="p-6 border-b border-theme-600">
+      <aside class="relative bg-theme-500 h-screen w-16 hidden sm:block shadow-xl">
+          <!-- <div class="p-6 border-b border-theme-600">
               <router-link class="text-white text-3xl font-semibold uppercase hover:text-gray-300" to="/panel/dashboard">
                   <template v-if="state.app.logo">
                       <img :src="state.app.logo" :alt="state.app.name"/>
@@ -20,8 +20,8 @@
                       {{ state.headerLeftLink.name }}
                   </router-link>
               </template>
-          </div>
-          <nav class="text-white text-base py-4 px-3 rounded">
+          </div> -->
+          <nav class="text-white text-base">
               <Menu :state="state" :type="'desktop'"/>
           </nav>
           <template v-if="state.footerLeftLink">
@@ -175,25 +175,33 @@ export default {
                   showMobile: true,
                   requiresRole: roles.SUPERADMIN,
                   to: '/panel/users/list',
-                  children: [
-                      {
-                          name: trans('global.phrases.all_records'),
-                          icon: '',
-                          showDesktop: true,
-                          showMobile: true,
-                          requiresRole: roles.SUPERADMIN,
-                          to: '/panel/users/list',
-                      },
-                      {
-                          name: trans('global.buttons.add_new'),
-                          icon: '',
-                          showDesktop: true,
-                          showMobile: true,
-                          requiresRole: roles.SUPERADMIN,
-                          to: '/panel/users/create',
-                      }
-                  ]
               },
+            //   {
+            //       name: trans('global.pages.users'),
+            //       icon: 'user',
+            //       showDesktop: true,
+            //       showMobile: true,
+            //       requiresRole: roles.SUPERADMIN,
+            //       to: '/panel/users/list',
+            //       children: [
+            //           {
+            //               name: trans('global.phrases.all_records'),
+            //               icon: '',
+            //               showDesktop: true,
+            //               showMobile: true,
+            //               requiresRole: roles.SUPERADMIN,
+            //               to: '/panel/users/list',
+            //           },
+            //           {
+            //               name: trans('global.buttons.add_new'),
+            //               icon: '',
+            //               showDesktop: true,
+            //               showMobile: true,
+            //               requiresRole: roles.SUPERADMIN,
+            //               to: '/panel/users/create',
+            //           }
+            //       ]
+            //   },
               {
                   name: trans('global.phrases.sign_out'),
                   icon: 'sign-out',

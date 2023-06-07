@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* .v-popper__wrapper {
+  background-color: green;
+  color: green;
+} */
+
+.v-popper__inner {  
+  background-color: theme('colors.theme.500') !important;
+  font-size: .75rem;
+}
+
+.v-popper__arrow-container {
+  color: theme('colors.theme.500') !important;
+  background-color: theme('colors.theme.500') !important;
+}
+
+.v-popper__arrow-outer {
+  border-color: theme('colors.theme.500') !important;
+}

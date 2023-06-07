@@ -1,10 +1,12 @@
 <template>
-    <ul class="space-y-2">
+    <ul class="aside-menu">
         <template v-for="item in $props.state.mainMenu">
-            <li v-if="item.hasOwnProperty('children') && item.children.length > 0 && isEnabled(item, $props.type)">
-                <button @click.prevent="state.currentExpandedMenuItem  ? state.currentExpandedMenuItem = null : state.currentExpandedMenuItem = item" type="button" class="transition duration-75 group w-full flex items-center p-2 text-base font-normal text-white font-semibold rounded-lg hover:text-theme-300 hover:bg-theme-800 dark:hover:bg-theme-800" :class="isActive(item) ? 'bg-theme-800' : ''">
+            <li v-if="item.hasOwnProperty('children') && item.children.length > 0 && isEnabled(item, $props.type)"
+                class="hover:bg-theme-600" :class="isActive(item) ? 'bg-theme-800' : ''"    
+            >
+                <button @click.prevent="state.currentExpandedMenuItem  ? state.currentExpandedMenuItem = null : state.currentExpandedMenuItem = item" type="button" class="transition duration-75 group w-full flex items-center p-2 text-base font-normal text-white font-semibold rounded-lg hover:text-theme-300 hover:bg-theme-800 dark:hover:bg-theme-800">
                     <Icon :name="item.icon" class="mr-2 text-3xl pl-2 -mt-1"/>
-                    <span class="flex-1 text-left" v-html="item.name"></span>
+                    <!-- <span class="flex-1 text-left" v-html="item.name"></span> -->
                     <Icon :name="JSON.stringify(state.currentExpandedMenuItem) === JSON.stringify(item) ? 'angle-up' : 'angle-down'" class="mr-2 text-3xl pl-2 -mt-1"/>
                 </button>
                 <ul id="dropdown-example" class="py-2 space-y-2" :class="JSON.stringify(state.currentExpandedMenuItem) === JSON.stringify(item) ? '' : 'hidden'">
@@ -27,17 +29,19 @@
 
                 </ul>
             </li>
-            <li v-else-if="isEnabled(item, $props.type)">
-                <a v-if="item.hasOwnProperty('onClick') && !item.to" href="#" class="flex items-center p-2 text-base font-normal text-white font-semibold rounded-lg hover:text-theme-300 hover:bg-theme-800 dark:hover:bg-theme-800" @click.prevent="item.onClick">
+            <li v-else-if="isEnabled(item, $props.type)" v-tooltip.right="item.name"
+                class="group hover:bg-theme-600" :class="isActive(item) ? 'bg-theme-400' : ''"
+            >
+                <a v-if="item.hasOwnProperty('onClick') && !item.to" href="#" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300" @click.prevent="item.onClick">
                     <Icon :name="item.icon" class="mr-2 text-3xl pl-2 -mt-1"/>
-                    <span class="ml-1" v-html="item.name"></span>
-                    <span class="sr-only" v-html="item.name"></span>
+                    <!-- <span class="ml-1" v-html="item.name"></span>
+                    <span class="sr-only" v-html="item.name"></span> -->
                     <span v-if="item.hasOwnProperty('label') && item.label" class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300" v-html="item.label"></span>
                 </a>
-                <router-link v-else :to="item.to ? item.to : '#'" class="flex items-center p-2 text-base font-normal text-white font-semibold rounded-lg hover:text-theme-300 hover:bg-theme-800 dark:hover:bg-theme-800" :class="isActive(item) ? 'bg-theme-800' : ''">
+                <router-link v-else :to="item.to ? item.to : '#'" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
                     <Icon :name="item.icon" class="mr-2 text-3xl pl-2 -mt-1"/>
-                    <span class="ml-1" v-html="item.name"></span>
-                    <span class="sr-only" v-html="item.name"></span>
+                    <!-- <span class="ml-1" v-html="item.name"></span>
+                    <span class="sr-only" v-html="item.name"></span> -->
                     <span v-if="item.hasOwnProperty('label') && item.label" class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300" v-html="item.label"></span>
                 </router-link>
             </li>
@@ -126,3 +130,14 @@ export default defineComponent({
     }
 });
 </script>
+
+<style>
+.aside-menu li a {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0px;
+}
+
+</style>
