@@ -269,7 +269,7 @@ function fetchPage(params) {
 
 function handleCellChange(payload) {
   let record = table.records.find((item) => item.id == payload.record.id);
-//   record = removeEmpty(record);
+  let oldRecord = {...record};
 
   if (record.category) {
     record.category_id = record.category?.id;    
@@ -293,7 +293,13 @@ function handleCellChange(payload) {
    else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
   }
-  service.handleUpdate(page.id, record.id, removeEmpty(record));
+
+  service.handleUpdate(page.id, record.id, removeEmpty(record))
+    .then((res) => {     
+        if (res.response?.status >= 400) {            
+            Object.assign(record, oldRecord);
+        }
+    });
 }
 
 watch(mainQuery, (newTableState) => {

@@ -32,6 +32,8 @@
                 </slot>
             </div>
         </div>
+        <Alert class="px-6 pt-6"/>
+
         <slot name="filters"></slot>
         <div class="grid grid-cols-1 p-6">
             <template v-if="isElementLoading">

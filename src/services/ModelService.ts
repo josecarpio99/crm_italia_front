@@ -75,6 +75,7 @@ export default abstract class ModelService extends BaseService {
             return response;
         }).catch((error) => {
             alertStore.error(getResponseError(error));
+            return error;
         }).finally(() => {
             globalUserState.loadingElements[ui_element_id] = false;
         })
