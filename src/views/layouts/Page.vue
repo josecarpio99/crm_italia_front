@@ -1,6 +1,9 @@
 <template>
-    <div class="p-5 mt-4 xl:px-0">
-        <div class="flex flex-wrap justify-between mb-6">
+    <div class="">
+        <div 
+            v-if="$props.title || $props.breadcrumbs.length > 0"
+            class="flex flex-wrap justify-between py-6 px-8 pb-2 border-b-2 bg-white"
+        >
             <div>
                 <h2 class="bold text-2xl mb-3">{{ $props.title }}</h2>
                 <!-- Breadcrumbs -->
@@ -30,7 +33,7 @@
             </div>
         </div>
         <slot name="filters"></slot>
-        <div class="grid grid-cols-1">
+        <div class="grid grid-cols-1 p-6">
             <template v-if="isElementLoading">
                 <div class="pt-10 pb-6 text-center">
                     <Spinner/>

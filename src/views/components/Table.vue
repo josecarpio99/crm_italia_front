@@ -99,8 +99,8 @@ const props = defineProps({
     default: [],
   },
   actions: {
-    type: [Array, Object],
-    default: [],
+    type: [Array, Object, Boolean],
+    default: false,
   },
   sorting: {
     type: [Object],

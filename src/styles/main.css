@@ -1,6 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+html {
+  font-size: 14px;
+}
 
 .v-popper--theme-tooltip .v-popper__inner {  
   background-color: theme('colors.theme.500') !important;
@@ -17,5 +22,5 @@
 }
 
 .v-popper--theme-dropdown .v-select {
-  width: 300px !important;
+  width: 250px !important;
 }
