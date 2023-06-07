@@ -24,6 +24,7 @@
 
      <VDropdown
       v-else-if="props.type == 'list'"
+      :auto-size="false"
       :triggers="[]"
       :shown="showInput"
       auto-size

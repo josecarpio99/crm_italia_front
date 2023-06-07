@@ -15,3 +15,7 @@
 .v-popper--theme-tooltip  .v-popper__arrow-outer {
   border-color: theme('colors.theme.500') !important;
 }
+
+.v-popper--theme-dropdown .v-select {
+  width: 300px !important;
+}
