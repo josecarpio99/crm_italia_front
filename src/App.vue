@@ -154,7 +154,7 @@ export default {
           mainMenu: [
               {
                   name: trans('global.pages.home'),
-                  icon: 'tachometer',
+                  icon: 'home',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
