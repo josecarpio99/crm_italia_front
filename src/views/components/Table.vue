@@ -3,7 +3,7 @@
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <tr>
-          <th v-for="(column, i) in columns" scope="col"
+          <!-- <th v-for="(column, i) in columns" scope="col"
             class="align-middle px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" :class="column.class">
             <slot :name="'column-' + i">
               <div class="leading-loose inline-block">{{ column.label }}</div>
@@ -16,7 +16,13 @@
                     class="fa fa-caret-down"></i></span>
               </div>
             </slot>
-          </th>
+          </th> -->
+          <TableHeader 
+            v-for="(column, i) in columns" 
+            :column="column" 
+            :currentSort="currentSort"
+            @sort-change="onSortChange" 
+          />
           <th v-if="actions" scope="col"
             class="align-middle px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
             <slot name="actions">{{ trans('global.actions.name') }}</slot>
@@ -80,6 +86,7 @@ import { trans } from "@/helpers/i18n";
 import { computed, defineComponent, reactive } from "vue";
 import Pager from "@/views/components/Pager";
 import Spinner from "@/views/components/icons/Spinner";
+import TableHeader from "@/views/components/table/TableHeader";
 
 const props = defineProps({
   id: {
@@ -187,7 +194,7 @@ function onActionClick(params) {
   emit('action', params)
 }
 
-function onSortChange(column, direction) {
+function onSortChange({column, direction}) {
   if (currentSort.column === column && currentSort.direction === direction) {
     clearSorting();
   } else {
