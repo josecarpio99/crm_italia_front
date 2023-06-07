@@ -32,7 +32,7 @@
                 </slot>
             </div>
         </div>
-        <Alert class="px-6 pt-6"/>
+        <Alert class="px-6 pt-6" v-if="alertStore.showOnPage" />
 
         <slot name="filters"></slot>
         <div class="grid grid-cols-1 p-6">
@@ -55,6 +55,7 @@ import Alert from "@/views/components/Alert";
 import Spinner from "@/views/components/icons/Spinner";
 import {useGlobalStateStore} from "@/stores";
 import {storeToRefs} from "pinia";
+import {useAlertStore} from "@/stores";
 
 export default defineComponent({
     name: "Page",
@@ -83,6 +84,9 @@ export default defineComponent({
     },
     emits: ['action'],
     setup(props, {emit}) {
+
+        const alertStore = useAlertStore();
+
         function onPageActionClick(data) {
             emit('action', data);
         }
@@ -95,7 +99,8 @@ export default defineComponent({
             trans,
             toUrl,
             onPageActionClick,
-            isElementLoading
+            isElementLoading,
+            alertStore
         }
     }
 })

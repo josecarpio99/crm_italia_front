@@ -6,6 +6,7 @@ export const useAlertStore = defineStore({
         return {
             messages: [],
             type: null,
+            showOnPage: true
         }
     },
     actions: {

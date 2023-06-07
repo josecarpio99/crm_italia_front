@@ -226,12 +226,19 @@ export default {
       }
 
       function toggleModal(key) {
+        alertStore.clear();
         state.isAddMenuOpen = false;
         if (key === 'CreatePersonModal') {
-            state.showCreatePersonModal = !state.showCreatePersonModal;
+            state.showCreatePersonModal = !state.showCreatePersonModal;            
         }
         if (key === 'CreateCompanyModal') {
             state.showCreateCompanyModal = !state.showCreateCompanyModal;
+        }
+
+        if (state.showCreateCompanyModal == true || state.showCreatePersonModal == true) {
+            alertStore.showOnPage = false;
+        } else {
+            alertStore.showOnPage = true;
         }
       }
 
@@ -248,7 +255,8 @@ export default {
           trans,
           onLogout,
           isLoading,
-          toggleModal
+          toggleModal,
+          alertStore
       }
   }
 };
