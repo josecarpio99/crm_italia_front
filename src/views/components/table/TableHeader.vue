@@ -28,7 +28,7 @@ const props = defineProps([
 const emit = defineEmits('sort-change');
 
 function onSortChange(column, direction) {
-  emit('sort-change', column, direction)
+  emit('sort-change', {column, direction})
 }
 
 </script>
