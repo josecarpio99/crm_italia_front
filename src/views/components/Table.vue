@@ -22,6 +22,7 @@
             :column="column" 
             :currentSort="currentSort"
             @sort-change="onSortChange" 
+            @filter-change="onFilterChange"
           />
           <th v-if="actions" scope="col"
             class="align-middle px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -133,7 +134,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter']);
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
 
@@ -202,6 +203,10 @@ function onSortChange({column, direction}) {
     currentSort.direction = direction;
   }
   emit('sort', { column: currentSort.column, direction: currentSort.direction });
+}
+
+function onFilterChange(params) {
+  emit('filter', params);
 }
 
 function sortControlClasses(column, direction) {

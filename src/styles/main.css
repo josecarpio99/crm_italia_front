@@ -12,6 +12,10 @@ html {
   font-size: .75rem;
 }
 
+.table-header.v-popper--theme-dropdown .v-popper__inner { 
+  padding: 16px;
+}
+
 .v-popper--theme-tooltip  .v-popper__arrow-container {
   color: theme('colors.theme.500') !important;
   /* background-color: theme('colors.theme.500') !important; */

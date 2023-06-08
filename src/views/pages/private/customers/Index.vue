@@ -1,7 +1,7 @@
 <template>
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
       <template #default>
-          <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">   
+          <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter">   
 
               <template v-slot:cell-name="{ item }">
                   <TableCell 
@@ -114,14 +114,10 @@ const mainQuery = reactive({
   search: '',
   sort: '',
   filters: {
-      search: {
+      name: {
           value: '',
           comparison: '='
-      },              
-      role: {
-          value: '',
-          comparison: '='
-      }
+      }     
   }
 });
 
@@ -157,13 +153,17 @@ const table = reactive({
           label: trans('global.labels.name'),
           editable: true,
           sorteable: true,
-          filterable: true
+          filterable: true,
+          filter: {
+            modelValue: mainQuery.filters.name.value,
+            type: 'input'            
+          }
       },
       {
           key: 'email',
           label: trans('global.labels.email'),
           sorteable: true,
-          filterable: true
+        //   filterable: true
       },    
       {
           key: 'mobile',
@@ -174,13 +174,13 @@ const table = reactive({
           key: 'category',
           label: trans('customers.labels.category'),
           sorteable: false,
-          filterable: true
+        //   filterable: true
       },    
       {
           key: 'owner',
           label: trans('global.labels.owner'),
           sorteable: false,
-          filterable: true
+        //   filterable: true
       },    
       {
           key: 'customer_status',
@@ -304,6 +304,10 @@ function handleCellChange(payload) {
             Object.assign(record, oldRecord);
         }
     });
+}
+
+function onTableFilter({column, value}) {
+    mainQuery.filters[column.key].value = value;
 }
 
 watch(mainQuery, (newTableState) => {

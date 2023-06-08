@@ -27,7 +27,6 @@
       :auto-size="false"
       :triggers="[]"
       :shown="showInput"
-      auto-size
       :prevent-overflow="false"
       @hide="handleBlur"
      >
