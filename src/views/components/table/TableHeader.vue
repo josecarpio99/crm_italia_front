@@ -12,7 +12,11 @@
           class="fa fa-caret-down"></i></span>
     </div>
 
-    <div v-if="column.filterable" class="inline-block float-right invisible group-hover:visible">
+    <div 
+      v-if="column.filterable" 
+      class="inline-block float-right invisible group-hover:visible"
+      v-tooltip.top="$t('global.labels.filter')"
+    >
       <span class="flex mt-[1px] text-base cursor-pointer hover:text-gray-700">
         <i class="fa fa-filter"></i>
       </span>

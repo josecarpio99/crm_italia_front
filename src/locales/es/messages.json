@@ -156,6 +156,7 @@
       "phone": "Teléfono",
       "avatar": "Avatar",
       "category": "Categoría",
+      "filter" : "Filtro",
       "state": "Estado",
       "country": "País",
       "owner": "Propiedad",

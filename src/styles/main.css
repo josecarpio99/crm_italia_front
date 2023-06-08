@@ -14,7 +14,7 @@ html {
 
 .v-popper--theme-tooltip  .v-popper__arrow-container {
   color: theme('colors.theme.500') !important;
-  background-color: theme('colors.theme.500') !important;
+  /* background-color: theme('colors.theme.500') !important; */
 }
 
 .v-popper--theme-tooltip  .v-popper__arrow-outer {
