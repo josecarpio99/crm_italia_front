@@ -27,8 +27,8 @@
       :triggers="[]"
       :shown="showInput"
       :prevent-overflow="false"
-      :placement="'right'"
-      :popperClass="'w-64 table-header'"
+      :placement="'auto'"
+      :popperClass="`table-header ${['select', 'multiselect', 'radio'].includes(column.filter.type) ? 'with-select' : ''}`"
       @hide="handleBlur"
      >
         <template #popper>    
@@ -45,10 +45,11 @@
             :selectLabel="column.filter.optionsLabel"
             name="type" 
             v-model="inputValue" 
-            :showLabel="false"
+            :label="$t('global.labels.filter')"
+            :showLabel="true"
             :showPointer="false"
             :placeholder="'Buscar...'"
-            @selected="handleEnter"
+            :multiple="column.filter.type == 'multiselect'"
 
           /> 
 
@@ -74,13 +75,14 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['sort-change', 'update:modelValue']);
+const emit = defineEmits(['sort-change', 'filter-change', 'update:modelValue']);
 
 const showInput = ref(false);
 const inputValue = ref(props.column.filter?.modelValue); 
 
+
 watch(inputValue, (newValue) => {  
-  inputValue.value = newValue; 
+  inputValue.value = newValue;   
   emit('filter-change', {column: props.column, value: newValue});
 });
 

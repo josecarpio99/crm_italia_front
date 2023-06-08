@@ -25,6 +25,7 @@
      <VDropdown
       v-else-if="props.type == 'list'"
       :auto-size="false"
+      :popperClass="'w-64'"
       :triggers="[]"
       :shown="showInput"
       :prevent-overflow="false"

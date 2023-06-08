@@ -12,8 +12,21 @@ html {
   font-size: .75rem;
 }
 
-.table-header.v-popper--theme-dropdown .v-popper__inner { 
+.table-header.v-popper--theme-dropdown {  
+  width: 16rem;
+}
+
+.table-header.with-select.v-popper--theme-dropdown {  
+  width: 20rem;
+}
+
+.table-header.v-popper--theme-dropdown .v-popper__inner {  
   padding: 16px;
+}
+
+.table-header.with-select.v-popper--theme-dropdown .v-popper__inner { 
+
+  height: 250px;
 }
 
 .v-popper--theme-tooltip  .v-popper__arrow-container {
@@ -24,7 +37,7 @@ html {
 .v-popper--theme-tooltip  .v-popper__arrow-outer {
   border-color: theme('colors.theme.500') !important;
 }
-
+/* 
 .v-popper--theme-dropdown .v-select {
   width: 250px !important;
-}
+} */

@@ -15,6 +15,7 @@
             :label="$props.selectLabel"            
             :closeOnSelect="$props.closeOnSelect"
             :dropdown-should-open="dropdownShouldOpen"
+            :multiple="$props.multiple"
             @option:selected="handleSelect"
             ref="select"
         >

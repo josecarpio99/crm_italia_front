@@ -117,7 +117,19 @@ const mainQuery = reactive({
       name: {
           value: '',
           comparison: '='
-      }     
+      },    
+      owner: {
+          value: [],
+          comparison: '='
+      },
+      customer_status: {
+          value: '',
+          comparison: '='
+      },   
+      category_id: {
+          value: '',
+          comparison: '='
+      }
   }
 });
 
@@ -174,18 +186,35 @@ const table = reactive({
           key: 'category',
           label: trans('customers.labels.category'),
           sorteable: false,
-        //   filterable: true
+          filterable: true,
+          filter: {
+            modelValue: mainQuery.filters.category_id.value,
+            type: 'select',
+            options: customerCategories
+          }
       },    
       {
           key: 'owner',
           label: trans('global.labels.owner'),
           sorteable: false,
-        //   filterable: true
+          filterable: true,
+          filter: {
+            modelValue: mainQuery.filters.owner.value,
+            type: 'multiselect',
+            options: [],
+            optionsLabel: 'name'
+          }
       },    
       {
           key: 'customer_status',
           label: trans('customers.labels.customer_status'),
-          sorteable: false
+          sorteable: false,
+          filterable: true,
+          filter: {
+            modelValue: mainQuery.filters.customer_status.value,
+            type: 'select',
+            options: customerStatuses
+          }
       },    
   ],           
   pagination: {
@@ -307,7 +336,15 @@ function handleCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    mainQuery.filters[column.key].value = value;
+    if (column.key == 'owner') {
+        mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+    }
+    else if (column.key == 'category') {
+        mainQuery.filters['category_id'].value = value;
+    } 
+    else {
+        mainQuery.filters[column.key].value = value;
+    }
 }
 
 watch(mainQuery, (newTableState) => {
@@ -316,6 +353,7 @@ watch(mainQuery, (newTableState) => {
 
 onMounted(async () => {
   users = await userService.list().then(res => res.data);
+  table.columns[4].filter.options = users;
   fetchPage(mainQuery);
 });
 
