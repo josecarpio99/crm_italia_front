@@ -156,12 +156,14 @@ const table = reactive({
           key: 'name',
           label: trans('global.labels.name'),
           editable: true,
-          sorteable: true
+          sorteable: true,
+          filterable: true
       },
       {
           key: 'email',
           label: trans('global.labels.email'),
-          sorteable: true
+          sorteable: true,
+          filterable: true
       },    
       {
           key: 'mobile',
@@ -172,11 +174,13 @@ const table = reactive({
           key: 'category',
           label: trans('customers.labels.category'),
           sorteable: false,
+          filterable: true
       },    
       {
           key: 'owner',
           label: trans('global.labels.owner'),
-          sorteable: false
+          sorteable: false,
+          filterable: true
       },    
       {
           key: 'customer_status',
