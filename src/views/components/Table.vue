@@ -32,12 +32,30 @@
       </thead>
       <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
         <tr v-for="(record, i) in records">          
-          <template v-for="(header, j) in headers">
+          <!-- <template v-for="(header, j) in headers">
             <slot :item="record" :name="'cell-' + j">
               <td class="px-6 py-4 whitespace-nowrap text-sm">
                 {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
               </td>
             </slot> 
+          </template> -->
+
+          <template v-for="(column, j) in columns">
+            <TableCell
+                    :editable="column.editable" 
+                    :cellvalue="getCellValue(record, column)"
+                    :record="record" 
+                    :type="column.edit?.type"
+                    :options="column.edit?.options"
+                    :selectLabel="column.edit?.optionsLabel"
+                    :cellkey="column.key" 
+                    @changed="onCellChange"
+                >                        
+                <slot :item="record" :name="'cell-' + j">
+                  {{ getCellLabel(record, column) }}
+                </slot> 
+            </TableCell> 
+            
           </template>
           <!-- <td v-for="(header, j) in headers" class="px-6 py-4 whitespace-nowrap text-sm"
             >
@@ -88,6 +106,8 @@ import { computed, defineComponent, reactive } from "vue";
 import Pager from "@/views/components/Pager";
 import Spinner from "@/views/components/icons/Spinner";
 import TableHeader from "@/views/components/table/TableHeader";
+import TableCell from "@/views/components/table/TableCell";
+import {getPropByString} from '@/helpers/data'
 
 const props = defineProps({
   id: {
@@ -134,7 +154,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change']);
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
 
@@ -209,6 +229,10 @@ function onFilterChange(params) {
   emit('filter', params);
 }
 
+function onCellChange(params) {
+  emit('cell-change', params);
+}
+
 function sortControlClasses(column, direction) {
   if (currentSort.column === column && currentSort.direction === direction) {
     return 'text-theme-500'
@@ -221,8 +245,32 @@ function clearSorting() {
   currentSort.direction = null;
 }
 
-function isEditable(field) {
-  return props.editableFields.hasOwnProperty(field);
+function getCellValue(record, column) {
+  let isSelectType = false;
+  let cellLabel = column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;
+
+  if (column.hasOwnProperty('edit') && column.editable) {
+    if (['list', 'select', 'multiselect'].includes(column.edit.type)) {
+      isSelectType = true;
+    }
+  }  
+
+  if (isSelectType) {
+    let cellKey = column.hasOwnProperty('cellKey') ? column.cellKey : column.key;
+    let cellLabel= column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;
+
+    let optionsKey = column.edit?.optionsKey ?? 'id';
+    let optionsLabel = column.edit?.optionsLabel ?? 'label';
+
+    return {[optionsKey]: getPropByString(record, cellKey), [optionsLabel]: getPropByString(record, cellLabel)}
+  }
+
+  return record.hasOwnProperty(cellLabel) ? record[cellLabel] : '';
+}
+
+function getCellLabel(record, column) {
+  let cellLabel = column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;  
+  return getPropByString(record, cellLabel) || '';
 }
 
 const currentPage = computed(() => {

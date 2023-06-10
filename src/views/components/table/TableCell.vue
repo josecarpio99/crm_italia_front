@@ -1,5 +1,5 @@
 <template>
-  <td class="px-6 py-4 whitespace-nowrap text-sm editable" :class="$props.class">
+  <td class="px-6 py-4 whitespace-nowrap text-sm" :class="{editable: $props.editable}">
      <div :class="{hidden:showInput}">
       <slot />
       <span 
@@ -10,7 +10,7 @@
       </span>
      </div>
 
-     <input v-if="props.type == 'input'" type="text" ref="inputElement" @blur="handleBlur" @keypress.enter="handleEnter"
+     <input v-if="props.editable && props.type == 'input'" type="text" ref="inputElement" @blur="handleBlur" @keypress.enter="handleEnter"
      v-model="inputValue" class="border text-sm border-gray focus:outline-none focus:ring focus:ring-transparent focus:border-gray-500" :class="`${showInput ? 'block' : 'hidden'}`">
      
      <!-- <Dropdown v-else-if="props.type == 'list'" 
@@ -23,7 +23,7 @@
      />  -->
 
      <VDropdown
-      v-else-if="props.type == 'list'"
+      v-else-if="props.editable && props.type == 'list'"
       :auto-size="false"
       :popperClass="'w-64'"
       :triggers="[]"
@@ -57,7 +57,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 const props = defineProps({
   class: String,
   record: {
-    type: [Object,],
+    type: [Object],
     required: true
   },
   cellkey: {
@@ -67,6 +67,10 @@ const props = defineProps({
   cellvalue: {
     type: [String, Object],
     required: false
+  },
+  editable: {
+    type: Boolean,
+    default: false
   },
   type: {
     type: String,

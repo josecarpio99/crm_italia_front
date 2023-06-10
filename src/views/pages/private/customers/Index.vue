@@ -1,10 +1,11 @@
 <template>
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
       <template #default>
-          <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter">   
+          <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">   
 
               <template v-slot:cell-name="{ item }">
-                  <TableCell 
+                  <TableCell
+                      :editable="true" 
                       :cellvalue="item.name"
                       :record="item" 
                       cellkey="name" 
@@ -15,7 +16,8 @@
               </template> 
 
               <template v-slot:cell-email="{ item }">
-                  <TableCell 
+                  <TableCell
+                      :editable="true" 
                       :cellvalue="item.email"
                       :record="item" 
                       cellkey="email" 
@@ -26,7 +28,8 @@
               </template> 
 
               <template v-slot:cell-mobile="{ item }">
-                  <TableCell 
+                  <TableCell
+                      :editable="true" 
                       :cellvalue="item.mobile"
                       :record="item" 
                       cellkey="mobile" 
@@ -37,7 +40,8 @@
               </template>     
               
               <template v-slot:cell-category="{ item }">
-                    <TableCell 
+                    <TableCell
+                        :editable="true" 
                         :cellvalue="customerCategories.find(option => option.id === item.category?.id)"
                         :record="item" 
                         :options="customerCategories"
@@ -50,7 +54,8 @@
                 </template>
                 
                 <template v-slot:cell-owner="{ item }">
-                  <TableCell 
+                  <TableCell
+                      :editable="true"
                       :cellvalue="users.find(option => option.id === item.owner?.id)"
                       :record="item" 
                       :options="users"
@@ -64,7 +69,8 @@
               </template>  
               
               <template v-slot:cell-customer_status="{ item }">
-                    <TableCell 
+                    <TableCell
+                        :editable="true" 
                         :cellvalue="item.customer_status"
                         :record="item" 
                         :options="customerStatuses"
@@ -167,7 +173,7 @@ const table = reactive({
           sorteable: true,
           filterable: true,
           filter: {
-            modelValue: mainQuery.filters.name.value,
+            modelValue: '',
             type: 'input'            
           }
       },
@@ -175,44 +181,65 @@ const table = reactive({
           key: 'email',
           label: trans('global.labels.email'),
           sorteable: true,
-        //   filterable: true
+          editable: true
       },    
       {
           key: 'mobile',
           label: trans('customers.header.phone'),
-          sorteable: false
+          sorteable: false,
+          editable: true
       },    
       {
           key: 'category',
           label: trans('customers.labels.category'),
           sorteable: false,
           filterable: true,
+          editable: true,
           filter: {
-            modelValue: mainQuery.filters.category_id.value,
+            modelValue: '',
             type: 'select',
             options: customerCategories
-          }
+          },
+          edit: {
+            type: 'list',
+            options: customerCategories
+          },
+          cellKey: 'category.id',
+          cellLabel: 'category.name'
       },    
       {
           key: 'owner',
           label: trans('global.labels.owner'),
           sorteable: false,
           filterable: true,
+          editable: true,
           filter: {
-            modelValue: mainQuery.filters.owner.value,
+            modelValue: '',
             type: 'multiselect',
             options: [],
             optionsLabel: 'name'
-          }
+          },
+          edit: {
+            type: 'list',
+            options: customerStatuses,
+            optionsLabel: 'name'
+          },
+          cellKey: 'owner.id',
+          cellLabel: 'owner.name'
       },    
       {
           key: 'customer_status',
           label: trans('customers.labels.customer_status'),
           sorteable: false,
           filterable: true,
+          editable: true,
           filter: {
-            modelValue: mainQuery.filters.customer_status.value,
+            modelValue:'',
             type: 'select',
+            options: customerStatuses
+          },
+          edit: {
+            type: 'list',
             options: customerStatuses
           }
       },    
@@ -238,12 +265,7 @@ const table = reactive({
       }
   },
   loading: true,
-  records: null,
-  editableFields: {
-      name: {
-          type: 'input'
-      }
-  }
+  records: null  
 })  
 
 function onTableSort(params) {
@@ -300,7 +322,8 @@ function fetchPage(params) {
       });
 }
 
-function handleCellChange(payload) {
+function onCellChange(payload) {
+    console.log(payload);
   let record = table.records.find((item) => item.id == payload.record.id);
   let oldRecord = {...record};
 
@@ -326,7 +349,7 @@ function handleCellChange(payload) {
    else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
   }
-
+  
   service.handleUpdate(page.id, record.id, removeEmpty(record))
     .then((res) => {     
         if (res.response?.status >= 400) {            
@@ -353,7 +376,10 @@ watch(mainQuery, (newTableState) => {
 
 onMounted(async () => {
   users = await userService.list().then(res => res.data);
-  table.columns[4].filter.options = users;
+  let ownerColumn = table.columns.find(column => column.key == 'owner');
+  ownerColumn.filter.options = users;
+  ownerColumn.edit.options = users;
+//   table.columns[4].filter.options = users;
   fetchPage(mainQuery);
 });
 
