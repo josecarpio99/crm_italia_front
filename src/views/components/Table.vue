@@ -32,14 +32,7 @@
       </thead>
       <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
         <tr v-for="(record, i) in records">          
-          <!-- <template v-for="(header, j) in headers">
-            <slot :item="record" :name="'cell-' + j">
-              <td class="px-6 py-4 whitespace-nowrap text-sm">
-                {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
-              </td>
-            </slot> 
-          </template> -->
-
+         
           <template v-for="(column, j) in columns">
             <TableCell
                     :editable="column.editable" 
@@ -51,21 +44,12 @@
                     :cellkey="column.key" 
                     @changed="onCellChange"
                 >                        
-                <slot :item="record" :name="'cell-' + j">
+                <slot :item="record" :name="'cell-' + column.key">
                   {{ getCellLabel(record, column) }}
                 </slot> 
-            </TableCell> 
-            
+            </TableCell>            
           </template>
-          <!-- <td v-for="(header, j) in headers" class="px-6 py-4 whitespace-nowrap text-sm"
-            >
-            <slot :item="record" :name="'content-' + j">
-              {{ record && record.hasOwnProperty(j) ? record[j] : '' }}
-              <span v-if="isEditable(j)" class="cursor-pointer hidden text-gray-400 hover:text-gray-700 ml-2">
-                <i class="fa fa-pencil"></i>
-              </span>
-            </slot>
-          </td> -->
+        
           <td v-if="actions" class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
             <slot :name="'actions-' + j" v-for="(action, j) in actions">
               <router-link v-if="action.hasOwnProperty('to') && action.to" :to="getActionPage(action, record)"
@@ -80,11 +64,12 @@
               </a>
             </slot>
           </td>
+
         </tr>
       </tbody>
       <tbody v-else>
         <tr>
-          <td :colspan="headersLength" class="pt-10 pb-6 text-center">
+          <td :colspan="columnsLength" class="pt-10 pb-6 text-center">
             <template v-if="$props.isLoading">
               <Spinner :text-new-line="true"></Spinner>
             </template>
@@ -118,10 +103,6 @@ const props = defineProps({
     type: [Array, Object],
     default: [],
   },
-  headers: {
-    type: [Array, Object],
-    default: [],
-  },
   records: {
     type: [Array, Object],
     default: [],
@@ -129,10 +110,6 @@ const props = defineProps({
   actions: {
     type: [Array, Object, Boolean],
     default: false,
-  },
-  sorting: {
-    type: [Object],
-    default: {}
   },
   pagination: {
     type: Object,
@@ -147,10 +124,6 @@ const props = defineProps({
   isLoading: {
     type: Boolean,
     default: false,
-  },
-  editableFields: {
-    type: [Array, Object],
-    default: []
   }
 });
 
@@ -158,9 +131,9 @@ const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-chang
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
 
-const headersLength = computed(() => {
+const columnsLength = computed(() => {
   let total = 0;
-  for (let i in props.headers) {
+  for (let i in props.columns) {
     total++;
   }
   if (props.actions) {

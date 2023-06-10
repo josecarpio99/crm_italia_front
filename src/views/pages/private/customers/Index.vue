@@ -1,86 +1,7 @@
 <template>
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
       <template #default>
-          <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">   
-
-              <template v-slot:cell-name="{ item }">
-                  <TableCell
-                      :editable="true" 
-                      :cellvalue="item.name"
-                      :record="item" 
-                      cellkey="name" 
-                      @changed="handleCellChange"
-                  >                        
-                      {{ item.name }}
-                  </TableCell>                   
-              </template> 
-
-              <template v-slot:cell-email="{ item }">
-                  <TableCell
-                      :editable="true" 
-                      :cellvalue="item.email"
-                      :record="item" 
-                      cellkey="email" 
-                      @changed="handleCellChange"
-                  >                        
-                      {{ item.email }}
-                  </TableCell>                   
-              </template> 
-
-              <template v-slot:cell-mobile="{ item }">
-                  <TableCell
-                      :editable="true" 
-                      :cellvalue="item.mobile"
-                      :record="item" 
-                      cellkey="mobile" 
-                      @changed="handleCellChange"
-                  >                        
-                      {{ item.mobile }}
-                  </TableCell>                   
-              </template>     
-              
-              <template v-slot:cell-category="{ item }">
-                    <TableCell
-                        :editable="true" 
-                        :cellvalue="customerCategories.find(option => option.id === item.category?.id)"
-                        :record="item" 
-                        :options="customerCategories"
-                        type="list"
-                        cellkey="category" 
-                        @changed="handleCellChange"
-                    >                        
-                        {{ item.category?.name }}
-                    </TableCell>                   
-                </template>
-                
-                <template v-slot:cell-owner="{ item }">
-                  <TableCell
-                      :editable="true"
-                      :cellvalue="users.find(option => option.id === item.owner?.id)"
-                      :record="item" 
-                      :options="users"
-                      selectLabel="name"
-                      type="list"
-                      cellkey="owner" 
-                      @changed="handleCellChange"
-                  >                        
-                      {{ item.owner?.name }}
-                  </TableCell>                   
-              </template>  
-              
-              <template v-slot:cell-customer_status="{ item }">
-                    <TableCell
-                        :editable="true" 
-                        :cellvalue="item.customer_status"
-                        :record="item" 
-                        :options="customerStatuses"
-                        type="list"
-                        cellkey="customer_status" 
-                        @changed="handleCellChange"
-                    >                        
-                        {{ item.customer_status }}
-                    </TableCell>                   
-                </template>
+          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">        
               
           </Table>
       </template>
@@ -152,19 +73,7 @@ const page = reactive({
   toggleFilters: false,
 });
 
-const table = reactive({
-  headers: {
-      name: trans('global.labels.name'),
-      email: trans('global.labels.email'),
-      mobile: trans('customers.labels.mobile'),
-      category: trans('global.labels.category'),
-      owner: trans('global.labels.owner'),
-      customer_status: trans('customers.labels.customer_status'),
-  },
-  sorting: {
-      name: true,
-      email: true
-  },
+const table = reactive({ 
   columns: [
       {
           key: 'name',
@@ -323,7 +232,6 @@ function fetchPage(params) {
 }
 
 function onCellChange(payload) {
-    console.log(payload);
   let record = table.records.find((item) => item.id == payload.record.id);
   let oldRecord = {...record};
 
@@ -379,7 +287,7 @@ onMounted(async () => {
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
-//   table.columns[4].filter.options = users;
+  
   fetchPage(mainQuery);
 });
 
