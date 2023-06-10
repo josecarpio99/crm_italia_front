@@ -1,3 +1,18 @@
+export const leadStatuses = [
+  {
+    id: 'Nuevo',
+    label: 'Nuevo',
+  },
+  {
+    id: 'Asignado',
+    label: 'Asignado',
+  },
+  {
+    id: 'No calificado',
+    label: 'No calificado',
+  },
+];
+
 export const customerStatuses = [
   {
     id: 'No es cliente',

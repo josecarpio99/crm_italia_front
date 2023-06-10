@@ -169,6 +169,14 @@ export default {
                   to: '/panel/customers/list',
               },
               {
+                  name: trans('global.pages.leads'),
+                  icon: 'arrows',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/leads/list',
+              },
+              {
                   name: trans('global.pages.users'),
                   icon: 'user',
                   showDesktop: true,

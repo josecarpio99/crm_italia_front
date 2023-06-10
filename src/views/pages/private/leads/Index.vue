@@ -13,6 +13,7 @@
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import UserService from "@/services/UserService";
+import LeadService from "@/services/LeadService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -27,11 +28,12 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
-import { customerStatuses } from "@/stub/statuses";
+import { leadStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 
-const service = new CustomerService();
+const leadService = new LeadService();
 const userService = new UserService();
+const customerService = new CustomerService();
 const alertStore = useAlertStore();
 let users = null;
 
@@ -60,12 +62,12 @@ const mainQuery = reactive({
 });
 
 const page = reactive({
-  id: 'list_customers',
-  title: trans('global.pages.customers'),
+  id: 'list_leads',
+  title: trans('global.pages.leads'),
   breadcrumbs: [
       {
-          name: trans('global.pages.customers'),
-          to: toUrl('/customers'),
+          name: trans('global.pages.leads'),
+          to: toUrl('/leads'),
           active: true,
       }
   ],  
@@ -76,101 +78,56 @@ const table = reactive({
   columns: [
       {
           key: 'name',
+          cellLabel: 'customer.name',
           label: trans('global.labels.name'),
           editable: true,
           sorteable: true,
-          filterable: true,
-          filter: {
-            modelValue: '',
-            type: 'input'            
-          }
-      },
-      {
-          key: 'email',
-          label: trans('global.labels.email'),
-          sorteable: true,
-          editable: true
-      },    
-      {
-          key: 'mobile',
-          label: trans('customers.header.phone'),
-          sorteable: false,
-          editable: true
-      },    
-      {
-          key: 'category',
-          label: trans('customers.labels.category'),
-          sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue: '',
-            type: 'select',
-            options: customerCategories
-          },
-          edit: {
-            type: 'list',
-            options: customerCategories
-          },
-          cellKey: 'category.id',
-          cellLabel: 'category.name'
-      },    
+          // filterable: true,
+          // filter: {
+          //   modelValue: '',
+          //   type: 'input'            
+          // }
+      },         
       {
           key: 'owner',
           label: trans('global.labels.owner'),
           sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue: '',
-            type: 'multiselect',
-            options: [],
-            optionsLabel: 'name'
-          },
-          edit: {
-            type: 'list',
-            options: [],
-            optionsLabel: 'name'
-          },
+          // filterable: true,
+          // editable: true,
+          // filter: {
+          //   modelValue: '',
+          //   type: 'multiselect',
+          //   options: [],
+          //   optionsLabel: 'name'
+          // },
+          // edit: {
+          //   type: 'list',
+          //   options: [],
+          //   optionsLabel: 'name'
+          // },
           cellKey: 'owner.id',
           cellLabel: 'owner.name'
       },    
       {
-          key: 'customer_status',
-          label: trans('customers.labels.customer_status'),
+          key: 'status',
+          label: trans('global.labels.status'),
           sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue:'',
-            type: 'select',
-            options: customerStatuses
-          },
-          edit: {
-            type: 'list',
-            options: customerStatuses
-          }
+          // filterable: true,
+          // editable: true,
+          // filter: {
+          //   modelValue:'',
+          //   type: 'select',
+          //   options: leadStatuses
+          // },
+          // edit: {
+          //   type: 'list',
+          //   options: leadStatuses
+          // }
       },    
   ],           
   pagination: {
       meta: null,
       links: null,
-  },
-  actions: {
-      // edit: {
-      //     id: 'edit',
-      //     name: trans('global.actions.edit'),
-      //     icon: "fa fa-edit",
-      //     showName: false,
-      //     to: toUrl('/customers/{id}/edit')
-      // },
-      delete: {
-          id: 'delete',
-          name: trans('global.actions.delete'),
-          icon: "fa fa-trash",
-          showName: false,
-          danger: true,
-      }
   },
   loading: true,
   records: null  
@@ -188,7 +145,7 @@ function onTableAction(params) {
   switch (params.action.id) {
       case 'delete':
           alertHelpers.confirmDanger(function () {
-              service.delete(params.item.id).then(function (response) {
+            leadService.delete(params.item.id).then(function (response) {
                   fetchPage(mainQuery);
               });
           })
@@ -216,7 +173,7 @@ function fetchPage(params) {
   table.records = [];
   table.loading = true;
   let query = prepareQuery(params);
-  service
+  leadService
       .index(query)
       .then((response) => {
           table.records = response.data.data;
@@ -234,18 +191,25 @@ function onCellChange(payload) {
   let record = table.records.find((item) => item.id == payload.record.id);
   let oldRecord = {...record};
 
+  console.log(record);
   if (record.category) {
     record.category_id = record.category?.id;    
   }
 
-  if (payload.key == 'category') {
+  if (record.customer.category) {
+    record.customer.category_id = record.customer.category?.id;    
+  }
 
-    record.category_id = payload.value.id;
-    record.category = {
+  if (payload.key == 'name') {
+
+    record.customer[payload.key] = payload.value.toString();
+
+  } else if (payload.key == 'category') {
+    record.owner_id = payload.value.id;
+    record.owner = {
         id: payload.value.id,
-        name: payload.value.label
+        name: payload.value.name
     };
-
   } else if (payload.key == 'owner') {
     record.owner_id = payload.value.id;
     record.owner = {
@@ -257,12 +221,21 @@ function onCellChange(payload) {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
   }
   
-  service.handleUpdate(page.id, record.id, removeEmpty(record))
-    .then((res) => {     
+  if (payload.key == 'name') {
+    customerService.handleUpdate(page.id, record.customer.id, removeEmpty(record.customer))
+      .then((res) => {     
         if (res.response?.status >= 400) {            
             Object.assign(record, oldRecord);
         }
     });
+  } else {
+    leadService.handleUpdate(page.id, record.id, removeEmpty(record))
+      .then((res) => {     
+        if (res.response?.status >= 400) {            
+            Object.assign(record, oldRecord);
+        }
+    });
+  }
 }
 
 function onTableFilter({column, value}) {
@@ -284,8 +257,8 @@ watch(mainQuery, (newTableState) => {
 onMounted(async () => {
   users = await userService.list().then(res => res.data);
   let ownerColumn = table.columns.find(column => column.key == 'owner');
-  ownerColumn.filter.options = users;
-  ownerColumn.edit.options = users;
+  // ownerColumn.filter.options = users;
+  // ownerColumn.edit.options = users;
 
   fetchPage(mainQuery);
 });

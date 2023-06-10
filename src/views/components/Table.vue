@@ -238,7 +238,7 @@ function getCellValue(record, column) {
     return {[optionsKey]: getPropByString(record, cellKey), [optionsLabel]: getPropByString(record, cellLabel)}
   }
 
-  return record.hasOwnProperty(cellLabel) ? record[cellLabel] : '';
+  return getPropByString(record, cellLabel);
 }
 
 function getCellLabel(record, column) {
