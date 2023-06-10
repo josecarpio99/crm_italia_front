@@ -177,6 +177,14 @@ export default {
                   to: '/panel/leads/list',
               },
               {
+                  name: trans('global.pages.deals'),
+                  icon: 'dollar',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/deals/list',
+              },
+              {
                   name: trans('global.pages.users'),
                   icon: 'user',
                   showDesktop: true,

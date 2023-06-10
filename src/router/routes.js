@@ -13,6 +13,7 @@ import {default as PageUsersEdit} from "@/views/pages/private/users/Edit";
 
 import {default as PageCustomers} from "@/views/pages/private/customers/Index";
 import {default as PageLeads} from "@/views/pages/private/leads/Index";
+import {default as PageDeals} from "@/views/pages/private/deals/Index";
 
 import {roles} from "@/stub/roles";
 
@@ -81,6 +82,17 @@ const routes = [
                         path: "list",
                         meta: {requiresAuth: true},
                         component: PageLeads,
+                    }
+                ]
+            },
+            {
+                path: "deals",
+                children: [
+                    {
+                        name: "deals.list",
+                        path: "list",
+                        meta: {requiresAuth: true},
+                        component: PageDeals,
                     }
                 ]
             },
