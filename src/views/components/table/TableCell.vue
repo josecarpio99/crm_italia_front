@@ -65,7 +65,7 @@ const props = defineProps({
     required: true
   },
   cellvalue: {
-    type: [String, Object],
+    type: [String, Object, Number],
     required: false
   },
   editable: {

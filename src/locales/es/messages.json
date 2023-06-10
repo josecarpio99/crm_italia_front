@@ -166,6 +166,8 @@
       "role": "Role",
       "roles": "roles",
       "status": "Estado",
+      "source": "Origen",
+      "value": "Valor",
       "current_password": "Contraseña actual",
       "password": "Contraseña",
       "new_password": "Nueva contraseña",
