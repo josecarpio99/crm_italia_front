@@ -1,8 +1,8 @@
 <template>
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">        
-              
+          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
+
           </Table>
       </template>
   </Page>
@@ -287,7 +287,7 @@ onMounted(async () => {
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
-  
+
   fetchPage(mainQuery);
 });
 
