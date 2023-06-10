@@ -13,7 +13,7 @@
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import UserService from "@/services/UserService";
-import LeadService from "@/services/LeadService";
+import DealService from "@/services/DealService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -28,10 +28,9 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
-import { leadStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 
-const leadService = new LeadService();
+const dealService = new DealService();
 const userService = new UserService();
 const customerService = new CustomerService();
 const alertStore = useAlertStore();
@@ -54,12 +53,12 @@ const mainQuery = reactive({
 });
 
 const page = reactive({
-  id: 'list_leads',
-  title: trans('global.pages.leads'),
+  id: 'list_deals',
+  title: trans('global.pages.deals'),
   breadcrumbs: [
       {
-          name: trans('global.pages.leads'),
-          to: toUrl('/leads'),
+          name: trans('global.pages.deals'),
+          to: toUrl('/deals'),
           active: true,
       }
   ],  
@@ -70,7 +69,6 @@ const table = reactive({
   columns: [
       {
           key: 'name',
-          cellLabel: 'customer.name',
           label: trans('global.labels.name'),
           editable: true,
           sorteable: true,
@@ -99,23 +97,7 @@ const table = reactive({
           },
           cellKey: 'owner.id',
           cellLabel: 'owner.name'
-      },    
-      {
-          key: 'status',
-          label: trans('global.labels.status'),
-          sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue:'',
-            type: 'select',
-            options: leadStatuses
-          },
-          edit: {
-            type: 'list',
-            options: leadStatuses
-          }
-      },    
+      }       
   ],           
   pagination: {
       meta: null,
@@ -137,7 +119,7 @@ function onTableAction(params) {
   switch (params.action.id) {
       case 'delete':
           alertHelpers.confirmDanger(function () {
-            leadService.delete(params.item.id).then(function (response) {
+            dealService.delete(params.item.id).then(function (response) {
                   fetchPage(mainQuery);
               });
           })
@@ -165,7 +147,7 @@ function fetchPage(params) {
   table.records = [];
   table.loading = true;
   let query = prepareQuery(params);
-  leadService
+  dealService
       .index(query)
       .then((response) => {
           table.records = response.data.data;
@@ -191,11 +173,7 @@ function onCellChange(payload) {
     record.customer.category_id = record.customer.category?.id;    
   }
 
-  if (payload.key == 'name') {
-
-    record.customer[payload.key] = payload.value.toString();
-
-  } else if (payload.key == 'category') {
+  if (payload.key == 'category') {
     record.owner_id = payload.value.id;
     record.owner = {
         id: payload.value.id,
@@ -220,7 +198,7 @@ function onCellChange(payload) {
         }
     });
   } else {
-    leadService.handleUpdate(page.id, record.id, removeEmpty(record))
+    dealService.handleUpdate(page.id, record.id, removeEmpty(record))
       .then((res) => {     
         if (res.response?.status >= 400) {            
             Object.assign(record, oldRecord);
