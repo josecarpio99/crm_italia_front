@@ -1,14 +1,14 @@
 export const leadStatuses = [
   {
-    id: 'Nuevo',
+    id: 'nuevo',
     label: 'Nuevo',
   },
   {
-    id: 'Asignado',
+    id: 'asignado',
     label: 'Asignado',
   },
   {
-    id: 'No calificado',
+    id: 'no calificado',
     label: 'No calificado',
   },
 ];

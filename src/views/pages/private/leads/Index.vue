@@ -49,15 +49,7 @@ const mainQuery = reactive({
       owner: {
           value: [],
           comparison: '='
-      },
-      customer_status: {
-          value: '',
-          comparison: '='
-      },   
-      category_id: {
-          value: '',
-          comparison: '='
-      }
+      }     
   }
 });
 
@@ -82,29 +74,29 @@ const table = reactive({
           label: trans('global.labels.name'),
           editable: true,
           sorteable: true,
-          // filterable: true,
-          // filter: {
-          //   modelValue: '',
-          //   type: 'input'            
-          // }
+          filterable: true,
+          filter: {
+            modelValue: '',
+            type: 'input'            
+          }
       },         
       {
           key: 'owner',
           label: trans('global.labels.owner'),
           sorteable: false,
-          // filterable: true,
-          // editable: true,
-          // filter: {
-          //   modelValue: '',
-          //   type: 'multiselect',
-          //   options: [],
-          //   optionsLabel: 'name'
-          // },
-          // edit: {
-          //   type: 'list',
-          //   options: [],
-          //   optionsLabel: 'name'
-          // },
+          filterable: true,
+          editable: true,
+          filter: {
+            modelValue: '',
+            type: 'multiselect',
+            options: [],
+            optionsLabel: 'name'
+          },
+          edit: {
+            type: 'list',
+            options: [],
+            optionsLabel: 'name'
+          },
           cellKey: 'owner.id',
           cellLabel: 'owner.name'
       },    
@@ -112,17 +104,17 @@ const table = reactive({
           key: 'status',
           label: trans('global.labels.status'),
           sorteable: false,
-          // filterable: true,
-          // editable: true,
-          // filter: {
-          //   modelValue:'',
-          //   type: 'select',
-          //   options: leadStatuses
-          // },
-          // edit: {
-          //   type: 'list',
-          //   options: leadStatuses
-          // }
+          filterable: true,
+          editable: true,
+          filter: {
+            modelValue:'',
+            type: 'select',
+            options: leadStatuses
+          },
+          edit: {
+            type: 'list',
+            options: leadStatuses
+          }
       },    
   ],           
   pagination: {
@@ -257,8 +249,8 @@ watch(mainQuery, (newTableState) => {
 onMounted(async () => {
   users = await userService.list().then(res => res.data);
   let ownerColumn = table.columns.find(column => column.key == 'owner');
-  // ownerColumn.filter.options = users;
-  // ownerColumn.edit.options = users;
+  ownerColumn.filter.options = users;
+  ownerColumn.edit.options = users;
 
   fetchPage(mainQuery);
 });
