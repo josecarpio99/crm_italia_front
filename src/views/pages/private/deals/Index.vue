@@ -135,7 +135,14 @@ const table = reactive({
           },
           cellKey: 'owner.id',
           cellLabel: 'owner.name'
-      }       
+      },
+      {
+          key: 'created_at',
+          label: trans('global.labels.created_at'),
+          editable: false,
+          sorteable: true,
+          filterable: false          
+      },         
   ],           
   pagination: {
       meta: null,

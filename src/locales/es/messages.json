@@ -167,6 +167,7 @@
       "roles": "roles",
       "status": "Estado",
       "source": "Origen",
+      "created_at": "Agregado el",
       "value": "Valor",
       "current_password": "Contraseña actual",
       "password": "Contraseña",
