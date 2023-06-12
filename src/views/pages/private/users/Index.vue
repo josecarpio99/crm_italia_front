@@ -1,9 +1,9 @@
 <template>
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
         <template #default>
-            <Table :id="page.id" v-if="table" :headers="table.headers" :columns="table.columns" :sorting="table.sorting" :actions="table.actions" :records="table.records" :editableFields="table.editableFields" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort">
+            <Table :id="page.id" v-if="table" :columns="table.columns" :actions="table.actions" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @cell-change="onCellChange">
               
-                <template v-slot:cell-name="{ item }">
+                <!-- <template v-slot:cell-name="{ item }">
                     <TableCell 
                         :cellvalue="item.name"
                         :record="item" 
@@ -36,7 +36,7 @@
                     >                        
                         {{ item.role }}
                     </TableCell>                   
-                </template>    
+                </template>     -->
             </Table>
         </template>
     </Page>
@@ -95,15 +95,15 @@ const page = reactive({
 });
 
 const table = reactive({
-    headers: {
-        name: trans('users.labels.name'),
-        email: trans('users.labels.email'),
-        role: trans('users.labels.role'),
-    },
-    sorting: {
-        name: true,
-        email: true
-    },
+    // headers: {
+    //     name: trans('users.labels.name'),
+    //     email: trans('users.labels.email'),
+    //     role: trans('users.labels.role'),
+    // },
+    // sorting: {
+    //     name: true,
+    //     email: true
+    // },
     columns: [
         {
             key: 'name',
@@ -114,6 +114,7 @@ const table = reactive({
         {
             key: 'email',
             label: trans('users.labels.email'),
+            editable: true,
             sorteable: true
         },
         {
@@ -127,29 +128,24 @@ const table = reactive({
         meta: null,
         links: null,
     },
-    actions: {
-        edit: {
-            id: 'edit',
-            name: trans('global.actions.edit'),
-            icon: "fa fa-edit",
-            showName: false,
-            to: toUrl('/users/{id}/edit')
-        },
-        delete: {
-            id: 'delete',
-            name: trans('global.actions.delete'),
-            icon: "fa fa-trash",
-            showName: false,
-            danger: true,
-        }
-    },
+    // actions: {
+    //     edit: {
+    //         id: 'edit',
+    //         name: trans('global.actions.edit'),
+    //         icon: "fa fa-edit",
+    //         showName: false,
+    //         to: toUrl('/users/{id}/edit')
+    //     },
+    //     delete: {
+    //         id: 'delete',
+    //         name: trans('global.actions.delete'),
+    //         icon: "fa fa-trash",
+    //         showName: false,
+    //         danger: true,
+    //     }
+    // },
     loading: false,
-    records: null,
-    editableFields: {
-        name: {
-            type: 'input'
-        }
-    }
+    records: null
 })  
 
 function onTableSort(params) {
@@ -206,7 +202,7 @@ function fetchPage(params) {
         });
 }
 
-function handleCellChange(payload) {
+function onCellChange(payload) {
     const record = table.records.find((item) => item.id == payload.record.id);          
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString();                   
     service.handleUpdate(page.id, record.id, record);
