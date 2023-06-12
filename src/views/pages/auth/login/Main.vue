@@ -1,6 +1,9 @@
 <template>
     <Auth>
-        <h2 class="font-bold text-center mb-3 text-2xl text-[#002D74]">{{ trans('global.pages.login') }}</h2>        
+        <div class="my-10">
+            <img src="/assets/images/logocompletonegro.png" alt="">
+        </div>
+        <h2 class="font-bold text-center mb-3 text-2xl text-[#495159]">{{ trans('global.pages.login') }}</h2>        
         <LoginForm/>
         <div class="mt-5 text-sm border-b border-[#002D74] py-4 text-[#002D74]">
             <router-link to="/forgot-password" class="text-sm base-link">

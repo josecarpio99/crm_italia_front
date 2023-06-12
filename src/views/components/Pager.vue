@@ -70,7 +70,7 @@ export default defineComponent( {
         },
         activeClass: {
             type: String,
-            default: 'bg-gray-600 text-white'
+            default: 'bg-[#415159] text-white'
         },
         disabledClass: {
             type: String,
