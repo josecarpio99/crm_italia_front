@@ -24,9 +24,11 @@
           <nav class="text-white text-base">
               <Menu :state="state" :type="'desktop'"/>              
           </nav>
-          <div class="absolute w-full bottom-0 bg-theme-500 text-white flex items-center justify-center py-4">
+
+          <!-- <div class="absolute w-full bottom-0 bg-theme-500 text-white flex items-center justify-center py-4">
             <span>logo</span>
-          </div>
+          </div> -->
+
           <template v-if="state.footerLeftLink">
               <a v-if="state.footerLeftLink.href" :href="state.footerLeftLink.href" class="absolute w-full bottom-0 bg-theme-800 text-white flex items-center justify-center py-4">
                   <Icon :name="state.footerLeftLink.icon" class="mr-3"/>
@@ -79,7 +81,7 @@
                       <router-link to="/panel/profile" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
                           {{ trans('global.pages.profile') }}
                       </router-link>
-                      <a href="#" @click.prevent="onLogout" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">{{
+                      <a href="#" @click.prevent="onLogout" class="block px-4 py-2 border-t-[1px] border-gray-200 hover:bg-theme-800 hover:text-white hover:opacity-80">{{
                               trans('global.phrases.sign_out')
                           }}</a>
                   </div>

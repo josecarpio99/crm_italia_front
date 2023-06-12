@@ -2,8 +2,8 @@
     <ul class="aside-menu">
         <li 
             class="logo" 
-        >     
-            <Icon :name="'plus'" class="mr-2 text-3xl pl-2 -mt-1"/>
+        >                 
+            <img src="/assets/images/logo.png" class="w-10 h-10" alt="logo">
 
         </li>
         <template v-for="item in $props.state.mainMenu">            
@@ -146,6 +146,10 @@ export default defineComponent({
     justify-content: center;
     align-items: center;
     padding: 20px 0px;
+}
+
+.aside-menu li.logo { 
+    padding: 8px 0;
 }
 
 </style>
