@@ -19,3 +19,18 @@ export const leadCategories = [
       label: 'B (Potencial de Compra Regular)'
   } 
 ];
+
+export const dealCategories = [
+  {
+      id: 4,
+      label: 'AAA - Corporativos e Industrias'
+  },
+  {
+      id: 5,
+      label: 'AA - Pymes'
+  },
+  {
+      id: 6,
+      label: 'A - Micro y Personas Físicas'
+  },
+];

@@ -47,6 +47,48 @@ export const leadRequirementSize = [
   },
 ];
 
+export const dealCustomerResponsiveness = [
+  {
+    id: 'Muy responsivo',
+    label: 'Muy responsivo',
+  },
+  {
+    id: 'Normal',
+    label: 'Normal',
+  },
+  {
+    id: 'Poco responsivo',
+    label: 'Poco responsivo',
+  },
+];
+
+export const dealStages = [
+  {
+    id: '1',
+    label: 'Oportunidad',
+  },
+  {
+    id: '2',
+    label: 'Cotizado',
+  },
+  {
+    id: '3',
+    label: 'Ganado y por entregar',
+  },
+  {
+    id: '4',
+    label: 'Ganado',
+  },
+  {
+    id: '5',
+    label: 'Perdido',
+  },
+  {
+    id: '6',
+    label: 'No cualificado',
+  },
+];
+
 export const customerStatuses = [
   {
     id: 'No es cliente',

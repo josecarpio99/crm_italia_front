@@ -78,6 +78,23 @@
     "menu": {
       "oportunidades": "Tratos (Oportunidades)",
       "cotizados": "Tratos (Cotizados)"
+    },
+    "labels": {
+      "add_oportunidad": "Agregar trato (Oportunidad)", 
+      "add_cotizado": "Agregar trato (Cotizado)", 
+      "add_deal": "Agregar trato", 
+      "customer": "Contacto",
+      "stage": "Fase", 
+      "value": "Valor", 
+      "source": "Origen",
+      "category": "Clasificación",
+      "owner": "Dueño",  
+      "status": "Estado",
+      "customer_responsiveness": "¿Que Tan Responsivo Notas al Cliente?",
+      "name": "Nombre del trato",
+      "estimated_close_date": "Fecha de cierre prevista",
+      "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
+      "win_probability": "Probabilidad de ganar"
     }
   },
   "messages": {
@@ -144,6 +161,8 @@
       "add": "Agregar",
       "add_person": "Contacto: Persona",
       "add_company": "Contacto: Empresa",
+      "oportunidad": "Trato: Oportunidad",
+      "cotizado": "Trato: Cotizado",
       "lead": "Lead",
       "add_new": "Agregar nuevo",
       "filters": "filtros",
