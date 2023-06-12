@@ -4,7 +4,7 @@
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
 
             <template #cell-value="{item}">
-              {{ 'MXN' + item.value.toLocaleString('en-US') }}
+              {{ 'MXN' + item.value?.toLocaleString('en-US') }}
             </template>
 
           </Table>

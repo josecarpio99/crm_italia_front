@@ -41,7 +41,7 @@ export const clearObject = (object) => {
 };
 
 export const removeEmpty = (object) => {
-    return Object.fromEntries(Object.entries(object).filter(([_, v]) => v != null));
+    return Object.fromEntries(Object.entries(object).filter(([_, v]) => v != null && v != ''));
 };
 
 /**
