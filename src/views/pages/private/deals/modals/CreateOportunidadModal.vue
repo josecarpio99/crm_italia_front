@@ -62,7 +62,7 @@
               v-model="form.owner_id"              
             /> 
            
-            <TextInput class="mb-4" type="text" :required="false" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
+            <TextInput class="mb-4" type="text" :required="true" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
 
           </div>
           <div class="w-full lg:w-1/2"> 
@@ -83,7 +83,7 @@
 
             <Dropdown  
               class="mb-4"
-              :required="true"
+              :required="false"
               :label="trans('deals.labels.customer_responsiveness')"
               :options="dealCustomerResponsiveness" 
               name="category" 
@@ -151,11 +151,10 @@ let sources = null;
 
 function onSubmit() {  
   alertStore.clear();
-  console.log(form);
 
   dealService.handleCreate(
       'create-deal', 
-      reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id'], 'id')
+      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
