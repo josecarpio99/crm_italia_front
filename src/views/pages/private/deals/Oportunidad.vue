@@ -48,6 +48,10 @@ const mainQuery = reactive({
   search: '',
   sort: '',
   filters: {
+      type: {
+          value: 'oportunidad',
+          comparison: '='
+      },    
       name: {
           value: '',
           comparison: '='
@@ -65,7 +69,7 @@ const mainQuery = reactive({
 
 const page = reactive({
   id: 'list_deals',
-  title: trans('global.pages.deals'),
+  title: trans('deals.menu.oportunidades'),
   breadcrumbs: [
       {
           name: trans('global.pages.deals'),

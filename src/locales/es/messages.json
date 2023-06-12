@@ -58,6 +58,12 @@
       "phone": "Número de teléfono"
     }
   },
+  "deals": {
+    "menu": {
+      "oportunidades": "Tratos (Oportunidades)",
+      "cotizados": "Tratos (Cotizados)"
+    }
+  },
   "messages": {
     "name": "Mensaje"
   },

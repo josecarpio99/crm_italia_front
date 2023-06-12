@@ -177,12 +177,20 @@ export default {
                   to: '/panel/leads/list',
               },
               {
-                  name: trans('global.pages.deals'),
+                  name: trans('deals.menu.cotizados'),
                   icon: 'dollar',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
-                  to: '/panel/deals/list',
+                  to: '/panel/deals/cotizados/list',
+              },
+              {
+                  name: trans('deals.menu.oportunidades'),
+                  icon: 'plus',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/deals/oportunidades/list',
               },
               {
                   name: trans('global.pages.users'),
