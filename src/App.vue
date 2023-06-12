@@ -60,6 +60,9 @@
                       <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateOportunidadModal')">
                           {{ trans('global.buttons.oportunidad') }}
                       </a>
+                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCotizadoModal')">
+                          {{ trans('global.buttons.cotizado') }}
+                      </a>
                   </div>
               </div>
 
@@ -112,6 +115,7 @@
         <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
         <CreateLeadModal :modalActive="state.showCreateLeadModal" @close-modal="toggleModal('CreateLeadModal')"/>
         <CreateOportunidadModal :modalActive="state.showCreateOportunidadModal" @close-modal="toggleModal('CreateOportunidadModal')"/>
+        <CreateCotizadoModal :modalActive="state.showCreateCotizadoModal" @close-modal="toggleModal('CreateCotizadoModal')"/>
   </div>
   <template v-else>
       <router-view/>
@@ -128,6 +132,7 @@ import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePers
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
 import CreateLeadModal from "@/views/pages/private/leads/modals/CreateLeadModal.vue";
 import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOportunidadModal.vue";
+import CreateCotizadoModal from "@/views/pages/private/deals/modals/CreateCotizadoModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useGlobalStateStore} from "@/stores";
@@ -146,6 +151,7 @@ export default {
       CreateCompanyModal,
       CreateLeadModal,
       CreateOportunidadModal,
+      CreateCotizadoModal,
   },
   setup() {
 
@@ -258,6 +264,7 @@ export default {
           showCreateCompanyModal: false,
           showCreateLeadModal: false,
           showCreateOportunidadModal: false,
+          showCreateCotizadoModal: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
       });
@@ -281,11 +288,15 @@ export default {
         if (key === 'CreateOportunidadModal') {
             state.showCreateOportunidadModal = !state.showCreateOportunidadModal;
         }
+        if (key === 'CreateCotizadoModal') {
+            state.showCreateCotizadoModal = !state.showCreateCotizadoModal;
+        }
 
         if (
             state.showCreateCompanyModal == true || 
             state.showCreateLeadModal == true || 
             state.showCreateOportunidadModal == true || 
+            state.showCreateCotizadoModal == true || 
             state.showCreatePersonModal == true
         ) {
             alertStore.showOnPage = false;
