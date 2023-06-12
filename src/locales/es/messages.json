@@ -58,6 +58,22 @@
       "phone": "Número de teléfono"
     }
   },
+  "leads": {
+    "labels": {
+      "add_lead": "Agregar Lead", 
+      "requirement": "Requerimiento", 
+      "requirement_size": "Tamaño de requerimiento", 
+      "customer": "Contacto", 
+      "profile": "Perfil", 
+      "quotation_list": "Lista de cotización", 
+      "showroom": "Showroom", 
+      "source": "Origen",
+      "category": "Clasificación",
+      "owner": "Dueño",  
+      "status": "Estado",
+      "appointment_at": "Fecha de cita"
+    }
+  },
   "deals": {
     "menu": {
       "oportunidades": "Tratos (Oportunidades)",
@@ -126,6 +142,9 @@
     },
     "buttons": {
       "add": "Agregar",
+      "add_person": "Contacto: Persona",
+      "add_company": "Contacto: Empresa",
+      "lead": "Lead",
       "add_new": "Agregar nuevo",
       "filters": "filtros",
       "close": "Cerrar",

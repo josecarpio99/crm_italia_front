@@ -46,10 +46,13 @@
                   <button v-if="state.isAddMenuOpen" @click="state.isAddMenuOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
                   <div v-if="state.isAddMenuOpen" class="absolute w-42 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
                       <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreatePersonModal')">
-                          {{ trans('Contacto: Persona') }}
+                          {{ trans('global.buttons.add_person') }}
                       </a>
                       <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCompanyModal')">
-                          {{ trans('Contacto: Empresa') }}
+                          {{ trans('global.buttons.add_company') }}
+                      </a>
+                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateLeadModal')">
+                          {{ trans('global.buttons.lead') }}
                       </a>
                   </div>
               </div>
@@ -101,6 +104,7 @@
       </div>
         <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
         <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
+        <CreateLeadModal :modalActive="state.showCreateLeadModal" @close-modal="toggleModal('CreateLeadModal')"/>
   </div>
   <template v-else>
       <router-view/>
@@ -115,6 +119,7 @@ import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
 import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
+import CreateLeadModal from "@/views/pages/private/leads/modals/CreateLeadModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useGlobalStateStore} from "@/stores";
@@ -131,6 +136,7 @@ export default {
       Icon,
       CreatePersonModal,
       CreateCompanyModal,
+      CreateLeadModal,
   },
   setup() {
 
@@ -240,7 +246,8 @@ export default {
           isAddMenuOpen: false,
           isMobileMenuOpen: false,
           showCreatePersonModal: false,
-          showCreateCompanynModal: false,
+          showCreateCompanyModal: false,
+          showCreateLeadModal: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
       });
@@ -258,8 +265,15 @@ export default {
         if (key === 'CreateCompanyModal') {
             state.showCreateCompanyModal = !state.showCreateCompanyModal;
         }
+        if (key === 'CreateLeadModal') {
+            state.showCreateLeadModal = !state.showCreateLeadModal;
+        }
 
-        if (state.showCreateCompanyModal == true || state.showCreatePersonModal == true) {
+        if (
+            state.showCreateCompanyModal == true || 
+            state.showCreateLeadModal == true || 
+            state.showCreatePersonModal == true
+        ) {
             alertStore.showOnPage = false;
         } else {
             alertStore.showOnPage = true;

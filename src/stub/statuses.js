@@ -13,6 +13,40 @@ export const leadStatuses = [
   },
 ];
 
+export const leadProfile= [
+  {
+    id: 'Empresa',
+    label: 'Empresa',
+  },
+  {
+    id: 'Persona física',
+    label: 'Persona física',
+  },
+  {
+    id: 'Distribuidor',
+    label: 'Distribuidor',
+  },
+];
+
+export const leadRequirementSize = [
+  {
+    id: '1 a 10 Usuarios',
+    label: '1 a 10 Usuarios',
+  },
+  {
+    id: '11 a 30 Usuarios',
+    label: '11 a 30 Usuarios',
+  },
+  {
+    id: '31 a 50 Usuarios',
+    label: '31 a 50 Usuarios',
+  },
+  {
+    id: '50 o más Usuarios',
+    label: '50 o más Usuarios',
+  },
+];
+
 export const customerStatuses = [
   {
     id: 'No es cliente',
