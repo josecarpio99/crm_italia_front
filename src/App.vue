@@ -22,8 +22,11 @@
               </template>
           </div> -->
           <nav class="text-white text-base">
-              <Menu :state="state" :type="'desktop'"/>
+              <Menu :state="state" :type="'desktop'"/>              
           </nav>
+          <div class="absolute w-full bottom-0 bg-theme-500 text-white flex items-center justify-center py-4">
+            <span>logo</span>
+          </div>
           <template v-if="state.footerLeftLink">
               <a v-if="state.footerLeftLink.href" :href="state.footerLeftLink.href" class="absolute w-full bottom-0 bg-theme-800 text-white flex items-center justify-center py-4">
                   <Icon :name="state.footerLeftLink.icon" class="mr-3"/>
@@ -176,19 +179,11 @@ export default {
               },
               {
                   name: trans('global.pages.leads'),
-                  icon: 'arrows',
+                  icon: 'question',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
                   to: '/panel/leads/list',
-              },
-              {
-                  name: trans('deals.menu.cotizados'),
-                  icon: 'dollar',
-                  showDesktop: true,
-                  showMobile: true,
-                  requiresAbility: false,
-                  to: '/panel/deals/cotizados/list',
               },
               {
                   name: trans('deals.menu.oportunidades'),
@@ -197,6 +192,14 @@ export default {
                   showMobile: true,
                   requiresAbility: false,
                   to: '/panel/deals/oportunidades/list',
+              },
+              {
+                  name: trans('deals.menu.cotizados'),
+                  icon: 'dollar',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/deals/cotizados/list',
               },
               {
                   name: trans('global.pages.users'),

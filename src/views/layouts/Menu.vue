@@ -1,6 +1,12 @@
 <template>
     <ul class="aside-menu">
-        <template v-for="item in $props.state.mainMenu">
+        <li 
+            class="logo" 
+        >     
+            <Icon :name="'plus'" class="mr-2 text-3xl pl-2 -mt-1"/>
+
+        </li>
+        <template v-for="item in $props.state.mainMenu">            
             <li v-if="item.hasOwnProperty('children') && item.children.length > 0 && isEnabled(item, $props.type)"
                 class="hover:bg-theme-600" :class="isActive(item) ? 'bg-theme-800' : ''"    
             >
@@ -45,7 +51,7 @@
                     <span v-if="item.hasOwnProperty('label') && item.label" class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300" v-html="item.label"></span>
                 </router-link>
             </li>
-        </template>
+        </template>       
     </ul>
 </template>
 
@@ -132,6 +138,8 @@ export default defineComponent({
 </script>
 
 <style>
+
+.aside-menu li.logo, 
 .aside-menu li a {
     font-size: 20px;
     display: flex;
