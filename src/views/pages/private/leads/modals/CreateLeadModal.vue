@@ -113,10 +113,10 @@ import CustomerService from "@/services/CustomerService";
 import LeadService from "@/services/LeadService";
 import SectorService from "@/services/SectorService";
 import SourceService from "@/services/SourceService";
-import UserService from "@/services/UserService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
+import {useUsersStore} from "@/stores/users";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -139,12 +139,12 @@ const form = reactive({...initialState});
 const leadService = new LeadService();
 const sourceService = new SourceService();
 const customerService = new CustomerService();
-const userService = new UserService();
 const alertStore = useAlertStore();
+const usersStore = useUsersStore();
 const formRef = ref(null);
 const isLoading = ref(true);
 
-let users = null;
+let users = usersStore.userList;
 let customers = null;
 let sources = null;
 
@@ -171,7 +171,6 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  users = await userService.list().then(res => res.data);
   customers = await customerService.list().then(res => res.data);
   sources = await sourceService.index().then(res => res.data);
 
