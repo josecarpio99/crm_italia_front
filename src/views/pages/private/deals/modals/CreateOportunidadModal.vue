@@ -110,12 +110,12 @@ import { dealCategories } from "@/stub/categories";
 import { dealCustomerResponsiveness, dealStages } from "@/stub/statuses";
 import DealService from "@/services/DealService";
 import SectorService from "@/services/SectorService";
-import SourceService from "@/services/SourceService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
+import {useSourcesStore} from "@/stores/sources";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -138,16 +138,16 @@ const initialState = {
 const form = reactive({...initialState});
 
 const dealService = new DealService();
-const sourceService = new SourceService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const formRef = ref(null);
 const isLoading = ref(true);
 const customersStore = useCustomersStore();
+const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
 let customers = customersStore.customerList;
-let sources = null;
+let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
@@ -171,8 +171,6 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  sources = await sourceService.index().then(res => res.data);
-
   isLoading.value = false;
 });
 

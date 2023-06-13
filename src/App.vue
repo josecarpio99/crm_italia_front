@@ -44,7 +44,7 @@
           <!-- Desktop Header -->
           <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
               <!-- <div class="w-1/2"></div> -->
-              <div class="relative w-1/2 flex">
+              <div class="relative w-1/2 flex" v-if="state.contentReady">
                   <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAddMenuOpen = !state.isAddMenuOpen">
                       <span class="relative pt-3 mr-2">{{ trans('global.buttons.add') }} <Icon :name="state.isAddMenuOpen ? 'angle-up' : 'angle-down'"/></span>
                   </a>
@@ -66,6 +66,11 @@
                           {{ trans('global.buttons.cotizado') }}
                       </a>
                   </div>
+              </div>
+              <div v-else class="relative w-1/2 flex">
+                <a class="flex focus:outline-none align-middle">
+                      <span class="relative pt-3 mr-2">{{ trans('global.phrases.loading') }} </span>
+                </a>
               </div>
 
               <div class="relative w-1/2 flex justify-end">
@@ -107,17 +112,20 @@
 
           <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
               <main class="w-full flex-grow">
-                  <router-view/>
+                  <router-view v-if="state.contentReady" />
               </main>
               <footer class="w-full bg-white text-center text-sm p-4" v-html="trans('global.phrases.copyright')"></footer>
           </div>
 
       </div>
-        <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
-        <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
-        <CreateLeadModal :modalActive="state.showCreateLeadModal" @close-modal="toggleModal('CreateLeadModal')"/>
-        <CreateOportunidadModal :modalActive="state.showCreateOportunidadModal" @close-modal="toggleModal('CreateOportunidadModal')"/>
-        <CreateCotizadoModal :modalActive="state.showCreateCotizadoModal" @close-modal="toggleModal('CreateCotizadoModal')"/>
+        <template  v-if="state.contentReady">
+            <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
+            <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
+            <CreateLeadModal :modalActive="state.showCreateLeadModal" @close-modal="toggleModal('CreateLeadModal')"/>
+            <CreateOportunidadModal :modalActive="state.showCreateOportunidadModal" @close-modal="toggleModal('CreateOportunidadModal')"/>
+            <CreateCotizadoModal :modalActive="state.showCreateCotizadoModal" @close-modal="toggleModal('CreateCotizadoModal')"/>
+
+        </template>
   </div>
   <template v-else>
       <router-view/>
@@ -139,6 +147,7 @@ import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
+import {useSourcesStore} from "@/stores/sources";
 import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
@@ -162,6 +171,7 @@ export default {
       const alertStore = useAlertStore();
       const usersStore = useUsersStore();
       const customersStore = useCustomersStore();
+      const sourcesStore = useSourcesStore();
       const authStore = useAuthStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
@@ -271,6 +281,7 @@ export default {
           showCreateLeadModal: false,
           showCreateOportunidadModal: false,
           showCreateCotizadoModal: false,
+          contentReady: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
       });
@@ -314,10 +325,11 @@ export default {
       onMounted(async () => {
         await usersStore.getUserList();
         await customersStore.getCustomerList();
-        console.log(customersStore.customerList);            
+        await sourcesStore.getSourceList();
+        state.contentReady = true;        
       });
 
-      onBeforeMount(() => {
+      onBeforeMount(async () => {          
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
               alertStore.success(trans('global.phrases.email_verified'));
           }
@@ -328,6 +340,7 @@ export default {
           authStore,
           usersStore,
           customersStore,
+          sourcesStore,
           globalStateStore,
           trans,
           onLogout,

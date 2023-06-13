@@ -16,7 +16,6 @@
 
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
-import SourceService from "@/services/SourceService";
 import DealService from "@/services/DealService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
@@ -34,15 +33,16 @@ import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
+import {useSourcesStore} from "@/stores/sources";
 
 const dealService = new DealService();
-const sourceService = new SourceService();
 const customerService = new CustomerService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
-let sources = null;
+let sources = sourcesStore.sourceList;
 
 const mainQuery = reactive({
   page: 1,
@@ -280,8 +280,6 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
-  sources = await sourceService.index().then(res => res.data);
-
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
 
