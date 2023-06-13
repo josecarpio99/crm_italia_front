@@ -108,7 +108,6 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCategories } from "@/stub/categories";
 import { dealCustomerResponsiveness, dealStages } from "@/stub/statuses";
-import CustomerService from "@/services/CustomerService";
 import DealService from "@/services/DealService";
 import SectorService from "@/services/SectorService";
 import SourceService from "@/services/SourceService";
@@ -116,6 +115,7 @@ import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
+import {useCustomersStore} from "@/stores/customers";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -139,14 +139,14 @@ const form = reactive({...initialState});
 
 const dealService = new DealService();
 const sourceService = new SourceService();
-const customerService = new CustomerService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const formRef = ref(null);
 const isLoading = ref(true);
+const customersStore = useCustomersStore();
 
 let users = usersStore.userList;
-let customers = null;
+let customers = customersStore.customerList;
 let sources = null;
 
 function onSubmit() {  
@@ -171,7 +171,6 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  customers = await customerService.list().then(res => res.data);
   sources = await sourceService.index().then(res => res.data);
 
   isLoading.value = false;

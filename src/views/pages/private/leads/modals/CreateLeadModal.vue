@@ -109,7 +109,6 @@ import Dropdown from "@/views/components/input/Dropdown";
 import InfiniteDropdown from "@/views/components/input/InfiniteDropdown";
 import { leadStatuses, leadProfile, leadRequirementSize } from "@/stub/statuses";
 import { leadCategories } from "@/stub/categories";
-import CustomerService from "@/services/CustomerService";
 import LeadService from "@/services/LeadService";
 import SectorService from "@/services/SectorService";
 import SourceService from "@/services/SourceService";
@@ -117,6 +116,7 @@ import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
+import {useCustomersStore} from "@/stores/customers";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -138,14 +138,14 @@ const form = reactive({...initialState});
 
 const leadService = new LeadService();
 const sourceService = new SourceService();
-const customerService = new CustomerService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const formRef = ref(null);
 const isLoading = ref(true);
+const customersStore = useCustomersStore();
 
 let users = usersStore.userList;
-let customers = null;
+let customers = customersStore.customerList;
 let sources = null;
 
 function onSubmit() {  
@@ -171,7 +171,6 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  customers = await customerService.list().then(res => res.data);
   sources = await sourceService.index().then(res => res.data);
 
   isLoading.value = false;
