@@ -16,7 +16,6 @@
 
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
-import UserService from "@/services/UserService";
 import SourceService from "@/services/SourceService";
 import DealService from "@/services/DealService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
@@ -34,13 +33,15 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty} from "@/helpers/data";
+import {useUsersStore} from "@/stores/users";
 
 const dealService = new DealService();
-const userService = new UserService();
 const sourceService = new SourceService();
 const customerService = new CustomerService();
 const alertStore = useAlertStore();
-let users = null;
+const usersStore = useUsersStore();
+
+let users = usersStore.userList;
 let sources = null;
 
 const mainQuery = reactive({
@@ -279,7 +280,6 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
-  users = await userService.list().then(res => res.data);
   sources = await sourceService.index().then(res => res.data);
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');

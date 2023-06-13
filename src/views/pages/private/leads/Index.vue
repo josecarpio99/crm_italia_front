@@ -12,7 +12,6 @@
 
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
-import UserService from "@/services/UserService";
 import LeadService from "@/services/LeadService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
@@ -30,12 +29,14 @@ import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
 import { leadStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
+import {useUsersStore} from "@/stores/users";
 
 const leadService = new LeadService();
-const userService = new UserService();
 const customerService = new CustomerService();
 const alertStore = useAlertStore();
-let users = null;
+const usersStore = useUsersStore();
+
+let users = usersStore.userList;
 
 const mainQuery = reactive({
   page: 1,
@@ -246,7 +247,6 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
-  users = await userService.list().then(res => res.data);
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
