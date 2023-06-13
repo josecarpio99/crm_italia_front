@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import {computed, onBeforeMount, reactive} from "vue";
+import {computed, onBeforeMount, reactive, onMounted} from "vue";
 
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
@@ -137,6 +137,7 @@ import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOpo
 import CreateCotizadoModal from "@/views/pages/private/deals/modals/CreateCotizadoModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
+import {useUsersStore} from "@/stores/users";
 import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
@@ -158,6 +159,7 @@ export default {
   setup() {
 
       const alertStore = useAlertStore();
+      const usersStore = useUsersStore();
       const authStore = useAuthStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
@@ -307,6 +309,11 @@ export default {
         }
       }
 
+      onMounted(async () => {
+        await usersStore.getUserList();
+        console.log(usersStore.userList);            
+      });
+
       onBeforeMount(() => {
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
               alertStore.success(trans('global.phrases.email_verified'));
@@ -316,6 +323,7 @@ export default {
       return {
           state,
           authStore,
+          usersStore,
           globalStateStore,
           trans,
           onLogout,
