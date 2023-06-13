@@ -322,14 +322,18 @@ export default {
         }
       }
 
-      onMounted(async () => {
+    //   onMounted(async () => {
+    //     await usersStore.getUserList();
+    //     await customersStore.getCustomerList();
+    //     await sourcesStore.getSourceList();
+    //     state.contentReady = true;
+    //   });
+
+      onBeforeMount(async () => {   
         await usersStore.getUserList();
         await customersStore.getCustomerList();
         await sourcesStore.getSourceList();
-        state.contentReady = true;        
-      });
-
-      onBeforeMount(async () => {          
+        state.contentReady = true;       
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
               alertStore.success(trans('global.phrases.email_verified'));
           }

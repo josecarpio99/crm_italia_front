@@ -35,7 +35,7 @@
         <Alert class="px-6 pt-6" v-if="alertStore.showOnPage" />
 
         <slot name="filters"></slot>
-        <div class="grid grid-cols-1 p-6">
+        <div class="grid grid-cols-1" :class="$props.pagePadding ? 'p-6' : ''">
             <template v-if="isElementLoading">
                 <div class="pt-10 pb-6 text-center">
                     <Spinner/>
@@ -76,6 +76,10 @@ export default defineComponent({
         actions: {
             type: Array,
             default: []
+        },
+        pagePadding: {
+            type: Boolean,
+            default: true
         },
         isLoading: {
             type: Boolean,

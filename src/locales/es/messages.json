@@ -39,7 +39,9 @@
       "add_company": "Agregar compañia",
       "phone": "Número de trabajo",
       "mobile": "Número de móvil",
+      "email": "Correo",
       "origin": "Origen",
+      "created_at": "Agregado el",
       "position": "Cargo",
       "category": "Clasificación",
       "customer_status": "Estado del cliente",
@@ -104,6 +106,7 @@
     "pages": {
       "home": "Panel",
       "welcome": "Bienvenido",
+      "customer": "Contacto",
       "customers": "Contactos",
       "leads": "Leads",
       "deals": "Tratos",
