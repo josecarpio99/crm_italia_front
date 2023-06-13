@@ -138,6 +138,7 @@ import CreateCotizadoModal from "@/views/pages/private/deals/modals/CreateCotiza
 import AvatarIcon from "@/views/components/icons/Avatar";
 import {useAuthStore} from "@/stores/auth";
 import {useUsersStore} from "@/stores/users";
+import {useCustomersStore} from "@/stores/customers";
 import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
@@ -160,6 +161,7 @@ export default {
 
       const alertStore = useAlertStore();
       const usersStore = useUsersStore();
+      const customersStore = useCustomersStore();
       const authStore = useAuthStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
@@ -311,7 +313,8 @@ export default {
 
       onMounted(async () => {
         await usersStore.getUserList();
-        console.log(usersStore.userList);            
+        await customersStore.getCustomerList();
+        console.log(customersStore.customerList);            
       });
 
       onBeforeMount(() => {
@@ -324,6 +327,7 @@ export default {
           state,
           authStore,
           usersStore,
+          customersStore,
           globalStateStore,
           trans,
           onLogout,

@@ -8,7 +8,7 @@ export const useCustomersStore = defineStore("customers", {
     }
   },
   actions: {
-    async getUserList() {
+    async getCustomerList() {
       const customerService = new CustomerService();
       this.customerList = await customerService.list().then(res => res.data);
     }
