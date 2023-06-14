@@ -54,8 +54,6 @@ import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Page from "@/views/layouts/Page";
 
-
-// const $toast = useToast();
 const authStore = useAuthStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
