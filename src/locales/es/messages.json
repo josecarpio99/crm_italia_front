@@ -124,6 +124,7 @@
       "reset_password": "Restablecer la contraseña"
     },
     "phrases": {
+      "add_success": "Registro agregado con éxito",
       "clear_filters": "Limpiar todo",
       "loading": "Cargando...",
       "sign_out": "Cerrar sesión",

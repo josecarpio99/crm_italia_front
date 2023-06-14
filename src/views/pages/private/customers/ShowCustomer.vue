@@ -43,6 +43,7 @@
 
 <script setup>
 import {reactive, onBeforeMount, onMounted} from "vue";
+import toast from '@/plugins/toast';
 import {useRoute} from "vue-router";
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
@@ -53,6 +54,8 @@ import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Page from "@/views/layouts/Page";
 
+
+// const $toast = useToast();
 const authStore = useAuthStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
@@ -78,7 +81,6 @@ const page = reactive({
 });
 
 function onNoteSubmit({content}) {
-  console.log(content);
   noteService.store({
     note_type: 'customer',
     id: customer.id,
@@ -86,6 +88,9 @@ function onNoteSubmit({content}) {
     content,
   }).then(res => {
     console.log(res);
+    if (res.status == 200 || res.status == 201) {
+      toast.success();      
+    }
   });
 }
 

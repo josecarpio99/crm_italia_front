@@ -1,0 +1,18 @@
+import {useToast} from 'vue-toast-notification';
+import {trans} from "@/helpers/i18n";
+
+const toast = (function() {
+  const toast = useToast({position: 'top-right'});
+
+  return {
+    success(msg = '') {
+      if (msg == '') {
+        msg = trans('global.phrases.add_success')
+      }
+      toast.success(msg);
+    }
+  }
+})();
+
+
+export default toast;
