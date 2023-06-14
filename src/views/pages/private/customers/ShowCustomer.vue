@@ -81,6 +81,11 @@ const page = reactive({
 });
 
 function onNoteSubmit({content}) {
+  if(!content) {
+    toast.error(trans('global.phrases.empty_value'));
+    return;
+  }
+
   noteService.store({
     note_type: 'customer',
     id: customer.id,

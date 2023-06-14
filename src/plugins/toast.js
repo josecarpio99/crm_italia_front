@@ -10,6 +10,10 @@ const toast = (function() {
         msg = trans('global.phrases.add_success')
       }
       toast.success(msg);
+    },
+
+    error(msg = 'Error') {      
+      toast.error(msg);
     }
   }
 })();

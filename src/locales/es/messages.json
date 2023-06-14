@@ -131,6 +131,7 @@
       "all_records": "Listar",
       "argh": "Oops!",
       "success": "¡Éxito!",
+      "empty_value": "El contenido esta vacio",
       "fix_errors": "Por favor corrige los siguientes errores:",
       "no_records": "No se encontraron registros.",
       "login_desc": "Si ya eres miembro, inicia sesión fácilmente.",
