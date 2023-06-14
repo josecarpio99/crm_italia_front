@@ -18,7 +18,7 @@
             theme="transparent"
             class="mr-2"
             :label="trans('global.buttons.cancel')"
-            @click="isOpen = false"
+            @click="cancel"
 
           />
 
@@ -43,6 +43,11 @@ const emit = defineEmits(['submit']);
 const isOpen = ref(false);
 const content = ref('');
 const textareaEl = ref();
+
+function cancel() {
+  content.value = '';
+  isOpen.value = false;
+}
 
 function open() {
   isOpen.value = true;

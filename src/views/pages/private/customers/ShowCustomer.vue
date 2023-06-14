@@ -92,7 +92,6 @@ function onNoteSubmit({content}) {
     user_id: authStore.user.id,
     content,
   }).then(res => {
-    console.log(res);
     if (res.status == 200 || res.status == 201) {
       toast.success();      
     }
