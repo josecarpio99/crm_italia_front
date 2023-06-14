@@ -43,7 +43,7 @@
 
 <script setup>
 import {reactive, onBeforeMount, onMounted} from "vue";
-import toast from '@/plugins/toast';
+import toast from '@/helpers/toast';
 import {useRoute} from "vue-router";
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
