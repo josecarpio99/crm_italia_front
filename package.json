@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "dayjs": "^1.11.8",
     "floating-vue": "^2.0.0-beta.20",
     "fork-awesome": "^1.2.0",
     "js-cookie": "^3.0.0",
