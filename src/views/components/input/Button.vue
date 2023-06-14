@@ -58,7 +58,7 @@ export default defineComponent({
                     value += 'text-white bg-green-600 hover:bg-green-800 focus:bg-green-800 focus:ring-green-800';
                     break;
                 case 'info':
-                    value += 'text-white bg-blue-600 hover:bg-blue-800 focus:bg-blue-800 focus:ring-blue-800';
+                    value += 'text-white bg-blue-500 hover:bg-blue-800 focus:bg-blue-800 focus:ring-blue-800';
                     break;
                 case 'warning':
                     value += 'text-white bg-orange-600 hover:bg-orange-800 focus:bg-orange-800 focus:ring-orange-800';
@@ -70,6 +70,9 @@ export default defineComponent({
                 case 'outline':
                     value += 'text-theme-500 border-2 border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
                     break;
+                case 'transparent':
+                    value += 'text-blue-600 bg-transparent hover:bg-gray-300'
+                    break;        
                 default:
                     value += 'text-white bg-theme-500 hover:bg-theme-800 focus:bg-theme-600 focus:ring-theme-600';
                     break;

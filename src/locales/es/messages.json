@@ -58,6 +58,9 @@
     },
     "header": {
       "phone": "Número de teléfono"
+    },
+    "phrases": {
+      "add_note": "Agregar una nota sobre este contacto"
     }
   },
   "leads": {
@@ -170,6 +173,7 @@
       "add_new": "Agregar nuevo",
       "filters": "filtros",
       "close": "Cerrar",
+      "cancel": "Cancelar",
       "save": "Guardar",
       "send": "Enviar",
       "submit": "Entregar",
@@ -216,6 +220,7 @@
       "source": "Origen",
       "created_at": "Agregado el",
       "value": "Valor",
+      "internal_note": "Nota interna",
       "current_password": "Contraseña actual",
       "password": "Contraseña",
       "new_password": "Nueva contraseña",

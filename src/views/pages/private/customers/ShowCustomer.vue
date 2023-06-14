@@ -1,8 +1,8 @@
 <template>
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :pagePadding="false" :is-loading="page.loading">  
-    <Panel :borderRounded="false" v-if="customer" >
-      <div class="flex w-full">
-        <div class="basis-full pt-2 px-4">
+    <Panel v-if="customer" :borderRounded="false" :bodyPadding="false" >
+      <div class="flex w-full max-h-[70vh]">
+        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
           <div v-if="customer.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.owner') }}</h4>
             <span>{{ customer.owner.name }}</span>
@@ -32,8 +32,10 @@
             <span>{{ customer.origin }}</span>
           </div>
         </div>
-        <div class="basis-[120%] pt-2 px-4"></div>
-        <div class="basis-9/12 pt-2 px-4"></div>
+        <div class="basis-[120%] overflow-auto pt-2 px-4">
+          <Note @submit="onNoteSubmit" />
+        </div>
+        <div class="basis-9/12 overflow-auto pt-2 px-4"></div>
       </div>
     </Panel>
   </Page>
@@ -46,6 +48,7 @@ import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import CustomerService from "@/services/CustomerService";
 import Panel from "@/views/components/Panel";
+import Note from "@/views/components/Note";
 import Page from "@/views/layouts/Page";
 
 const customerService = new CustomerService();
@@ -69,6 +72,10 @@ const page = reactive({
     ], 
     loading: true
 });
+
+function onNoteSubmit({content}) {
+  console.log(content);
+}
 
 onBeforeMount(() => {
   customerService.find(route.params.id).then((response) => {
