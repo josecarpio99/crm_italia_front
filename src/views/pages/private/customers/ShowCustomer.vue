@@ -25,7 +25,7 @@
           </div>
           <div v-if="customer.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.created_at') }}</h4>
-            <span>{{ customer.created_at }}</span>
+            <span>{{ $date(customer.created_at).format() }}</span>
           </div>
           <div v-if="customer.origin" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.origin') }}</h4>
@@ -43,10 +43,11 @@
 
 <script setup>
 import {reactive, onBeforeMount, onMounted} from "vue";
-import toast from '@/helpers/toast';
 import {useRoute} from "vue-router";
+import toast from '@/helpers/toast';
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
+import $date from "@/helpers/date";
 import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
 import {useAuthStore} from "@/stores/auth";
@@ -101,6 +102,7 @@ onBeforeMount(() => {
     customer = response.data.data;
     page.title = customer.name;
     page.loading = false;
+    console.log($date().format());
   });
 });
 </script>
