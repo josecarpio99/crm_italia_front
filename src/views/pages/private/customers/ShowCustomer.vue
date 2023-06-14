@@ -47,11 +47,15 @@ import {useRoute} from "vue-router";
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import CustomerService from "@/services/CustomerService";
+import NoteService from "@/services/NoteService";
+import {useAuthStore} from "@/stores/auth";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Page from "@/views/layouts/Page";
 
+const authStore = useAuthStore();
 const customerService = new CustomerService();
+const noteService = new NoteService();
 const route = useRoute();
 let customer = null;
 
@@ -75,6 +79,14 @@ const page = reactive({
 
 function onNoteSubmit({content}) {
   console.log(content);
+  noteService.store({
+    note_type: 'customer',
+    id: customer.id,
+    user_id: authStore.user.id,
+    content,
+  }).then(res => {
+    console.log(res);
+  });
 }
 
 onBeforeMount(() => {
