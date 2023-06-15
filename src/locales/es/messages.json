@@ -102,6 +102,16 @@
       "win_probability": "Probabilidad de ganar"
     }
   },
+  "tasks" : {
+    "labels": {
+      "name": "Nombre de la tarea",
+      "due_at": "Fecha de vencimiento",
+      "owner": "Dueño"
+    },
+    "buttons": {
+      "add": "Agregar tarea"
+    }
+  },
   "messages": {
     "name": "Mensaje"
   },

@@ -105,7 +105,6 @@ onBeforeMount(() => {
     customer = response.data.data;
     page.title = customer.name;
     page.loading = false;
-    console.log($date().format());
   });
 });
 </script>
