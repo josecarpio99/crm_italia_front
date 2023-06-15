@@ -32,10 +32,12 @@
             <span>{{ customer.origin }}</span>
           </div>
         </div>
-        <div class="basis-[120%] overflow-auto pt-2 px-4">
+        <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
           <Note @submit="onNoteSubmit" />
         </div>
-        <div class="basis-9/12 overflow-auto pt-2 px-4"></div>
+        <div class="basis-9/12 overflow-auto pt-2 px-4">
+          <Task />
+        </div>
       </div>
     </Panel>
   </Page>
@@ -53,6 +55,7 @@ import NoteService from "@/services/NoteService";
 import {useAuthStore} from "@/stores/auth";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
+import Task from "@/views/components/task/Task";
 import Page from "@/views/layouts/Page";
 
 const authStore = useAuthStore();
