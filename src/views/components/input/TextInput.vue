@@ -13,6 +13,7 @@
                :value="modelValue"
                :required="required"
                :disabled="disabled"
+               :min="min"
                @input="onInput"
                :placeholder="placeholder"
                :autocomplete="autocomplete"
@@ -76,6 +77,10 @@ export default defineComponent({
             default: null,
         },
         autocomplete: {
+            type: String,
+            default: null,
+        },
+        min: {
             type: String,
             default: null,
         },

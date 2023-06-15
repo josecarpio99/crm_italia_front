@@ -1,5 +1,5 @@
 <template>
-    <form>
+    <form :novalidate="$props.novalidate">
         <template v-if="isElementLoading">
             <div class="pt-10 pb-6 text-center">
                 <Spinner/>
@@ -28,7 +28,11 @@ export default defineComponent({
         isLoading: {
             type: Boolean,
             default: false,
-        }
+        },
+        novalidate: {
+            type: Boolean,
+            default: false,
+        },
     },
     setup(props) {
 

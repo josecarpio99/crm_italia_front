@@ -245,6 +245,10 @@
       "edit_record": "Editar registro",
       "general_settings": "Configuración general",
       "password_settings": "Configuración de contraseña"
+    },
+    "validation": {
+      "required": "El campo es requerido",
+      "maxlength": "El campo no debe contener más de {count} caracteres"
     }
   }
 }

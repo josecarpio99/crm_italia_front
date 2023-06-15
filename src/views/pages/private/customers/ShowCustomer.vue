@@ -36,7 +36,7 @@
           <Note @submit="onNoteSubmit" />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
-          <Task />
+          <Task @submit="onTaskSubmit" />
         </div>
       </div>
     </Panel>
@@ -52,6 +52,7 @@ import {toUrl} from "@/helpers/routing";
 import $date from "@/helpers/date";
 import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
+import TaskService from "@/services/TaskService";
 import {useAuthStore} from "@/stores/auth";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
@@ -61,6 +62,7 @@ import Page from "@/views/layouts/Page";
 const authStore = useAuthStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
+const taskService = new TaskService();
 const route = useRoute();
 let customer = null;
 
@@ -93,6 +95,21 @@ function onNoteSubmit({content}) {
     id: customer.id,
     user_id: authStore.user.id,
     content,
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();      
+    }
+  });
+}
+
+function onTaskSubmit({content, due_at, owner}) {
+  taskService.store({
+    content: content,
+    due_at: due_at,
+    owner_id: owner.id,
+    task_type: 'customer',
+    id: customer.id,
+    user_id: authStore.user.id
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
       toast.success();      
