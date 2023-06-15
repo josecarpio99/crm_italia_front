@@ -21,6 +21,10 @@
         >
 
         </VSelect>
+
+        <span v-if="$props.errorMessage.length > 0" class="text-red-500 text-sm ml-1">
+            {{ $props.errorMessage }}
+        </span>
     </div>
 </template>
 
@@ -94,6 +98,10 @@ export default defineComponent({
         serverSearchMinCharacters: {
             type: Number,
             default: 3
+        },
+        errorMessage: {
+            type: String,
+            default: '',
         }
     },
     emits: ['update:modelValue', 'input', 'closed', 'selected'],
