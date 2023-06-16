@@ -137,6 +137,7 @@
     },
     "phrases": {
       "add_success": "Registro agregado con éxito",
+      "delete_success": "Registro eliminado con éxito",
       "clear_filters": "Limpiar todo",
       "loading": "Cargando...",
       "sign_out": "Cerrar sesión",

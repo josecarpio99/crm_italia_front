@@ -51,17 +51,19 @@
 
   </Page>
 
-  <EditPersonModal v-if="customer" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal"/>
-  <EditCompanyModal v-if="customer" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal"/>
+  <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
+  <EditCompanyModal v-if="customer" :show-delete="true" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
 
 </template>
 
 <script setup>
 import {reactive, ref, onBeforeMount, onMounted} from "vue";
+import router from "@/router";
 import {useRoute} from "vue-router";
 import toast from '@/helpers/toast';
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
+import alertHelpers from "@/helpers/alert";
 import $date from "@/helpers/date";
 import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
@@ -172,6 +174,15 @@ function toggleModal() {
 
 function onModalUpdate() {
   fetchRecord();
+}
+
+function onModalDelete() {
+  alertHelpers.confirmDanger(function () {
+    customerService.delete(customer.id).then(function (response) {
+      toast.success(trans('global.phrases.delete_success'));
+      router.push({name: 'customers.list'});
+    });
+  });
 }
 
 async function fetchRecord() {

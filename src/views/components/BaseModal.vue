@@ -19,18 +19,28 @@
             <div v-else class="flex justify-center items-center w-[600px] max-w-[100%] h-[300px] max-h-[100%]">
               <Spinner :text-new-line="true"></Spinner>
             </div>
-            <div class="p-4 text-right bg-gray-100">
-                <Button
-                  theme="outline"
-                  class="bg-white border-theme-700 border-[1px] mr-2"
-                  :label="trans('global.buttons.close')"
-                  @click="$emit('close-modal')"
-                />
+            <div class="p-4 flex bg-gray-100">
+                <div v-if="props.showDelete" class="flex items-center hover:underline decoration-red-500">
+                  <span 
+                    class="text-red-500 cursor-pointer"
+                    @click="$emit('delete')"
+                  >
+                    {{ trans('global.actions.delete') }}
+                  </span>
+                </div>
+                <div class="ml-auto">
+                  <Button
+                    theme="outline"
+                    class="bg-white border-theme-700 border-[1px] mr-2"
+                    :label="trans('global.buttons.close')"
+                    @click="$emit('close-modal')"
+                  />
 
-                <Button
-                  :label="trans('global.buttons.save')"
-                  @click="$emit('save-modal')"
-                />
+                  <Button
+                    :label="trans('global.buttons.save')"
+                    @click="$emit('save-modal')"
+                  />
+                </div>
             </div>
           </div>
         </Transition>
@@ -46,13 +56,17 @@ import Button from "@/views/components/input/Button";
 import Spinner from "@/views/components/icons/Spinner";
 
 
-defineEmits(["close-modal", "save-modal"]);
+defineEmits(["close-modal", "save-modal", "delete"]);
 const props = defineProps({
   modalActive: {
     type: Boolean,
     default: false,
   },
   isLoading: {
+    type: Boolean,
+    dafault: false
+  },
+  showDelete: {
     type: Boolean,
     dafault: false
   }

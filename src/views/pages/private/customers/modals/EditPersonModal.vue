@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
+  <BaseModal :isLoading="isLoading" :show-delete="props.showDelete" @close-modal="onCloseModal" @save-modal="onSubmit" @delete="$emit('delete')">
     <template #title>{{ trans('customers.labels.edit_person') }}</template>
     <Alert class="mb-4"/>
 
@@ -136,10 +136,14 @@ const props = defineProps({
   customer: {
     type: Object,
     required: true
-  }  
+  }, 
+  showDelete: {
+    type: Boolean,
+    dafault: false
+  }
 });
 
-const emit = defineEmits(['close-modal', 'updated']);
+const emit = defineEmits(['close-modal', 'updated', 'delete']);
 
 const form = reactive({});
 
