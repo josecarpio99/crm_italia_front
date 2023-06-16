@@ -1,5 +1,12 @@
 <template>
-  <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :pagePadding="false" :is-loading="page.loading">  
+  <Page 
+    :title="page.title" 
+    :breadcrumbs="page.breadcrumbs" 
+    :pagePadding="false" 
+    :is-loading="page.loading"
+    :actions="page.actions"
+    @action="onPageAction"
+  >  
     <Panel v-if="customer" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
@@ -81,7 +88,15 @@ const page = reactive({
             active: true,
         }
     ], 
-    loading: true
+    loading: true,
+    actions: [
+      {
+        id: 'edit',
+        name: trans('global.actions.edit'),
+        type: 'button',
+        theme: 'outline'
+      }
+    ]
 });
 
 function onNoteSubmit({content}) {
@@ -115,6 +130,14 @@ function onTaskSubmit({content, due_at, owner}) {
       toast.success();      
     }
   });
+}
+
+function onPageAction(data) {
+  switch(data.action.id) {
+    case 'edit':
+      console.log('llegamos baby');
+      break;
+  }
 }
 
 onBeforeMount(() => {

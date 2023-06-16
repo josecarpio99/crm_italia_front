@@ -52,7 +52,7 @@ export default defineComponent({
         }
 
         const classes = computed(() => {
-            let value = 'px-4 py-2 border border-transparent text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ';
+            let value = 'px-4 py-2 border  text-sm rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 text-center transition ';
             switch (props.theme) {
                 case 'success':
                     value += 'text-white bg-green-600 hover:bg-green-800 focus:bg-green-800 focus:ring-green-800';
@@ -68,7 +68,7 @@ export default defineComponent({
                     value += 'text-white bg-red-600 hover:bg-red-800 focus:bg-red-800 focus:ring-red-800';
                     break;
                 case 'outline':
-                    value += 'text-theme-500 border-2 border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
+                    value += 'text-theme-500 border-[1px] border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
                     break;
                 case 'transparent':
                     value += 'text-blue-600 bg-transparent hover:bg-gray-300'
