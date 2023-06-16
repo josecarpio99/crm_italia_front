@@ -14,6 +14,7 @@ import {default as PageUsersEdit} from "@/views/pages/private/users/Edit";
 import {default as PageCustomers} from "@/views/pages/private/customers/Index";
 import {default as PageCustomersShow} from "@/views/pages/private/customers/ShowCustomer";
 import {default as PageLeads} from "@/views/pages/private/leads/Index";
+import {default as PageLeadsShow} from "@/views/pages/private/leads/ShowLead";
 import {default as PageDealsCotizado} from "@/views/pages/private/deals/Cotizado";
 import {default as PageDealsOportunidad} from "@/views/pages/private/deals/Oportunidad";
 
@@ -90,7 +91,13 @@ const routes = [
                         path: "list",
                         meta: {requiresAuth: true},
                         component: PageLeads,
-                    }
+                    },
+                    {
+                        name: "leads.show",
+                        path: ":id",
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        component: PageLeadsShow,
+                    },
                 ]
             },
             {

@@ -2,7 +2,14 @@
   <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
-
+            <template #cell-lead="{item}">
+              <router-link 
+                class="font-semibold hover:text-blue-700 hover:underline"
+                :to="{name: 'leads.show', params: {id: item.id}}"
+              >
+                {{ item.customer.name}}
+              </router-link>
+            </template>
           </Table>
       </template>
   </Page>
@@ -69,6 +76,10 @@ const page = reactive({
 
 const table = reactive({ 
   columns: [
+      {
+          key: 'lead',
+          label: trans('global.pages.lead')
+      },         
       {
           key: 'name',
           cellLabel: 'customer.name',
