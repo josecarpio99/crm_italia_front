@@ -1,6 +1,7 @@
 <template>
   <Page 
     :title="page.title" 
+    :titleIcon="page.titleIcon" 
     :breadcrumbs="page.breadcrumbs" 
     :pagePadding="false" 
     :is-loading="page.loading"
@@ -86,7 +87,7 @@ let customer = null;
 
 const page = reactive({
     id: 'show_customer',
-    title: null,
+    title: null,    
     filters: false,
     breadcrumbs: [
         {
@@ -178,6 +179,9 @@ async function fetchRecord() {
   customerService.find(route.params.id).then((response) => {
     customer = response.data.data;
     page.title = customer.name;
+    if (customer.is_company) {
+      page.titleIcon = {name: 'building-o'}
+    }
     page.loading = false;
   });
 }

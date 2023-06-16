@@ -5,7 +5,10 @@
             class="flex flex-wrap justify-between py-6 px-8 pb-2 border-b-2 bg-white"
         >
             <div>
-                <h2 class="bold text-2xl mb-3">{{ $props.title }}</h2>
+                <h2 class="bold text-2xl mb-3">
+                    {{ $props.title }}
+                    <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
+                </h2>
                 <!-- Breadcrumbs -->
                 <nav class="flex" aria-label="Breadcrumb" v-if="$props.breadcrumbs.length > 0">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
@@ -53,13 +56,14 @@ import {toUrl} from "@/helpers/routing";
 import Button from "@/views/components/input/Button";
 import Alert from "@/views/components/Alert";
 import Spinner from "@/views/components/icons/Spinner";
+import Icon from "@/views/components/icons/Icon";
 import {useGlobalStateStore} from "@/stores";
 import {storeToRefs} from "pinia";
 import {useAlertStore} from "@/stores";
 
 export default defineComponent({
     name: "Page",
-    components: {Alert, Button, Spinner},
+    components: {Alert, Button, Spinner, Icon},
     props: {
         id: {
             type: String,
@@ -68,6 +72,10 @@ export default defineComponent({
         title: {
             type: String,
             default: "",
+        },
+        titleIcon: {
+            type: Object,
+            default: null,
         },
         breadcrumbs: {
             type: Array,
