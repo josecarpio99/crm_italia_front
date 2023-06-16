@@ -1,9 +1,9 @@
 <template>
   <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
-    <template #title>{{ trans('customers.labels.edit_person') }}</template>
+    <template #title>{{ trans('customers.labels.edit_company') }}</template>
     <Alert class="mb-4"/>
 
-    <Form ref="formRef" id="update-person" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
+    <Form ref="formRef" id="update-company" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4">
         <div class="flex gap-2 flex-col lg:flex-row">
          
@@ -12,14 +12,12 @@
             
             <Dropdown  
               class="mb-4"            
-              :label="trans('customers.labels.company_name')"
+              :label="trans('customers.labels.parent_company')"
               selectLabel="name"
               :options="companies" 
               name="company" 
               v-model="form.parent_id"              
             /> 
-
-            <TextInput class="mb-4" type="text" :required="false" name="position" v-model="form.position" :label="trans('customers.labels.position')"/>
 
           </div>
           
@@ -98,6 +96,7 @@
         <div class="flex gap-2 flex-col lg:flex-row">
           <div class="w-full lg:w-1/2">
             <Dropdown  
+              :required="true"
               :label="trans('customers.labels.category')"
               :options="customerCategories" 
               name="category" 
@@ -122,13 +121,14 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import InfiniteDropdown from "@/views/components/input/InfiniteDropdown";
 import { customerStatuses, potentialCustomerStatuses } from "@/stub/statuses";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
 import SectorService from "@/services/SectorService";
 import CountryService from "@/services/CountryService";
 import Alert from "@/views/components/Alert";
-import {clearObject, fillObject, reduceProperties, removeEmpty} from "@/helpers/data";
+import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 
@@ -159,12 +159,11 @@ function onSubmit() {
   alertStore.clear();
   let data = reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id', 'country_id', 'parent_id', 'owner_id'], 'id');
   customerService.handleUpdate(
-      'update-person', 
+      'update-company', 
       form.id,
       removeEmpty(data)
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
-        // Object.assign(form, initialState);
         emit('updated');
     }
   })
@@ -190,8 +189,9 @@ onMounted( async () => {
   form.category_id = customerCategories.find(option => option.id === form.category?.id);
   form.customer_status = customerStatuses.find(option => option.id === form.customer_status);
   form.customer_potential_status = potentialCustomerStatuses.find(option => option.id === form.customer_potential_status);
-  
+
   isLoading.value = false;
+
 });
 
 </script>

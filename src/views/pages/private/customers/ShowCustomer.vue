@@ -51,6 +51,7 @@
   </Page>
 
   <EditPersonModal v-if="customer" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal"/>
+  <EditCompanyModal v-if="customer" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal"/>
 
 </template>
 
@@ -71,6 +72,7 @@ import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
 import Page from "@/views/layouts/Page";
 import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonModal.vue";
+import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompanyModal.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
