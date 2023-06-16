@@ -47,11 +47,15 @@
         </div>
       </div>
     </Panel>
+
   </Page>
+
+  <EditPersonModal v-if="customer" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal"/>
+
 </template>
 
 <script setup>
-import {reactive, onBeforeMount, onMounted} from "vue";
+import {reactive, ref, onBeforeMount, onMounted} from "vue";
 import {useRoute} from "vue-router";
 import toast from '@/helpers/toast';
 import {trans} from "@/helpers/i18n";
@@ -61,16 +65,21 @@ import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
 import {useAuthStore} from "@/stores/auth";
+import {useAlertStore} from "@/stores";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
 import Page from "@/views/layouts/Page";
+import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonModal.vue";
 
 const authStore = useAuthStore();
+const alertStore = useAlertStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
 const taskService = new TaskService();
 const route = useRoute();
+const showEditPersonModal = ref(false);
+const showEditCompanyModal = ref(false);
 let customer = null;
 
 const page = reactive({
@@ -135,17 +144,44 @@ function onTaskSubmit({content, due_at, owner}) {
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
-      console.log('llegamos baby');
+      toggleModal();
       break;
   }
 }
 
-onBeforeMount(() => {
+function toggleModal() {
+  alertStore.clear();
+  if (customer.is_company == 1) {
+    showEditCompanyModal.value = !showEditCompanyModal.value;      
+  } else {
+    showEditPersonModal.value = !showEditPersonModal.value;
+  }      
+
+  if (
+    showEditCompanyModal.value == true ||       
+    showEditPersonModal.value == true
+  ) {
+      alertStore.showOnPage = false;
+  } else {
+      alertStore.showOnPage = true;
+  }
+}
+
+function onModalUpdate() {
+  fetchRecord();
+}
+
+async function fetchRecord() {
+  page.loading = true;
   customerService.find(route.params.id).then((response) => {
     customer = response.data.data;
     page.title = customer.name;
     page.loading = false;
   });
+}
+
+onBeforeMount(async () => {
+  await fetchRecord();
 });
 </script>
 

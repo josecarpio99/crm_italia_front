@@ -35,6 +35,7 @@
   },
   "customers": {
     "labels": {
+      "edit_person": "Editar persona",
       "add_person": "Agregar persona",
       "add_company": "Agregar compañia",
       "phone": "Número de trabajo",
