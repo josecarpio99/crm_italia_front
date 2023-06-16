@@ -57,7 +57,7 @@
 
   </Page>
 
-  <!-- <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
+  <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
 
 </template>
 
@@ -79,7 +79,7 @@ import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
 import Page from "@/views/layouts/Page";
-// import EditLeadModal from "@/views/pages/private/leads/modals/EditLeadModal.vue";
+import EditLeadModal from "@/views/pages/private/leads/modals/EditLeadModal.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
