@@ -15,8 +15,10 @@ import {default as PageCustomers} from "@/views/pages/private/customers/Index";
 import {default as PageCustomersShow} from "@/views/pages/private/customers/ShowCustomer";
 import {default as PageLeads} from "@/views/pages/private/leads/Index";
 import {default as PageLeadsShow} from "@/views/pages/private/leads/ShowLead";
+
 import {default as PageDealsCotizado} from "@/views/pages/private/deals/Cotizado";
 import {default as PageDealsOportunidad} from "@/views/pages/private/deals/Oportunidad";
+import {default as PageDealsOportunidadShow} from "@/views/pages/private/deals/ShowOportunidad";
 
 import {roles} from "@/stub/roles";
 
@@ -119,7 +121,13 @@ const routes = [
                         path: "oportunidades/list",
                         meta: {requiresAuth: true},
                         component: PageDealsOportunidad,
-                    }
+                    },
+                    {
+                        name: "deals.oportunidades.show",
+                        path: "oportunidades/:id",
+                        meta: {requiresAuth: true},
+                        component: PageDealsOportunidadShow,
+                    },
                 ]
             },
         ]

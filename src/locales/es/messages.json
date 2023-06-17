@@ -97,8 +97,10 @@
       "category": "Clasificación",
       "owner": "Dueño",  
       "status": "Estado",
+      "created_at": "Agregado el",
       "customer_responsiveness": "¿Que Tan Responsivo Notas al Cliente?",
       "name": "Nombre del trato",
+      "stage_moved_at": "Movido a esta fase el",
       "estimated_close_date": "Fecha de cierre prevista",
       "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
       "win_probability": "Probabilidad de ganar"
@@ -125,6 +127,7 @@
       "customers": "Contactos",
       "lead": "Lead",
       "leads": "Leads",
+      "deal": "Trato",
       "deals": "Tratos",
       "users": "Usuarios",
       "users_create": "Nuevo Usuario",
