@@ -113,7 +113,7 @@ const page = reactive({
     breadcrumbs: [
         {
             name: trans('global.pages.deals'),
-            to: toUrl('/deals/list'),
+            to: toUrl('/deals/oportunidades/list'),
 
         },
         {
@@ -204,15 +204,15 @@ async function fetchRecord() {
   dealService.find(route.params.id).then((response) => {
     deal = response.data.data;
     page.title = deal.customer.name;
-    if (deal.is_company) {
-      page.titleIcon = {name: 'building-o'}
+    if (deal.type == 'cotizado') {
+      page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
     }
     page.loading = false;
   });
 }
 
-onBeforeMount(async () => {
-  await fetchRecord();
+onBeforeMount(async () => {  
+  await fetchRecord();  
 });
 </script>
 

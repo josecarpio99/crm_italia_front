@@ -3,6 +3,15 @@
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
 
+            <template #cell-deal="{item}">
+              <router-link 
+                class="font-semibold hover:text-blue-700 hover:underline"
+                :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
+              >
+                {{ item.customer.name}}
+              </router-link>
+            </template>
+
             <template #cell-value="{item}">
               {{ 'MXN' + item.value?.toLocaleString('en-US') }}
             </template>
@@ -83,6 +92,10 @@ const page = reactive({
 
 const table = reactive({ 
   columns: [
+      {
+          key: 'deal',
+          label: trans('global.pages.deal')
+      }, 
       {
           key: 'name',
           label: trans('global.labels.name'),
