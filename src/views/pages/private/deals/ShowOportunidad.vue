@@ -73,7 +73,7 @@
 
   </Page>
 
-  <!-- <EditDealModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
+  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
 
 </template>
 
@@ -95,7 +95,7 @@ import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
 import Page from "@/views/layouts/Page";
-// import EditDealModal from "@/views/pages/private/deals/modals/EditDealModal.vue";
+import EditOportunidadModal from "@/views/pages/private/deals/modals/EditOportunidadModal.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

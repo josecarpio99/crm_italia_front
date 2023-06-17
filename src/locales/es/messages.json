@@ -67,6 +67,7 @@
   },
   "leads": {
     "labels": {
+      "edit_lead": "Editar Lead", 
       "add_lead": "Agregar Lead", 
       "requirement": "Requerimiento", 
       "requirement_size": "Tamaño de requerimiento", 
@@ -87,6 +88,7 @@
       "cotizados": "Tratos (Cotizados)"
     },
     "labels": {
+      "edit_oportunidad": "Editar trato (Oportunidad)", 
       "add_oportunidad": "Agregar trato (Oportunidad)", 
       "add_cotizado": "Agregar trato (Cotizado)", 
       "add_deal": "Agregar trato", 

@@ -22,15 +22,15 @@ export const leadCategories = [
 
 export const dealCategories = [
   {
-      id: 4,
+      id: 5,
       label: 'AAA - Corporativos e Industrias'
   },
   {
-      id: 5,
+      id: 6,
       label: 'AA - Pymes'
   },
   {
-      id: 6,
+      id: 7,
       label: 'A - Micro y Personas Físicas'
   },
 ];

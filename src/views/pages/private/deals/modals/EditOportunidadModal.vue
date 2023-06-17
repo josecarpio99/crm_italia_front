@@ -1,10 +1,9 @@
 <template>
-  <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
-    <template #title>{{ trans('deals.labels.add_oportunidad') }}</template>
+  <BaseModal :isLoading="isLoading" :show-delete="props.showDelete" @close-modal="onCloseModal" @save-modal="onSubmit" @delete="$emit('delete')">
+    <template #title>{{ trans('deals.labels.edit_oportunidad') }}</template>
     <Alert class="mb-4"/>
 
-    <Form ref="formRef" id="create-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
-
+    <Form ref="formRef" id="update-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
         <div class="flex gap-2 flex-col lg:flex-row">
           <div class="w-full lg:w-1/2">
@@ -106,44 +105,38 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCategories } from "@/stub/categories";
 import { dealCustomerResponsiveness, dealStages } from "@/stub/statuses";
+import { dealCategories } from "@/stub/categories";
 import DealService from "@/services/DealService";
-import SectorService from "@/services/SectorService";
 import Alert from "@/views/components/Alert";
-import {clearObject, reduceProperties} from "@/helpers/data";
+import {clearObject, fillObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
 import {useSourcesStore} from "@/stores/sources";
 
-const emit = defineEmits(["close-modal"]);
+const props = defineProps({  
+  deal: {
+    type: Object,
+    required: true
+  }, 
+  showDelete: {
+    type: Boolean,
+    dafault: false
+  }
+});
 
-const initialState = {
-  type: 'oportunidad',    
-  customer_id: null,    
-  source_id: null,
-  category_id: null,
-  owner_id: null,
-  win_probability: null,
-  deal_pipeline_id: 1,
-  deal_pipeline_stage_id: null,
-  estimated_close_date: null,
-  estimated_size: null,
-  customer_responsiveness: null,
-  value: null,
-  name: null
-};
+const emit = defineEmits(['close-modal', 'updated', 'delete']);
 
-const form = reactive({...initialState});
+const form = reactive({});
 
 const dealService = new DealService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
-const formRef = ref(null);
-const isLoading = ref(true);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
+const formRef = ref(null);
+const isLoading = ref(true);
 
 let users = usersStore.userList;
 let customers = customersStore.customerList;
@@ -151,14 +144,14 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
-
-  dealService.handleCreate(
-      'create-deal', 
-      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness'], 'id')
+  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness'], 'id');
+  dealService.handleUpdate(
+      'update-deal', 
+      form.id,
+      removeEmpty(data)
     ).then((res) => {                
-    if (res?.status == 200 || res?.status == 201) {        
-        Object.assign(form, initialState);
-
+    if (res?.status == 200 || res?.status == 201) {
+        emit('updated');
     }
   })
   
@@ -166,11 +159,19 @@ function onSubmit() {
 }
 
 function onCloseModal() {
-  Object.assign(form, initialState);
   emit('close-modal');
 }
 
 onMounted( async () => {
+  Object.assign(form, props.deal);
+  
+  form.customer_id = customers.find(option => option.id === form.customer?.id);
+  form.source_id = sources.find(option => option.id === form.source?.id);
+  form.owner_id = users.find(option => option.id === form.owner?.id);
+  form.category_id = dealCategories.find(option => option.id === form.category?.id);
+  form.deal_pipeline_stage_id = dealStages.find(option => option.id == form.stage?.id);
+  form.customer_responsiveness = dealCustomerResponsiveness.find(option => option.id === form.customer_responsiveness);
+  
   isLoading.value = false;
 });
 

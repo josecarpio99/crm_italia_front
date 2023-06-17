@@ -153,7 +153,7 @@ function onSubmit() {
 
   leadService.handleCreate(
       'create-lead', 
-      reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id'], 'id')
+      reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id', 'requirement_size'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);

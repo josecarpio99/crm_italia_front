@@ -1,6 +1,6 @@
 <template>
   <BaseModal :isLoading="isLoading" :show-delete="props.showDelete" @close-modal="onCloseModal" @save-modal="onSubmit" @delete="$emit('delete')">
-    <template #title>{{ trans('leads.labels.edit_person') }}</template>
+    <template #title>{{ trans('leads.labels.edit_lead') }}</template>
     <Alert class="mb-4"/>
 
     <Form ref="formRef" id="update-lead" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
@@ -148,7 +148,7 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
-  let data = reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id'], 'id');
+  let data = reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id', 'requirement_size'], 'id');
   leadService.handleUpdate(
       'update-lead', 
       form.id,
@@ -170,11 +170,11 @@ onMounted( async () => {
   Object.assign(form, props.lead);
   
   form.customer_id = customers.find(option => option.id === form.customer?.id);
-  form.source_id = customers.find(option => option.id === form.source?.id);
+  form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
   form.category_id = leadCategories.find(option => option.id === form.category?.id);
   form.status = leadStatuses.find(option => option.id === form.status);
-  form.profile = leadStatuses.find(option => option.id === form.profile);
+  form.profile = leadProfile.find(option => option.id === form.profile);
   form.requirement_size = leadRequirementSize.find(option => option.id === form.requirement_size);
   
   isLoading.value = false;
