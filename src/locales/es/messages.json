@@ -87,7 +87,8 @@
       "sector": "Sector",
       "postcode": "Código Postal",
       "state": "Estado o región",
-      "position": "Cargo"
+      "position": "Cargo",
+      "country": "País"
     }
   },
   "deals": {
