@@ -34,11 +34,15 @@ export function getResponseError(error, response) {
 }
 
 export function prepareQuery(args) {
+    let limit = args.hasOwnProperty('limit') ? args.limit : null
     let page = args.hasOwnProperty('page') ? args.page : null
     let search = args.hasOwnProperty('search') ? args.search : null;
     let sort = args.hasOwnProperty('sort') ? args.sort : null;
     let filters = args.hasOwnProperty('filters') ? args.filters : null;
     let params = {page: page}
+    if (limit) {
+        params.limit = limit;
+    }
     if (search) {
         params.search = search;
     }

@@ -55,6 +55,7 @@ let sources = sourcesStore.sourceList;
 
 const mainQuery = reactive({
   page: 1,
+  limit: 'all',
   search: '',
   sort: '',
   filters: {

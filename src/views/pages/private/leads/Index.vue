@@ -47,6 +47,7 @@ let users = usersStore.userList;
 
 const mainQuery = reactive({
   page: 1,
+  limit: 'all',
   search: '',
   sort: '',
   filters: {
