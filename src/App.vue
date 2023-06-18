@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import {computed, onBeforeMount, reactive, onMounted} from "vue";
+import {computed, onBeforeMount, reactive, onMounted, watch} from "vue";
 
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
@@ -322,22 +322,31 @@ export default {
         }
       }
 
-    //   onMounted(async () => {
-    //     await usersStore.getUserList();
-    //     await customersStore.getCustomerList();
-    //     await sourcesStore.getSourceList();
-    //     state.contentReady = true;
-    //   });
+      async function loadData() {
+        if (!usersStore.userList) {
+            await usersStore.getUserList();            
+        }
+        if (!customersStore.customerList) {
+            await customersStore.getCustomerList();            
+        }
+        if (!sourcesStore.sourceList) {
+            await sourcesStore.getSourceList();         
+        }
+        
+        state.contentReady = true;
+      }   
 
-      onBeforeMount(async () => {   
-        await usersStore.getUserList();
-        await customersStore.getCustomerList();
-        await sourcesStore.getSourceList();
-        state.contentReady = true;       
+      onBeforeMount(async () => {        
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
               alertStore.success(trans('global.phrases.email_verified'));
           }
       });
+
+      watch(authStore, (newState) => {
+        if (authStore.loggedIn) {
+            loadData();
+        }
+      })
 
       return {
           state,
