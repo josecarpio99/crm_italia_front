@@ -47,6 +47,12 @@
             <slot v-else></slot>
         </div>
     </div>
+
+    <div class="py-4"></div>
+    <div v-if="$props.showFooter" class="w-full bg-white fixed bottom-0 text-center text-sm border-t-2 pl-16 py-6 pr-4">
+        <slot :name="'footer'">
+        </slot>
+    </div>
 </template>
 
 <script>
@@ -88,6 +94,10 @@ export default defineComponent({
         pagePadding: {
             type: Boolean,
             default: true
+        },
+        showFooter: {
+            type: Boolean,
+            default: false
         },
         isLoading: {
             type: Boolean,

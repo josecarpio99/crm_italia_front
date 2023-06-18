@@ -1,5 +1,11 @@
 <template>
-  <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
+  <Page 
+    :title="page.title" 
+    :breadcrumbs="page.breadcrumbs" 
+    :actions="page.actions" 
+    @action="onPageAction"
+    :showFooter="page.showFooter"
+  >      
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
             <template #cell-lead="{item}">
@@ -11,6 +17,32 @@
               </router-link>
             </template>
           </Table>
+      </template>
+
+      <template v-if="!table.loading" #footer>
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
+          </div>
+          <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[650px] text-gray-500 tracking-tight">
+            <div class="flex items-center">
+              <span>{{ trans('leads.labels.total_leads') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
+            </div>
+            <div class="flex items-center">
+              <span>{{ trans('leads.labels.new') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalNew }}</span>
+            </div>
+            <div class="flex items-center">
+              <span>{{ trans('leads.labels.assigned') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalAssigned }}</span>
+            </div>
+            <div class="flex items-center">
+              <span>{{ trans('leads.labels.unqualified') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalUnqualified }}</span>
+            </div>
+          </div>
+        </div>
       </template>
   </Page>
 </template>
@@ -72,7 +104,8 @@ const page = reactive({
           active: true,
       }
   ],  
-  toggleFilters: false,
+  toggleFilters: false,  
+  showFooter: true
 });
 
 const table = reactive({ 
