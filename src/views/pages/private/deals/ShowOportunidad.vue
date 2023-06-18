@@ -202,7 +202,7 @@ async function fetchRecord() {
   page.loading = true;
   dealService.find(route.params.id).then((response) => {
     deal = response.data.data;
-    page.title = deal.customer.name;
+    page.title = deal.name;
     if (deal.type == 'cotizado') {
       page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
     }
