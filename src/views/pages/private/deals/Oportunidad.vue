@@ -1,5 +1,11 @@
 <template>
-  <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
+  <Page 
+    :title="page.title" 
+    :breadcrumbs="page.breadcrumbs" 
+    :actions="page.actions" 
+    @action="onPageAction"
+    :showFooter="page.showFooter"
+  >      
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
 
@@ -17,6 +23,28 @@
             </template>
 
           </Table>
+      </template>
+
+      <template v-if="!table.loading" #footer>
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
+          </div>
+          <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[550px] text-gray-500 tracking-tight">
+            <div class="flex items-center">
+              <span>{{ trans('deals.labels.total_deals') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
+            </div>
+            <div class="flex items-center">
+              <span>{{ trans('deals.labels.value_total') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">MXN{{ table.pagination.meta.valueSum }}</span>
+            </div>
+            <div class="flex items-center">
+              <span>{{ trans('deals.labels.value_avg') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">MXN{{ table.pagination.meta.valueAvg }}</span>
+            </div>
+          </div>
+        </div>
       </template>
   </Page>
 </template>
@@ -89,6 +117,7 @@ const page = reactive({
       }
   ],  
   toggleFilters: false,
+  showFooter: true
 });
 
 const table = reactive({ 
