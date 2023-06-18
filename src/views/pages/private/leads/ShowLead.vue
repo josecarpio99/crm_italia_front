@@ -46,10 +46,10 @@
           </div>
           
         </div>
-        <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4 hidden">
+        <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
           <Note @submit="onNoteSubmit" />
         </div>
-        <div class="basis-9/12 overflow-auto pt-2 px-4 hidden">
+        <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
         </div>
       </div>
@@ -110,8 +110,7 @@ const page = reactive({
       {
         id: 'edit',
         name: trans('global.actions.edit'),
-        type: 'button',
-        theme: 'outline'
+        type: 'button'
       }
     ]
 });
