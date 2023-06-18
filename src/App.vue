@@ -83,6 +83,10 @@
                   </a>
                   <button v-if="state.isAccountDropdownOpen" @click="state.isAccountDropdownOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
                   <div v-if="state.isAccountDropdownOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
+                      <router-link :to="{name: 'users.list'}" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
+                          {{ trans('global.pages.users') }}
+                      </router-link>
+
                       <router-link to="/panel/profile" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80">
                           {{ trans('global.pages.profile') }}
                       </router-link>
@@ -228,15 +232,7 @@ export default {
                   showMobile: true,
                   requiresAbility: false,
                   to: '/panel/deals/cotizados/list',
-              },
-              {
-                  name: trans('global.pages.users'),
-                  icon: 'user',
-                  showDesktop: true,
-                  showMobile: true,
-                  requiresRole: roles.SUPERADMIN,
-                  to: '/panel/users/list',
-              },
+              },           
             //   {
             //       name: trans('global.pages.users'),
             //       icon: 'user',
