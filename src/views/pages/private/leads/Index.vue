@@ -7,7 +7,7 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'leads.show', params: {id: item.id}}"
               >
-                {{ item.customer.name}}
+                {{ item.name}}
               </router-link>
             </template>
           </Table>
@@ -82,7 +82,6 @@ const table = reactive({
       },         
       {
           key: 'name',
-          cellLabel: 'customer.name',
           label: trans('global.labels.name'),
           editable: true,
           sorteable: true,
@@ -199,17 +198,13 @@ function onCellChange(payload) {
     record.category_id = record.category?.id;    
   }
 
-  if (record.customer.category) {
-    record.customer.category_id = record.customer.category?.id;    
+  if (record.category) {
+    record.category_id = record.category?.id;    
   }
 
-  if (payload.key == 'name') {
-
-    record.customer[payload.key] = payload.value.toString();
-
-  } else if (payload.key == 'category') {
-    record.owner_id = payload.value.id;
-    record.owner = {
+  if (payload.key == 'category') {
+    record.category_id = payload.value.id;
+    record.category = {
         id: payload.value.id,
         name: payload.value.name
     };
@@ -222,23 +217,15 @@ function onCellChange(payload) {
   }
    else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
-  }
+  }  
   
-  if (payload.key == 'name') {
-    customerService.handleUpdate(page.id, record.customer.id, removeEmpty(record.customer))
-      .then((res) => {     
-        if (res.response?.status >= 400) {            
-            Object.assign(record, oldRecord);
-        }
-    });
-  } else {
-    leadService.handleUpdate(page.id, record.id, removeEmpty(record))
-      .then((res) => {     
-        if (res.response?.status >= 400) {            
-            Object.assign(record, oldRecord);
-        }
-    });
-  }
+  leadService.handleUpdate(page.id, record.id, removeEmpty(record))
+    .then((res) => {     
+      if (res.response?.status >= 400) {            
+          Object.assign(record, oldRecord);
+      }
+  });
+  
 }
 
 function onTableFilter({column, value}) {

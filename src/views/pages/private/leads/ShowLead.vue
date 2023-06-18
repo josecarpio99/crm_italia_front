@@ -16,17 +16,17 @@
             <span>{{ lead.owner.name }}</span>
           </div>
         
-          <div v-if="lead.customer.mobile" class="mb-6">
-            <h4 class="font-semibold">{{ trans('customers.labels.mobile') }}</h4>
-            <span>{{ lead.customer.mobile }}</span>
+          <div v-if="lead.mobile" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.mobile') }}</h4>
+            <span>{{ lead.mobile }}</span>
           </div>
-          <div v-if="lead.customer.email" class="mb-6">
-            <h4 class="font-semibold">{{ trans('customers.labels.email') }}</h4>
-            <span>{{ lead.customer.email }}</span>
+          <div v-if="lead.email" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.email') }}</h4>
+            <span>{{ lead.email }}</span>
           </div>
-          <div v-if="lead.customer.sector" class="mb-6">
-            <h4 class="font-semibold">{{ trans('customers.labels.sector') }}</h4>
-            <span>{{ lead.customer.sector.name }}</span>
+          <div v-if="lead.sector" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.sector') }}</h4>
+            <span>{{ lead.sector.name }}</span>
           </div>
           <div v-if="lead.source" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.source') }}</h4>
@@ -187,7 +187,7 @@ async function fetchRecord() {
   page.loading = true;
   leadService.find(route.params.id).then((response) => {
     lead = response.data.data;
-    page.title = lead.customer.name;
+    page.title = lead.name;
     if (lead.is_company) {
       page.titleIcon = {name: 'building-o'}
     }

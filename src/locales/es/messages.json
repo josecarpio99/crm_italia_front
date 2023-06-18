@@ -79,7 +79,15 @@
       "category": "Clasificación",
       "owner": "Dueño",  
       "status": "Estado",
-      "appointment_at": "Fecha de cita"
+      "appointment_at": "Fecha de cita",
+      "phone": "Número de trabajo",
+      "mobile": "Número de móvil",
+      "email": "Correo",
+      "city": "Ciudad",
+      "sector": "Sector",
+      "postcode": "Código Postal",
+      "state": "Estado o región",
+      "position": "Cargo"
     }
   },
   "deals": {

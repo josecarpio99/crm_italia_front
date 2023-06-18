@@ -5,19 +5,70 @@
 
     <Form ref="formRef" id="create-lead" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
+      <div class="border-b-2 border-gray-100 pb-4">
+        <div class="flex gap-2 flex-col lg:flex-row">
+         
+          <div class="w-full lg:w-1/2">
+            <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>            
+
+            <TextInput class="mb-4" type="text" :required="false" name="position" v-model="form.position" :label="trans('customers.labels.position')"/>
+
+            <Dropdown  
+              class="mb-4"            
+              :label="trans('customers.labels.sector')"
+              selectLabel="name"
+              :options="sectors" 
+              name="sector" 
+              v-model="form.sector_id"              
+            /> 
+
+          </div>
+          
+          <div class="w-full lg:w-1/2">
+            <div class="flex flex-col sm:flex-row gap-2">
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="mobile" v-model="form.mobile" :label="trans('customers.labels.mobile')"/>
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="phone" v-model="form.phone" :label="trans('customers.labels.phone')"/>
+            </div>
+            <Dropdown  
+              :required="true"
+              class="mb-4"
+              :label="trans('leads.labels.source')"
+              selectLabel="name"
+              name="source" 
+              :options="sources" 
+              v-model="form.source_id"              
+            /> 
+
+            <TextInput class="mb-4" type="email" :required="false" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
+            
+
+            <div class="flex flex-col sm:flex-row gap-2">
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('customers.labels.postcode')"/>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-2">
+              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="state" v-model="form.state" :label="trans('customers.labels.state')"/>
+
+              <Dropdown  
+                class="mb-4 w-full lg:w-1/2"            
+                :label="trans('customers.labels.country')"
+                selectLabel="name"
+                :options="countries" 
+                name="country" 
+                v-model="form.country_id"              
+              /> 
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
         <div class="flex gap-2 flex-col lg:flex-row">
           <div class="w-full lg:w-1/2">
-            <Dropdown  
-              class="mb-4" 
-              :required="true"           
-              :label="trans('leads.labels.customer')"
-              :options="customers" 
-              selectLabel="name"
-              name="customer" 
-              v-model="form.customer_id"              
-            />  
-
+            
             <Dropdown  
               class="mb-4"  
               :required="true"          
@@ -36,17 +87,8 @@
               name="owner" 
               :options="users" 
               v-model="form.owner_id"              
-            />  
-
-            <Dropdown  
-              :required="true"
-              class="mb-4"
-              :label="trans('leads.labels.source')"
-              selectLabel="name"
-              name="source" 
-              :options="sources" 
-              v-model="form.source_id"              
-            />                       
+            />
+                                 
           </div>
         </div>
       </div>
@@ -111,8 +153,9 @@ import { leadStatuses, leadProfile, leadRequirementSize } from "@/stub/statuses"
 import { leadCategories } from "@/stub/categories";
 import LeadService from "@/services/LeadService";
 import SectorService from "@/services/SectorService";
+import CountryService from "@/services/CountryService";
 import Alert from "@/views/components/Alert";
-import {clearObject, reduceProperties} from "@/helpers/data";
+import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
@@ -121,7 +164,12 @@ import {useSourcesStore} from "@/stores/sources";
 const emit = defineEmits(["close-modal"]);
 
 const initialState = {
-  customer_id: null, 
+  name: '',           
+  email: '',
+  phone: '',
+  mobile: '',
+  website: '',
+  sector_id: null,
   requirement: null, 
   requirement_size: null, 
   profile: null, 
@@ -141,19 +189,21 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const formRef = ref(null);
 const isLoading = ref(true);
-const customersStore = useCustomersStore();
+const sectorService = new SectorService();
+const countryService = new CountryService();
 const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
-let customers = customersStore.customerList;
 let sources = sourcesStore.sourceList;
+let countries = null;
+let sectors = null;
 
 function onSubmit() {  
   alertStore.clear();
-
+  let data = reduceProperties(form, ['status', 'profile', 'category_id', 'sector_id', 'source_id', 'owner_id', 'requirement_size'], 'id');
   leadService.handleCreate(
       'create-lead', 
-      reduceProperties(form, ['status', 'profile', 'category_id', 'customer_id', 'source_id', 'owner_id', 'requirement_size'], 'id')
+      removeEmpty(data)   
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
@@ -170,6 +220,8 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
+  sectors = await sectorService.index().then(res => res.data);
+  countries = await countryService.index().then(res => res.data);
   isLoading.value = false;
 });
 
