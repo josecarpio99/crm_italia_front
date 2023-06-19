@@ -37,11 +37,15 @@
             </div>
             <div class="flex items-center">
               <span>{{ trans('deals.labels.value_total') }}</span>
-              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">MXN{{ table.pagination.meta.valueSum }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN{{ numberFormatter.format(table.pagination.meta.valueSum) }}
+              </span>
             </div>
             <div class="flex items-center">
               <span>{{ trans('deals.labels.value_avg') }}</span>
-              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">MXN{{ table.pagination.meta.valueAvg }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN{{ numberFormatter.format(table.pagination.meta.valueAvg) }}
+              </span>
             </div>
           </div>
         </div>
@@ -68,7 +72,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
-import {clearObject, removeEmpty} from "@/helpers/data";
+import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 

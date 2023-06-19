@@ -40,6 +40,8 @@ export const clearObject = (object) => {
     }
 };
 
+export const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'});
+
 export const removeEmpty = (object) => {
     return Object.fromEntries(Object.entries(object).filter(([_, v]) => v != null && v != ''));
 };
