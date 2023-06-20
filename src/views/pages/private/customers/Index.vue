@@ -101,7 +101,7 @@ const mainQuery = reactive({
           value: [],
           comparison: '='
       },
-      customer_status: {
+      status: {
           value: '',
           comparison: '='
       },   
@@ -190,7 +190,8 @@ const table = reactive({
           cellLabel: 'owner.name'
       },    
       {
-          key: 'customer_status',
+          key: 'status',
+          cellLabel: 'customer_status',
           label: trans('customers.labels.customer_status'),
           sorteable: false,
           filterable: true,
@@ -198,7 +199,8 @@ const table = reactive({
           filter: {
             modelValue:'',
             type: 'select',
-            options: customerStatuses
+            options: customerStatuses,
+            type: 'multiselect'
           },
           edit: {
             type: 'list',
@@ -306,6 +308,8 @@ function onCellChange(payload) {
         id: payload.value.id,
         name: payload.value.name
     };
+  } else if (payload.key == 'status') {
+    record.customer_status = payload.value.id;   
   }
    else {
     record[payload.key] = typeof payload.value == 'object' ? payload.value.id : payload.value.toString(); 
@@ -315,6 +319,10 @@ function onCellChange(payload) {
     .then((res) => {     
         if (res.response?.status >= 400) {            
             Object.assign(record, oldRecord);
+        } else {
+          if ((payload.key == 'status')) {
+            fetchPage(mainQuery);
+          }
         }
     });
 }
@@ -323,6 +331,9 @@ function onTableFilter({column, value}) {
     if (column.key == 'owner') {
         mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     }
+    else if (column.key == 'status') {
+      mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+    } 
     else if (column.key == 'category') {
         mainQuery.filters['category_id'].value = value;
     } 
