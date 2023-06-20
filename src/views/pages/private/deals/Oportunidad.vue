@@ -323,7 +323,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner') {
+    if (column.key == 'owner' || column.key == 'source') {
         mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     }
     else if (column.key == 'category') {
