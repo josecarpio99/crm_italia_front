@@ -77,13 +77,16 @@ import {customerCategories} from "@/stub/categories";
 import { leadStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
+import {useSourcesStore} from "@/stores/sources";
 
 const leadService = new LeadService();
 const customerService = new CustomerService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
+let sources = sourcesStore.sourceList;
 
 const mainQuery = reactive({
   page: 1,
@@ -93,6 +96,14 @@ const mainQuery = reactive({
   filters: {
       name: {
           value: '',
+          comparison: '='
+      },    
+      status: {
+          value: [],
+          comparison: '='
+      },    
+      source: {
+          value: [],
           comparison: '='
       },    
       owner: {
@@ -161,13 +172,33 @@ const table = reactive({
           editable: true,
           filter: {
             modelValue:'',
-            type: 'select',
+            type: 'multiselect',
             options: leadStatuses
           },
           edit: {
             type: 'list',
             options: leadStatuses
           }
+      },
+      {
+          key: 'source',
+          label: trans('global.labels.source'),
+          sorteable: false,
+          filterable: true,
+          editable: true,
+          filter: {
+            modelValue: '',
+            type: 'multiselect',
+            options: [],
+            optionsLabel: 'name'
+          },
+          edit: {
+            type: 'list',
+            options: [],
+            optionsLabel: 'name'
+          },
+          cellKey: 'source.id',
+          cellLabel: 'source.name'
       },    
   ],           
   pagination: {
@@ -250,6 +281,12 @@ function onCellChange(payload) {
         id: payload.value.id,
         name: payload.value.name
     };
+  } else if (payload.key == 'source') {
+    record.source_id = payload.value.id;
+    record.source = {
+        id: payload.value.id,
+        name: payload.value.name
+    };  
   } else if (payload.key == 'owner') {
     record.owner_id = payload.value.id;
     record.owner = {
@@ -271,13 +308,11 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner') {
-        mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
-    }
-    else if (column.key == 'category') {
-        mainQuery.filters['category_id'].value = value;
-    } 
-    else {
+    if (column.key == 'owner' || column.key == 'status') {
+      mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+    } else if (column.key == 'category') {
+      mainQuery.filters['category_id'].value = value;
+    } else {
         mainQuery.filters[column.key].value = value;
     }
 }
@@ -288,6 +323,11 @@ watch(mainQuery, (newTableState) => {
 
 onMounted(async () => {
   let ownerColumn = table.columns.find(column => column.key == 'owner');
+  let sourceColumn = table.columns.find(column => column.key == 'source');
+
+  sourceColumn.filter.options = sources;
+  sourceColumn.edit.options = sources;
+
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
 
