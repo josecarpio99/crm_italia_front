@@ -15,7 +15,7 @@
               >
                 <Icon 
                   v-if="item.name" 
-                  class="mr-2 text-xl align-middle" 
+                  class="mr-2 text-xl align-middle text-gray-500" 
                   :name="item.is_company ? 'building-o' : 'user-o'" 
                 />
                 {{ item.name }}
