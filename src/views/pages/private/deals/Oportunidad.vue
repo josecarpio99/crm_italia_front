@@ -14,12 +14,22 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
               >
-                {{ item.customer.name}}
+                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="plus-square-o" />
+                {{ item.name}}
               </router-link>
             </template>
 
             <template #cell-value="{item}">
               {{ 'MXN' + item.value?.toLocaleString('en-US') }}
+            </template>
+
+            <template #cell-owner="{item}">             
+              <CircleAvatarIcon />              
+              {{ item.owner.name }}
+            </template>
+
+            <template #cell-created_at="{item}">            
+                {{ $date(item.created_at).format() }}          
             </template>
 
           </Table>
@@ -63,9 +73,11 @@ import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
+import $date from "@/helpers/date";
+import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import Table from "@/views/components/Table";
-import Avatar from "@/views/components/icons/Avatar";
+import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Filters from "@/views/components/filters/Filters";
 import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";

@@ -13,8 +13,15 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'leads.show', params: {id: item.id}}"
               >
+                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="question-circle-o" />
+
                 {{ item.name}}
               </router-link>
+            </template>
+
+            <template #cell-owner="{item}">             
+              <CircleAvatarIcon />              
+              {{ item.owner.name }}
             </template>
           </Table>
       </template>
@@ -57,9 +64,10 @@ import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
+import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import Table from "@/views/components/Table";
-import Avatar from "@/views/components/icons/Avatar";
+import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Filters from "@/views/components/filters/Filters";
 import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
