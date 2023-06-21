@@ -7,7 +7,6 @@
     :showFooter="page.showFooter"
     :displayTopMenu="true"
     :is-loading="page.isLoading"
-    :key="pageKey"
   >      
       <template #top-menu> 
         <div class="flex gap-4">
@@ -15,8 +14,6 @@
                 <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
                 
                 <router-link 
-                  v-for="item in smartLists" 
-                  :key="route.fullPath"
                   class="p-6 border-2 block rounded-sm cursor-pointer hover:shadow-xl"
                   :class="{'border-blue-300': !route.params.id}"
                   :to="{name: 'customers.list'}"
@@ -30,7 +27,6 @@
                 <div v-if="smartLists.length > 0" class="flex flex-wrap gap-4">
                     <router-link 
                     v-for="item in smartLists" 
-                    :key="route.fullPath"
                     class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
                     :class="{'border-blue-300': route.params.id == item.id}"
                     :to="{name: 'customers.list', params: {id: item.id}}"
@@ -132,12 +128,11 @@ const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 
-const pageKey = ref(0);
 let users = usersStore.userList;
 let smartList = null;
 let smartLists =  [];
 
-const mainQueryInitialState = {
+const mainQuery = reactive({
   page: 1,
   limit: 'all',
   search: '',
@@ -148,7 +143,7 @@ const mainQueryInitialState = {
           comparison: '='
       },    
       owner: {
-          value: [],
+          value: '',
           comparison: '='
       },
       status: {
@@ -160,9 +155,7 @@ const mainQueryInitialState = {
           comparison: '='
       }
   }
-};
-
-const mainQuery = reactive({...mainQueryInitialState});
+});
 
 const page = reactive({
   id: 'list_customers',
@@ -346,9 +339,9 @@ function fetchSmartList(id) {
       router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
     }
 
-    Object.assign(mainQuery, smartList.definition.query);
-
     page.title = smartList.name;
+
+    Object.assign(mainQuery, smartList.definition.query);
 
     const {owner: ownerFilter, status: statusFilter, name: nameFilter, category_id: categoryIdFilter} = smartList.definition.query.filters;
 
@@ -381,6 +374,7 @@ function fetchSmartList(id) {
       let statusColumn = table.columns.find(column => column.key == 'status');
       statusColumn.filter.modelValue = selectedStatuses;         
     } 
+
   })
   .catch(error =>{
     console.log(error);
@@ -450,38 +444,22 @@ watch(mainQuery, (newTableState) => {
   fetchPage(mainQuery);
 });
 
-watch(() => route.params, async (toParams, previousParams) => {
-  pageKey.value++;
-  page.isLoading = true;
-  if (route.params.id) {
-    await fetchSmartList(route.params.id);
-  } else {
-    page.title = trans('global.pages.customers');
-
-    Object.assign(mainQuery, mainQueryInitialState);
-  }
-  page.isLoading = false;
-});
-
 onMounted(async () => {
+  page.isLoading = true;
+  if (!route.params.id) {
+    page.title = trans('global.pages.customers');
+  } else {
+    await fetchSmartList(route.params.id);
+  }
+
   smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
-
-  fetchPage(mainQuery);
-});
-
-onBeforeMount(async () => {
-  if (!route.params.id) {
-    page.title = trans('global.pages.customers');
-    return;
-  } 
-  page.isLoading = true;
-  await fetchSmartList(route.params.id);
-  page.isLoading = false;
   
+  page.isLoading = false;
+  fetchPage(mainQuery);
 });
 
 </script>

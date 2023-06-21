@@ -6,24 +6,38 @@
     @action="onPageAction"
     :showFooter="page.showFooter"
     :displayTopMenu="true"
+    :is-loading="page.isLoading"
   >   
       <template #top-menu> 
         <div class="flex gap-4">
             <div class="basis-1/4">
                 <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
-                <div class="p-6 border-2 rounded-sm hover:shadow-xl cursor-pointer">
-                    <h4 class="text-2xl">{{ trans('global.pages.leads') }}</h4>
-                </div>
+                
+                <router-link                   
+                  class="p-6 border-2 block rounded-sm cursor-pointer hover:shadow-xl"
+                  :class="{'border-blue-300': !route.params.id}"
+                  :to="{name: 'leads.list'}"
+                >
+                  <h4 class="text-2xl">{{ trans('global.pages.lead') }}</h4>
+                </router-link>
+
             </div>
             <div class="basis-3/4">
                 <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
-                <div class="flex flex-wrap gap-4">
-                    <div 
+                <div v-if="smartLists.length > 0" class="flex flex-wrap gap-4">
+                    <router-link 
                     v-for="item in smartLists" 
                     class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
-                    >
-                        <h4 class="text-2xl">{{ item.title }}</h4>                            
-                    </div>
+                    :class="{'border-blue-300': route.params.id == item.id}"
+                    :to="{name: 'leads.list', params: {id: item.id}}"
+                    >                      
+                      <h4 class="text-2xl">{{ item.name }}</h4> 
+                    </router-link>
+
+                </div>
+
+                <div v-else class="flex items-center justify-center p-10">
+                  <span class="text-lg text-gray-500">{{ trans('global.phrases.no_records') }}</span>
                 </div>
             </div>
         </div>
@@ -79,10 +93,13 @@
 
 <script setup>
 
+import {useRoute} from "vue-router";
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import LeadService from "@/services/LeadService";
-import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
+import SmartListService from "@/services/SmartListService";
+import {watch, onMounted, onBeforeMount, reactive, ref } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
@@ -102,28 +119,18 @@ import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 
+const route = useRoute();
 const leadService = new LeadService();
 const customerService = new CustomerService();
+const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
-let smartLists =  [
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-]
+let smartList = null;
+let smartLists = null;
 
 const mainQuery = reactive({
   page: 1,
@@ -136,23 +143,23 @@ const mainQuery = reactive({
           comparison: '='
       },    
       status: {
-          value: [],
+          value: '',
           comparison: '='
       },    
       source: {
-          value: [],
+          value: '',
           comparison: '='
       },    
       owner: {
-          value: [],
+          value: '',
           comparison: '='
-      }     
+      } 
   }
 });
 
 const page = reactive({
   id: 'list_leads',
-  title: trans('global.pages.leads'),
+  title: '',
   breadcrumbs: [
       {
           name: trans('global.pages.leads'),
@@ -161,7 +168,8 @@ const page = reactive({
       }
   ],  
   toggleFilters: false,  
-  showFooter: true
+  showFooter: true,
+  isLoading: false
 });
 
 const table = reactive({ 
@@ -354,11 +362,74 @@ function onTableFilter({column, value}) {
     }
 }
 
+function fetchSmartList(id) {
+  smartListservice.find(id).then((res) => {
+    smartList = res.data.data;
+    if (smartList.resource_type != 'lead') {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
+    }
+
+    Object.assign(mainQuery, smartList.definition.query);
+
+    page.title = smartList.name;
+
+    const {owner: ownerFilter, status: statusFilter, name: nameFilter, source: sourceFilter} = smartList.definition.query.filters;
+
+    if (nameFilter.value != '') {      
+      let nameColumn = table.columns.find(column => column.key == 'name');
+      nameColumn.filter.modelValue = nameFilter.value;         
+    }    
+
+    if (ownerFilter.value != '') {
+      let selectedUsers = ownerFilter.value.split(',').map(item => {
+        return users.find(option => option.id == item);
+      });
+      
+      let ownerColumn = table.columns.find(column => column.key == 'owner');
+      ownerColumn.filter.modelValue = selectedUsers;         
+    }
+
+    if (sourceFilter.value != '') {
+      let selectedSources = sourceFilter.value.split(',').map(item => {
+        return sources.find(option => option.id == item);
+      });
+      
+      let sourceColumn = table.columns.find(column => column.key == 'source');
+      sourceColumn.filter.modelValue = selectedSources;         
+    }
+
+    if (statusFilter.value != '') {
+      let selectedStatuses = statusFilter.value.split(',').map(item => {
+        return leadStatuses.find(option => option.id == item);
+      });
+      
+      let statusColumn = table.columns.find(column => column.key == 'status');
+      statusColumn.filter.modelValue = selectedStatuses;         
+    } 
+    
+  })
+  .catch(error =>{
+    console.log(error);
+    if (error.response?.status == 404) {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
+    }
+  })
+}
+
 watch(mainQuery, (newTableState) => {
   fetchPage(mainQuery);
 });
 
 onMounted(async () => {
+  page.isLoading = true;
+  if (!route.params.id) {
+    page.title = trans('global.pages.leads');
+  } else {
+    await fetchSmartList(route.params.id);
+  }
+
+  smartLists = await smartListservice.index({'filter[resource_type]': 'lead'}).then(res => res.data.data);  
+
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
 
@@ -366,8 +437,9 @@ onMounted(async () => {
   sourceColumn.edit.options = sources;
 
   ownerColumn.filter.options = users;
-  ownerColumn.edit.options = users;
+  ownerColumn.edit.options = users;  
 
+  page.isLoading = false;
   fetchPage(mainQuery);
 });
 

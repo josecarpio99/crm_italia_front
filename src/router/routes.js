@@ -26,7 +26,7 @@ const routes = [
     {
         name: "home",
         path: "/",
-        meta: {requiresAuth: false},
+        meta: {visitor: true},
         component: PageLogin,
     },
     {
@@ -90,7 +90,7 @@ const routes = [
                 children: [
                     {
                         name: "leads.list",
-                        path: "list",
+                        path: "list/:id?",
                         meta: {requiresAuth: true},
                         component: PageLeads,
                     },
@@ -135,7 +135,7 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        meta: {requiresAuth: false, visitor: true},
+        meta: {visitor: true},
         component: PageLogin,
     },
     {

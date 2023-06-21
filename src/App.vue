@@ -116,7 +116,7 @@
 
           <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
               <main class="w-full flex-grow relative">
-                  <router-view v-if="state.contentReady" />
+                  <router-view :key="route.path" v-if="state.contentReady" />
               </main>
               <!-- <footer class="w-full bg-white text-center text-sm p-4" v-html="trans('global.phrases.copyright')"></footer> -->
           </div>
@@ -179,7 +179,7 @@ export default {
       const authStore = useAuthStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
-
+      
       const isLoading = computed(() => {
           var value = false;
           for(var i in globalStateStore.loadingElements) {
@@ -355,7 +355,8 @@ export default {
           onLogout,
           isLoading,
           toggleModal,
-          alertStore
+          alertStore,
+          route
       }
   }
 };
