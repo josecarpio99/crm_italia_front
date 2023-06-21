@@ -6,25 +6,27 @@
     @action="onPageAction"
     :showFooter="page.showFooter"
     :displayTopMenu="true"
+    :is-loading="page.isLoading"
   >      
      <template #top-menu> 
         <div class="flex gap-4">
             <div class="basis-1/4">
                 <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
-                <div class="p-6 border-2 rounded-sm hover:shadow-xl cursor-pointer">
-                    <h4 class="text-2xl">{{ trans('global.pages.oportunidad') }}</h4>
-                </div>
+                
+                <router-link 
+                  class="p-6 border-2 block rounded-sm cursor-pointer hover:shadow-xl"
+                  :class="{'border-blue-300': !route.params.id}"
+                  :to="{name: 'deals.oportunidades.list'}"
+                >
+                  <h4 class="text-2xl">{{ trans('global.pages.oportunidad') }}</h4>
+                </router-link>
+
             </div>
             <div class="basis-3/4">
-                <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
-                <div class="flex flex-wrap gap-4">
-                    <div 
-                    v-for="item in smartLists" 
-                    class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
-                    >
-                        <h4 class="text-2xl">{{ item.title }}</h4>                            
-                    </div>
-                </div>
+                <SmartLists
+                  :items="smartLists"
+                  :routeName="'deals.oportunidades.list'"
+                />                
             </div>
         </div>
       </template>
@@ -88,8 +90,11 @@
 
 <script setup>
 
+import {useRoute} from "vue-router";
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
+import SmartListService from "@/services/SmartListService";
 import DealService from "@/services/DealService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
@@ -99,6 +104,7 @@ import alertHelpers from "@/helpers/alert";
 import $date from "@/helpers/date";
 import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
+import SmartLists from "@/views/components/SmartLists";
 import Table from "@/views/components/Table";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Filters from "@/views/components/filters/Filters";
@@ -106,33 +112,22 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 
+const route = useRoute();
 const dealService = new DealService();
 const customerService = new CustomerService();
+const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
-let smartLists =  [
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-]
+let smartList = null;
+let smartLists =  [];
 
 const mainQuery = reactive({
   page: 1,
@@ -161,7 +156,7 @@ const mainQuery = reactive({
 
 const page = reactive({
   id: 'list_deals',
-  title: trans('deals.menu.oportunidades'),
+  title: '',
   breadcrumbs: [
       {
           name: trans('global.pages.deals'),
@@ -170,7 +165,8 @@ const page = reactive({
       }
   ],  
   toggleFilters: false,
-  showFooter: true
+  showFooter: true,
+  isLoading: false
 });
 
 const table = reactive({ 
@@ -320,8 +316,8 @@ function onCellChange(payload) {
   }
 
   if (payload.key == 'category') {
-    record.owner_id = payload.value.id;
-    record.owner = {
+    record.category_id = payload.value.id;
+    record.category = {
         id: payload.value.id,
         name: payload.value.name
     };
@@ -371,11 +367,66 @@ function onTableFilter({column, value}) {
     }
 }
 
+function fetchSmartList(id) {
+  smartListservice.find(id).then((res) => {
+    smartList = res.data.data;
+    if (smartList.resource_type != 'oportunidad') {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
+    }
+
+    page.title = smartList.name;
+
+    Object.assign(mainQuery, smartList.definition.query);
+
+    const {owner: ownerFilter, source: sourceFilter, name: nameFilter} = smartList.definition.query.filters;
+
+    if (nameFilter.value != '') {      
+      let nameColumn = table.columns.find(column => column.key == 'name');
+      nameColumn.filter.modelValue = nameFilter.value;         
+    }
+
+    if (sourceFilter.value != '') {
+      let selectedSources = sourceFilter.value.split(',').map(item => {
+        return sources.find(option => option.id == item);
+      });
+      
+      let sourceColumn = table.columns.find(column => column.key == 'source');
+      sourceColumn.filter.modelValue = selectedSources;         
+    }
+
+    if (ownerFilter.value != '') {
+      let selectedUsers = ownerFilter.value.split(',').map(item => {
+        return users.find(option => option.id == item);
+      });
+      
+      let ownerColumn = table.columns.find(column => column.key == 'owner');
+      ownerColumn.filter.modelValue = selectedUsers;         
+    }    
+
+  })
+  .catch(error =>{
+    console.log(error);
+    if (error.response?.status == 404) {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
+    }
+  })
+}
+
 watch(mainQuery, (newTableState) => {
   fetchPage(mainQuery);
 });
 
 onMounted(async () => {
+  page.isLoading = true;
+  if (!route.params.id) {
+    page.title = trans('deals.menu.oportunidades');
+  } else {
+    await fetchSmartList(route.params.id);
+  }
+
+  smartLists = await smartListservice.index({'filter[resource_type]': 'oportunidad'}).then(res => res.data.data);  
+
+
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
 
@@ -385,6 +436,7 @@ onMounted(async () => {
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
 
+  page.isLoading = false;
   fetchPage(mainQuery);
 });
 

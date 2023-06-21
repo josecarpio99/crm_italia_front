@@ -118,7 +118,7 @@ const routes = [
                 children: [
                     {
                         name: "deals.oportunidades.list",
-                        path: "oportunidades/list",
+                        path: "oportunidades/list/:id?",
                         meta: {requiresAuth: true},
                         component: PageDealsOportunidad,
                     },
