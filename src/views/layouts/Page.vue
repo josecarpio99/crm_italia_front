@@ -1,4 +1,39 @@
 <template>
+    <Transition name="top-menu">
+        <div v-if="showTopMenu && $props.displayTopMenu" class="bg-gray-800/80 absolute top-0 right-0 bottom-0 left-0 z-50">
+            <div class="bg-white p-10 pb-14">
+                <div class="mb-12 flex items-center cursor-pointer">
+                    <Icon 
+                        @click="showTopMenu = false"
+                        class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer" 
+                        name="remove" 
+                    />
+                    <h3 class="ml-8 text-gray-600 text-2xl">{{ trans('global.labels.work_center') }}</h3>
+                </div>
+
+                <div class="flex gap-4">
+                    <div class="basis-1/4">
+                        <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
+                        <div class="p-6 border-2 rounded-sm hover:shadow-xl cursor-pointer">
+                            <h4 class="text-2xl">{{ trans('global.pages.leads') }}</h4>
+                        </div>
+                    </div>
+                    <div class="basis-3/4">
+                        <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
+                        <div class="flex flex-wrap gap-4">
+                            <div 
+                            v-for="item in $props.smartLists" 
+                            class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
+                            >
+                                <h4 class="text-2xl">{{ item.title }}</h4>                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Transition>
+
     <div class="">
         <div 
             v-if="$props.title || $props.breadcrumbs.length > 0"
@@ -6,6 +41,13 @@
         >
             <div>
                 <h2 class="bold text-2xl mb-3">
+                    <Icon 
+                        v-if="$props.displayTopMenu" 
+                        name="bars" 
+                        class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer mr-2" 
+                        @click="showTopMenu = true"
+                    />
+                    
                     {{ $props.title }}
                     <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
                 </h2>
@@ -56,7 +98,7 @@
 </template>
 
 <script>
-import {computed, defineComponent} from "vue";
+import {computed, defineComponent, ref} from "vue";
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import Button from "@/views/components/input/Button";
@@ -103,11 +145,33 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
+        displayTopMenu: {
+            type: Boolean,
+            default: false
+        },
+        smartLists: {
+            type: Array,
+            default: [
+                {
+                    title: 'Test'
+                },
+                {
+                    title: 'Test'
+                },
+                {
+                    title: 'Test'
+                },
+                {
+                    title: 'Test'
+                },
+            ]
+        }
     },
     emits: ['action'],
     setup(props, {emit}) {
 
         const alertStore = useAlertStore();
+        const showTopMenu = ref(false);
 
         function onPageActionClick(data) {
             emit('action', data);
@@ -122,8 +186,21 @@ export default defineComponent({
             toUrl,
             onPageActionClick,
             isElementLoading,
-            alertStore
+            alertStore,
+            showTopMenu
         }
     }
 })
 </script>
+
+<style>
+.top-menu-enter-active,
+.top-menu-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.top-menu-enter-from,
+.top-menu-leave-to {
+  transform: translateY(-100%);
+}
+</style>

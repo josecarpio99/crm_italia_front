@@ -5,6 +5,7 @@
     :actions="page.actions" 
     @action="onPageAction"
     :showFooter="page.showFooter"
+    :displayTopMenu="true"
   >      
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">

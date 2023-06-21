@@ -115,7 +115,7 @@
           </header>
 
           <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-              <main class="w-full flex-grow">
+              <main class="w-full flex-grow relative">
                   <router-view v-if="state.contentReady" />
               </main>
               <!-- <footer class="w-full bg-white text-center text-sm p-4" v-html="trans('global.phrases.copyright')"></footer> -->

@@ -242,6 +242,9 @@
     "labels": {
       "id": "IDENTIFICACIÓN",
       "id_pound": "",
+      "work_center": "Centro de trabajo",
+      "work_list": "Lista de trabajo",
+      "smart_lists": "Listas inteligentes",
       "first_name": "Nombre de pila",
       "last_name": "Apellido",
       "middle_name": "Segundo nombre",
