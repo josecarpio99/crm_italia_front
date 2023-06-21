@@ -117,20 +117,7 @@ const usersStore = useUsersStore();
 
 let users = usersStore.userList;
 let smartList = null;
-let smartLists =  [
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-  {
-      title: 'Test'
-  },
-]
+let smartLists =  [];
 
 const mainQuery = reactive({
   page: 1,
@@ -406,17 +393,24 @@ onBeforeMount(async () => {
   if (route.params.id) {
     page.isLoading = true;
     smartListservice.find(route.params.id).then((res) => {
-      console.log(res.status);
       smartList = res.data.data;
       if (smartList.resource_type != 'customer') {
         router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
       }
       Object.assign(mainQuery, smartList.definition.query);
-      
+
+      let selectedUsers = smartList.definition.query.filters.owner.value.split(',').map(item => {
+        return users.find(option => option.id == item);
+      });
+
+      let ownerColumn = table.columns.find(column => column.key == 'owner');
+      ownerColumn.filter.modelValue = selectedUsers;
+
       page.isLoading = false;
 
     })
     .catch(error =>{
+      console.log(error);
       if (error.response.status == 404) {
         router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
       }
