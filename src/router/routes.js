@@ -107,7 +107,7 @@ const routes = [
                 children: [
                     {
                         name: "deals.cotizados.list",
-                        path: "cotizados/list",
+                        path: "cotizados/list/:id?",
                         meta: {requiresAuth: true},
                         component: PageDealsCotizado,
                     }
