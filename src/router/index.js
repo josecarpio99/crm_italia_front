@@ -21,6 +21,7 @@ router.beforeEach(async (to, from, next) => {
    
     const requiresRole = to.meta.requiresRole;
     const requiresAuth = to.meta.requiresAuth;
+    const visitor = to.meta.visitor;
     const belongsToOwnerOnly = to.meta.isOwner;
     if (requiresRole && requiresAuth) {
         
@@ -28,13 +29,13 @@ router.beforeEach(async (to, from, next) => {
             next()            
         } else {
             next({
-                name: 'profile'
+                name: 'dashboard'
             })
         }
 
     } else if (requiresAuth && !authStore.user) {
         next({name: 'home'})
-    } else if (!requiresAuth && authStore.user) {
+    } else if (visitor && authStore.user) {
         next({name: 'dashboard'})
     } else if (belongsToOwnerOnly) {
         if (authStore.user.is_owner) {

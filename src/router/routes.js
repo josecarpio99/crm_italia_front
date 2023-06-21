@@ -73,7 +73,7 @@ const routes = [
                 children: [
                     {
                         name: "customers.list",
-                        path: "list",
+                        path: "list/:id?",
                         meta: {requiresAuth: true},
                         component: PageCustomers,
                     },
@@ -135,7 +135,7 @@ const routes = [
     {
         path: "/login",
         name: "login",
-        meta: {requiresAuth: false},
+        meta: {requiresAuth: false, visitor: true},
         component: PageLogin,
     },
     {
@@ -157,7 +157,7 @@ const routes = [
         component: PageForgotPassword,
     },
     {
-        path: "/:catchAll(.*)",
+        path: "/:pathMatch(.*)",
         name: "notFound",
         meta: {requiresAuth: false},
         component: PageNotFound,

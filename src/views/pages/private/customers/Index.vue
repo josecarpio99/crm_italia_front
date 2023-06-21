@@ -6,6 +6,7 @@
     @action="onPageAction"
     :showFooter="page.showFooter"
     :displayTopMenu="true"
+    :is-loading="page.isLoading"
   >      
       <template #top-menu> 
         <div class="flex gap-4">
@@ -83,10 +84,12 @@
 
 <script setup>
 
+import {useRoute} from "vue-router";
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import SmartListService from "@/services/SmartListService";
-import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
+import {watch, onMounted, onBeforeMount, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
@@ -106,11 +109,14 @@ import { customerStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 
+const route = useRoute();
 const service = new CustomerService();
 const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+
 let users = usersStore.userList;
+let smartList = null;
 let smartLists =  [
   {
       title: 'Test'
@@ -163,6 +169,7 @@ const page = reactive({
   ],  
   toggleFilters: false,
   showFooter: true,
+  isLoading: false
 });
 
 const table = reactive({ 
@@ -386,7 +393,7 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
-  smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);
+  smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
@@ -394,5 +401,27 @@ onMounted(async () => {
 
   fetchPage(mainQuery);
 });
+
+onBeforeMount(async () => {
+  if (route.params.id) {
+    page.isLoading = true;
+    smartListservice.find(route.params.id).then((res) => {
+      console.log(res.status);
+      smartList = res.data.data;
+      if (smartList.resource_type != 'customer') {
+        router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
+      }
+      Object.assign(mainQuery, smartList.definition.query);
+      
+      page.isLoading = false;
+
+    })
+    .catch(error =>{
+      if (error.response.status == 404) {
+        router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
+      }
+    })
+  }
+})
 
 </script>
