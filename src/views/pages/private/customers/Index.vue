@@ -18,13 +18,17 @@
             </div>
             <div class="basis-3/4">
                 <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
-                <div class="flex flex-wrap gap-4">
+                <div v-if="smartLists.length > 0" class="flex flex-wrap gap-4">
                     <div 
                     v-for="item in smartLists" 
                     class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
                     >
                         <h4 class="text-2xl">{{ item.name }}</h4>                            
                     </div>
+                </div>
+
+                <div v-else class="flex items-center justify-center p-10">
+                  <span class="text-lg text-gray-500">{{ trans('global.phrases.no_records') }}</span>
                 </div>
             </div>
         </div>
@@ -380,7 +384,7 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
-  smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);  
+  smartLists = await smartListservice.index({'filter[resource_type]': 'lead'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
