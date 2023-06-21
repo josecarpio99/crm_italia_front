@@ -390,32 +390,58 @@ onMounted(async () => {
 });
 
 onBeforeMount(async () => {
-  if (route.params.id) {
-    page.isLoading = true;
-    smartListservice.find(route.params.id).then((res) => {
-      smartList = res.data.data;
-      if (smartList.resource_type != 'customer') {
-        router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
-      }
-      Object.assign(mainQuery, smartList.definition.query);
+  if (!route.params.id) return;
+  page.isLoading = true;
+  smartListservice.find(route.params.id).then((res) => {
+    smartList = res.data.data;
+    if (smartList.resource_type != 'customer') {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
+    }
 
-      let selectedUsers = smartList.definition.query.filters.owner.value.split(',').map(item => {
+    Object.assign(mainQuery, smartList.definition.query);
+
+    const {owner: ownerFilter, status: statusFilter, name: nameFilter, category_id: categoryIdFilter} = smartList.definition.query.filters;
+
+    if (nameFilter.value != '') {      
+      let nameColumn = table.columns.find(column => column.key == 'name');
+      nameColumn.filter.modelValue = nameFilter.value;         
+    }
+
+    if (categoryIdFilter.value != '') {  
+      let selectedcategory = customerCategories.find(option => option.id == categoryIdFilter.value);
+      
+      let categoryIdColumn = table.columns.find(column => column.key == 'category');
+      categoryIdColumn.filter.modelValue = selectedcategory;         
+    }
+
+    if (ownerFilter.value != '') {
+      let selectedUsers = ownerFilter.value.split(',').map(item => {
         return users.find(option => option.id == item);
       });
-
+      
       let ownerColumn = table.columns.find(column => column.key == 'owner');
-      ownerColumn.filter.modelValue = selectedUsers;
+      ownerColumn.filter.modelValue = selectedUsers;         
+    }
 
-      page.isLoading = false;
+    if (statusFilter.value != '') {
+      let selectedStatuses = statusFilter.value.split(',').map(item => {
+        return customerStatuses.find(option => option.id == item);
+      });
+      
+      let statusColumn = table.columns.find(column => column.key == 'status');
+      statusColumn.filter.modelValue = selectedStatuses;         
+    }    
 
-    })
-    .catch(error =>{
-      console.log(error);
-      if (error.response.status == 404) {
-        router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
-      }
-    })
-  }
-})
+    page.isLoading = false;
+
+  })
+  // .catch(error =>{
+  //   console.log(error);
+  //   if (error.response?.status == 404) {
+  //     router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
+  //   }
+  // })
+  
+});
 
 </script>
