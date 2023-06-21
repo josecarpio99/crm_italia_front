@@ -10,26 +10,7 @@
                     />
                     <h3 class="ml-8 text-gray-600 text-2xl">{{ trans('global.labels.work_center') }}</h3>
                 </div>
-
-                <div class="flex gap-4">
-                    <div class="basis-1/4">
-                        <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
-                        <div class="p-6 border-2 rounded-sm hover:shadow-xl cursor-pointer">
-                            <h4 class="text-2xl">{{ trans('global.pages.leads') }}</h4>
-                        </div>
-                    </div>
-                    <div class="basis-3/4">
-                        <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
-                        <div class="flex flex-wrap gap-4">
-                            <div 
-                            v-for="item in $props.smartLists" 
-                            class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
-                            >
-                                <h4 class="text-2xl">{{ item.title }}</h4>                            
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <slot name="top-menu" />
             </div>
         </div>
     </Transition>
@@ -148,24 +129,7 @@ export default defineComponent({
         displayTopMenu: {
             type: Boolean,
             default: false
-        },
-        smartLists: {
-            type: Array,
-            default: [
-                {
-                    title: 'Test'
-                },
-                {
-                    title: 'Test'
-                },
-                {
-                    title: 'Test'
-                },
-                {
-                    title: 'Test'
-                },
-            ]
-        }
+        }        
     },
     emits: ['action'],
     setup(props, {emit}) {

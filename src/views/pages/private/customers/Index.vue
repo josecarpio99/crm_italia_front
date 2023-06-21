@@ -5,7 +5,30 @@
     :actions="page.actions" 
     @action="onPageAction"
     :showFooter="page.showFooter"
+    :displayTopMenu="true"
   >      
+      <template #top-menu> 
+        <div class="flex gap-4">
+            <div class="basis-1/4">
+                <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.work_list') }}</h4>
+                <div class="p-6 border-2 rounded-sm hover:shadow-xl cursor-pointer">
+                    <h4 class="text-2xl">{{ trans('global.pages.customer') }}</h4>
+                </div>
+            </div>
+            <div class="basis-3/4">
+                <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
+                <div class="flex flex-wrap gap-4">
+                    <div 
+                    v-for="item in smartLists" 
+                    class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
+                    >
+                        <h4 class="text-2xl">{{ item.title }}</h4>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+      </template>
+
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
             <template #cell-name="{item}">
@@ -86,6 +109,20 @@ const service = new CustomerService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 let users = usersStore.userList;
+let smartLists =  [
+  {
+      title: 'Test'
+  },
+  {
+      title: 'Test'
+  },
+  {
+      title: 'Test'
+  },
+  {
+      title: 'Test'
+  },
+]
 
 const mainQuery = reactive({
   page: 1,
