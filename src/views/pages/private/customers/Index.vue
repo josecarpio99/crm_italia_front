@@ -23,22 +23,10 @@
 
             </div>
             <div class="basis-3/4">
-                <h4 class="text-xl text-gray-600 mb-4">{{ trans('global.labels.smart_lists') }}</h4>
-                <div v-if="smartLists.length > 0" class="flex flex-wrap gap-4">
-                    <router-link 
-                    v-for="item in smartLists" 
-                    class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
-                    :class="{'border-blue-300': route.params.id == item.id}"
-                    :to="{name: 'customers.list', params: {id: item.id}}"
-                    >                      
-                      <h4 class="text-2xl">{{ item.name }}</h4> 
-                    </router-link>
-
-                </div>
-
-                <div v-else class="flex items-center justify-center p-10">
-                  <span class="text-lg text-gray-500">{{ trans('global.phrases.no_records') }}</span>
-                </div>
+                <SmartLists
+                  :items="smartLists"
+                  :routeName="'customers.list'"
+                />                
             </div>
         </div>
       </template>
@@ -110,6 +98,7 @@ import alertHelpers from "@/helpers/alert";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Page from "@/views/layouts/Page";
+import SmartLists from "@/views/components/SmartLists";
 import Table from "@/views/components/Table";
 import Avatar from "@/views/components/icons/Avatar";
 import Filters from "@/views/components/filters/Filters";
