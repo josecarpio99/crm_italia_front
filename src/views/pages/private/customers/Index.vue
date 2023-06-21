@@ -22,7 +22,7 @@
                     v-for="item in smartLists" 
                     class="p-6 border-2 grow-0 rounded-sm basis-[31%]  hover:shadow-xl cursor-pointer"
                     >
-                        <h4 class="text-2xl">{{ item.title }}</h4>                            
+                        <h4 class="text-2xl">{{ item.name }}</h4>                            
                     </div>
                 </div>
             </div>
@@ -85,6 +85,7 @@
 
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
+import SmartListService from "@/services/SmartListService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -106,6 +107,7 @@ import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 
 const service = new CustomerService();
+const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 let users = usersStore.userList;
@@ -384,6 +386,8 @@ watch(mainQuery, (newTableState) => {
 });
 
 onMounted(async () => {
+  smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);
+
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
