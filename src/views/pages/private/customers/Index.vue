@@ -56,6 +56,10 @@
               <CircleAvatarIcon />              
               {{ item.owner.name }}
             </template>
+
+            <template #cell-created_at="{item}">            
+                {{ $date(item.created_at).format() }}          
+            </template>
           </Table>
       </template>
 
@@ -95,6 +99,7 @@ import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
+import $date from "@/helpers/date";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Page from "@/views/layouts/Page";
@@ -107,6 +112,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {customerCategories} from "@/stub/categories";
+import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
@@ -140,6 +146,10 @@ const mainQuery = reactive({
           comparison: '='
       },   
       category_id: {
+          value: '',
+          comparison: '='
+      },
+      created_at: {
           value: '',
           comparison: '='
       }
@@ -242,19 +252,25 @@ const table = reactive({
             options: customerStatuses
           }
       },    
+      {
+          key: 'created_at',
+          label: trans('customers.labels.created_at'),
+          sorteable: true,
+          filterable: true,
+          editable: false,
+          filter: {
+            modelValue:'',
+            type: 'select',
+            options: datesFilter
+          }          
+      }, 
   ],           
   pagination: {
       meta: null,
       links: null,
   },
   actions: {
-      // edit: {
-      //     id: 'edit',
-      //     name: trans('global.actions.edit'),
-      //     icon: "fa fa-edit",
-      //     showName: false,
-      //     to: toUrl('/customers/{id}/edit')
-      // },
+      
       delete: {
           id: 'delete',
           name: trans('global.actions.delete'),
@@ -332,12 +348,25 @@ function fetchSmartList(id) {
 
     Object.assign(mainQuery, smartList.definition.query);
 
-    const {owner: ownerFilter, status: statusFilter, name: nameFilter, category_id: categoryIdFilter} = smartList.definition.query.filters;
+    const {
+      owner: ownerFilter, 
+      status: statusFilter, 
+      name: nameFilter, 
+      category_id: categoryIdFilter,
+      created_at: createdAtFilter,
+    } = smartList.definition.query.filters;
 
     if (nameFilter.value != '') {      
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
     }
+
+    if (createdAtFilter.value != '') { 
+      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+      
+      let createdAtColumn = table.columns.find(column => column.key == 'created_at');
+      createdAtColumn.filter.modelValue = selectedDate;         
+    }    
 
     if (categoryIdFilter.value != '') {  
       let selectedcategory = customerCategories.find(option => option.id == categoryIdFilter.value);
