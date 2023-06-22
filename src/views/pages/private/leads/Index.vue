@@ -391,19 +391,19 @@ function fetchSmartList(id) {
       created_at: createdAtFilter,
     } = smartList.definition.query.filters;
 
-    if (nameFilter.value != '') {      
+    if (nameFilter.value) {      
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
     }  
 
-    if (createdAtFilter.value != '') { 
+    if (createdAtFilter.value) { 
       let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
       
       let createdAtColumn = table.columns.find(column => column.key == 'created_at');
       createdAtColumn.filter.modelValue = selectedDate;         
     }    
 
-    if (ownerFilter.value != '') {
+    if (ownerFilter.value) {
       let selectedUsers = ownerFilter.value.split(',').map(item => {
         return users.find(option => option.id == item);
       });
@@ -412,7 +412,7 @@ function fetchSmartList(id) {
       ownerColumn.filter.modelValue = selectedUsers;         
     }
 
-    if (sourceFilter.value != '') {
+    if (sourceFilter.value) {
       let selectedSources = sourceFilter.value.split(',').map(item => {
         return sources.find(option => option.id == item);
       });
@@ -421,7 +421,7 @@ function fetchSmartList(id) {
       sourceColumn.filter.modelValue = selectedSources;         
     }
 
-    if (statusFilter.value != '') {
+    if (statusFilter.value) {
       let selectedStatuses = statusFilter.value.split(',').map(item => {
         return leadStatuses.find(option => option.id == item);
       });
