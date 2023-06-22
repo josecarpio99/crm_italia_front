@@ -383,11 +383,24 @@ function fetchSmartList(id) {
 
     page.title = smartList.name;
 
-    const {owner: ownerFilter, status: statusFilter, name: nameFilter, source: sourceFilter} = smartList.definition.query.filters;
+    const {
+      owner: ownerFilter, 
+      status: statusFilter, 
+      name: nameFilter, 
+      source: sourceFilter,
+      created_at: createdAtFilter,
+    } = smartList.definition.query.filters;
 
     if (nameFilter.value != '') {      
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
+    }  
+
+    if (createdAtFilter.value != '') { 
+      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+      
+      let createdAtColumn = table.columns.find(column => column.key == 'created_at');
+      createdAtColumn.filter.modelValue = selectedDate;         
     }    
 
     if (ownerFilter.value != '') {
