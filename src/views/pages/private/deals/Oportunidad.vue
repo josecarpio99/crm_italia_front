@@ -113,6 +113,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
+import { datesFilter } from "@/stub/date";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 
@@ -151,6 +152,10 @@ const mainQuery = reactive({
           value: [],
           comparison: '='
       },
+      created_at: {
+          value: '',
+          comparison: '='
+      }
   }
 });
 
@@ -238,7 +243,12 @@ const table = reactive({
           label: trans('global.labels.created_at'),
           editable: false,
           sorteable: true,
-          filterable: false          
+          filterable: true,
+          filter: {
+            modelValue:'',
+            type: 'select',
+            options: datesFilter
+          }        
       },         
   ],           
   pagination: {
@@ -378,12 +388,24 @@ function fetchSmartList(id) {
 
     Object.assign(mainQuery, smartList.definition.query);
 
-    const {owner: ownerFilter, source: sourceFilter, name: nameFilter} = smartList.definition.query.filters;
+    const {
+      owner: ownerFilter, 
+      source: sourceFilter, 
+      name: nameFilter,
+      created_at: createdAtFilter,
+    } = smartList.definition.query.filters;
 
     if (nameFilter.value != '') {      
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
     }
+
+    if (createdAtFilter.value != '') { 
+      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+      
+      let createdAtColumn = table.columns.find(column => column.key == 'created_at');
+      createdAtColumn.filter.modelValue = selectedDate;         
+    }   
 
     if (sourceFilter.value != '') {
       let selectedSources = sourceFilter.value.split(',').map(item => {
