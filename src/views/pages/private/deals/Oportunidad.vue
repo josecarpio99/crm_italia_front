@@ -368,9 +368,10 @@ function onCellChange(payload) {
 function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source') {
         mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
-    }
-    else if (column.key == 'category') {
-        mainQuery.filters['category_id'].value = value;
+    } else if (column.key == 'created_at') {
+      mainQuery.filters['created_at'].value = value.id;
+    } else if (column.key == 'category') {
+      mainQuery.filters['category_id'].value = value;
     } 
     else {
         mainQuery.filters[column.key].value = value;

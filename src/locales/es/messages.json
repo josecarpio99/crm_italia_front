@@ -138,6 +138,11 @@
       "add": "Agregar tarea"
     }
   },
+  "smart_list": {
+    "labels": {
+      "give_name": "Dar un nombre a la nueva Lista inteligente"
+    }
+  },
   "messages": {
     "name": "Mensaje"
   },

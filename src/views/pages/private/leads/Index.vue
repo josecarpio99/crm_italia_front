@@ -367,7 +367,10 @@ function onTableFilter({column, value}) {
       mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
-    } else {
+    } else if (column.key == 'created_at') {
+      mainQuery.filters['created_at'].value = value.id;
+    }
+    else {
         mainQuery.filters[column.key].value = value;
     }
 }

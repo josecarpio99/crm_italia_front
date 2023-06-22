@@ -11,7 +11,10 @@
             class="bg-white max-w-[95%] max-h-[80vh] overflow-x-hidden flex flex-col"
           >
             <div class="border-b-[1px] border-gray-200 p-4">
-              <h2><slot name="title" /></h2>
+              <slot name="title-wrapper">
+                <h2><slot name="title" /></h2>               
+
+              </slot>
             </div>
             <div v-if="!isLoading" class="p-4 overflow-x-hidden">
               <slot />

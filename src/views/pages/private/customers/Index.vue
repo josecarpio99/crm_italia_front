@@ -36,6 +36,7 @@
           <Button
             theme="outline"
             :label="trans('global.buttons.save_smart_list')"
+            @click="showSmartListModal = true"
           />
         </div>
       </template>
@@ -93,7 +94,14 @@
           </div>
         </div>
       </template>
+
   </Page>
+  <SmartListModal 
+    :modalActive="showSmartListModal" 
+    @close-modal="showSmartListModal = false" 
+    @save-modal="onSmartListSave"
+  />
+
 </template>
 
 <script setup>
@@ -113,6 +121,7 @@ import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
+import SmartListModal from "@/views/components/SmartListModal";
 import Table from "@/views/components/Table";
 import Button from "@/views/components/input/Button";
 import Avatar from "@/views/components/icons/Avatar";
@@ -126,13 +135,17 @@ import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
+import {useAuthStore} from "@/stores/auth";
+import toast from '@/helpers/toast';
 
 const route = useRoute();
 const service = new CustomerService();
 const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const authStore = useAuthStore();
 
+const showSmartListModal = ref(false);
 let users = usersStore.userList;
 let smartList = null;
 let smartLists =  [];
@@ -460,12 +473,31 @@ function onTableFilter({column, value}) {
     else if (column.key == 'status') {
       mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     } 
+    else if (column.key == 'created_at') {
+        mainQuery.filters['created_at'].value = value.id;
+    } 
     else if (column.key == 'category') {
         mainQuery.filters['category_id'].value = value;
     } 
     else {
         mainQuery.filters[column.key].value = value;
     }
+}
+
+function onSmartListSave({name}) {
+  smartListservice.store({
+    name,
+    user_id: authStore.user.id,
+    resource_type: 'customer',    
+    definition: {
+      'query': {...mainQuery}
+    } 
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      router.push({name: 'customers.list', params: {id: res.data.data.id}})
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {
