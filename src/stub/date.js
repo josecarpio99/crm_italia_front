@@ -37,6 +37,6 @@ export const datesFilter = [
   },
   {
     id: 'last_year',
-    label: 'El último año',
+    label: 'El año pasado',
   }
 ];

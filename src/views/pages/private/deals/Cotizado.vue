@@ -31,6 +31,16 @@
         </div>
       </template>
 
+      <template #beside-title>
+        <div v-if="!smartList && !page.isLoading" class="inline-block ml-4">
+          <Button
+            theme="outline"
+            :label="trans('global.buttons.save_smart_list')"
+            @click="showSmartListModal = true"
+          />
+        </div>
+      </template>
+
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
 
@@ -86,6 +96,12 @@
         </div>
       </template>
   </Page>
+
+  <SmartListModal 
+    :modalActive="showSmartListModal" 
+    @close-modal="showSmartListModal = false" 
+    @save-modal="onSmartListSave"
+  />
 </template>
 
 <script setup>
@@ -105,7 +121,9 @@ import $date from "@/helpers/date";
 import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
+import SmartListModal from "@/views/components/SmartListModal";
 import Table from "@/views/components/Table";
+import Button from "@/views/components/input/Button";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Filters from "@/views/components/filters/Filters";
 import FiltersRow from "@/views/components/filters/FiltersRow";
@@ -117,6 +135,8 @@ import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import { datesFilter } from "@/stub/date";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
+import {useAuthStore} from "@/stores/auth";
+import toast from '@/helpers/toast';
 
 const route = useRoute();
 const dealService = new DealService();
@@ -125,7 +145,9 @@ const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
+const authStore = useAuthStore();
 
+const showSmartListModal = ref(false);
 let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
 let smartList = null;
@@ -434,6 +456,22 @@ function fetchSmartList(id) {
       router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
     }
   })
+}
+
+function onSmartListSave({name}) {
+  smartListservice.store({
+    name,
+    user_id: authStore.user.id,
+    resource_type: 'cotizado',    
+    definition: {
+      'query': {...mainQuery}
+    } 
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      router.push({name: 'deals.cotizados.list', params: {id: res.data.data.id}})
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {
