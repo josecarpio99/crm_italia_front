@@ -12,7 +12,10 @@
         </router-link>  
     </div>
 
-    <div class="flex gap-1 justify-center items-center mt-6 text-gray-400">
+    <div 
+      v-if="total > perPage"
+      class="flex gap-1 justify-center items-center mt-6 text-gray-400"
+    >
       <Icon 
         class="p-2"
         :class="{
