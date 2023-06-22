@@ -48,6 +48,10 @@
               <CircleAvatarIcon />              
               {{ item.owner.name }}
             </template>
+
+            <template #cell-created_at="{item}">            
+                {{ $date(item.created_at).format() }}          
+            </template>
           </Table>
       </template>
 
@@ -92,6 +96,7 @@ import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
+import $date from "@/helpers/date";
 import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
@@ -102,8 +107,8 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import {customerCategories} from "@/stub/categories";
 import { leadStatuses } from "@/stub/statuses";
+import { datesFilter } from "@/stub/date";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
@@ -142,7 +147,11 @@ const mainQuery = reactive({
       owner: {
           value: '',
           comparison: '='
-      } 
+      },
+      created_at: {
+          value: '',
+          comparison: '='
+      },
   }
 });
 
@@ -233,7 +242,19 @@ const table = reactive({
           },
           cellKey: 'source.id',
           cellLabel: 'source.name'
-      },    
+      },
+      {
+          key: 'created_at',
+          label: trans('global.labels.created_at'),
+          sorteable: true,
+          filterable: true,
+          editable: false,
+          filter: {
+            modelValue:'',
+            type: 'select',
+            options: datesFilter
+          }          
+      }, 
   ],           
   pagination: {
       meta: null,
