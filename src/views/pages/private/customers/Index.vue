@@ -32,12 +32,34 @@
       </template>
 
       <template #beside-title>
-        <div v-if="!smartList && !page.isLoading" class="inline-block ml-4">
+        <div v-if="!page.isLoading" class="inline-block ml-4">
           <Button
+            v-if="!smartList"
             theme="outline"
             :label="trans('global.buttons.save_smart_list')"
             @click="showSmartListModal = true"
           />
+
+          <VDropdown 
+            v-else
+            placement="right"
+          >
+            <button>
+              <Icon class="text-gray-500 hover:text-gray-700 cursor-pointer px-2" name="ellipsis-v" />
+            </button>
+
+            <template #popper>
+              <ul>
+                <li 
+                  class="py-2 px-4 cursor-pointer text-red-500 hover:bg-gray-100"
+                  @click="deleteSmartList"
+                >
+                  {{ trans('global.actions.delete') }}
+                </li>
+              </ul>
+            </template>
+          </VDropdown>
+          
         </div>
       </template>
 
@@ -498,6 +520,14 @@ function onSmartListSave({name}) {
       router.push({name: 'customers.list', params: {id: res.data.data.id}})
     }
   });
+}
+
+function deleteSmartList() {
+  alertHelpers.confirmDanger(function () {
+    smartListservice.delete(smartList.id).then(function (response) {
+      router.push({name: 'customers.list'});
+    });
+  })
 }
 
 watch(mainQuery, (newTableState) => {
