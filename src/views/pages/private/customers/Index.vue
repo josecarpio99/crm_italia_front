@@ -31,6 +31,15 @@
         </div>
       </template>
 
+      <template #beside-title>
+        <div v-if="!smartList && !page.isLoading" class="inline-block ml-4">
+          <Button
+            theme="outline"
+            :label="trans('global.buttons.save_smart_list')"
+          />
+        </div>
+      </template>
+
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
             <template #cell-name="{item}">
@@ -105,6 +114,7 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
 import Table from "@/views/components/Table";
+import Button from "@/views/components/input/Button";
 import Avatar from "@/views/components/icons/Avatar";
 import Filters from "@/views/components/filters/Filters";
 import FiltersRow from "@/views/components/filters/FiltersRow";

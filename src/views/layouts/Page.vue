@@ -31,6 +31,9 @@
                     
                     {{ $props.title }}
                     <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
+
+                    <slot name="beside-title">                        
+                    </slot>
                 </h2>
                 <!-- Breadcrumbs -->
                 <nav class="flex" aria-label="Breadcrumb" v-if="$props.breadcrumbs.length > 0">
