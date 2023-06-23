@@ -582,7 +582,6 @@ function updateSmartList(updateQueryHasChange = true, updateDefinition = true) {
 }
 
 function updateSmartListName({value}) {
-  console.log('llego nene');
   smartList.name = value;
   page.title = value;
   updateSmartList(false, false);  

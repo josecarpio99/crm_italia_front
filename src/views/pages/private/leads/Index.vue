@@ -7,6 +7,8 @@
     :showFooter="page.showFooter"
     :displayTopMenu="true"
     :is-loading="page.isLoading"
+    :title-editable="smartList ? true : false"
+    @title-change="updateSmartListName"
   >   
       <template #top-menu> 
         <div class="flex gap-4">
@@ -32,7 +34,7 @@
       </template>
 
       <template #beside-title>
-        <div v-if="!page.isLoading" class="inline-block ml-4">
+        <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
             theme="outline"
@@ -40,30 +42,48 @@
             @click="showSmartListModal = true"
           />
 
-          <VDropdown 
-            v-else
-            placement="right"
-          >
-            <button>
-              <Icon class="text-gray-500 hover:text-gray-700 cursor-pointer px-2" name="ellipsis-v" />
-            </button>
+          <template v-else >
+            <div v-if="queryHasChange">
+              <Button
+                class="mr-3"
+                theme="transparent"
+                :label="trans('global.buttons.discard_changes')"
+                @click="discarChanges"
+              />
 
-            <template #popper>
-              <ul>
-                <li 
-                  class="py-2 px-4 cursor-pointer text-red-500 hover:bg-gray-100"
-                  @click="deleteSmartList"
-                >
-                  {{ trans('global.actions.delete') }}
-                </li>
-              </ul>
-            </template>
-          </VDropdown>
+              <Button
+                class="mr-2"
+                theme="submit"
+                :label="trans('global.buttons.save')"
+                @click="updateSmartList"
+              />
+            </div>
+
+            <VDropdown 
+              placement="right"
+            >
+              <button>
+                <Icon class="text-gray-500 align-sub text-lg hover:text-gray-700 cursor-pointer px-2" name="ellipsis-v" />
+              </button>
+  
+              <template #popper>
+                <ul>
+                  <li 
+                    class="py-2 px-4 cursor-pointer text-red-500 hover:bg-gray-100"
+                    @click="deleteSmartList"
+                  >
+                    {{ trans('global.actions.delete') }}
+                  </li>
+                </ul>
+              </template>
+            </VDropdown>
+          </template>
+          
         </div>
       </template>
   
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
             <template #cell-lead="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
@@ -121,6 +141,7 @@
 
 <script setup>
 
+import _ from "lodash";
 import {useRoute} from "vue-router";
 import router from "@/router";
 import {trans} from "@/helpers/i18n";
@@ -162,6 +183,8 @@ const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
 const authStore = useAuthStore();
 
+const tableKey = ref(1);
+const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
@@ -405,7 +428,11 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'status') {
+    if (
+      column.key == 'owner' 
+      || column.key == 'status'
+      || column.key == 'source'
+      ) {
       mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
@@ -428,7 +455,18 @@ function fetchSmartList(id) {
 
     page.title = smartList.name;
 
-    const {
+    updateColumnsForSmartList();    
+  })
+  .catch(error =>{
+    console.log(error);
+    if (error.response?.status == 404) {
+      router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
+    }
+  })
+}
+
+function updateColumnsForSmartList() {
+  const {
       owner: ownerFilter, 
       status: statusFilter, 
       name: nameFilter, 
@@ -474,14 +512,6 @@ function fetchSmartList(id) {
       let statusColumn = table.columns.find(column => column.key == 'status');
       statusColumn.filter.modelValue = selectedStatuses;         
     } 
-    
-  })
-  .catch(error =>{
-    console.log(error);
-    if (error.response?.status == 404) {
-      router.push({name: 'notFound', params: {pathMatch: 'not-found' }})
-    }
-  })
 }
 
 function onSmartListSave({name}) {
@@ -508,7 +538,42 @@ function deleteSmartList() {
   })
 }
 
+function discarChanges() {
+  Object.assign(mainQuery, structuredClone(smartList.definition.query));
+  updateColumnsForSmartList();
+  tableKey.value++;
+}
+
+function updateSmartList(updateQueryHasChange = true, updateDefinition = true) {
+  if (updateQueryHasChange) {
+    queryHasChange.value = false;    
+  }
+
+  smartListservice.update(smartList.id, {
+    name: smartList.name,
+    user_id: smartList.user_id,
+    resource_type: smartList.resource_type,    
+    definition: updateDefinition ? {
+      'query': {...mainQuery}
+    } : smartList.definition
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      smartList = res.data.data;
+      toast.success();
+    }
+  });
+}
+
+function updateSmartListName({value}) {
+  smartList.name = value;
+  page.title = value;
+  updateSmartList(false, false);  
+}
+
 watch(mainQuery, (newTableState) => {
+  if (smartList) {
+    queryHasChange.value = _.isEqual(mainQuery, smartList.definition.query) ? false : true;
+  }
   fetchPage(mainQuery);
 });
 
