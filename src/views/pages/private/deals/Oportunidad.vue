@@ -412,7 +412,7 @@ function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source') {
         mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     } else if (column.key == 'created_at') {
-      mainQuery.filters['created_at'].value = value.id;
+      mainQuery.filters['created_at'].value = value?.id;
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
     } 
@@ -430,7 +430,7 @@ function fetchSmartList(id) {
 
     page.title = smartList.name;
 
-    Object.assign(mainQuery, smartList.definition.query);
+    Object.assign(mainQuery, structuredClone(smartList.definition.query));
 
     const {
       owner: ownerFilter, 

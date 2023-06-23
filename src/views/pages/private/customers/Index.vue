@@ -128,6 +128,7 @@
 
 <script setup>
 
+import _ from "lodash";
 import {useRoute} from "vue-router";
 import router from "@/router";
 import {trans} from "@/helpers/i18n";
@@ -167,6 +168,7 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 
+const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
 let smartList = null;
@@ -391,7 +393,7 @@ function fetchSmartList(id) {
 
     page.title = smartList.name;
 
-    Object.assign(mainQuery, smartList.definition.query);
+    Object.assign(mainQuery, structuredClone(smartList.definition.query));
 
     const {
       owner: ownerFilter, 
@@ -496,7 +498,7 @@ function onTableFilter({column, value}) {
       mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
     } 
     else if (column.key == 'created_at') {
-        mainQuery.filters['created_at'].value = value.id;
+        mainQuery.filters['created_at'].value = value?.id;
     } 
     else if (column.key == 'category') {
         mainQuery.filters['category_id'].value = value;
@@ -531,6 +533,10 @@ function deleteSmartList() {
 }
 
 watch(mainQuery, (newTableState) => {
+  if (smartList) {
+    queryHasChange.value = _.isEqual(mainQuery, smartList.definition.query) ? false : true; 
+    console.log(queryHasChange.value);
+  }
   fetchPage(mainQuery);
 });
 

@@ -410,7 +410,7 @@ function onTableFilter({column, value}) {
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
     } else if (column.key == 'created_at') {
-      mainQuery.filters['created_at'].value = value.id;
+      mainQuery.filters['created_at'].value = value?.id;
     }
     else {
         mainQuery.filters[column.key].value = value;
@@ -424,7 +424,7 @@ function fetchSmartList(id) {
       router.push({name: 'notFound', params: {pathMatch: 'not-found' }});        
     }
 
-    Object.assign(mainQuery, smartList.definition.query);
+    Object.assign(mainQuery, structuredClone(smartList.definition.query));
 
     page.title = smartList.name;
 
