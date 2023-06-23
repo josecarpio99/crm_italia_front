@@ -32,7 +32,7 @@
       </template>
 
       <template #beside-title>
-        <div v-if="!page.isLoading" class="inline-block ml-4">
+        <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
             theme="outline"
@@ -40,25 +40,40 @@
             @click="showSmartListModal = true"
           />
 
-          <VDropdown 
-            v-else
-            placement="right"
-          >
-            <button>
-              <Icon class="text-gray-500 hover:text-gray-700 cursor-pointer px-2" name="ellipsis-v" />
-            </button>
+          <template v-else >
+            <div v-if="queryHasChange">
+              <Button
+                class="mr-3"
+                theme="transparent"
+                :label="trans('global.buttons.discard_changes')"
+              />
 
-            <template #popper>
-              <ul>
-                <li 
-                  class="py-2 px-4 cursor-pointer text-red-500 hover:bg-gray-100"
-                  @click="deleteSmartList"
-                >
-                  {{ trans('global.actions.delete') }}
-                </li>
-              </ul>
-            </template>
-          </VDropdown>
+              <Button
+                class="mr-2"
+                theme="submit"
+                :label="trans('global.buttons.save')"
+              />
+            </div>
+
+            <VDropdown 
+              placement="right"
+            >
+              <button>
+                <Icon class="text-gray-500 align-sub text-lg hover:text-gray-700 cursor-pointer px-2" name="ellipsis-v" />
+              </button>
+  
+              <template #popper>
+                <ul>
+                  <li 
+                    class="py-2 px-4 cursor-pointer text-red-500 hover:bg-gray-100"
+                    @click="deleteSmartList"
+                  >
+                    {{ trans('global.actions.delete') }}
+                  </li>
+                </ul>
+              </template>
+            </VDropdown>
+          </template>
           
         </div>
       </template>

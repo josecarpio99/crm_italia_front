@@ -21,20 +21,22 @@
             class="flex flex-wrap justify-between py-6 px-8 pb-2 border-b-2 bg-white"
         >
             <div>
-                <h2 class="bold text-2xl mb-3">
-                    <Icon 
-                        v-if="$props.displayTopMenu" 
-                        name="bars" 
-                        class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer mr-2" 
-                        @click="showTopMenu = true"
-                    />
-                    
-                    {{ $props.title }}
-                    <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
-
+                <div class="flex">
+                    <h2 class="bold text-2xl mb-3">
+                        <Icon 
+                            v-if="$props.displayTopMenu" 
+                            name="bars" 
+                            class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer mr-2" 
+                            @click="showTopMenu = true"
+                        />
+                        
+                        {{ $props.title }}
+                        <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
+    
+                    </h2>
                     <slot name="beside-title">                        
                     </slot>
-                </h2>
+                </div>
                 <!-- Breadcrumbs -->
                 <nav class="flex" aria-label="Breadcrumb" v-if="$props.breadcrumbs.length > 0">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">

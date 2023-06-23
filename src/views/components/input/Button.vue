@@ -71,7 +71,7 @@ export default defineComponent({
                     value += 'text-theme-500 border-[1px] border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
                     break;
                 case 'transparent':
-                    value += 'text-blue-600 bg-transparent hover:bg-gray-300'
+                    value += 'text-blue-600 bg-transparent hover:bg-gray-200'
                     break;        
                 default:
                     value += 'text-white bg-theme-500 hover:bg-theme-800 focus:bg-theme-600 focus:ring-theme-600';
