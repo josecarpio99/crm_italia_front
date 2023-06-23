@@ -46,12 +46,14 @@
                 class="mr-3"
                 theme="transparent"
                 :label="trans('global.buttons.discard_changes')"
+                @click="discarChanges"
               />
 
               <Button
                 class="mr-2"
                 theme="submit"
                 :label="trans('global.buttons.save')"
+                @click="updateSmartList"
               />
             </div>
 
@@ -79,7 +81,7 @@
       </template>
 
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
             <template #cell-name="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
@@ -183,6 +185,7 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 
+const tableKey = ref(1);
 const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
@@ -410,51 +413,7 @@ function fetchSmartList(id) {
 
     Object.assign(mainQuery, structuredClone(smartList.definition.query));
 
-    const {
-      owner: ownerFilter, 
-      status: statusFilter, 
-      name: nameFilter, 
-      category_id: categoryIdFilter,
-      created_at: createdAtFilter,
-    } = smartList.definition.query.filters;
-
-    if (nameFilter.value) {      
-      let nameColumn = table.columns.find(column => column.key == 'name');
-      nameColumn.filter.modelValue = nameFilter.value;         
-    }
-
-    if (createdAtFilter.value) { 
-      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
-      
-      let createdAtColumn = table.columns.find(column => column.key == 'created_at');
-      createdAtColumn.filter.modelValue = selectedDate;         
-    }    
-
-    if (categoryIdFilter.value) {  
-      let selectedcategory = customerCategories.find(option => option.id == categoryIdFilter.value);
-      
-      let categoryIdColumn = table.columns.find(column => column.key == 'category');
-      categoryIdColumn.filter.modelValue = selectedcategory;         
-    }
-
-    if (ownerFilter.value) {
-      let selectedUsers = ownerFilter.value.split(',').map(item => {
-        return users.find(option => option.id == item);
-      });
-      
-      let ownerColumn = table.columns.find(column => column.key == 'owner');
-      ownerColumn.filter.modelValue = selectedUsers;         
-    }
-
-    if (statusFilter.value) {
-      let selectedStatuses = statusFilter.value.split(',').map(item => {
-        return customerStatuses.find(option => option.id == item);
-      });
-      
-      let statusColumn = table.columns.find(column => column.key == 'status');
-      statusColumn.filter.modelValue = selectedStatuses;         
-    } 
-
+    updateColumnsForSmartList(); 
   })
   .catch(error =>{
     console.log(error);
@@ -545,6 +504,80 @@ function deleteSmartList() {
       router.push({name: 'customers.list'});
     });
   })
+}
+
+function updateColumnsForSmartList() {
+  const {
+    owner: ownerFilter, 
+    status: statusFilter, 
+    name: nameFilter, 
+    category_id: categoryIdFilter,
+    created_at: createdAtFilter,
+  } = smartList.definition.query.filters;
+
+  if (nameFilter.value) {      
+    let nameColumn = table.columns.find(column => column.key == 'name');
+    nameColumn.filter.modelValue = nameFilter.value;         
+  }
+
+  if (createdAtFilter.value) { 
+    let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+    
+    let createdAtColumn = table.columns.find(column => column.key == 'created_at');
+    createdAtColumn.filter.modelValue = selectedDate;         
+  }    
+
+  if (categoryIdFilter.value) {  
+    let selectedcategory = customerCategories.find(option => option.id == categoryIdFilter.value.id);
+    
+    let categoryIdColumn = table.columns.find(column => column.key == 'category');
+    categoryIdColumn.filter.modelValue = selectedcategory;         
+  }
+
+  if (ownerFilter.value) {
+    let selectedUsers = ownerFilter.value.split(',').map(item => {
+      return users.find(option => option.id == item);
+    });
+    
+    let ownerColumn = table.columns.find(column => column.key == 'owner');
+    ownerColumn.filter.modelValue = selectedUsers;         
+  }
+
+  if (statusFilter.value) {
+    let selectedStatuses = statusFilter.value.split(',').map(item => {
+      return customerStatuses.find(option => option.id == item);
+    });
+    
+    let statusColumn = table.columns.find(column => column.key == 'status');
+    statusColumn.filter.modelValue = selectedStatuses;         
+  } 
+}
+
+function discarChanges() {
+  Object.assign(mainQuery, structuredClone(smartList.definition.query));
+  updateColumnsForSmartList();
+  tableKey.value++;
+  console.log(table.columns);
+}
+
+function updateSmartList() {
+  queryHasChange.value = false;
+  // smartList.definition.query = structuredClone({...mainQuery});
+  // Object.assign(smartList.definition.query, structuredClone({...mainQuery}));
+
+  smartListservice.update(smartList.id, {
+    name: smartList.name,
+    user_id: smartList.user_id,
+    resource_type: smartList.resource_type,    
+    definition: {
+      'query': {...mainQuery}
+    } 
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      smartList = res.data.data;
+      toast.success();
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {

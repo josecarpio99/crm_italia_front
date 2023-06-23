@@ -7,7 +7,7 @@ const toast = (function() {
   return {
     success(msg = '') {
       if (msg == '') {
-        msg = trans('global.phrases.add_success')
+        msg = trans('global.alerts.success')
       }
       toast.success(msg);
     },
