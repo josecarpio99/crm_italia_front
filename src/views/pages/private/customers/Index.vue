@@ -7,6 +7,8 @@
     :showFooter="page.showFooter"
     :displayTopMenu="true"
     :is-loading="page.isLoading"
+    :title-editable="smartList ? true : false"
+    @title-change="updateSmartListName"
   >      
       <template #top-menu> 
         <div class="flex gap-4">
@@ -557,21 +559,20 @@ function discarChanges() {
   Object.assign(mainQuery, structuredClone(smartList.definition.query));
   updateColumnsForSmartList();
   tableKey.value++;
-  console.log(table.columns);
 }
 
-function updateSmartList() {
-  queryHasChange.value = false;
-  // smartList.definition.query = structuredClone({...mainQuery});
-  // Object.assign(smartList.definition.query, structuredClone({...mainQuery}));
+function updateSmartList(updateQueryHasChange = true, updateDefinition = true) {
+  if (updateQueryHasChange) {
+    queryHasChange.value = false;    
+  }
 
   smartListservice.update(smartList.id, {
     name: smartList.name,
     user_id: smartList.user_id,
     resource_type: smartList.resource_type,    
-    definition: {
+    definition: updateDefinition ? {
       'query': {...mainQuery}
-    } 
+    } : smartList.definition
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
       smartList = res.data.data;
@@ -580,10 +581,16 @@ function updateSmartList() {
   });
 }
 
+function updateSmartListName({value}) {
+  console.log('llego nene');
+  smartList.name = value;
+  page.title = value;
+  updateSmartList(false, false);  
+}
+
 watch(mainQuery, (newTableState) => {
   if (smartList) {
-    queryHasChange.value = _.isEqual(mainQuery, smartList.definition.query) ? false : true; 
-    console.log(queryHasChange.value);
+    queryHasChange.value = _.isEqual(mainQuery, smartList.definition.query) ? false : true;
   }
   fetchPage(mainQuery);
 });

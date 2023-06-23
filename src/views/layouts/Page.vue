@@ -22,18 +22,43 @@
         >
             <div>
                 <div class="flex">
-                    <h2 class="bold text-2xl mb-3">
+                    <span class="mr-2">
                         <Icon 
                             v-if="$props.displayTopMenu" 
                             name="bars" 
                             class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer mr-2" 
                             @click="showTopMenu = true"
                         />
+                    </span>
+                    <h2 
+                        class="group bold text-2xl mb-3"
+                        :class="{hidden:showInput}"
+                    >
                         
                         {{ $props.title }}
+
+                        <span 
+                            v-if="$props.titleEditable"
+                            @click="handleTitleClick" 
+                            class="cursor-pointer text-lg invisible align-middle text-gray-400 hover:text-gray-700 group-hover:visible"
+                        >
+                            <i class="fa fa-pencil"></i>
+                        </span>
+
                         <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
     
                     </h2>
+
+                    <input 
+                        v-if="$props.titleEditable" 
+                        type="text" 
+                        ref="inputElement" 
+                        @blur="handleTitleBlur" 
+                        @keypress.enter="handleTitleEnter"
+                        v-model="titleInputValue" 
+                        class="border text-xl border-gray focus:outline-none focus:ring focus:ring-transparent focus:border-gray-500" 
+                        :class="`${showInput ? 'block' : 'hidden'}`"
+                    >
                     <slot name="beside-title">                        
                     </slot>
                 </div>
@@ -84,7 +109,7 @@
 </template>
 
 <script>
-import {computed, defineComponent, ref} from "vue";
+import {computed, defineComponent, ref, watch} from "vue";
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import Button from "@/views/components/input/Button";
@@ -106,6 +131,10 @@ export default defineComponent({
         title: {
             type: String,
             default: "",
+        },
+        titleEditable: {
+            type: Boolean,
+            default: false,
         },
         titleIcon: {
             type: Object,
@@ -136,11 +165,14 @@ export default defineComponent({
             default: false
         }        
     },
-    emits: ['action'],
+    emits: ['action', 'title-change'],
     setup(props, {emit}) {
 
         const alertStore = useAlertStore();
         const showTopMenu = ref(false);
+        const titleInputValue = ref(props.title);
+        const showInput = ref(false);
+        const inputElement = ref();
 
         function onPageActionClick(data) {
             emit('action', data);
@@ -150,13 +182,46 @@ export default defineComponent({
             return useGlobalStateStore().loadingElements[props.id] || props.isLoading;
         });
 
+        watch(() => props.title, (newValue) => {  
+            titleInputValue.value = newValue;
+        });
+
+        function handleTitleClick()
+        {
+            showInput.value = true            
+            setTimeout(()=>{
+                (inputElement.value).focus()
+            }, 200)  
+            
+        }
+
+        function handleTitleBlur()
+        {        
+            showInput.value = false;
+            titleInputValue.value = props.title;    
+        }
+
+        function handleTitleEnter()
+        {
+            showInput.value = false
+            emit('title-change', {
+                value: titleInputValue.value
+            })
+        }
+
         return {
             trans,
             toUrl,
             onPageActionClick,
             isElementLoading,
             alertStore,
-            showTopMenu
+            showTopMenu,
+            titleInputValue,
+            showInput,
+            inputElement,
+            handleTitleEnter,
+            handleTitleClick,
+            handleTitleBlur
         }
     }
 })
