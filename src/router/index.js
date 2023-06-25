@@ -37,13 +37,7 @@ router.beforeEach(async (to, from, next) => {
         next({name: 'home'})
     } else if (visitor && authStore.user) {
         next({name: 'dashboard'})
-    } else if (belongsToOwnerOnly) {
-        if (authStore.user.is_owner) {
-            next()
-        } else {
-            next({name: 'dashboard'})
-        }
-    } else {
+    }  else {
         next()
     }
 })

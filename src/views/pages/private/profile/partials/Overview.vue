@@ -16,16 +16,10 @@
                             </Badge>
                         </li>
                         <li class="text-gray-700"><i class="fa fa-envelope"></i> {{ user.email }}</li>
-                        <li class="mt-5 text-gray-500">{{
-                                trans('global.phrases.member_since', {date: user.created_at})
-                            }}
-                        </li>
+                        
                     </ul>
                     <div class="mt-4">
-                        <Button @click.prevent="onChangeAvatar" type="success" :label="trans('global.buttons.change_avatar')"/>
-                        <form @submit.prevent="onVerificationSend" class="inline-block ml-3" v-if="!user.email_verified_at">
-                            <Button type="submit" :label="trans('users.status.ask_verify')"/>
-                        </form>
+                        <Button @click.prevent="onChangeAvatar" type="success" :label="trans('global.buttons.change_avatar')"/>                       
                     </div>
                 </div>
             </div>
