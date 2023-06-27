@@ -497,7 +497,6 @@ function updateColumnsForSmartList() {
     let [minValue, maxValue] = valueFilter.value.split(',');
 
     let valueColumn = table.columns.find(column => column.key == 'value');
-    console.log([minValue, maxValue]);
     valueColumn.filter.modelValue = {
       minValue,
       maxValue
