@@ -92,3 +92,15 @@ export default defineComponent({
     }
 });
 </script>
+
+<style>
+    button:disabled {
+        background-color: theme('colors.gray.300');
+        color: theme('colors.gray.500');
+    }
+
+    button:disabled:hover {
+        background-color: theme('colors.gray.300');
+        color: theme('colors.gray.500');
+    }
+</style>

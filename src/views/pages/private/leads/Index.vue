@@ -433,7 +433,7 @@ function onTableFilter({column, value}) {
       || column.key == 'status'
       || column.key == 'source'
       ) {
-      mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : '';
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
     } else if (column.key == 'created_at') {

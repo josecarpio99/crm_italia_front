@@ -444,13 +444,14 @@ function onCellChange(payload) {
 
 function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source') {
-        mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : '';
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id;
     } else if (column.key == 'category') {
       mainQuery.filters['category_id'].value = value;
-    } else if (column.key == 'value') {     
-      mainQuery.filters['value'].value = `${value.minValue ?? 0},${value.maxValue ?? 0}`;
+    } else if (column.key == 'value') {  
+      let newValue = (!value.minValue && !value.maxValue) ? '' : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
+      mainQuery.filters['value'].value = newValue;
     } 
     else {
         mainQuery.filters[column.key].value = value;

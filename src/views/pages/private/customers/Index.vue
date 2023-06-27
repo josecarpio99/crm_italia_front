@@ -467,12 +467,9 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner') {
-        mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
+    if (column.key == 'owner' || column.key == 'status') {
+      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : '';
     }
-    else if (column.key == 'status') {
-      mainQuery.filters[column.key].value = value.map(item => item.id).join(',');
-    } 
     else if (column.key == 'created_at') {
         mainQuery.filters['created_at'].value = value?.id;
     } 
