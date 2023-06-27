@@ -28,7 +28,8 @@
     "vue-multiselect": "^3.0.0-alpha.2",
     "vue-router": "^4.0.11",
     "vue-select": "^4.0.0-beta.6",
-    "vue-toast-notification": "^3.1.1"
+    "vue-toast-notification": "^3.1.1",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@tailwindcss/aspect-ratio": "^0.4.0",
