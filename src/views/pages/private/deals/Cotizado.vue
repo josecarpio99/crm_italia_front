@@ -219,6 +219,10 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },
+      value: {
+          value: '',
+          comparison: '='
+      },
       created_at: {
           value: '',
           comparison: '='
@@ -263,7 +267,14 @@ const table = reactive({
           label: trans('global.labels.value'),
           editable: true,
           sorteable: false,
-          filterable: false          
+          filterable: true,
+          filter: {
+            modelValue: {
+              minValue: null,
+              maxValue: null
+            },
+            type: 'range'
+          },          
       },         
       {
           key: 'source',
@@ -439,8 +450,9 @@ function onTableFilter({column, value}) {
       mainQuery.filters['created_at'].value = value?.id;
     } else if (column.key == 'category') {
         mainQuery.filters['category_id'].value = value;
-    } 
-    else {
+    } else if (column.key == 'value') {     
+      mainQuery.filters['value'].value = `${value.minValue ?? 0},${value.maxValue ?? 0}`;
+    } else {
         mainQuery.filters[column.key].value = value;
     }
 }
@@ -472,12 +484,24 @@ function updateColumnsForSmartList() {
     owner: ownerFilter, 
     source: sourceFilter, 
     name: nameFilter,
-    created_at: createdAtFilter
+    created_at: createdAtFilter,
+    value: valueFilter
   } = smartList.definition.query.filters;
 
   if (nameFilter.value) {      
     let nameColumn = table.columns.find(column => column.key == 'name');
     nameColumn.filter.modelValue = nameFilter.value;         
+  }
+
+  if (valueFilter.value) {      
+    let [minValue, maxValue] = valueFilter.value.split(',');
+
+    let valueColumn = table.columns.find(column => column.key == 'value');
+    console.log([minValue, maxValue]);
+    valueColumn.filter.modelValue = {
+      minValue,
+      maxValue
+    };    
   }
 
   if (createdAtFilter.value) { 

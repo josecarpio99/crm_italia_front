@@ -37,7 +37,23 @@
             class="mb-4" type="text" name="filter" v-model="inputValue" 
             :label="$t('global.labels.filter')"
           />
-          
+
+          <div           
+            v-if="column.filter.type == 'range'"
+          >
+            <span class="mb-2 block text-center border-b-2 text-gray-500">{{ column.label }}</span>
+            <div class="flex justify-between gap-2">
+              <TextInput 
+                class="mb-4" type="text" name="minValue" v-model="inputValue.minValue"
+              />       
+  
+              <TextInput 
+                class="mb-4" type="text" name="maxValue" v-model="inputValue.maxValue"
+              />
+            </div>
+
+          </div>
+
           <Dropdown  
             v-else-if="['select', 'multiselect', 'radio'].includes(column.filter.type)"
             :open="true"
@@ -78,8 +94,9 @@ const props = defineProps({
 const emit = defineEmits(['sort-change', 'filter-change', 'update:modelValue']);
 
 const showInput = ref(false);
-const inputValue = ref(props.column.filter?.modelValue); 
-
+const inputValue = props.column.filter?.type == 'range' ?
+                  reactive(props.column.filter?.modelValue) :
+                  ref(props.column.filter?.modelValue); 
 
 watch(inputValue, (newValue) => {  
   inputValue.value = newValue;   
