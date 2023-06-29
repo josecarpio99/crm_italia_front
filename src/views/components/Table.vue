@@ -2,38 +2,33 @@
   <div class="w-full shadow border-b border-gray-200 mb-8 sm:rounded-lg overflow-auto table-wrapper">
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
-        <tr>
-          <!-- <th v-for="(column, i) in columns" scope="col"
-            class="align-middle px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" :class="column.class">
-            <slot :name="'column-' + i">
-              <div class="leading-loose inline-block">{{ column.label }}</div>
-              <div class="sort-arrows inline-block text-center absolute" v-if="column.sorteable">
-                <span @click.prevent="onSortChange(column.key, 'asc')" :class="sortControlClasses(i, 'asc')"
-                  class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
-                    class="fa fa-caret-up"></i></span>
-                <span @click.prevent="onSortChange(column.key, 'desc')" :class="sortControlClasses(i, 'desc')"
-                  class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
-                    class="fa fa-caret-down"></i></span>
-              </div>
-            </slot>
-          </th> -->
-          <TableHeader 
-            v-for="(column, i) in columns" 
-            :column="column" 
-            :currentSort="currentSort"
-            @sort-change="onSortChange" 
-            @filter-change="onFilterChange"
-          />
+        <draggable 
+          
+          :list="columnsData"
+          tag="tr" 
+          item-key="columns"
+          @change="onColumnChange"
+        >
+          <template #item="{ element: column }" >
+            <TableHeader  
+              :column="column" 
+              :currentSort="currentSort"
+              @sort-change="onSortChange" 
+              @filter-change="onFilterChange"              
+            />
+
+          </template>
           <th v-if="actions" scope="col"
             class="align-middle px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
             <slot name="actions">{{ trans('global.actions.name') }}</slot>
           </th>
-        </tr>
+        </draggable>
+        
       </thead>
       <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
         <tr v-for="(record, i) in records">          
          
-          <template v-for="(column, j) in columns">
+          <template v-for="(column, j) in columnsData">
             <TableCell
                     :editable="column.editable" 
                     :cellvalue="getCellValue(record, column)"
@@ -88,6 +83,7 @@
 <script setup>
 import { trans } from "@/helpers/i18n";
 import { computed, defineComponent, reactive } from "vue";
+import draggable from 'vuedraggable';
 import Pager from "@/views/components/Pager";
 import Spinner from "@/views/components/icons/Spinner";
 import TableHeader from "@/views/components/table/TableHeader";
@@ -127,9 +123,10 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved']);
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
+const columnsData = reactive(props.columns.filter(column => column.show));
 
 const columnsLength = computed(() => {
   let total = 0;
@@ -245,6 +242,12 @@ function getCellLabel(record, column) {
   let cellLabel = column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;  
   return getPropByString(record, cellLabel) || '';
 }
+
+function onColumnChange(value) {
+  emit('moved', {columns: columnsData});
+}
+
+
 
 const currentPage = computed(() => {
   return getPaginationMeta('current_page');

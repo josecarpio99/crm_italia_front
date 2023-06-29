@@ -82,8 +82,17 @@
         </div>
       </template>
 
+      <template #page-actions>
+        <div class="flex items-center">
+          <FieldsButton
+            :columns="table.columns"
+            @update="onFieldsChange"
+          />
+        </div>
+      </template>
+
       <template #default>
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved">
 
             <template #cell-deal="{item}">
               <router-link 
@@ -154,7 +163,7 @@ import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import SmartListService from "@/services/SmartListService";
 import DealService from "@/services/DealService";
-import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
+import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent, computed } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
@@ -164,6 +173,7 @@ import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
 import SmartListModal from "@/views/components/SmartListModal";
+import FieldsButton from "@/views/components/FieldsButton";
 import Table from "@/views/components/Table";
 import Button from "@/views/components/input/Button";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
@@ -173,6 +183,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
+import {dealColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
@@ -245,89 +256,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: [
-      {
-          key: 'deal',
-          label: trans('global.pages.deal')
-      },   
-      {
-          key: 'name',
-          label: trans('global.labels.name'),
-          editable: true,
-          sorteable: true,
-          filterable: true,
-          filter: {
-            modelValue: '',
-            type: 'input'            
-          }
-      },         
-      {
-          key: 'value',
-          label: trans('global.labels.value'),
-          editable: true,
-          sorteable: false,
-          filterable: true,
-          filter: {
-            modelValue: {
-              minValue: null,
-              maxValue: null
-            },
-            type: 'range'
-          },       
-      },         
-      {
-          key: 'source',
-          label: trans('global.labels.source'),
-          sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue: '',
-            type: 'multiselect',
-            options: [],
-            optionsLabel: 'name'
-          },
-          edit: {
-            type: 'list',
-            options: [],
-            optionsLabel: 'name'
-          },
-          cellKey: 'source.id',
-          cellLabel: 'source.name'
-      },       
-      {
-          key: 'owner',
-          label: trans('global.labels.owner'),
-          sorteable: false,
-          filterable: true,
-          editable: true,
-          filter: {
-            modelValue: '',
-            type: 'multiselect',
-            options: [],
-            optionsLabel: 'name'
-          },
-          edit: {
-            type: 'list',
-            options: [],
-            optionsLabel: 'name'
-          },
-          cellKey: 'owner.id',
-          cellLabel: 'owner.name'
-      },
-      {
-          key: 'created_at',
-          label: trans('global.labels.created_at'),
-          editable: false,
-          sorteable: true,
-          filterable: true,
-          filter: {
-            modelValue:'',
-            type: 'select',
-            options: datesFilter
-          }        
-      },         
-  ],           
+  columns: dealColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -335,6 +264,8 @@ const table = reactive({
   loading: true,
   records: null  
 })  
+
+const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 
 function onTableSort(params) {
   mainQuery.sort = params;
@@ -444,18 +375,22 @@ function onCellChange(payload) {
 
 function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source') {
-      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : '';
+      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
-      mainQuery.filters['created_at'].value = value?.id;
+      mainQuery.filters['created_at'].value = value?.id || null;
     } else if (column.key == 'category') {
-      mainQuery.filters['category_id'].value = value;
+      mainQuery.filters['category_id'].value = value || null;
     } else if (column.key == 'value') {  
-      let newValue = (!value.minValue && !value.maxValue) ? '' : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
+      let newValue = (!value.minValue && !value.maxValue) ? null : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
       mainQuery.filters['value'].value = newValue;
     } 
     else {
-        mainQuery.filters[column.key].value = value;
+        mainQuery.filters[column.key].value = value || null;
     }
+
+    let _column = table.columns.find(tableColumn => tableColumn.key == column.key);
+    
+    _column.filter.modelValue = value;
 }
 
 function fetchSmartList(id) {
@@ -469,6 +404,7 @@ function fetchSmartList(id) {
 
     Object.assign(mainQuery, structuredClone(smartList.definition.query));
 
+    setColumnsForSmartList();
     updateColumnsForSmartList();
   })
   .catch(error =>{
@@ -535,7 +471,8 @@ function onSmartListSave({name}) {
     user_id: authStore.user.id,
     resource_type: 'oportunidad',    
     definition: {
-      'query': {...mainQuery}
+      'query': {...mainQuery},
+      'fields': selectedFields.value
     } 
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
@@ -555,6 +492,7 @@ function deleteSmartList() {
 
 function discarChanges() {
   Object.assign(mainQuery, structuredClone(smartList.definition.query));
+  setColumnsForSmartList();
   updateColumnsForSmartList();
   tableKey.value++;
 }
@@ -569,7 +507,9 @@ function updateSmartList(updateQueryHasChange = true, updateDefinition = true) {
     user_id: smartList.user_id,
     resource_type: smartList.resource_type,    
     definition: updateDefinition ? {
-      'query': {...mainQuery}
+      'query': {...mainQuery},
+      'fields': selectedFields.value 
+
     } : smartList.definition
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
@@ -579,15 +519,78 @@ function updateSmartList(updateQueryHasChange = true, updateDefinition = true) {
   });
 }
 
+function setColumnsForSmartList() {
+  let remainingColumns = table.columns
+    .filter(column => !smartList.definition.fields.includes(column.key))
+
+  remainingColumns.forEach(column => column.show = false);
+
+  let selectedColumns = smartList.definition.fields.map(field => {
+      return table.columns.find(column => column.key == field)
+    })
+
+  selectedColumns.forEach(column => column.show = true);
+
+  table.columns = selectedColumns.concat(remainingColumns);
+}
+
 function updateSmartListName({value}) {
   smartList.name = value;
   page.title = value;
   updateSmartList(false, false);  
 }
 
+function onColumnMoved({columns}) { 
+  let remainingColumns = table.columns.filter(column => !column.show);
+
+  let selectedColumns = columns.map(columnMoved => {
+    return table.columns.find(column => column.key == columnMoved.key);
+  })
+  
+  table.columns = selectedColumns.concat(remainingColumns);
+  // table.columns = columns;
+  if (smartList) {
+    checkIfTableChange();
+  }
+  tableKey.value++;
+}
+
+function onFieldsChange({columns}) {
+  table.columns = columns;
+  if (smartList) {
+    checkIfTableChange();
+  }
+  resetQueryOfRemovedColumns();
+  tableKey.value++;
+}
+
+function resetQueryOfRemovedColumns() {
+  table.columns.forEach(column => {
+    if (!column.show) {
+      if (mainQuery.filters[column.key]) {
+        if (column.key == 'category') {
+          mainQuery.filters.category_id.value = '';
+        } else {
+          mainQuery.filters[column.key].value = '';  
+        }
+        column.filter.modelValue = null;
+      }
+    }   
+  });
+}
+
+function checkIfTableChange() {
+  queryHasChange.value = (
+    _.isEqual(mainQuery, smartList.definition.query) &&
+    _.isEqual(selectedFields.value, smartList.definition.fields)
+  )
+    ? false 
+    : true;
+}
+
 watch(mainQuery, (newTableState) => {
   if (smartList) {
-    queryHasChange.value = _.isEqual(mainQuery, smartList.definition.query) ? false : true;
+    checkIfTableChange();
   }
   fetchPage(mainQuery);
 });
