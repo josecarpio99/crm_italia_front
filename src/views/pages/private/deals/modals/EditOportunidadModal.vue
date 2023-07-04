@@ -63,6 +63,15 @@
            
             <TextInput class="mb-4" type="text" :required="true" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
 
+            <Dropdown  
+              class="mb-4"
+              :required="false"
+              :label="trans('deals.labels.pm_in_charge')"
+              name="pm" 
+              :options="pmChargeStatuses" 
+              v-model="form.has_project_manager"              
+            /> 
+
           </div>
           <div class="w-full lg:w-1/2"> 
           
@@ -105,7 +114,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCustomerResponsiveness, dealStages } from "@/stub/statuses";
+import { dealCustomerResponsiveness, dealStages, pmChargeStatuses } from "@/stub/statuses";
 import { dealCategories } from "@/stub/categories";
 import DealService from "@/services/DealService";
 import Alert from "@/views/components/Alert";
@@ -144,7 +153,7 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
-  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness'], 'id');
+  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager'], 'id');
   dealService.handleUpdate(
       'update-deal', 
       form.id,
@@ -166,6 +175,7 @@ onMounted( async () => {
   Object.assign(form, props.deal);
   
   form.customer_id = customers.find(option => option.id === form.customer?.id);
+  form.has_project_manager = pmChargeStatuses.find(option => option.id == form.has_project_manager);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
   form.category_id = dealCategories.find(option => option.id === form.category?.id);

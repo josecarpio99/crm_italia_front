@@ -118,3 +118,14 @@ export const potentialCustomerStatuses = [
     label: 'No es cliente potencial',
   }
 ];
+
+export const pmChargeStatuses = [
+  {
+    id: 1,
+    label: 'Asignado project manager',
+  },
+  {
+    id: 0,
+    label: 'No tengo PM',
+  }
+];

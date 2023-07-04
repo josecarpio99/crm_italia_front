@@ -116,7 +116,7 @@
 
             <template #cell-owner="{item}">             
               <CircleAvatarIcon />              
-              {{ item.owner.name }}
+              {{ item.owner?.name }}
             </template>
 
             <template #cell-created_at="{item}">            

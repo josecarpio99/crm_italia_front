@@ -100,5 +100,6 @@ export const getPropByString = (obj, propString) => {
         break;
       }
     }
-    return obj[props[i]];
+    
+    return obj ? obj[props[i]] : null;
   }
