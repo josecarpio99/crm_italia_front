@@ -60,7 +60,7 @@
                     class="group hover:bg-theme-600"
                 >
                     <a href="#" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
-                        <Icon :name="'file'" class="mr-2 pl-2 -mt-1"/>                        
+                        <Icon :name="'bar-chart'" class="mr-2 pl-2 -mt-1"/>                        
                     </a>                  
                 </li> 
             
