@@ -20,6 +20,11 @@ import {default as PageDealsCotizado} from "@/views/pages/private/deals/Cotizado
 import {default as PageDealsOportunidad} from "@/views/pages/private/deals/Oportunidad";
 import {default as PageDealsOportunidadShow} from "@/views/pages/private/deals/ShowOportunidad";
 
+import {default as OpportunitiesBestCustomers} from "@/views/pages/private/reports/OpportunitiesBestCustomers";
+import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/OpportunitiesBestSizes";
+import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
+import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
+
 import {roles} from "@/stub/roles";
 
 const routes = [
@@ -130,6 +135,35 @@ const routes = [
                     },
                 ]
             },
+            {
+                path: "reportes",
+                children: [
+                    {
+                        name: "reports.opportunities_best_customers",
+                        path: "oportunidades-mejores-clientes",
+                        meta: {requiresAuth: true},
+                        component: OpportunitiesBestCustomers,
+                    },
+                    {
+                        name: "reports.opportunities_best_sizes",
+                        path: "oportunidades-mejores-tamanos",
+                        meta: {requiresAuth: true},
+                        component: OpportunitiesBestSizes
+                    },
+                    {
+                        name: "reports.firm_quotes",
+                        path: "cotizaciones-en-firme",
+                        meta: {requiresAuth: true},
+                        component: FirmQuotes
+                    },
+                    {
+                        name: "reports.scorecard",
+                        path: "scorecard",
+                        meta: {requiresAuth: true},
+                        component: Scorecard
+                    },
+                ]
+            }
         ]
     },
     {

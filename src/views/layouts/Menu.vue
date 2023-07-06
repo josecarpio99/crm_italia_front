@@ -50,8 +50,49 @@
                     <span class="sr-only" v-html="item.name"></span> -->
                     <span v-if="item.hasOwnProperty('label') && item.label" class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300" v-html="item.label"></span>
                 </router-link>
-            </li>
-        </template>       
+            </li>            
+        </template> 
+        <VMenu
+            placement="right"
+        >
+            
+                <li
+                    class="group hover:bg-theme-600"
+                >
+                    <a href="#" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
+                        <Icon :name="'file'" class="mr-2 pl-2 -mt-1"/>                        
+                    </a>                  
+                </li> 
+            
+
+            <template #popper>
+                <ul>
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                        <router-link :to="{name: 'reports.opportunities_best_customers'}">
+                            {{ trans('deals.menu.opportunities_best_customers') }}
+                        </router-link>  
+                    </li>
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                        <router-link :to="{name: 'reports.opportunities_best_sizes'}">
+                            {{ trans('deals.menu.opportunities_best_sizes') }}
+                        </router-link>  
+                    </li>
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                        <router-link :to="{name: 'reports.firm_quotes'}">
+                            {{ trans('deals.menu.firm_quotes') }}
+                        </router-link>  
+                    </li>
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                        <router-link :to="{name: 'reports.scorecard'}">
+                            {{ trans('global.menu.scorecard') }}
+                        </router-link>  
+                    </li>
+                </ul>
+
+
+                
+            </template>
+        </VMenu>      
     </ul>
 </template>
 
@@ -60,7 +101,8 @@
 import {defineComponent} from "vue";
 import {useRouter} from "vue-router";
 import {useAuthStore} from "@/stores";
-import Icon from "@/views/components/icons/Icon"
+import Icon from "@/views/components/icons/Icon";
+import {trans} from '@/helpers/i18n';
 
 export default defineComponent({
     name: "Menu",
@@ -131,7 +173,8 @@ export default defineComponent({
 
         return {
             isEnabled,
-            isActive
+            isActive,
+            trans
         }
     }
 });

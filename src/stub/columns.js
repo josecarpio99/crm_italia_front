@@ -1,5 +1,6 @@
 import {trans} from "@/helpers/i18n";
 import {customerCategories} from "@/stub/categories";
+import {dealCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
 import { leadStatuses } from "@/stub/statuses";
@@ -231,6 +232,29 @@ export const dealColumns = [
       }
   },         
   {
+      key: 'branch',
+      label: trans('users.labels.branch'),
+      show: false,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: false,
+      cellLabel: 'owner.branch'
+  },         
+  {
+      key: 'has_project_manager',
+      label: trans('deals.labels.pm_in_charge'),
+      show: false,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: false,
+      filter: {
+        modelValue: '',
+        type: 'input'            
+      },
+  },         
+  {
       key: 'value',
       label: trans('global.labels.value'),
       show: true,
@@ -245,6 +269,33 @@ export const dealColumns = [
         },
         type: 'range'
       },       
+  },         
+  {
+      key: 'estimated_size',
+      label: trans('deals.labels.estimated_size'),
+      show: false,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: false           
+  },         
+  {
+      key: 'customer_responsiveness',
+      label: trans('deals.labels.customer_responsiveness'),
+      show: false,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: false           
+  },         
+  {
+      key: 'estimated_close_date',
+      label: trans('deals.labels.estimated_close_date'),
+      show: false,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: false           
   },         
   {
       key: 'source',
@@ -290,6 +341,26 @@ export const dealColumns = [
       cellKey: 'owner.id',
       cellLabel: 'owner.name'
   },
+  {
+      key: 'category',
+      label: trans('deals.labels.category'),
+      show: false,
+      locked: false,
+      sorteable: false,
+      filterable: false,
+      editable: false,
+      filter: {
+        modelValue: '',
+        type: 'select',
+        options: dealCategories
+      },
+      edit: {
+        type: 'list',
+        options: dealCategories
+      },
+      cellKey: 'category.id',
+      cellLabel: 'category.name'
+  },   
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),

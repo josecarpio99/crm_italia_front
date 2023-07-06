@@ -113,6 +113,10 @@
               {{ item.owner?.name }}
             </template>
 
+            <template #cell-has_project_manager="{item}">                  
+              {{ item.has_project_manager ? 'Si' : 'No' }}
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>

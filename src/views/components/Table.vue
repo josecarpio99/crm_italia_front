@@ -239,8 +239,8 @@ function getCellValue(record, column) {
 }
 
 function getCellLabel(record, column) {
-  let cellLabel = column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;  
-  return getPropByString(record, cellLabel) || '';
+  let cellLabel = column.hasOwnProperty('cellLabel') ? column.cellLabel : column.key;
+  return getPropByString(record, cellLabel) ?? '';
 }
 
 function onColumnChange(value) {

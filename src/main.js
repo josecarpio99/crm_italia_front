@@ -20,7 +20,8 @@ import {
   // Directives
   VTooltip,
   // Components
-  Dropdown
+  Dropdown,
+  Menu
 } from 'floating-vue';
 
 import "./styles/icons.css";
@@ -39,6 +40,7 @@ app.use(ToastPlugin);
 
 app.directive('tooltip', VTooltip);
 app.component('VDropdown', Dropdown);
+app.component('VMenu', Menu);
 app.component('VSelect', vSelect);
 
 app.mount('#app');

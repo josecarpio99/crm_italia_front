@@ -5,6 +5,14 @@
       "not_verified": "No verificado",
       "ask_verify": "Verificar correo electrónico"
     },
+    "header": {
+      "seller": "Vendedor",
+      "opportunities_estimated": "Oportunidades Estimadas $",
+      "opportunities_score": "Score Oportunidad",
+      "active_quotations": "Cotizaciones activas",
+      "quotations_score": "Score Cotizaciones",
+      "total_score": "Score Total"
+    },
     "roles": {
       "regular": "Regular",
       "admin": "Administración"
@@ -16,6 +24,7 @@
       "last_name": "Apellido",
       "middle_name": "Segundo nombre",
       "name": "Nombre",
+      "branch": "Sucursal",
       "avatar": "Avatar",
       "email": "Correo electrónico",
       "role": "Role",
@@ -102,7 +111,15 @@
   "deals": {
     "menu": {
       "oportunidades": "Tratos (Oportunidades)",
-      "cotizados": "Tratos (Cotizados)"
+      "cotizados": "Tratos (Cotizados)",
+      "opportunities_best_customers": "Oportunidades - Mejores clientes",
+      "opportunities_best_sizes": "Oportunidades - Mejores tamaños",
+      "firm_quotes": "Cotizaciones en firme"
+    },
+    "header": {
+      "estimated_project_size": "Importe Tamaño Estimado del Proyecto",
+      "estimated_size_deal": "Tamaño Estimado del Trato",
+      "amount_quoted": "Monto cotizado"
     },
     "labels": {
       "edit_oportunidad": "Editar trato (Oportunidad)", 
@@ -294,6 +311,9 @@
     "validation": {
       "required": "El campo es requerido",
       "maxlength": "El campo no debe contener más de {count} caracteres"
-    }
+    },    
+		"menu": {
+			"scorecard": "Scorecard"
+		}
   }
 }
