@@ -4,7 +4,6 @@
     placement="left"
   >
     <Button 
-      theme="outline"
       :label="trans('global.buttons.fields')"
     />
 

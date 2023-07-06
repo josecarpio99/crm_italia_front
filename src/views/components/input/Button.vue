@@ -74,7 +74,7 @@ export default defineComponent({
                     value += 'text-blue-600 bg-transparent hover:bg-gray-200'
                     break;        
                 default:
-                    value += 'text-white bg-theme-500 hover:bg-theme-800 focus:bg-theme-600 focus:ring-theme-600';
+                    value += 'text-white bg-theme-500 hover:bg-theme-800 focus:bg-theme-600 focus:ring-theme-600 border-theme-500 hover:border-[1px] hover:bg-white hover:text-theme-500';
                     break;
             }
 

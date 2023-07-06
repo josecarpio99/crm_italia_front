@@ -46,7 +46,7 @@
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
-            theme="outline"
+            class="mb-2"
             :label="trans('global.buttons.save_smart_list')"
             @click="showSmartListModal = true"
           />
