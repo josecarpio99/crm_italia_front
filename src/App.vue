@@ -211,7 +211,7 @@ export default {
               },
               {
                   name: trans('global.pages.leads'),
-                  icon: 'question',
+                  icon: 'flag',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
@@ -219,7 +219,7 @@ export default {
               },
               {
                   name: trans('deals.menu.oportunidades'),
-                  icon: 'plus',
+                  icon: 'sign-in',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,

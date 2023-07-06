@@ -98,7 +98,7 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'leads.show', params: {id: item.id}}"
               >
-                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="question-circle-o" />
+                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="flag" />
 
                 {{ item.name}}
               </router-link>

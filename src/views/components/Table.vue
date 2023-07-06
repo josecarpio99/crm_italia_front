@@ -259,6 +259,10 @@ const lastPage = computed(() => {
 
 </script>
 <style>
+.table-wrapper {
+  max-height: calc(100vh - 240px);
+}
+
 .sort-arrows {
   font-size: 1.2em;
   line-height: 0.7;
