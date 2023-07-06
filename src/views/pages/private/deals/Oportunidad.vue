@@ -333,7 +333,7 @@ function onCellChange(payload) {
     record.category_id = record.category?.id;    
   }
 
-  if (record.customer.category) {
+  if (record.customer?.category) {
     record.customer.category_id = record.customer.category?.id;    
   }
 

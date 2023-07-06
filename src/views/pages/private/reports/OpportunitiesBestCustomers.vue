@@ -29,14 +29,15 @@
 
             <template #cell-category="{item}">          
               <span
-               class="inline-block text-white rounded-xl px-2"
+               class="inline-block rounded-xl px-2"
                :class="{
+                'text-white' : item.category,
                 'bg-orange-400' : item.category?.id == 5,
                 'bg-blue-400' : item.category?.id == 6,
                 'bg-green-400' : item.category?.id == 7
                }"
               >
-                {{ item.category?.name }}
+                {{ item.category?.name || 'No rellenado' }}
               </span>
             </template>
 
@@ -99,8 +100,8 @@ const mainQuery = reactive({
   limit: 'all',
   search: '',
   sort: {
-    column: 'category_id',
-    direction: 'asc'
+    column: 'category_name',
+    direction: 'desc'
   },
   filters: {
       type: {
