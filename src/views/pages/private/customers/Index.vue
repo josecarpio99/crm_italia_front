@@ -114,8 +114,9 @@
               {{ item.mobile }}
             </template>
 
-            <template #cell-owner="{item}">             
-              <CircleAvatarIcon />              
+            <template #cell-owner="{item}">  
+
+              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" />              
               {{ item.owner?.name }}
             </template>
 

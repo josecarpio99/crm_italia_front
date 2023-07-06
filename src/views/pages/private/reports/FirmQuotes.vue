@@ -23,7 +23,7 @@
             </template>
 
             <template #cell-owner="{item}">             
-              <CircleAvatarIcon />              
+              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" />               
               {{ item.owner?.name }}
             </template>
 
