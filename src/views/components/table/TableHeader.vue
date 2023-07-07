@@ -1,6 +1,6 @@
 <template>
   <th scope="col"
-    class="align-middle min-w-[16rem] group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200" :class="column.class">
+    class="align-middle min-w-[16rem] group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 bg-gray-50 sticky top-0" :class="column.class">
 
     <div class="leading-loose inline-block">{{ column.label }}</div>
     <div class="sort-arrows inline-block text-center align-text-bottom" v-if="column.sorteable">
