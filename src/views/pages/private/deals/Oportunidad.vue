@@ -92,7 +92,7 @@
       </template>
 
       <template #default>
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
 
             <template #cell-deal="{item}">
               <router-link 
@@ -189,6 +189,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {dealColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
+import { PAGE_LIMIT } from "@/stub/constans";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
@@ -213,7 +214,7 @@ let smartLists =  [];
 
 const mainQuery = reactive({
   page: 1,
-  limit: 'all',
+  limit: PAGE_LIMIT,
   search: '',
   sort: '',
   filters: {
@@ -266,7 +267,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
-  records: null  
+  records: []  
 })  
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
@@ -308,7 +309,7 @@ function onFiltersClear() {
 }
 
 function fetchPage(params) {
-  table.records = [];
+  // table.records = [];
   table.loading = true;
   let query = prepareQuery(params);
   dealService
@@ -475,7 +476,10 @@ function onSmartListSave({name}) {
     user_id: authStore.user.id,
     resource_type: 'oportunidad',    
     definition: {
-      'query': {...mainQuery},
+      'query': {
+        ...mainQuery,
+        page: 1
+      },
       'fields': selectedFields.value
     } 
   }).then(res => {
@@ -590,6 +594,12 @@ function checkIfTableChange() {
   )
     ? false 
     : true;
+}
+
+function onScrollEnd() {
+  if (mainQuery.limit < table.pagination.meta.total) {
+    mainQuery.limit += PAGE_LIMIT;  
+  }
 }
 
 watch(mainQuery, (newTableState) => {

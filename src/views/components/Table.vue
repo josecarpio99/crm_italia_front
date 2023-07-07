@@ -1,5 +1,8 @@
 <template>
-  <div class="w-full shadow border-b border-gray-200 mb-8 sm:rounded-lg overflow-auto table-wrapper">
+  <div 
+    class="w-full shadow border-b border-gray-200 mb-8 sm:rounded-lg overflow-auto table-wrapper"
+    ref="tableWrapperEl"
+  >
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
         <draggable 
@@ -25,7 +28,7 @@
         </draggable>
         
       </thead>
-      <tbody v-if="records && records.length && !$props.isLoading" class="bg-white divide-y divide-gray-200">
+      <tbody v-if="records && records.length" class="bg-white divide-y divide-gray-200">
         <tr v-for="(record, i) in records">          
          
           <template v-for="(column, j) in columnsData">
@@ -61,6 +64,15 @@
           </td>
 
         </tr>
+
+        <tr v-if="$props.isLoading">
+          <td :colspan="columnsLength" class="pt-10 pb-6 text-center">
+            <template>
+              <Spinner :text-new-line="true"></Spinner>
+            </template>
+          </td>
+        </tr>
+
       </tbody>
       <tbody v-else>
         <tr>
@@ -82,13 +94,14 @@
 
 <script setup>
 import { trans } from "@/helpers/i18n";
-import { computed, defineComponent, reactive } from "vue";
+import { computed, defineComponent, reactive, ref } from "vue";
 import draggable from 'vuedraggable';
 import Pager from "@/views/components/Pager";
 import Spinner from "@/views/components/icons/Spinner";
 import TableHeader from "@/views/components/table/TableHeader";
 import TableCell from "@/views/components/table/TableCell";
-import {getPropByString} from '@/helpers/data'
+import {getPropByString} from '@/helpers/data';
+import { useInfiniteScroll } from '@vueuse/core'
 
 const props = defineProps({
   id: {
@@ -117,16 +130,21 @@ const props = defineProps({
       links: null,
     },
   },
+  infiniteScroll: {
+    type: Boolean,
+    default: false,
+  },
   isLoading: {
     type: Boolean,
     default: false,
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved', 'scrollEnd']);
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
 const columnsData = reactive(props.columns.filter(column => column.show));
+const tableWrapperEl = ref(null);
 
 const columnsLength = computed(() => {
   let total = 0;
@@ -256,6 +274,23 @@ const currentPage = computed(() => {
 const lastPage = computed(() => {
   return getPaginationMeta('last_page')
 })
+
+  
+if (props.infiniteScroll) {  
+  useInfiniteScroll(
+    tableWrapperEl,
+    () => {
+      if (!props.isLoading && props.records.length > 0) {
+        emit('scrollEnd');
+      }
+    },
+    { 
+      distance: 20,
+      interval: 300 
+    }
+  );
+}
+
 
 </script>
 <style>

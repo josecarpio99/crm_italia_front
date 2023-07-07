@@ -93,7 +93,7 @@
 
       <template #default>
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange"
-          @moved="onColumnMoved"
+          @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true"
           >
             <template #cell-name="{item}">
               <router-link 
@@ -189,6 +189,7 @@ import {customerColumns} from "@/stub/columns";
 import {customerCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
+import { PAGE_LIMIT } from "@/stub/constans";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
@@ -210,7 +211,7 @@ let smartLists =  [];
 
 const mainQuery = reactive({
   page: 1,
-  limit: 'all',
+  limit: PAGE_LIMIT,
   search: '',
   sort: '',
   filters: {
@@ -269,7 +270,7 @@ const table = reactive({
       }
   },
   loading: true,
-  records: null  
+  records: []  
 });
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
@@ -311,7 +312,7 @@ function onFiltersClear() {
 }
 
 function fetchPage(params) {
-  table.records = [];
+  // table.records = [];
   table.loading = true;
   let query = prepareQuery(params);
   service
@@ -416,7 +417,10 @@ function onSmartListSave({name}) {
     user_id: authStore.user.id,
     resource_type: 'customer',    
     definition: {
-      'query': {...mainQuery},    
+      'query': {
+        ...mainQuery,
+        page: 1
+      },    
       'fields': selectedFields.value 
     } 
   }).then(res => {
@@ -577,6 +581,12 @@ function checkIfTableChange() {
   )
     ? false 
     : true;
+}
+
+function onScrollEnd() {
+  if (mainQuery.limit < table.pagination.meta.total) {
+    mainQuery.limit += PAGE_LIMIT;  
+  }
 }
 
 watch(mainQuery, (newTableState) => {

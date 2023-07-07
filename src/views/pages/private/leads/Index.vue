@@ -92,7 +92,7 @@
       </template>
   
       <template #default>
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
             <template #cell-lead="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
@@ -179,6 +179,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import {leadColumns} from "@/stub/columns";
 import { leadStatuses } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
+import { PAGE_LIMIT } from "@/stub/constans";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
@@ -204,7 +205,7 @@ let smartLists = null;
 
 const mainQuery = reactive({
   page: 1,
-  limit: 'all',
+  limit: PAGE_LIMIT,
   search: '',
   sort: '',
   filters: {
@@ -253,7 +254,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
-  records: null  
+  records: []  
 })  
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
@@ -296,7 +297,7 @@ function onFiltersClear() {
 }
 
 function fetchPage(params) {
-  table.records = [];
+  // table.records = [];
   table.loading = true;
   let query = prepareQuery(params);
   leadService
@@ -455,7 +456,10 @@ function onSmartListSave({name}) {
     user_id: authStore.user.id,
     resource_type: 'lead',    
     definition: {
-      'query': {...mainQuery},
+      'query': {
+        ...mainQuery,
+        page: 1
+      },
       'fields': selectedFields.value
     } 
   }).then(res => {
@@ -569,6 +573,12 @@ function checkIfTableChange() {
   )
     ? false 
     : true;
+}
+
+function onScrollEnd() {
+  if (mainQuery.limit < table.pagination.meta.total) {
+    mainQuery.limit += PAGE_LIMIT;  
+  }
 }
 
 watch(mainQuery, (newTableState) => {
