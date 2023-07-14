@@ -70,6 +70,7 @@ import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
+import {useTaskStore} from "@/stores/tasks";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
@@ -79,6 +80,7 @@ import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompany
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
+const taskStore = useTaskStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
 const taskService = new TaskService();
@@ -130,7 +132,7 @@ function onNoteSubmit({content}) {
   });
 }
 
-function onTaskSubmit({content, due_at, owner}) {
+function onTaskSubmit({content, due_at, owner}) { 
   taskService.store({
     content: content,
     due_at: due_at,
@@ -189,6 +191,7 @@ async function fetchRecord() {
   page.loading = true;
   customerService.find(route.params.id).then((response) => {
     customer = response.data.data;
+    taskStore.tasks = customer.tasks;
     page.title = customer.name;
     if (customer.is_company) {
       page.titleIcon = {name: 'building-o'}

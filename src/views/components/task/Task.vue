@@ -75,7 +75,35 @@
     </div>
 
     <div v-if="isOpen" class="flex items-center justify-center p-2">
-      <p class="text-gray-500 my-4">{{ trans('global.labels.without_tasks') }}</p>
+      <ul 
+        v-if="taskStore.inCompletedTasks.length > 0"
+        class="w-full"
+      >
+        <li 
+          v-for="task in taskStore.inCompletedTasks"
+          class="flex items-center p-2"
+        >
+          <Icon 
+            name="square-o" 
+            class="text-gray-500 cursor-pointer mr-2"
+            @click="markAsCompleted(task)"
+          />
+          <div class="flex flex-col">
+            <span class="text-blue-500 whitespace-normal leading-4 cursor-pointer">{{ task.content }}</span>
+            <span 
+              class="text-xs"
+              :class="dayjs().isBefore(dayjs(task.due_at)) ? 'text-gray-500' : 'text-red-500'"
+            >
+              {{ $date(task.due_at).format('DD-MM-YYYY HH:mm A') }}
+            </span>
+          </div>
+          <Icon 
+            name="trash-o" 
+            class="text-red-500 cursor-pointer ml-auto"
+          />
+        </li>
+      </ul>
+      <p v-else class="text-gray-500 my-4">{{ trans('global.labels.without_tasks') }}</p>
     </div>
   </div>
     
@@ -92,16 +120,20 @@ import {
 import {trans} from '@/helpers/i18n';
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useTaskStore} from "@/stores/tasks";
 import Icon from "@/views/components/icons/Icon";
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import Button from "@/views/components/input/Button";
 import $date from "@/helpers/date";
+import dayjs from "dayjs";
+import toast from '@/helpers/toast';
 
 const emit = defineEmits(['submit']);
 const authStore = useAuthStore();
 const usersStore = useUsersStore();
+const taskStore = useTaskStore();
 const isOpen = ref(true);
 const showDropdown = ref(false);
 
@@ -130,6 +162,18 @@ const rules = {
 }
 
 const v$ = useVuelidate(rules, form);
+
+function markAsCompleted(task) {
+  task.done = true;
+  task.done_by = authStore.user.id
+  task.due_date = dayjs().format('YYYY-MM-DD HH:mm')
+  taskStore.markAsCompleted(task)
+    .then(res => {
+      if (res.status == 200 || res.status == 201) {
+        toast.success();
+      }
+    });
+}
 
 function onSubmit() {
   v$.value.$touch();
