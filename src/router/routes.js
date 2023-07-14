@@ -85,7 +85,7 @@ const routes = [
                     {
                         name: "customers.show",
                         path: ":id",
-                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        meta: {requiresAuth: true},
                         component: PageCustomersShow,
                     },
                 ]
@@ -102,7 +102,7 @@ const routes = [
                     {
                         name: "leads.show",
                         path: ":id",
-                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        meta: {requiresAuth: true},
                         component: PageLeadsShow,
                     },
                 ]
