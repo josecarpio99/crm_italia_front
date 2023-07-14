@@ -12,7 +12,6 @@
       <div class="text-right basis-2/12 flex justify-between items-center">
         <div>
           <Icon 
-            v-show="false"
             name="plus" 
             class="text-gray-500 cursor-pointer hover:text-blue-300" 
             @click.stop="showDropdown = !showDropdown"

@@ -50,7 +50,6 @@ function cancel() {
 }
 
 function open() {
-  return;
   isOpen.value = true;
   setTimeout(()=>{
     (textareaEl.value).focus()
