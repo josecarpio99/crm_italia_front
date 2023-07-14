@@ -100,6 +100,7 @@
           <Icon 
             name="trash-o" 
             class="text-red-500 cursor-pointer ml-auto"
+            @click="deletetask(task)"
           />
         </li>
       </ul>
@@ -129,6 +130,7 @@ import Button from "@/views/components/input/Button";
 import $date from "@/helpers/date";
 import dayjs from "dayjs";
 import toast from '@/helpers/toast';
+import alertHelpers from "@/helpers/alert";
 
 const emit = defineEmits(['submit']);
 const authStore = useAuthStore();
@@ -173,6 +175,17 @@ function markAsCompleted(task) {
         toast.success();
       }
     });
+}
+
+function deletetask(task) {
+  alertHelpers.confirmDanger(function () {
+    taskStore.delete(task)
+      .then(res => {
+        if (res.status == 200 || res.status == 201 || res.status == 204) {
+          toast.success();
+        }
+      });
+  });
 }
 
 function onSubmit() {

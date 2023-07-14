@@ -22,6 +22,17 @@ export const useTaskStore = defineStore("tasks", {
 
           return res;
         })
+    },
+    async delete(payload) {
+      const taskService = new TaskService();
+      this.tasks = this.tasks.filter(
+        (task) => task.id !== payload.id
+      );     
+      
+      return taskService.delete(payload.id)
+        .then(res => {
+          return res;
+        })
     }
   },
   getters: {
