@@ -90,12 +90,15 @@
           />
           <div class="flex flex-col">
             <span class="text-blue-500 whitespace-normal leading-4 cursor-pointer">{{ task.content }}</span>
-            <span 
-              class="text-xs"
-              :class="dayjs().isBefore(dayjs(task.due_at)) ? 'text-gray-500' : 'text-red-500'"
-            >
+            <p class="text-xs">
+              <span
+               :class="dayjs().isBefore(dayjs(task.due_at)) ? 'text-gray-500' : 'text-red-500'"
+              >
               {{ $date(task.due_at).format('DD-MM-YYYY HH:mm A') }}
-            </span>
+              </span>
+              <span> . </span>
+              <span class="text-gray-500">{{ task.owner?.name }}</span>
+            </p>
           </div>
           <Icon 
             name="trash-o" 
