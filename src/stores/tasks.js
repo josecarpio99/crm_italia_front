@@ -12,14 +12,23 @@ export const useTaskStore = defineStore("tasks", {
       const taskService = new TaskService();
       return taskService.update(payload.id, payload)
         .then(res => {
-          // let pos = this.tasks.findIndex(
-          //   (task) => task.id === payload.id
-          // )
-          // if (this.tasks[pos]) {
-          //   this.tasks[pos].done = true;       
-          //   this.tasks[pos].done_by = payload.done_by;       
-          // }
+          return res;
+        })
+    },
+    async update(payload) {
+      const taskService = new TaskService();          
+       let pos = this.tasks.findIndex(
+          (task) => task.id === payload.id
+        )
+        if (this.tasks[pos]) {
+          this.tasks[pos].content = payload.content;       
+          this.tasks[pos].due_at = payload.due_at;       
+          this.tasks[pos].owner.id = payload.owner.id;       
+          this.tasks[pos].owner.name = payload.owner.name;       
+        }
 
+      return taskService.update(payload.id, {...payload, owner_id: payload.owner.id})
+        .then(res => {
           return res;
         })
     },

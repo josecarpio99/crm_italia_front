@@ -79,33 +79,7 @@
         v-if="taskStore.inCompletedTasks.length > 0"
         class="w-full"
       >
-        <li 
-          v-for="task in taskStore.inCompletedTasks"
-          class="flex items-center p-2"
-        >
-          <Icon 
-            name="square-o" 
-            class="text-gray-500 cursor-pointer mr-2"
-            @click="markAsCompleted(task)"
-          />
-          <div class="flex flex-col">
-            <span class="text-blue-500 whitespace-normal leading-4 cursor-pointer">{{ task.content }}</span>
-            <p class="text-xs">
-              <span
-               :class="dayjs().isBefore(dayjs(task.due_at)) ? 'text-gray-500' : 'text-red-500'"
-              >
-              {{ $date(task.due_at).format('DD-MM-YYYY HH:mm A') }}
-              </span>
-              <span> . </span>
-              <span class="text-gray-500">{{ task.owner?.name }}</span>
-            </p>
-          </div>
-          <Icon 
-            name="trash-o" 
-            class="text-red-500 cursor-pointer ml-auto"
-            @click="deletetask(task)"
-          />
-        </li>
+        <IncompleteTaskItem v-for="task in taskStore.inCompletedTasks" :task="task"  />      
       </ul>
       <p v-else class="text-gray-500 my-4">{{ trans('global.labels.without_tasks') }}</p>
     </div>
@@ -125,6 +99,7 @@ import {trans} from '@/helpers/i18n';
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useTaskStore} from "@/stores/tasks";
+import IncompleteTaskItem from "@/views/components/task/IncompleteTaskItem";
 import Icon from "@/views/components/icons/Icon";
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
@@ -167,29 +142,6 @@ const rules = {
 }
 
 const v$ = useVuelidate(rules, form);
-
-function markAsCompleted(task) {
-  task.done = true;
-  task.done_by = authStore.user.id
-  task.due_date = dayjs().format('YYYY-MM-DD HH:mm')
-  taskStore.markAsCompleted(task)
-    .then(res => {
-      if (res.status == 200 || res.status == 201) {
-        toast.success();
-      }
-    });
-}
-
-function deletetask(task) {
-  alertHelpers.confirmDanger(function () {
-    taskStore.delete(task)
-      .then(res => {
-        if (res.status == 200 || res.status == 201 || res.status == 204) {
-          toast.success();
-        }
-      });
-  });
-}
 
 function onSubmit() {
   v$.value.$touch();
