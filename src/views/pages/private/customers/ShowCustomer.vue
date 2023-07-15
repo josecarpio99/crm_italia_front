@@ -71,6 +71,8 @@ import TaskService from "@/services/TaskService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import {useTaskStore} from "@/stores/tasks";
+import {useNoteStore} from "@/stores/notes";
+import {useFeedStore} from "@/stores/feed";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
@@ -81,6 +83,8 @@ import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompany
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
 const taskStore = useTaskStore();
+const noteStore = useNoteStore();
+const feedStore = useFeedStore();
 const customerService = new CustomerService();
 const noteService = new NoteService();
 const taskService = new TaskService();
@@ -127,7 +131,8 @@ function onNoteSubmit({content}) {
     content,
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
-      toast.success();      
+      toast.success();     
+      fetchRecord();
     }
   });
 }
@@ -192,6 +197,8 @@ async function fetchRecord() {
   customerService.find(route.params.id).then((response) => {
     customer = response.data.data;
     taskStore.tasks = customer.tasks;
+    noteStore.notes = customer.notes;
+    console.log(feedStore.getFeed);
     page.title = customer.name;
     if (customer.is_company) {
       page.titleIcon = {name: 'building-o'}
