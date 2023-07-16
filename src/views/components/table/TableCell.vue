@@ -1,5 +1,5 @@
 <template>
-  <td class="px-6 py-4 whitespace-nowrap text-sm" :class="{editable: $props.editable}">
+  <td class="px-4 py-2 whitespace-nowrap text-sm" :class="{editable: $props.editable}">
      <div :class="{hidden:showInput}">
       <slot />
       <span 
