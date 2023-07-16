@@ -67,17 +67,17 @@
 
             <template #popper>
                 <ul>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
                         <router-link :to="{name: 'reports.opportunities_best_customers'}">
                             {{ trans('deals.menu.opportunities_best_customers') }}
                         </router-link>  
                     </li>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
                         <router-link :to="{name: 'reports.opportunities_best_sizes'}">
                             {{ trans('deals.menu.opportunities_best_sizes') }}
                         </router-link>  
                     </li>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
                         <router-link :to="{name: 'reports.firm_quotes'}">
                             {{ trans('deals.menu.firm_quotes') }}
                         </router-link>  
@@ -103,6 +103,7 @@ import {useRouter} from "vue-router";
 import {useAuthStore} from "@/stores";
 import Icon from "@/views/components/icons/Icon";
 import {trans} from '@/helpers/i18n';
+import {can} from '@/helpers/permissions';
 
 export default defineComponent({
     name: "Menu",
@@ -146,6 +147,10 @@ export default defineComponent({
                 return false;
             }            
 
+            if (obj.hasOwnProperty('permission') && false !== obj.requiresRole) {
+                return can(obj.permission);
+            }   
+
             if (obj.hasOwnProperty('requiresRole') && false !== obj.requiresRole) {
                 return authStore.hasAccessByRole(obj.requiresRole);
             }          
@@ -174,7 +179,8 @@ export default defineComponent({
         return {
             isEnabled,
             isActive,
-            trans
+            trans,
+            authStore
         }
     }
 });

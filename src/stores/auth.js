@@ -7,7 +7,6 @@ import UserService from "@/services/UserService";
 import {trans} from "@/helpers/i18n";
 import {roles} from "@/stub/roles";
 
-
 export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
@@ -139,6 +138,14 @@ export const useAuthStore = defineStore("auth", {
                 this.user.role === roles.SUPERADMIN ||
                 this.user.role === role
             ) {
+                return true;
+            } else {
+                return false;
+            }
+        },
+
+        isDirector() {
+            if (this.user.id == 38 || this.user.email == 'jpgonzalez@lineaitalia.com.mx') {
                 return true;
             } else {
                 return false;
