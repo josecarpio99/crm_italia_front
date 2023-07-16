@@ -13,7 +13,7 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
               >
-                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="plus-square-o" />
+                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="sign-in" />
                 {{ item.name}}
               </router-link>
             </template>
@@ -164,7 +164,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['name', 'branch', 'owner', 'has_project_manager', 'source', 'estimated_size_deal', 'estimated_size'];
+const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'source', 'estimated_size_deal', 'estimated_size'];
 
 dealColumns.push({
   key: 'estimated_size_deal',

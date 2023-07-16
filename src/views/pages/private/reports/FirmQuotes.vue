@@ -13,7 +13,7 @@
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
               >
-                <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="plus-square-o" />
+                <Icon v-if="item.name" class="mr-2 text-gray-600 text-xl align-middle" name="dollar" />
                 {{ item.name}}
               </router-link>
             </template>
@@ -155,7 +155,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['name', 'branch', 'owner', 'has_project_manager', 'estimated_close_date', 'customer_responsiveness', 'value'];
+const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'estimated_close_date', 'customer_responsiveness', 'value'];
 
 const valueColumn = dealColumns.find(column => column.key == 'value');
 valueColumn.label = trans('deals.header.amount_quoted')
