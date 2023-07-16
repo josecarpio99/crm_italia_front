@@ -348,7 +348,7 @@ export const dealColumns = [
       locked: false,
       sorteable: false,
       filterable: false,
-      editable: false,
+      editable: true,
       filter: {
         modelValue: '',
         type: 'select',

@@ -339,7 +339,7 @@ function onCellChange(payload) {
     record.category_id = payload.value.id;
     record.category = {
         id: payload.value.id,
-        name: payload.value.name
+        name: payload.value.label
     };
   } else if (payload.key == 'source') {
     record.source_id = payload.value.id;

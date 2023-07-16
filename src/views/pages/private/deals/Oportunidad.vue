@@ -342,7 +342,7 @@ function onCellChange(payload) {
     record.category_id = payload.value.id;
     record.category = {
         id: payload.value.id,
-        name: payload.value.name
+        name: payload.value.label
     };
   } else if (payload.key == 'source') {
     record.source_id = payload.value.id;
@@ -613,6 +613,28 @@ onMounted(async () => {
   page.isLoading = true;
   if (!route.params.id) {
     page.title = trans('deals.menu.oportunidades');
+    if (authStore.isDirector()) {
+      const directorFields = ['deal', 'branch', 'owner', 'source', 'category', 'estimated_size'];
+
+      table.columns.forEach(column => {
+        column.show = false;
+      });
+
+      let selectedColumns = directorFields.map(field => {
+        let column = table.columns.find(column => column.key == field);
+        column.show = true;
+        return column;
+      });
+
+      let remainingColumns = table.columns.filter(column => !column.show);      
+      
+      table.columns = selectedColumns.concat(remainingColumns);
+      
+      mainQuery.sort = {
+        column: 'estimated_size',
+        direction: 'desc'
+      }
+    }
   } else {
     await fetchSmartList(route.params.id);
   }
