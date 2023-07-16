@@ -48,6 +48,7 @@
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
           <Note @submit="onNoteSubmit" />
+          <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
@@ -75,14 +76,22 @@ import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
+import {useTaskStore} from "@/stores/tasks";
+import {useNoteStore} from "@/stores/notes";
+import {useFeedStore} from "@/stores/feed";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
+import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditLeadModal from "@/views/pages/private/leads/modals/EditLeadModal.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
+const taskStore = useTaskStore();
+const noteStore = useNoteStore();
+const feedStore = useFeedStore();
+
 const leadService = new LeadService();
 const noteService = new NoteService();
 const taskService = new TaskService();
@@ -128,7 +137,8 @@ function onNoteSubmit({content}) {
     content,
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
-      toast.success();      
+      toast.success();   
+      fetchRecord();
     }
   });
 }
@@ -143,7 +153,8 @@ function onTaskSubmit({content, due_at, owner}) {
     user_id: authStore.user.id
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
-      toast.success();      
+      toast.success();    
+      fetchRecord();
     }
   });
 }
@@ -186,6 +197,8 @@ async function fetchRecord() {
   page.loading = true;
   leadService.find(route.params.id).then((response) => {
     lead = response.data.data;
+    taskStore.tasks = lead.tasks;
+    noteStore.notes = lead.notes;
     page.title = lead.name;
     if (lead.is_company) {
       page.titleIcon = {name: 'building-o'}
