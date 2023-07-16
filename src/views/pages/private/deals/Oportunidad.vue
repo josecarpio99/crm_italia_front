@@ -92,6 +92,26 @@
       </template>
 
       <template #default>
+        <table 
+            v-if="authStore.isDirector() && table.pagination.meta"
+            class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-white"
+          >          
+            <tbody>
+              <tr>
+                <td class="font-semibold border-gray-700 border-2">Oportunidades totales</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.total }}</td>
+              </tr>                     
+              <tr>
+                <td class="font-semibold border-gray-700 border-2">Total importe estimado</td>
+                <td class=" border-gray-700 border-2">{{ '$' + table.pagination.meta.estimatedSizeSum.toLocaleString('en-US') }}</td>
+              </tr>                     
+              <tr>
+                <td class="font-semibold border-gray-700 border-2">Totales clientes AAA</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.AAA_customers }}</td>
+              </tr>                     
+            </tbody>
+          </table>
+
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
 
             <template #cell-deal="{item}">

@@ -94,7 +94,7 @@
       <template #default>
           <table 
             v-if="authStore.isDirector() && table.pagination.meta"
-            class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-gray-100"
+            class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-white"
           >
             <thead>
               <tr>
