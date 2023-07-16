@@ -92,6 +92,46 @@
       </template>
 
       <template #default>
+          <table 
+            v-if="authStore.isDirector() && table.pagination.meta"
+            class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-gray-100"
+          >
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th>Número cotizaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class=" border-gray-700 border-2">Total cotizado</td>
+                <td class="font-semibold border-gray-700 border-2">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.total }}</td>
+              </tr>
+              <tr>
+                <td class=" border-gray-700 border-2">De las cuales AGS</td>
+                <td class="font-semibold border-gray-700 border-2">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.branch.AGS.count }}</td>
+              </tr>
+              <tr>
+                <td class=" border-gray-700 border-2">De las cuales CDMX</td>
+                <td class="font-semibold border-gray-700 border-2">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.branch.CDMX.count }}</td>
+              </tr>
+              <tr>
+                <td class=" border-gray-700 border-2">De las cuales MTY</td>
+                <td class="font-semibold border-gray-700 border-2">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.branch.MTY.count }}</td>
+              </tr>
+              <tr>
+                <td class=" border-gray-700 border-2">De las cuales QRO</td>
+                <td class="font-semibold border-gray-700 border-2">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</td>
+                <td class=" border-gray-700 border-2">{{ table.pagination.meta.branch.QRO.count }}</td>
+              </tr>
+            </tbody>
+          </table>
+
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
 
             <template #cell-deal="{item}">
