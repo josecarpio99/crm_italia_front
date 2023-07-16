@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-[#fff7ed] mt-2 py-2 px-4 rounded-md border-2">
+  <div class="bg-[#fff7ed] mt-2 py-2 px-4 rounded-md border-2 mb-4">
     <div class="mb-2">
       <span class="text-gray-700">{{ trans('global.labels.internal_note') }}</span>
     </div>

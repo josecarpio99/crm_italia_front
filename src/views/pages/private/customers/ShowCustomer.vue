@@ -41,7 +41,8 @@
           </div>
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
-          <Note @submit="onNoteSubmit" />
+          <Note @submit="onNoteSubmit" />          
+          <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
@@ -76,6 +77,7 @@ import {useFeedStore} from "@/stores/feed";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Task from "@/views/components/task/Task";
+import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonModal.vue";
 import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompanyModal.vue";
@@ -198,7 +200,6 @@ async function fetchRecord() {
     customer = response.data.data;
     taskStore.tasks = customer.tasks;
     noteStore.notes = customer.notes;
-    console.log(feedStore.getFeed);
     page.title = customer.name;
     if (customer.is_company) {
       page.titleIcon = {name: 'building-o'}

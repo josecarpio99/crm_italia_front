@@ -154,7 +154,14 @@
     },
     "buttons": {
       "add": "Agregar tarea",
-      "update": "Actualizar tarea"
+      "update": "Actualizar tarea",
+      "mark_incomplete": "Marcar como incompleto"
+    }
+  },
+  "notes" : { 
+    "buttons": {
+      "delete": "Borrar nota",
+      "edit": "Editar nota"
     }
   },
   "smart_list": {

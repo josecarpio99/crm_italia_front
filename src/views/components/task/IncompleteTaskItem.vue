@@ -141,7 +141,11 @@ const v$ = useVuelidate(rules, form);
 
 function markAsCompleted(task) {
   task.done = true;
-  task.done_by = authStore.user.id
+  task.done_by = authStore.user.id;
+  task.done_by_user = {
+    id: authStore.user.id,
+    name: authStore.user.name
+  };
   task.due_date = dayjs().format('YYYY-MM-DD HH:mm')
   taskStore.markAsCompleted(task)
     .then(res => {
