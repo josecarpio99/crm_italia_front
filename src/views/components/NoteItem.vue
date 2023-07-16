@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 pb-4 border-y-2 mb-2 border-gray-100 flex group">
     <div class="pr-2">
-      <Icon class="text-gray-500 align-top" name="check-square-o" />
+      <Icon class="text-gray-500 align-top" name="pencil-square-o" />
     </div>
     <div class="flex flex-col w-full">
       <div class="flex justify-between text-xs text-gray-500 min-h-[1.8rem]">
