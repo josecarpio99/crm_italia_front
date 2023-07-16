@@ -117,6 +117,15 @@
                 {{ $date(item.created_at).format() }}          
             </template>
 
+            <template #cell-estimated_close_date="{item}" v-if="authStore.isDirector()">
+              <span
+               class="inline-block rounded-xl px-2"
+               :class="getCloseDateClass(item.estimated_close_date)"
+              >
+                {{ calculateCloseDate(item.estimated_close_date) }}
+              </span>                
+            </template>
+
           </Table>
       </template>
 
@@ -169,6 +178,7 @@ import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
 import $date from "@/helpers/date";
+import dayjs from "dayjs";
 import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
@@ -599,6 +609,50 @@ function onScrollEnd() {
   }
 }
 
+function calculateCloseDate(date) {
+  if(!date) return 'No rellenado';
+
+  if (dayjs(date).isBefore(dayjs())) {
+
+    return 'Vencida';
+
+  } else if (dayjs(date).isBefore(dayjs().endOf('month'))) {
+
+    return 'Próximo a cierre';
+
+  } else if (dayjs(date).isBefore(dayjs().add(1, 'month').endOf('month'))) {
+
+    return 'Cercal del cierre'; 
+
+  } else {
+
+    return 'Lejos del cierre';
+
+  }
+}
+
+function getCloseDateClass(date) {
+  if(!date) return '';
+
+  if (dayjs(date).isBefore(dayjs())) {
+
+    return ['bg-red-500', 'text-white'];
+
+  } else if (dayjs(date).isBefore(dayjs().endOf('month'))) {
+
+    return ['bg-orange-400', 'text-white'];
+
+  } else if (dayjs(date).isBefore(dayjs().add(1, 'month').endOf('month'))) {
+
+    return ['bg-yellow-400', 'text-white']; 
+
+  } else {
+
+    return ['bg-blue-400', 'text-white'];;
+
+  }
+}
+
 watch(mainQuery, (newTableState) => {
   if (smartList) {
     checkIfTableChange();
@@ -610,6 +664,28 @@ onMounted(async () => {
   page.isLoading = true;
   if (!route.params.id) {
     page.title = trans('deals.menu.cotizados');
+    if (authStore.isDirector()) {
+      const directorFields = ['deal', 'branch', 'owner', 'estimated_close_date', 'source',  'value'];
+
+      table.columns.forEach(column => {
+        column.show = false;
+      });
+
+      let selectedColumns = directorFields.map(field => {
+        let column = table.columns.find(column => column.key == field);
+        column.show = true;
+        return column;
+      });
+
+      let remainingColumns = table.columns.filter(column => !column.show);      
+      
+      table.columns = selectedColumns.concat(remainingColumns);
+      
+      mainQuery.sort = {
+        column: 'value',
+        direction: 'desc'
+      }
+    }
   } else {
     await fetchSmartList(route.params.id);
   }
