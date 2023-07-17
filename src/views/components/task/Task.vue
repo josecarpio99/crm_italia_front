@@ -7,7 +7,7 @@
       <Icon name="check-square-o" class="basis-1/12 text-gray-500 cursor-pointer" />
       <div class="basis-full">
         <h5 class="font-semibold">{{ trans('global.labels.active_tasks') }}</h5>
-        <p class="text-xs text-gray-500 mt-1">{{ trans('global.labels.without_active_tasks') }}</p>
+        <!-- <p class="text-xs text-gray-500 mt-1">{{ trans('global.labels.without_active_tasks') }}</p> -->
       </div>
       <div class="text-right basis-2/12 flex justify-between items-center">
         <div>

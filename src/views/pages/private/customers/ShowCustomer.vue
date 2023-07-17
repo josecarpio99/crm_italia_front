@@ -46,6 +46,7 @@
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
+          <Document @submit="onDocumentSubmit" />
         </div>
       </div>
     </Panel>
@@ -69,13 +70,16 @@ import $date from "@/helpers/date";
 import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
+import DocumentService from "@/services/DocumentService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import {useTaskStore} from "@/stores/tasks";
 import {useNoteStore} from "@/stores/notes";
 import {useFeedStore} from "@/stores/feed";
+import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
+import Document from "@/views/components/Document";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
@@ -87,9 +91,13 @@ const alertStore = useAlertStore();
 const taskStore = useTaskStore();
 const noteStore = useNoteStore();
 const feedStore = useFeedStore();
+const documentStore = useDocumentStore();
+
 const customerService = new CustomerService();
 const noteService = new NoteService();
 const taskService = new TaskService();
+const documentService = new DocumentService();
+
 const route = useRoute();
 const showEditPersonModal = ref(false);
 const showEditCompanyModal = ref(false);
@@ -155,6 +163,20 @@ function onTaskSubmit({content, due_at, owner}) {
   });
 }
 
+function onDocumentSubmit({file}) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("model_type", 'customer');
+  formData.append("model_id", customer.id);
+  documentService.store(formData, {'Content-type': 'multipart/form-data'}
+  ).then(res => {
+    if (res.status == 200 || res.status == 201 || res.status == 204) {
+      toast.success();  
+      fetchRecord();
+    }
+  });
+}
+
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
@@ -200,6 +222,7 @@ async function fetchRecord() {
     customer = response.data.data;
     taskStore.tasks = customer.tasks;
     noteStore.notes = customer.notes;
+    documentStore.documents = customer.media;
     page.title = customer.name;
     if (customer.is_company) {
       page.titleIcon = {name: 'building-o'}

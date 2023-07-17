@@ -197,7 +197,7 @@ export default defineComponent({
                     ) {
                         return true;
                     }
-
+                    console.log(accepted[0], type[0], accepted[1], type[1]);
                     let error = new Error(`File ${file.name} has not accepted type ${file.type}`);
                     emit('error', error);
                     throw error;

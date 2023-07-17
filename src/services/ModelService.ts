@@ -25,12 +25,12 @@ export default abstract class ModelService extends BaseService {
         return this.get(this.url + `/${object_id}/edit`, {});
     }
 
-    public store(payload) {
+    public store(payload, headers: {
+        'Content-Type': 'application/json'
+    }) {
         let data = this.transformPayloadForSubmission(payload);
         return this.post(this.url, payload, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers,
         })
     }
 

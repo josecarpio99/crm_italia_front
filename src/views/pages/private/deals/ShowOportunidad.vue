@@ -68,6 +68,7 @@
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
+          <Document @submit="onDocumentSubmit" />
         </div>
       </div>
     </Panel>
@@ -90,13 +91,16 @@ import $date from "@/helpers/date";
 import DealService from "@/services/DealService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
+import DocumentService from "@/services/DocumentService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import {useTaskStore} from "@/stores/tasks";
 import {useNoteStore} from "@/stores/notes";
 import {useFeedStore} from "@/stores/feed";
+import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
+import Document from "@/views/components/Document";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
@@ -107,10 +111,13 @@ const alertStore = useAlertStore();
 const taskStore = useTaskStore();
 const noteStore = useNoteStore();
 const feedStore = useFeedStore();
+const documentStore = useDocumentStore();
 
 const dealService = new DealService();
 const noteService = new NoteService();
 const taskService = new TaskService();
+const documentService = new DocumentService();
+
 const route = useRoute();
 const showEditDealModal = ref(false);
 let deal = null;
@@ -175,6 +182,20 @@ function onTaskSubmit({content, due_at, owner}) {
   });
 }
 
+function onDocumentSubmit({file}) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("model_type", 'deal');
+  formData.append("model_id", deal.id);
+  documentService.store(formData, {'Content-type': 'multipart/form-data'}
+  ).then(res => {
+    if (res.status == 200 || res.status == 201 || res.status == 204) {
+      toast.success();  
+      fetchRecord();
+    }
+  });
+}
+
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
@@ -215,6 +236,7 @@ async function fetchRecord() {
     deal = response.data.data;
     taskStore.tasks = deal.tasks;
     noteStore.notes = deal.notes;
+    documentStore.documents = deal.media;
     page.title = deal.name;
     if (deal.type == 'cotizado') {
       page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
