@@ -52,7 +52,17 @@
                 </router-link>
             </li>            
         </template> 
+        <li
+            v-if="authStore.isDirector()"
+            v-tooltip.right="'Scorecard'"
+            class="group hover:bg-theme-600"
+        >
+            <router-link :to="{name: 'reports.scorecard'}" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
+                <Icon :name="'bar-chart'" class="mr-2 pl-2 -mt-1"/>                        
+            </router-link>                  
+        </li> 
         <VMenu
+            v-else
             placement="right"
         >
             
@@ -65,19 +75,19 @@
                 </li> 
             
 
-            <template #popper>
+            <template #popper >
                 <ul>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" >
                         <router-link :to="{name: 'reports.opportunities_best_customers'}">
                             {{ trans('deals.menu.opportunities_best_customers') }}
                         </router-link>  
                     </li>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" >
                         <router-link :to="{name: 'reports.opportunities_best_sizes'}">
                             {{ trans('deals.menu.opportunities_best_sizes') }}
                         </router-link>  
                     </li>
-                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" v-if="!authStore.isDirector()">
+                    <li class="py-2 px-4 border-b-[1px] border-gray-400 hover:bg-gray-200" >
                         <router-link :to="{name: 'reports.firm_quotes'}">
                             {{ trans('deals.menu.firm_quotes') }}
                         </router-link>  
