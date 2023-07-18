@@ -96,7 +96,7 @@
             v-if="authStore.isDirector() && table.pagination.meta"
             class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-white"
           >
-            <thead class="bg-blue-600 text-white">
+            <thead class="bg-theme-500 text-white">
               <tr>
                 <th></th>
                 <th></th>
