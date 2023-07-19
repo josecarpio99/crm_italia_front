@@ -6,14 +6,13 @@
         class="text-gray-500 cursor-pointer mr-2"
       />
       <div class="flex flex-col">
-        <a 
-          target="_blank"
-          :href="document.url"
+        <span 
           :class="{hidden:showInput}"
           class="cursor-pointer whitespace-normal break-all text-blue-500"
+          @click="handleShowFile"
         >
         {{ document.file_name }}
-        </a>
+        </span>
 
         <input 
           type="text" 
@@ -46,6 +45,16 @@
       />
     </div>
   </li>  
+
+  <Modal :is-showing="showFile" @close="showFile = false;" class="max-w-none">
+    <img v-if="document.type == 'image'" :src="document.url" class="mx-auto">
+    <iframe 
+      v-else-if="document.type == 'pdf'"
+      class="w-full min-h-[90vh] mx-auto" 
+      :src="document.url" 
+    >
+    </iframe>
+  </Modal>
 </template>
 
 <script setup>
@@ -56,6 +65,7 @@ import {useDocumentStore} from "@/stores/document";
 import Icon from "@/views/components/icons/Icon";
 import toast from '@/helpers/toast';
 import alertHelpers from "@/helpers/alert";
+import Modal from "@/views/components/Modal";
 
 const props = defineProps({
   document: {
@@ -67,6 +77,7 @@ const props = defineProps({
 const documentStore = useDocumentStore();
 const inputValue = ref(props.document.name);
 const showInput = ref(false);
+const showFile = ref(false);
 const inputElement = ref();
 
 function edit()
@@ -120,6 +131,14 @@ function deleteDocument() {
         }
       });
   });
+}
+
+function handleShowFile() {
+  if (!['pdf', 'image'].includes(props.document.type)) {
+    window.open(props.document.url, '_blank').focus();
+  } else {
+    showFile.value = true;
+  }
 }
 
 </script>
