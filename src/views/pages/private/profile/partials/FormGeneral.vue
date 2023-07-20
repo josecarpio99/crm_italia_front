@@ -1,9 +1,7 @@
 <template>
     <Panel :title="trans('users.labels.general_settings')">
         <form @submit.prevent="onFormSubmit">
-            <TextInput type="text" :required="true" :label="trans('users.labels.first_name')" name="first_name" v-model="form.first_name" class="mb-2"/>
-            <TextInput type="text" :required="true" :label="trans('users.labels.last_name')" name="last_name" v-model="form.last_name" class="mb-2"/>
-            <TextInput type="text" :label="trans('users.labels.middle_name')" name="middle_name" v-model="form.middle_name" class="mb-2"/>
+            <TextInput type="text" :required="true" :label="trans('users.labels.name')" name="name" v-model="form.name" class="mb-2"/>         
             <TextInput type="email" :required="true" :label="trans('users.labels.email')" name="email" v-model="form.email" autocomplete="email" class="mb-4"/>
             <Button type="submit" :label="trans('global.buttons.update')"/>
         </form>
@@ -34,9 +32,7 @@ export default defineComponent({
         const alertStore = useAlertStore();
         const authStore = useAuthStore();
         const form = reactive({
-            first_name: null,
-            last_name: null,
-            middle_name: null,
+            name: null,
             email: null,
         })
 
@@ -44,9 +40,7 @@ export default defineComponent({
             if (!authStore.user) {
                 return;
             }
-            form.first_name = authStore.user.first_name;
-            form.last_name = authStore.user.last_name;
-            form.middle_name = authStore.user.middle_name;
+            form.name = authStore.user.name;
             form.email = authStore.user.email;
         })
 

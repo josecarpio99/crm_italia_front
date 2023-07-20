@@ -19,7 +19,7 @@
                         
                     </ul>
                     <div class="mt-4">
-                        <Button @click.prevent="onChangeAvatar" type="success" :label="trans('global.buttons.change_avatar')"/>                       
+                        <!-- <Button @click.prevent="onChangeAvatar" type="success" :label="trans('global.buttons.change_avatar')"/>                        -->
                     </div>
                 </div>
             </div>
