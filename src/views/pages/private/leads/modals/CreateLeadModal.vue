@@ -159,6 +159,7 @@ import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
+import {useAuthStore} from "@/stores/auth";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -186,6 +187,8 @@ const form = reactive({...initialState});
 const leadService = new LeadService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const authStore = useAuthStore();
+
 const formRef = ref(null);
 const isLoading = ref(true);
 const sectorService = new SectorService();
@@ -221,6 +224,10 @@ function onCloseModal() {
 onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
+  form.owner_id = {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  }
   isLoading.value = false;
 });
 

@@ -131,6 +131,7 @@ import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
+import {useAuthStore} from "@/stores/auth";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -161,6 +162,8 @@ const sectorService = new SectorService();
 const countryService = new CountryService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const authStore = useAuthStore();
+
 const formRef = ref(null);
 const isLoading = ref(true);
 let sectors = null;
@@ -192,6 +195,10 @@ onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
   companies = await customerService.list({company: 1}).then(res => res.data);
+  form.owner_id = {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  }
   isLoading.value = false;
 
 });

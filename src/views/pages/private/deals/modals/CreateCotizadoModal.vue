@@ -125,6 +125,7 @@ import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
 import {useSourcesStore} from "@/stores/sources";
+import {useAuthStore} from "@/stores/auth";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -150,6 +151,8 @@ const form = reactive({...initialState});
 const dealService = new DealService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const authStore = useAuthStore();
+
 const formRef = ref(null);
 const isLoading = ref(true);
 const customersStore = useCustomersStore();
@@ -181,6 +184,10 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
+  form.owner_id = {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  }
   isLoading.value = false;
 });
 
