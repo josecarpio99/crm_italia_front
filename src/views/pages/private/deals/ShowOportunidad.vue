@@ -67,6 +67,7 @@
           <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
+          <AssociatedContact :customer="deal.customer" />
           <Task @submit="onTaskSubmit" />
           <Document @submit="onDocumentSubmit" />
         </div>
@@ -101,6 +102,7 @@ import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
+import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
