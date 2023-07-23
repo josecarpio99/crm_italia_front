@@ -128,6 +128,10 @@
               {{ 'MXN' + item.value?.toLocaleString('en-US') }}
             </template>
 
+            <template #cell-stage="{item}">
+              <PipelineStage :stage-id="item.stage.id" />
+            </template>
+
             <template #cell-owner="{item}">             
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" />               
               {{ item.owner?.name }}
@@ -199,6 +203,7 @@ import SmartLists from "@/views/components/SmartLists";
 import SmartListModal from "@/views/components/SmartListModal";
 import FieldsButton from "@/views/components/FieldsButton";
 import Table from "@/views/components/Table";
+import PipelineStage from "@/views/components/PipelineStage";
 import Button from "@/views/components/input/Button";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Filters from "@/views/components/filters/Filters";
@@ -247,6 +252,10 @@ const mainQuery = reactive({
           comparison: '='
       },    
       source: {
+          value: '',
+          comparison: '='
+      },    
+      stage: {
           value: '',
           comparison: '='
       },    
@@ -370,6 +379,12 @@ function onCellChange(payload) {
         id: payload.value.id,
         name: payload.value.name
     };  
+  } else if (payload.key == 'stage') {
+    record.deal_pipeline_stage_id = payload.value.id;
+    record.stage = {
+        id: payload.value.id,
+        name: payload.value.name
+    };  
   } else if (payload.key == 'owner') {
     record.owner_id = payload.value.id;
     record.owner = {
@@ -399,7 +414,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
