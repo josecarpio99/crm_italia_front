@@ -1,5 +1,5 @@
 <template>
-  <span class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle border-gray-400 mr-2 focus:border-gray-300 focus:outline-none">
+  <span class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle border-gray-400 mr-2 focus:border-gray-300 focus:outline-none" :class="class">
     <img v-if="avatarUrl" :src="avatarUrl" alt="">
 
     <svg v-else xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -12,6 +12,10 @@
 
 const props = defineProps({
   avatarUrl: {
+    type: String,
+    default: null
+  },
+  class: {
     type: String,
     default: null
   }

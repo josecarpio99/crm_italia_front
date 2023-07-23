@@ -29,14 +29,14 @@
           >
             {{ customer.name }}
           </router-link>
-          <div class="flex items-center text-blue-500 mb-2" v-if="customer.mobile">
+          <div class="flex items-center mb-2" v-if="customer.mobile">
             <Icon 
               class="mr-2 align-middle" 
               :name="'phone'" 
             />
             <span>{{ customer.mobile }}</span>
           </div>
-          <div class="flex items-center text-blue-500" v-if="customer.email">
+          <div class="flex items-center" v-if="customer.email">
             <Icon 
               class="mr-2 align-middle" 
               :name="'envelope-o'" 

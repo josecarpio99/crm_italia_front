@@ -10,7 +10,13 @@
   >  
     <Panel v-if="deal" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
-        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
+        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">          
+
+          <div v-if="deal.customer_responsiveness" class="mb-6">
+            <h4 class="font-semibold">{{ trans('deals.labels.customer_responsiveness') }}</h4>
+            <span>{{ deal.customer_responsiveness }}</span>
+          </div>
+
           <div v-if="deal.estimated_size" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.estimated_size') }}</h4>
             <span>{{ deal.estimated_size }}</span>
@@ -24,16 +30,19 @@
           <div v-if="deal.source" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.source') }}</h4>
             <span>{{ deal.source.name }}</span>
-          </div>
-
+          </div>     
+          
           <div v-if="deal.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.owner') }}</h4>
-            <span>{{ deal.owner.name }}</span>
+            <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="deal.owner?.avatar_url" />            
+              <span>{{ deal.owner.name }}</span>
+            </div>
           </div>
 
           <div v-if="deal.value" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.value') }}</h4>
-            <span>MXN{{ deal.value }}</span>
+            <span class="text-2xl text-gray-600 font-semibold">MXN{{ deal.value.toLocaleString('en-US') }}</span>
           </div>
 
           <div v-if="deal.stage" class="mb-6">
@@ -43,7 +52,7 @@
 
           <div v-if="deal.win_probability" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.win_probability') }}</h4>
-            <span>{{ deal.win_probability }}</span>
+            <span>{{ deal.win_probability + '%' }}</span>
           </div>
 
           <div v-if="deal.estimated_close_date" class="mb-6">
@@ -53,7 +62,13 @@
 
           <div v-if="deal.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.created_at') }}</h4>
-            <span>{{ $date(deal.created_at).format() }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'globe-w'" 
+              />
+              <span>{{ $date(deal.created_at).format() }}</span>
+            </div>
           </div>  
 
           <div v-if="deal.stage_moved_at" class="mb-6">
@@ -107,6 +122,8 @@ import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditOportunidadModal from "@/views/pages/private/deals/modals/EditOportunidadModal.vue";
+import Icon from "@/views/components/icons/Icon";
+import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

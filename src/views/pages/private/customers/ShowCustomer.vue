@@ -13,7 +13,10 @@
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
           <div v-if="customer.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.owner') }}</h4>
-            <span>{{ customer.owner.name }}</span>
+            <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="customer.owner?.avatar_url" />            
+              <span>{{ customer.owner.name }}</span>
+            </div>
           </div>
           <div v-if="customer.customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.customer_status') }}</h4>
@@ -25,15 +28,33 @@
           </div>
           <div v-if="customer.mobile" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.mobile') }}</h4>
-            <span>{{ customer.mobile }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'phone'" 
+              />
+              <span>{{ customer.mobile }}</span>
+            </div>
           </div>
           <div v-if="customer.email" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.email') }}</h4>
-            <span>{{ customer.email }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'envelope-o'" 
+              />
+              <span>{{ customer.email }}</span>
+            </div>
           </div>
           <div v-if="customer.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.created_at') }}</h4>
-            <span>{{ $date(customer.created_at).format() }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'globe-w'" 
+              />
+              <span>{{ $date(customer.created_at).format() }}</span>
+            </div>
           </div>
           <div v-if="customer.origin" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.origin') }}</h4>
@@ -85,6 +106,8 @@ import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonModal.vue";
 import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompanyModal.vue";
+import Icon from "@/views/components/icons/Icon";
+import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

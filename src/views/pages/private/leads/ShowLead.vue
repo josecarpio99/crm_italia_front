@@ -13,16 +13,31 @@
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
           <div v-if="lead.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.owner') }}</h4>
-            <span>{{ lead.owner.name }}</span>
+            <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="lead.owner?.avatar_url" />            
+              <span>{{ lead.owner.name }}</span>
+            </div>
           </div>
         
           <div v-if="lead.mobile" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.mobile') }}</h4>
-            <span>{{ lead.mobile }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'phone'" 
+              />
+              <span>{{ lead.mobile }}</span>
+            </div>
           </div>
           <div v-if="lead.email" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.email') }}</h4>
-            <span>{{ lead.email }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'envelope-o'" 
+              />
+              <span>{{ lead.email }}</span>
+            </div>
           </div>
           <div v-if="lead.sector" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.sector') }}</h4>
@@ -34,7 +49,13 @@
           </div>
           <div v-if="lead.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.created_at') }}</h4>
-            <span>{{ $date(lead.created_at).format() }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'globe-w'" 
+              />
+              <span>{{ $date(lead.created_at).format() }}</span>
+            </div>
           </div>
           <div v-if="lead.category" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.category') }}</h4>
@@ -89,6 +110,8 @@ import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditLeadModal from "@/views/pages/private/leads/modals/EditLeadModal.vue";
+import Icon from "@/views/components/icons/Icon";
+import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
