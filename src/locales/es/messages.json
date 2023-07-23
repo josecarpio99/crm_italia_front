@@ -78,6 +78,9 @@
     }
   },
   "leads": {
+    "phrases": {
+      "sure_to_convert": "¿Está seguro de que desea convertir {name}?"
+    },
     "labels": {
       "edit_lead": "Editar Lead", 
       "add_lead": "Agregar Lead", 
@@ -268,7 +271,8 @@
     "actions": {
       "name": "Acciones",
       "edit": "Editar",
-      "delete": "Borrar"
+      "delete": "Borrar",
+      "convert": "Convertir"
     },
     "alerts": {
       "success": "¡Éxito!",

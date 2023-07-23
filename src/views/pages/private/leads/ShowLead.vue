@@ -80,7 +80,8 @@
 
   </Page>
 
-  <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
+  <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal('EditLeadModal')" @delete="onModalDelete" />
+  <ConvertLeadModal v-if="lead" :modalActive="showConvertLeadModal" :lead="lead" @close-modal="toggleModal('ConvertLeadModal')" />
 
 </template>
 
@@ -110,6 +111,7 @@ import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditLeadModal from "@/views/pages/private/leads/modals/EditLeadModal.vue";
+import ConvertLeadModal from "@/views/pages/private/leads/modals/ConvertLeadModal.vue";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 
@@ -127,6 +129,7 @@ const documentService = new DocumentService();
 
 const route = useRoute();
 const showEditLeadModal = ref(false);
+const showConvertLeadModal = ref(false);
 let lead = null;
 
 const page = reactive({
@@ -150,7 +153,13 @@ const page = reactive({
         id: 'edit',
         name: trans('global.actions.edit'),
         type: 'button'
-      }
+      },
+      {
+        id: 'convert',
+        name: trans('global.actions.convert'),
+        type: 'button',
+        theme: 'outline'
+      },
     ]
 });
 
@@ -206,17 +215,27 @@ function onDocumentSubmit({file}) {
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
-      toggleModal();
+      toggleModal('EditLeadModal');
+    case 'convert':
+      toggleModal('ConvertLeadModal');
       break;
   }
 }
 
-function toggleModal() {
+function toggleModal(key) {
   alertStore.clear();
-  showEditLeadModal.value = !showEditLeadModal.value;   
+
+  if (key === 'EditLeadModal') {
+    showEditLeadModal.value = !showEditLeadModal.value;            
+  }
+
+  if (key === 'ConvertLeadModal') {
+    showConvertLeadModal.value = !showConvertLeadModal.value;             
+  }
 
   if (
-    showEditLeadModal.value == true
+    showEditLeadModal.value == true ||
+    showConvertLeadModal.value == true
   ) {
       alertStore.showOnPage = false;
   } else {
