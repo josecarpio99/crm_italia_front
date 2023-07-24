@@ -141,25 +141,25 @@ const routes = [
                     {
                         name: "reports.opportunities_best_customers",
                         path: "oportunidades-mejores-clientes",
-                        meta: {requiresAuth: true},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: OpportunitiesBestCustomers,
                     },
                     {
                         name: "reports.opportunities_best_sizes",
                         path: "oportunidades-mejores-tamanos",
-                        meta: {requiresAuth: true},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: OpportunitiesBestSizes
                     },
                     {
                         name: "reports.firm_quotes",
                         path: "cotizaciones-en-firme",
-                        meta: {requiresAuth: true},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: FirmQuotes
                     },
                     {
                         name: "reports.scorecard",
                         path: "scorecard",
-                        meta: {requiresAuth: true},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: Scorecard
                     },
                 ]

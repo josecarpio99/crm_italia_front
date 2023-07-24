@@ -1,4 +1,5 @@
 import {useAuthStore} from "@/stores/auth";
+import {roles} from "@/stub/roles";
 
 export const can = function (name) {
   const authStore = useAuthStore();
@@ -9,6 +10,14 @@ export const can = function (name) {
     }
 
     return true;
+  }
+
+  if (name == 'view:reports') {
+    if (authStore.hasAccessByRole(roles.SUPERADMIN)) {
+      return true;
+    }
+
+    return false;
   }
 
   return false;

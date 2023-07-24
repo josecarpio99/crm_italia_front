@@ -62,7 +62,7 @@
             </router-link>                  
         </li> 
         <VMenu
-            v-else
+            v-else-if="can('view:reports')"
             placement="right"
         >
             
@@ -190,7 +190,8 @@ export default defineComponent({
             isEnabled,
             isActive,
             trans,
-            authStore
+            authStore,
+            can
         }
     }
 });
