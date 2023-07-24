@@ -57,7 +57,13 @@
 
           <div v-if="deal.estimated_close_date" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.estimated_close_date') }}</h4>
-            <span>{{ $date(deal.estimated_close_date).format() }}</span>
+            <div class="flex items-center">
+              <Icon 
+                class="mr-2 align-middle text-gray-500" 
+                :name="'globe-w'" 
+              />
+              <span>{{ $date(deal.estimated_close_date).format() }}</span>
+            </div>
           </div>
 
           <div v-if="deal.created_at" class="mb-6">
