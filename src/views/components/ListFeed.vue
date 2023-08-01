@@ -1,9 +1,15 @@
 <template>
 
-  <template v-for="item in feedStore.getFeed">
+  <template v-if="feedStore.getFeed.length > 0" v-for="item in feedStore.getFeed">
     <CompletedTaskItem v-if="item.type == 'task'" :task="item" />
     <NoteItem v-else-if="item.type == 'note'" :note="item" />
-  </template>  
+  </template>
+  
+  <template v-else>
+    <div class="px-2 py-6 text-gray-500 border-y-2 mb-2 border-gray-100">
+      <p>Todas las notas y tareas completadas se mostraran en esta sección</p>
+    </div>
+  </template>
   
 </template>
 
