@@ -8,11 +8,15 @@
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading">           
 
             <template #cell-opportunities_estimated_size_sum="{item}">
-              {{ '$' + item.opportunities_estimated_size_sum?.toLocaleString('en-US') }}
+              <span class="text-gray-600 font-bold">
+                {{ '$' + item.opportunities_estimated_size_sum?.toLocaleString('en-US') }}
+              </span>              
             </template>
 
             <template #cell-quotations_value_sum="{item}">
-              {{ '$' + item.quotations_value_sum?.toLocaleString('en-US') }}
+              <span class="text-gray-600 font-bold">
+                {{ '$' + item.quotations_value_sum?.toLocaleString('en-US') }}
+              </span>  
             </template>
             
           </Table>

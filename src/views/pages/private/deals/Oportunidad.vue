@@ -125,7 +125,9 @@
             </template>
 
             <template #cell-value="{item}">
-              {{ 'MXN' + item.value?.toLocaleString('en-US') }}
+              <span class="text-gray-600 font-bold">
+                {{ 'MXN' + item.value?.toLocaleString('en-US') }}
+              </span>              
             </template>
 
             <template #cell-stage="{item}">
