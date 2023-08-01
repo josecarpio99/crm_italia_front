@@ -80,31 +80,20 @@ const table = reactive({
       show: true,
     },
     {
-      key: 'opportunities_estimated_size_sum',
-      label: trans('users.header.opportunities_estimated'),
+      key: 'branch',
+      label: trans('users.labels.branch'),
       show: true,
     },
     {
-      key: 'opportunities_score',
-      label: trans('users.header.opportunities_score'),
+      key: 'opportunities_estimated_size_sum',
+      label: trans('users.header.opportunities_estimated'),
       show: true,
     },
     {
       key: 'quotations_value_sum',
       label: trans('users.header.active_quotations'),
       show: true,
-    },
-    {
-      key: 'quotations_score',
-      label: trans('users.header.quotations_score'),
-      show: true,
-    },
-    {
-      key: 'total_score',
-      label: trans('users.header.total_score'),
-      show: true,
-
-    },
+    }
   ],           
   pagination: {
       meta: null,
