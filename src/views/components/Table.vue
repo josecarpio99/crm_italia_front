@@ -29,7 +29,7 @@
         
       </thead>
       <tbody v-if="records && records.length" class="bg-white divide-y divide-gray-200">
-        <tr v-for="(record, i) in records">          
+        <tr v-for="(record, i) in records" @click="handleRowClick">          
          
           <template v-for="(column, j) in columnsData">
             <TableCell
@@ -265,7 +265,9 @@ function onColumnChange(value) {
   emit('moved', {columns: columnsData});
 }
 
-
+function handleRowClick() {
+  return;
+}
 
 const currentPage = computed(() => {
   return getPaginationMeta('current_page');

@@ -3,7 +3,7 @@
      <div :class="{hidden:showInput}">
       <slot />
       <span 
-        @click="handleClick" 
+        @click.stop="handleClick" 
         class="cursor-pointer invisible text-gray-400 hover:text-gray-700 ml-2"
       >
         <i class="fa fa-pencil"></i>
