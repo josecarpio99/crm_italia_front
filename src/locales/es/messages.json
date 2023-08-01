@@ -113,8 +113,8 @@
   },
   "deals": {
     "menu": {
-      "oportunidades": "Tratos (Oportunidades)",
-      "cotizados": "Tratos (Cotizados)",
+      "oportunidades": "Oportunidades",
+      "cotizados": "Cotizados",
       "opportunities_best_customers": "Oportunidades - Mejores clientes",
       "opportunities_best_sizes": "Oportunidades - Mejores tamaños",
       "firm_quotes": "Cotizaciones en firme"
@@ -125,9 +125,10 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
-      "edit_oportunidad": "Editar trato (Oportunidad)", 
-      "add_oportunidad": "Agregar trato (Oportunidad)", 
-      "add_cotizado": "Agregar trato (Cotizado)", 
+      "edit_oportunidad": "Editar oportunidad", 
+      "add_oportunidad": "Agregar oportunidad", 
+      "add_cotizado": "Agregar cotizado", 
+      "edit_cotizado": "Editar cotizado", 
       "add_deal": "Agregar trato", 
       "total_deals": "Total de tratos", 
       "value_total": "Valor total", 
@@ -244,8 +245,8 @@
       "add": "Agregar",
       "add_person": "Contacto: Persona",
       "add_company": "Contacto: Empresa",
-      "oportunidad": "Trato: Oportunidad",
-      "cotizado": "Trato: Cotizado",
+      "oportunidad": "Oportunidad",
+      "cotizado": "Cotizado",
       "clean_filter": "Borrar filtro",
       "lead": "Lead",
       "add_new": "Agregar nuevo",

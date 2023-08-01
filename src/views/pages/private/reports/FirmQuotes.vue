@@ -11,7 +11,7 @@
             <template #cell-deal="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
-                :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
+                :to="{name: 'deals.cotizados.show', params: {id: item.id}}"
               >
                 <Icon v-if="item.name" class="mr-2 text-gray-600 text-xl align-middle" name="dollar" />
                 {{ item.name}}

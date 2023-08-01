@@ -19,6 +19,7 @@ import {default as PageLeadsShow} from "@/views/pages/private/leads/ShowLead";
 import {default as PageDealsCotizado} from "@/views/pages/private/deals/Cotizado";
 import {default as PageDealsOportunidad} from "@/views/pages/private/deals/Oportunidad";
 import {default as PageDealsOportunidadShow} from "@/views/pages/private/deals/ShowOportunidad";
+import {default as PageDealsCotizadoShow} from "@/views/pages/private/deals/ShowCotizado";
 
 import {default as OpportunitiesBestCustomers} from "@/views/pages/private/reports/OpportunitiesBestCustomers";
 import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/OpportunitiesBestSizes";
@@ -132,6 +133,12 @@ const routes = [
                         path: "oportunidades/:id",
                         meta: {requiresAuth: true},
                         component: PageDealsOportunidadShow,
+                    },
+                    {
+                        name: "deals.cotizados.show",
+                        path: "cotizados/:id",
+                        meta: {requiresAuth: true},
+                        component: PageDealsCotizadoShow,
                     },
                 ]
             },
