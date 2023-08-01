@@ -260,7 +260,7 @@ export default {
             //               to: '/panel/users/create',
             //           }
             //       ]
-            //   },
+            //   },                
               {
                   name: trans('global.phrases.sign_out'),
                   icon: 'sign-out',

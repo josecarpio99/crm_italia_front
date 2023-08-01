@@ -4,6 +4,7 @@ import {default as PageResetPassword} from "@/views/pages/auth/reset-password/Ma
 import {default as PageForgotPassword} from "@/views/pages/auth/forgot-password/Main";
 import {default as PageNotFound} from "@/views/pages/shared/404/Main";
 
+import {default as PageFAQ} from "@/views/pages/private/FAQ";
 import {default as PageDashboard} from "@/views/pages/private/dashboard/Main";
 import {default as PageProfile} from "@/views/pages/private/profile/Main";
 
@@ -44,6 +45,12 @@ const routes = [
                 path: "dashboard",
                 meta: {requiresAuth: true},
                 component: PageDashboard,
+            },
+            {
+                name: "faq",
+                path: "faq",
+                meta: {requiresAuth: true},
+                component: PageFAQ,
             },
             {
                 name: "profile",

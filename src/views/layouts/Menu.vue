@@ -51,7 +51,7 @@
                     <span v-if="item.hasOwnProperty('label') && item.label" class="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-200 rounded-full dark:bg-gray-700 dark:text-gray-300" v-html="item.label"></span>
                 </router-link>
             </li>            
-        </template> 
+        </template>        
         <li
             v-if="authStore.isDirector()"
             v-tooltip.right="'Scorecard'"
@@ -102,7 +102,15 @@
 
                 
             </template>
-        </VMenu>      
+        </VMenu> 
+        <li
+            v-tooltip.right="trans('global.pages.faq')"
+            class="group hover:bg-theme-600"
+        >
+            <router-link :to="{name: 'faq'}" class="flex items-center p-2 text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
+                <Icon :name="'question'" class="mr-2 pl-2 -mt-1"/>                        
+            </router-link>                  
+        </li>      
     </ul>
 </template>
 

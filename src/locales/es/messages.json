@@ -178,6 +178,7 @@
   },
   "global": {
     "pages": {
+      "faq": "Preguntas Frecuentes",
       "home": "Panel",
       "welcome": "Bienvenido",
       "customer": "Contacto",
