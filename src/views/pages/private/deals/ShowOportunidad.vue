@@ -102,7 +102,8 @@
 
   </Page>
 
-  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
+  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditDealModal')" @delete="onModalDelete" />
+  <ConvertOportunidadModal v-if="deal" :modalActive="showConvertDealModal" :deal="deal" @close-modal="toggleModal('ConvertDealModal')" />
 
 </template>
 
@@ -133,6 +134,7 @@ import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditOportunidadModal from "@/views/pages/private/deals/modals/EditOportunidadModal.vue";
+import ConvertOportunidadModal from "@/views/pages/private/deals/modals/ConvertOportunidadModal.vue";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 
@@ -150,6 +152,8 @@ const documentService = new DocumentService();
 
 const route = useRoute();
 const showEditDealModal = ref(false);
+const showConvertDealModal = ref(false);
+
 let deal = null;
 
 const page = reactive({
@@ -173,7 +177,13 @@ const page = reactive({
         id: 'edit',
         name: trans('global.actions.edit'),
         type: 'button'
-      }
+      },
+      {
+        id: 'convert',
+        name: trans('global.actions.convert'),
+        type: 'button',
+        theme: 'outline'
+      },
     ]
 });
 
@@ -229,17 +239,28 @@ function onDocumentSubmit({file}) {
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
-      toggleModal();
+      toggleModal('EditDealModal');
+      break;
+    case 'convert':
+      toggleModal('ConvertDealModal');
       break;
   }
 }
 
-function toggleModal() {
+function toggleModal(key) {
   alertStore.clear();
-  showEditDealModal.value = !showEditDealModal.value;   
+
+  if (key === 'EditDealModal') {
+    showEditDealModal.value = !showEditDealModal.value;            
+  }
+
+  if (key === 'ConvertDealModal') {
+    showConvertDealModal.value = !showConvertDealModal.value;             
+  }
 
   if (
-    showEditDealModal.value == true
+    showEditDealModal.value == true ||
+    showConvertDealModal.value == true
   ) {
       alertStore.showOnPage = false;
   } else {

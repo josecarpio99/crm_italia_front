@@ -148,6 +148,9 @@
       "estimated_close_date": "Fecha de cierre prevista",
       "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
       "win_probability": "Probabilidad de ganar"
+    },
+    "phrases": {
+      "convert_oportunidad": "Convertir oportunidad a cotizado"
     }
   },
   "tasks" : {

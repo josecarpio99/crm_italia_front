@@ -81,6 +81,7 @@
   </Page>
 
   <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal('EditLeadModal')" @delete="onModalDelete" />
+
   <ConvertLeadModal v-if="lead" :modalActive="showConvertLeadModal" :lead="lead" @close-modal="toggleModal('ConvertLeadModal')" />
 
 </template>
@@ -216,6 +217,7 @@ function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
       toggleModal('EditLeadModal');
+      break;
     case 'convert':
       toggleModal('ConvertLeadModal');
       break;

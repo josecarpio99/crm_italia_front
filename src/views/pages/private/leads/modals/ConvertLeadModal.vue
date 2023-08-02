@@ -186,8 +186,7 @@ function onSubmit() {
       'convert-lead', 
       reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id', 'country_id', 'parent_id', 'owner_id'], 'id')
     ).then((res) => {                
-    if (res?.status == 200 || res?.status == 201) {        
-        Object.assign(form, initialState);
+    if (res?.status == 200 || res?.status == 201) {
         router.push({name: 'customers.show', params: {id: res.data.data.id}});
     }
   })
@@ -196,18 +195,18 @@ function onSubmit() {
 }
 
 function onCloseModal() {
-  Object.assign(form, initialState);
   emit('close-modal');
 }
 
 onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
-  companies = await customerService.list({company: 1}).then(res => res.data);
-  form.owner_id = {
-    id: authStore.user.id,
-    name: authStore.user.name,
-  }
+  companies = await customerService.list({company: 1}).then(res => res.data); 
+
+  form.sector_id = sectors.find(option => option.id === props.lead.sector?.id);
+  form.owner_id = users.find(option => option.id === props.lead.owner?.id);
+  form.parent_id = companies.find(option => option.id === props.lead.parent?.id);
+  form.country_id = countries.find(option => option.id === props.lead.country?.id);
 
   form.name = props.lead.name;
   form.email = props.lead.email;
@@ -216,7 +215,6 @@ onMounted( async () => {
   form.city = props.lead.city;
   form.postcode = props.lead.postcode;
   form.state = props.lead.state;
-  form.country_id = props.lead.country_id;
   isLoading.value = false;
 });
 
