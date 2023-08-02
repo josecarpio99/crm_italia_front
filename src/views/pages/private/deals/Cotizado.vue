@@ -91,8 +91,78 @@
         </div>
       </template>
 
+      <template #under-top>
+        <div class="flex justify-center flex-col bg-white px-2 py-4" v-if="authStore.isDirector() && table.pagination.meta">          
+          <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
+            <div class="flex items-center">
+              <span class="">Total cotizado</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="">Número cotizaciones</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">
+                {{ table.pagination.meta.total }}
+              </span>
+            </div>            
+          </div>
+
+          <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
+            <div class="flex items-center">
+              <span class="">De las cuales AGS</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="">Número cotizaciones</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">
+                {{ table.pagination.meta.branch.AGS.count }}
+              </span>
+            </div>           
+          </div>
+
+          <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
+            <div class="flex items-center">
+              <span class="">De las cuales CDMX</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="">Número cotizaciones</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">
+                {{ table.pagination.meta.branch.CDMX.count }}
+              </span>
+            </div>           
+          </div>
+
+          <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
+            <div class="flex items-center">
+              <span class="">De las cuales MTY</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="">Número cotizaciones</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">
+                {{ table.pagination.meta.branch.MTY.count }}
+              </span>
+            </div>           
+          </div>
+
+          <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
+            <div class="flex items-center">
+              <span class="">De las cuales QRO</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
+            </div>
+            <div class="flex items-center">
+              <span class="">Número cotizaciones</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">
+                {{ table.pagination.meta.branch.QRO.count }}
+              </span>
+            </div>           
+          </div>
+
+        </div>
+      </template>
+
       <template #default>
-          <table 
+          <!-- <table 
             v-if="authStore.isDirector() && table.pagination.meta"
             class="max-w-[450px] border-gray-700 border-2 mb-4 text-center bg-white"
           >
@@ -130,7 +200,7 @@
                 <td class=" border-gray-700 border-2">{{ table.pagination.meta.branch.QRO.count }}</td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
 
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
 
@@ -722,7 +792,7 @@ onMounted(async () => {
   if (!route.params.id) {
     page.title = trans('deals.menu.cotizados');
     if (authStore.isDirector()) {
-      const directorFields = ['deal', 'branch', 'owner', 'estimated_close_date', 'source',  'value'];
+      const directorFields = ['deal', 'branch', 'owner', 'estimated_close_date_range', 'source',  'value'];
 
       table.columns.forEach(column => {
         column.show = false;

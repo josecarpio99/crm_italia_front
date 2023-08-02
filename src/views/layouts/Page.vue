@@ -90,6 +90,8 @@
                 </div>
             </slot>
         </div>
+
+        <slot :name="'under-top'" ></slot>
         <Alert class="px-6 pt-6" v-if="alertStore.showOnPage" />
 
         <slot name="filters"></slot>
