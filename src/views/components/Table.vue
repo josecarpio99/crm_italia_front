@@ -29,7 +29,15 @@
         
       </thead>
       <tbody v-if="records && records.length" class="bg-white divide-y divide-gray-200">
-        <tr v-for="(record, i) in records" @click="handleRowClick">          
+        <tr 
+        v-for="(record, i) in records" 
+        @click="handleRowClick(record)"
+        :class="{
+          'pointer-events-none': isEditing,
+          'hover:bg-gray-100': clickeableRow,
+          'cursor-pointer': clickeableRow
+        }"
+        >          
          
           <template v-for="(column, j) in columnsData">
             <TableCell
@@ -41,6 +49,8 @@
                     :selectLabel="column.edit?.optionsLabel"
                     :cellkey="column.key" 
                     @changed="onCellChange"
+                    @blurred="onCellBlur"
+                    @edit-click="onCellEditClick"
                 >                        
                 <slot :item="record" :name="'cell-' + column.key">
                   {{ getCellLabel(record, column) }}
@@ -130,6 +140,10 @@ const props = defineProps({
       links: null,
     },
   },
+  clickeableRow: {
+    type: Boolean,
+    default: false
+  },
   infiniteScroll: {
     type: Boolean,
     default: false,
@@ -140,7 +154,9 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved', 'scrollEnd']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved', 'scrollEnd', 'row-click']);
+
+const isEditing = ref(false);
 
 const currentSort = reactive({ column: null, direction: 'ASC' });
 const columnsData = reactive(props.columns.filter(column => column.show));
@@ -221,6 +237,20 @@ function onCellChange(params) {
   emit('cell-change', params);
 }
 
+function onCellBlur() {
+  isEditing.value = false;
+}
+
+function onCellEditClick() {
+  isEditing.value = true;
+}
+
+function handleRowClick(record) {
+  if (!isEditing.value && props.clickeableRow) {
+    emit('row-click', {record});
+  }
+}
+
 function sortControlClasses(column, direction) {
   if (currentSort.column === column && currentSort.direction === direction) {
     return 'text-theme-500'
@@ -263,10 +293,6 @@ function getCellLabel(record, column) {
 
 function onColumnChange(value) {
   emit('moved', {columns: columnsData});
-}
-
-function handleRowClick() {
-  return;
 }
 
 const currentPage = computed(() => {

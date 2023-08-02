@@ -92,7 +92,7 @@
       </template>
   
       <template #default>
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
             <template #cell-lead="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
@@ -254,6 +254,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
+  clickeableRow: true,
   records: []  
 })  
 
@@ -579,6 +580,10 @@ function onScrollEnd() {
   if (mainQuery.limit < table.pagination.meta.total) {
     mainQuery.limit += PAGE_LIMIT;  
   }
+}
+
+function handleRowClick({record}) {
+  router.push({name: 'leads.show', params: {id: record.id }});
 }
 
 watch(mainQuery, (newTableState) => {

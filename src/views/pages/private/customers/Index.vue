@@ -93,7 +93,7 @@
 
       <template #default>
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange"
-          @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true"
+          @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick"
           >
             <template #cell-name="{item}">
               <router-link 
@@ -269,7 +269,8 @@ const table = reactive({
           danger: true,
       }
   },
-  loading: true,
+  loading: true,  
+  clickeableRow: true,
   records: []  
 });
 
@@ -587,6 +588,10 @@ function onScrollEnd() {
   if (mainQuery.limit < table.pagination.meta.total) {
     mainQuery.limit += PAGE_LIMIT;  
   }
+}
+
+function handleRowClick({record}) {
+  router.push({name: 'customers.show', params: {id: record.id }});
 }
 
 watch(mainQuery, (newTableState) => {

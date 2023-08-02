@@ -202,7 +202,7 @@
             </tbody>
           </table> -->
 
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
 
             <template #cell-deal="{item}">
               <router-link 
@@ -395,6 +395,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
+  clickeableRow: true,
   records: []  
 })  
 
@@ -778,6 +779,10 @@ function getCloseDateClass(date) {
     return ['bg-blue-400', 'text-white'];;
 
   }
+}
+
+function handleRowClick({record}) {
+  router.push({name: 'deals.cotizados.show', params: {id: record.id }});
 }
 
 watch(mainQuery, (newTableState) => {

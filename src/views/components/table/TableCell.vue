@@ -94,10 +94,11 @@ watch(() => props.cellvalue, (newValue) => {
     inputValue.value = newValue;
 });
 
-const emit = defineEmits(['changed'])
+const emit = defineEmits(['changed', 'blurred', 'edit-click'])
 
 function handleClick()
 {
+  emit('edit-click');
   showInput.value = true
   if (props.type == 'input') {
     setTimeout(()=>{
@@ -108,6 +109,7 @@ function handleClick()
 
 function handleBlur()
 {        
+    emit('blurred');
     showInput.value = false;
     inputValue.value = props.cellvalue;    
 }
