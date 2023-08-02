@@ -77,8 +77,14 @@
           
             <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>            
 
-
-            <TextInput class="mb-4" type="datetime-local" :required="false" name="estimated_close_date" v-model="form.estimated_close_date" :label="trans('deals.labels.estimated_close_date')"/>
+            <Dropdown  
+              class="mb-4"
+              :required="true"
+              :label="trans('deals.labels.estimated_close_date')"
+              :options="dealEstimatedCloseDateRange" 
+              name="estimated_close_date_range" 
+              v-model="form.estimated_close_date_range"              
+            />
 
             <Dropdown  
               class="mb-4"
@@ -114,7 +120,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCustomerResponsiveness, dealStages, pmChargeStatuses } from "@/stub/statuses";
+import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
 import { dealCategories } from "@/stub/categories";
 import DealService from "@/services/DealService";
 import Alert from "@/views/components/Alert";
@@ -153,7 +159,7 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
-  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager'], 'id');
+  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager', 'estimated_close_date_range'], 'id');
   dealService.handleUpdate(
       'update-deal', 
       form.id,
@@ -181,6 +187,7 @@ onMounted( async () => {
   form.category_id = dealCategories.find(option => option.id === form.category?.id);
   form.deal_pipeline_stage_id = dealStages.find(option => option.id == form.stage?.id);
   form.customer_responsiveness = dealCustomerResponsiveness.find(option => option.id === form.customer_responsiveness);
+  form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === form.estimated_close_date_range);
   
   isLoading.value = false;
 });

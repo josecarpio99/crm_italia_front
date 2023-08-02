@@ -66,6 +66,11 @@
             </div>
           </div>
 
+          <div v-if="deal.estimated_close_date_range" class="mb-6">
+            <h4 class="font-semibold">{{ trans('deals.labels.estimated_close_date') }}</h4>
+            <span>{{ deal.estimated_close_date_range }}</span>
+          </div>
+
           <div v-if="deal.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.created_at') }}</h4>
             <div class="flex items-center">

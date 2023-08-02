@@ -76,10 +76,16 @@
           </div>
           <div class="w-full lg:w-1/2"> 
           
-            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>            
+            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>    
 
-
-            <TextInput class="mb-4" type="datetime-local" :required="false" name="estimated_close_date" v-model="form.estimated_close_date" :label="trans('deals.labels.estimated_close_date')"/>
+            <Dropdown  
+              class="mb-4"
+              :required="true"
+              :label="trans('deals.labels.estimated_close_date')"
+              :options="dealEstimatedCloseDateRange" 
+              name="estimated_close_date_range" 
+              v-model="form.estimated_close_date_range"              
+            />
 
             <Dropdown  
               class="mb-4"
@@ -116,7 +122,7 @@ import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCategories } from "@/stub/categories";
-import { dealCustomerResponsiveness, dealStages, pmChargeStatuses } from "@/stub/statuses";
+import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
 import DealService from "@/services/DealService";
 import SectorService from "@/services/SectorService";
 import Alert from "@/views/components/Alert";
@@ -139,6 +145,7 @@ const initialState = {
   deal_pipeline_id: 1,
   deal_pipeline_stage_id: null,
   estimated_close_date: null,
+  estimated_close_date_range: null,
   estimated_size: null,
   customer_responsiveness: null,
   has_project_manager: null,
@@ -167,7 +174,7 @@ function onSubmit() {
 
   dealService.handleCreate(
       'create-cotizado', 
-      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id','customer_responsiveness', 'has_project_manager'], 'id')
+      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id','customer_responsiveness', 'has_project_manager', 'estimated_close_date_range'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
