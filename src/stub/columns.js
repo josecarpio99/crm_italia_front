@@ -309,7 +309,7 @@ export const dealColumns = [
       filterable: false           
   },         
   {
-      key: 'estimated_close_date',
+      key: 'estimated_close_date_range',
       label: trans('deals.labels.estimated_close_date'),
       show: false,
       locked: false,
