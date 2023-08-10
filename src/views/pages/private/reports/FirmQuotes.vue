@@ -44,14 +44,14 @@
               {{ item.has_project_manager ? 'Si' : 'No' }}
             </template>
 
-            <template #cell-estimated_close_date="{item}">
+            <!-- <template #cell-estimated_close_date="{item}">
               <span
                class="inline-block rounded-xl px-2"
                :class="getCloseDateClass(item.estimated_close_date)"
               >
                 {{ calculateCloseDate(item.estimated_close_date) }}
               </span>                
-            </template>
+            </template> -->
 
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
@@ -145,7 +145,7 @@ const page = reactive({
   title: trans('deals.menu.firm_quotes'),
   breadcrumbs: [
       {
-          name: trans('global.pages.deals'),
+          name: trans('global.pages.cotizados'),
           to: toUrl('/deals'),
           active: true,
       }
@@ -155,7 +155,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'estimated_close_date', 'customer_responsiveness', 'value'];
+const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'estimated_close_date_range', 'customer_responsiveness', 'value'];
 
 const valueColumn = dealColumns.find(column => column.key == 'value');
 valueColumn.label = trans('deals.header.amount_quoted')

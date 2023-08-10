@@ -162,12 +162,12 @@ const page = reactive({
     filters: false,
     breadcrumbs: [
         {
-            name: trans('global.pages.deals'),
+            name: trans('global.pages.oportunidades'),
             to: toUrl('/deals/oportunidades/list'),
 
         },
         {
-            name: trans('global.pages.deal'),
+            name: trans('global.pages.oportunidad'),
             active: true,
         }
     ], 

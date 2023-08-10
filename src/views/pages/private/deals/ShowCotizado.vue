@@ -158,12 +158,12 @@ const page = reactive({
     filters: false,
     breadcrumbs: [
         {
-            name: trans('global.pages.deals'),
+            name: trans('global.pages.cotizados'),
             to: toUrl('/deals/oportunidades/list'),
 
         },
         {
-            name: trans('global.pages.deal'),
+            name: trans('global.pages.cotizado'),
             active: true,
         }
     ], 

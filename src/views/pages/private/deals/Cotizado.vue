@@ -378,7 +378,7 @@ const page = reactive({
   title: trans('deals.menu.cotizados'),
   breadcrumbs: [
       {
-          name: trans('global.pages.deals'),
+          name: trans('global.pages.cotizados'),
           to: toUrl('/deals'),
           active: true,
       }

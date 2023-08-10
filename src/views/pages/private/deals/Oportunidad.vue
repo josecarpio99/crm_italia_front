@@ -285,7 +285,7 @@ const page = reactive({
   title: '',
   breadcrumbs: [
       {
-          name: trans('global.pages.deals'),
+          name: trans('global.pages.oportunidades'),
           to: toUrl('/deals'),
           active: true,
       }

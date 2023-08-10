@@ -214,7 +214,7 @@ export const leadColumns = [
 export const dealColumns = [
   {
       key: 'deal',
-      label: trans('global.pages.deal'),
+      label: trans('deals.labels.company_name'),
       show: true,
       locked: true,
   },   
