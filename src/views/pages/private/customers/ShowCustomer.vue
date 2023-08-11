@@ -5,9 +5,17 @@
     :breadcrumbs="page.breadcrumbs" 
     :pagePadding="false" 
     :is-loading="page.loading"
-    :actions="page.actions"
     @action="onPageAction"
   >  
+    <template #beside-title>
+      <div class="flex items-center ml-6" v-if="customer">
+        <slot v-for="(action, j) in page.actions" :name="'page-actions-'+action.id">
+            <Button v-if="action.hasOwnProperty('to') && action.to" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :to="action.to" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
+            <Button v-else @click="onPageAction({action: action})" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
+        </slot>
+      </div>
+    </template>
+
     <Panel v-if="customer" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
@@ -108,6 +116,7 @@ import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonMo
 import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompanyModal.vue";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
+import Button from "@/views/components/input/Button";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

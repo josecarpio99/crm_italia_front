@@ -45,9 +45,9 @@
                             <i class="fa fa-pencil"></i>
                         </span>
 
-                        <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />
+                        <Icon v-if="$props.titleIcon" :name="$props.titleIcon?.name" class="text-gray-500 ml-2" />                        
     
-                    </h2>
+                    </h2>                    
 
                     <input 
                         v-if="$props.titleEditable" 
@@ -59,7 +59,8 @@
                         class="border text-xl border-gray focus:outline-none focus:ring focus:ring-transparent focus:border-gray-500" 
                         :class="`${showInput ? 'block' : 'hidden'}`"
                     >
-                    <slot name="beside-title">                        
+                    <slot name="beside-title">
+                                         
                     </slot>
                 </div>
                 <!-- Breadcrumbs -->
@@ -81,6 +82,7 @@
                     </ol>
                 </nav>
             </div>
+
             <slot name="page-actions">
                 <div class="flex items-center" v-if="$props.actions.length > 0">                
                     <slot v-for="(action, j) in $props.actions" :name="'page-actions-'+action.id">
@@ -149,6 +151,10 @@ export default defineComponent({
             default: []
         },
         actions: {
+            type: Array,
+            default: []
+        },
+        titleActions: {
             type: Array,
             default: []
         },
