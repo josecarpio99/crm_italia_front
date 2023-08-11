@@ -14,7 +14,7 @@
           <div class="w-full">
             <Dropdown  
               class="mb-4" 
-              :required="true"           
+              :required="false"           
               :label="trans('deals.labels.main_contact')"
               :options="customers" 
               selectLabel="name"
@@ -28,10 +28,10 @@
           </div>
 
           <div class="w-full">
-            <TextInput type="text" class="mb-4" :required="true" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
+            <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
 
             <Dropdown  
-              :required="true"
+              :required="false"
               class="mb-4"
               :label="trans('deals.labels.oportunidad_source')"
               selectLabel="name"
@@ -46,7 +46,7 @@
             
             <Dropdown  
               class="mb-4"
-              :required="true"
+              :required="false"
               :label="trans('global.labels.adviser_in_charge')"
               selectLabel="name"
               name="owner" 
@@ -62,7 +62,7 @@
 
             <Dropdown  
               class="mb-4"
-              :required="true"
+              :required="false"
               :label="trans('deals.labels.estimated_close_date')"
               :options="dealEstimatedCloseDateRange" 
               name="estimated_close_date_range" 
@@ -71,7 +71,7 @@
 
             <Dropdown  
               class="mb-4"
-              :required="true"
+              :required="false"
               :label="trans('deals.labels.category')"
               :options="dealCategories" 
               name="category" 
