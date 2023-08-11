@@ -64,16 +64,16 @@ export const dealCustomerResponsiveness = [
 
 export const dealEstimatedCloseDateRange = [
   {
+    id: 'de 0 a 3 meses',
+    label: 'de 0 a 3 meses',
+  }, 
+  {
     id: 'de 3 a 6 meses',
     label: 'de 3 a 6 meses',
-  }, 
+  },   
   {
-    id: 'de 6 a 9 meses',
-    label: 'de 6 a 9 meses',
-  }, 
-  {
-    id: '9 meses o más',
-    label: '9 meses o más',
+    id: '6 meses o más',
+    label: '6 meses o más',
   }, 
 ];
 
