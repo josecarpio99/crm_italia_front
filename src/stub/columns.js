@@ -1,6 +1,6 @@
 import {trans} from "@/helpers/i18n";
 import {customerCategories} from "@/stub/categories";
-import {dealCategories} from "@/stub/categories";
+import {dealCategories, leadCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
 import { leadStatuses, dealStages } from "@/stub/statuses";
@@ -60,7 +60,7 @@ export const customerColumns = [
       label: trans('global.labels.owner'),
       show: true,
       locked: false,
-      sorteable: false,
+      sorteable: true,
       filterable: true,
       editable: true,
       filter: {
@@ -138,7 +138,7 @@ export const leadColumns = [
       label: trans('global.labels.owner'),
       show: true,
       locked: false,
-      sorteable: false,
+      sorteable: true,
       filterable: true,
       editable: true,
       filter: {
@@ -196,6 +196,26 @@ export const leadColumns = [
       cellLabel: 'source.name'
   },
   {
+    key: 'category',
+    label: trans('customers.labels.category'),
+    show: true,
+    locked: false,
+    sorteable: false,
+    filterable: false,
+    editable: false,
+    filter: {
+      modelValue: '',
+      type: 'select',
+      options: leadCategories
+    },
+    edit: {
+      type: 'list',
+      options: leadCategories
+    },
+    cellKey: 'category.id',
+    cellLabel: 'category.name'
+}, 
+  {
       key: 'created_at',
       label: trans('global.labels.created_at'),
       show: true,
@@ -231,26 +251,26 @@ export const dealColumns = [
         type: 'input'            
       }
   },
-  {
-      key: 'stage',
-      label: trans('deals.labels.stage'),
-      show: true,
-      locked: false,
-      editable: true,
-      sorteable: false,
-      filterable: true,
-      edit: {
-        type: 'list',
-        options: dealStages,
-      },
-      filter: {
-        modelValue: '',
-        type: 'multiselect',
-        options: dealStages
-      },
-      cellKey: 'stage.id',
-      cellLabel: 'stage.name'  
-  },         
+  // {
+  //     key: 'stage',
+  //     label: trans('deals.labels.stage'),
+  //     show: false,
+  //     locked: false,
+  //     editable: true,
+  //     sorteable: false,
+  //     filterable: true,
+  //     edit: {
+  //       type: 'list',
+  //       options: dealStages,
+  //     },
+  //     filter: {
+  //       modelValue: '',
+  //       type: 'multiselect',
+  //       options: dealStages
+  //     },
+  //     cellKey: 'stage.id',
+  //     cellLabel: 'stage.name'  
+  // },         
   {
       key: 'branch',
       label: trans('users.labels.branch'),
@@ -280,7 +300,7 @@ export const dealColumns = [
       show: true,
       locked: false,
       editable: true,
-      sorteable: false,
+      sorteable: true,
       filterable: true,
       filter: {
         modelValue: {
@@ -344,7 +364,7 @@ export const dealColumns = [
       label: trans('global.labels.owner'),
       show: true,
       locked: false,
-      sorteable: false,
+      sorteable: true,
       filterable: true,
       editable: true,
       filter: {
@@ -366,7 +386,7 @@ export const dealColumns = [
       label: trans('deals.labels.category'),
       show: false,
       locked: false,
-      sorteable: false,
+      sorteable: true,
       filterable: false,
       editable: true,
       filter: {

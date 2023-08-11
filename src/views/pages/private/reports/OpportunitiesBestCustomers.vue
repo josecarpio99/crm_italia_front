@@ -100,7 +100,7 @@ const mainQuery = reactive({
   limit: 'all',
   search: '',
   sort: {
-    column: 'category_name',
+    column: 'category',
     direction: 'desc'
   },
   filters: {
