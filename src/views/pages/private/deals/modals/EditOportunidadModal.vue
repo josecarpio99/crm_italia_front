@@ -18,18 +18,18 @@
               v-model="form.customer_id"              
             />   
 
-            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.value')"/>
+            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')"/>
 
                    
           </div>
 
           <div class="w-full">
-            <TextInput type="text" class="mb-4" :required="true" name="name" v-model="form.name" :label="trans('deals.labels.name')"/>
+            <TextInput type="text" class="mb-4" :required="true" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
 
             <Dropdown  
               :required="true"
               class="mb-4"
-              :label="trans('deals.labels.source')"
+              :label="trans('deals.labels.oportunidad_source')"
               selectLabel="name"
               name="source" 
               :options="sources" 
@@ -43,7 +43,7 @@
             <Dropdown  
               class="mb-4"
               :required="true"
-              :label="trans('deals.labels.owner')"
+              :label="trans('global.labels.adviser_in_charge')"
               selectLabel="name"
               name="owner" 
               :options="users" 

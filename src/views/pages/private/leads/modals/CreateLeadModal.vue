@@ -82,7 +82,7 @@
             <Dropdown  
               class="mb-4"
               :required="true"
-              :label="trans('leads.labels.owner')"
+              :label="trans('global.labels.adviser_in_charge')"
               selectLabel="name"
               name="owner" 
               :options="users" 

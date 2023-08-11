@@ -140,6 +140,8 @@
       "stage": "Fase", 
       "value": "Valor", 
       "source": "Origen",
+      "oportunidad_source": "Origen de la oportunidad",
+      "cotizado_source": "Origen del cotizado",
       "category": "Clasificación",
       "owner": "Dueño",  
       "status": "Estado",
@@ -149,6 +151,9 @@
       "stage_moved_at": "Movido a esta fase el",
       "estimated_close_date": "Fecha de cierre prevista",
       "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
+      "estimated_value": "Monto estimado",
+      "oportunidad_estimated_value": "Monto estimado de la oportunidad",
+      "cotizado_estimated_value": "Monto estimado del cotizado",
       "win_probability": "Probabilidad de ganar"
     },
     "phrases": {
@@ -303,6 +308,7 @@
       "last_name": "Apellido",
       "middle_name": "Segundo nombre",
       "name": "Nombre",
+      "adviser_in_charge": "Asesor encargado",
       "phone": "Teléfono",
       "avatar": "Avatar",
       "category": "Categoría",

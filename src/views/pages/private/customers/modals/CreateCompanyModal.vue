@@ -81,7 +81,7 @@
           <div class="w-full ">
             <Dropdown  
               class="mb-4"
-              :label="trans('customers.labels.owner')"
+              :label="trans('global.labels.adviser_in_charge')"
               selectLabel="name"
               name="owner" 
               :options="users" 
