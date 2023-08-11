@@ -291,7 +291,7 @@ const page = reactive({
       }
   ],  
   toggleFilters: false,
-  showFooter: true,
+  showFooter: !authStore.isDirector(),
   isLoading: false
 });
 
@@ -660,7 +660,7 @@ onMounted(async () => {
   if (!route.params.id) {
     page.title = trans('deals.menu.oportunidades');
     if (authStore.isDirector()) {
-      const directorFields = ['deal', 'branch', 'owner', 'source', 'category', 'estimated_size'];
+      const directorFields = ['deal', 'branch', 'owner', 'source', 'category', 'value'];
 
       table.columns.forEach(column => {
         column.show = false;
