@@ -5,9 +5,9 @@
 
     <Form ref="formRef" id="update-company" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
+        <div class="flex gap-2 flex-col ">
          
-          <div class="w-full lg:w-1/2">
+          <div class="w-full ">
             <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>
             
             <Dropdown  
@@ -21,11 +21,11 @@
 
           </div>
           
-          <div class="w-full lg:w-1/2">
-            <div class="flex flex-col sm:flex-row gap-2">
-              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="true" name="mobile" v-model="form.mobile" :label="trans('customers.labels.mobile')"/>
-              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="phone" v-model="form.phone" :label="trans('customers.labels.phone')"/>
-            </div>
+          <div class="w-full ">
+            <!-- <div class="flex flex-col sm:flex-row gap-2">
+            </div> -->
+            <TextInput class="mb-4 w-full " type="text" :required="true" name="mobile" v-model="form.mobile" :label="trans('customers.labels.mobile')"/>
+            <TextInput class="mb-4 w-full " type="text" :required="false" name="phone" v-model="form.phone" :label="trans('customers.labels.phone')"/>
             <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
 
             <Dropdown  
@@ -37,23 +37,23 @@
               v-model="form.sector_id"              
             /> 
 
-            <div class="flex flex-col sm:flex-row gap-2">
-              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
-              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('customers.labels.postcode')"/>
-            </div>
+            <!-- <div class="flex flex-col sm:flex-row gap-2">
+            </div> -->
+            <TextInput class="mb-4 w-full " type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
+            <TextInput class="mb-4 w-full " type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('customers.labels.postcode')"/>
 
-            <div class="flex flex-col sm:flex-row gap-2">
-              <TextInput class="mb-4 w-full lg:w-1/2" type="text" :required="false" name="state" v-model="form.state" :label="trans('customers.labels.state')"/>
+            <!-- <div class="flex flex-col sm:flex-row gap-2">
+            </div> -->
+            <TextInput class="mb-4 w-full " type="text" :required="false" name="state" v-model="form.state" :label="trans('customers.labels.state')"/>
 
-              <Dropdown  
-                class="mb-4 w-full lg:w-1/2"            
-                :label="trans('customers.labels.country')"
-                selectLabel="name"
-                :options="countries" 
-                name="country" 
-                v-model="form.country_id"              
-              /> 
-            </div>
+            <Dropdown  
+              class="mb-4 w-full "            
+              :label="trans('customers.labels.country')"
+              selectLabel="name"
+              :options="countries" 
+              name="country" 
+              v-model="form.country_id"              
+            /> 
 
           </div>
 
@@ -61,8 +61,8 @@
       </div>
 
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">
+        <div class="flex gap-2 flex-col ">
+          <div class="w-full ">
             <Dropdown  
               class="mb-4"            
               :label="trans('customers.labels.customer_status')"
@@ -78,7 +78,7 @@
               v-model="form.potential_customer_status"              
             />
           </div>
-          <div class="w-full lg:w-1/2">
+          <div class="w-full ">
             <Dropdown  
               class="mb-4"
               :label="trans('customers.labels.owner')"
@@ -93,8 +93,8 @@
       </div>
 
       <div class="border-b-2 border-gray-100 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">
+        <div class="flex gap-2 flex-col ">
+          <div class="w-full ">
             <Dropdown  
               :required="true"
               :label="trans('customers.labels.category')"
@@ -103,7 +103,7 @@
               v-model="form.category_id"              
             /> 
           </div>
-          <div class="w-full lg:w-1/2">     
+          <div class="w-full ">     
             <TextInput class="mb-4" type="text" :required="true" name="origen" v-model="form.origin" :label="trans('customers.labels.origin')"/>
           </div>
         </div>

@@ -5,8 +5,9 @@
 
     <Form ref="formRef" id="update-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">
+        
+        <div class="flex gap-2 flex-col">
+          <div class="w-full">
             <Dropdown  
               class="mb-4" 
               :required="true"           
@@ -21,7 +22,8 @@
 
                    
           </div>
-          <div class="w-full lg:w-1/2">
+
+          <div class="w-full">
             <TextInput type="text" class="mb-4" :required="true" name="name" v-model="form.name" :label="trans('deals.labels.name')"/>
 
             <Dropdown  
@@ -35,12 +37,8 @@
             />
                                  
           </div>
-        </div>
-      </div>
 
-      <div class="border-b-2 border-gray-100 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">                      
+          <div class="w-full">                      
             
             <Dropdown  
               class="mb-4"
@@ -53,7 +51,8 @@
             />                     
 
           </div>
-          <div class="w-full lg:w-1/2"> 
+
+          <div class="w-full"> 
           
             <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
 
@@ -76,8 +75,10 @@
             />     
 
           </div>
+
         </div>
-      </div>
+
+      </div>  
 
     </Form>
 
