@@ -5,6 +5,9 @@
 
     <Form ref="formRef" id="create-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
+      <p class="text-gray-500 text-xs"><span class="font-bold">Nota:</span> Recueda que una oportunidad es un proyecto que <span class="font-bold uppercase">aún no esta cotizado</span>,
+      pero es una posiblidad de venta.</p>
+
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
         
         <div class="flex gap-2 flex-col">
