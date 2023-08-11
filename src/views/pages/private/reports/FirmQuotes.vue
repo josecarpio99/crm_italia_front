@@ -19,7 +19,9 @@
             </template>
 
             <template #cell-value="{item}">
-              {{ '$' + item.value?.toLocaleString('en-US') }}
+              <span class="text-gray-600 font-bold">
+                {{ '$' + item.value?.toLocaleString('en-US') }}
+              </span>
             </template>
 
             <template #cell-owner="{item}">             
@@ -155,7 +157,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'estimated_close_date_range', 'customer_responsiveness', 'value'];
+const fields = ['deal', 'branch', 'owner', 'estimated_close_date_range', 'value'];
 
 const valueColumn = dealColumns.find(column => column.key == 'value');
 valueColumn.label = trans('deals.header.amount_quoted')

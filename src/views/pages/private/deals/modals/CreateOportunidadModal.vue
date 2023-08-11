@@ -41,16 +41,7 @@
 
       <div class="border-b-2 border-gray-100 mt-4">
         <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">      
-            
-            <Dropdown  
-              class="mb-4"
-              :required="true"
-              :label="trans('deals.labels.stage')"
-              :options="dealStages" 
-              name="deal_pipeline_stage_id" 
-              v-model="form.deal_pipeline_stage_id"              
-            />          
+          <div class="w-full lg:w-1/2">                      
             
             <Dropdown  
               class="mb-4"
@@ -60,18 +51,7 @@
               name="owner" 
               :options="users" 
               v-model="form.owner_id"              
-            /> 
-           
-            <TextInput class="mb-4" type="text" :required="true" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.pm_in_charge')"
-              name="pm" 
-              :options="pmChargeStatuses" 
-              v-model="form.has_project_manager"              
-            /> 
+            />                     
 
           </div>
           <div class="w-full lg:w-1/2"> 
@@ -94,16 +74,7 @@
               :options="dealCategories" 
               name="category" 
               v-model="form.category_id"              
-            />
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.customer_responsiveness')"
-              :options="dealCustomerResponsiveness" 
-              name="category" 
-              v-model="form.customer_responsiveness"              
-            />
+            />     
 
           </div>
         </div>
@@ -122,7 +93,7 @@ import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCategories } from "@/stub/categories";
-import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
+import { dealEstimatedCloseDateRange } from "@/stub/statuses";
 import DealService from "@/services/DealService";
 import SectorService from "@/services/SectorService";
 import Alert from "@/views/components/Alert";
@@ -142,13 +113,7 @@ const initialState = {
   category_id: null,
   owner_id: null,
   win_probability: null,
-  deal_pipeline_id: 1,
-  deal_pipeline_stage_id: null,
-  estimated_close_date: null,
   estimated_close_date_range: null,
-  estimated_size: null,
-  customer_responsiveness: null,
-  has_project_manager: null,
   value: null,
   name: null
 };
@@ -174,7 +139,7 @@ function onSubmit() {
 
   dealService.handleCreate(
       'create-deal', 
-      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager', 'estimated_close_date_range'], 'id')
+      reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);

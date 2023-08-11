@@ -40,16 +40,7 @@
 
       <div class="border-b-2 border-gray-100 mt-4">
         <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">      
-            
-            <Dropdown  
-              class="mb-4"
-              :required="true"
-              :label="trans('deals.labels.stage')"
-              :options="dealStages" 
-              name="deal_pipeline_stage_id" 
-              v-model="form.deal_pipeline_stage_id"              
-            />          
+          <div class="w-full lg:w-1/2">                      
             
             <Dropdown  
               class="mb-4"
@@ -59,23 +50,12 @@
               name="owner" 
               :options="users" 
               v-model="form.owner_id"              
-            /> 
-           
-            <TextInput class="mb-4" type="text" :required="true" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.pm_in_charge')"
-              name="pm" 
-              :options="pmChargeStatuses" 
-              v-model="form.has_project_manager"              
-            /> 
+            />                     
 
           </div>
           <div class="w-full lg:w-1/2"> 
           
-            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>            
+            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
 
             <Dropdown  
               class="mb-4"
@@ -93,16 +73,7 @@
               :options="dealCategories" 
               name="category" 
               v-model="form.category_id"              
-            />
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.customer_responsiveness')"
-              :options="dealCustomerResponsiveness" 
-              name="category" 
-              v-model="form.customer_responsiveness"              
-            />
+            />     
 
           </div>
         </div>
@@ -120,7 +91,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
+import { dealEstimatedCloseDateRange } from "@/stub/statuses";
 import { dealCategories } from "@/stub/categories";
 import DealService from "@/services/DealService";
 import Alert from "@/views/components/Alert";
@@ -159,7 +130,7 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
-  let data = reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager', 'estimated_close_date_range'], 'id');
+  let data = reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id');
   dealService.handleUpdate(
       'update-deal', 
       form.id,
@@ -181,12 +152,9 @@ onMounted( async () => {
   Object.assign(form, props.deal);
   
   form.customer_id = customers.find(option => option.id === form.customer?.id);
-  form.has_project_manager = pmChargeStatuses.find(option => option.id == form.has_project_manager);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
   form.category_id = dealCategories.find(option => option.id === form.category?.id);
-  form.deal_pipeline_stage_id = dealStages.find(option => option.id == form.stage?.id);
-  form.customer_responsiveness = dealCustomerResponsiveness.find(option => option.id === form.customer_responsiveness);
   form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === form.estimated_close_date_range);
   
   isLoading.value = false;

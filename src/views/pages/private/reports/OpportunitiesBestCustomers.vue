@@ -146,7 +146,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'source', 'category'];
+const fields = ['deal', 'branch', 'owner', 'source', 'category'];
 
 const columns = fields.map(field => dealColumns.find(column => column.key == field))
     .map(column => {

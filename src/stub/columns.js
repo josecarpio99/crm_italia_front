@@ -281,19 +281,19 @@ export const dealColumns = [
       filterable: false,
       cellLabel: 'owner.branch'
   },         
-  {
-      key: 'has_project_manager',
-      label: trans('deals.labels.pm_in_charge'),
-      show: false,
-      locked: false,
-      editable: false,
-      sorteable: false,
-      filterable: false,
-      filter: {
-        modelValue: '',
-        type: 'input'            
-      },
-  },         
+  // {
+  //     key: 'has_project_manager',
+  //     label: trans('deals.labels.pm_in_charge'),
+  //     show: false,
+  //     locked: false,
+  //     editable: false,
+  //     sorteable: false,
+  //     filterable: false,
+  //     filter: {
+  //       modelValue: '',
+  //       type: 'input'            
+  //     },
+  // },         
   {
       key: 'value',
       label: trans('global.labels.value'),
@@ -310,24 +310,24 @@ export const dealColumns = [
         type: 'range'
       },       
   },         
-  {
-      key: 'estimated_size',
-      label: trans('deals.labels.estimated_size'),
-      show: false,
-      locked: false,
-      editable: false,
-      sorteable: false,
-      filterable: false           
-  },         
-  {
-      key: 'customer_responsiveness',
-      label: trans('deals.labels.customer_responsiveness'),
-      show: false,
-      locked: false,
-      editable: false,
-      sorteable: false,
-      filterable: false           
-  },         
+  // {
+  //     key: 'estimated_size',
+  //     label: trans('deals.labels.estimated_size'),
+  //     show: false,
+  //     locked: false,
+  //     editable: false,
+  //     sorteable: false,
+  //     filterable: false           
+  // },         
+  // {
+  //     key: 'customer_responsiveness',
+  //     label: trans('deals.labels.customer_responsiveness'),
+  //     show: false,
+  //     locked: false,
+  //     editable: false,
+  //     sorteable: false,
+  //     filterable: false           
+  // },         
   {
       key: 'estimated_close_date_range',
       label: trans('deals.labels.estimated_close_date'),

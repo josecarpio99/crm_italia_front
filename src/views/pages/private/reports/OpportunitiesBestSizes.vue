@@ -18,26 +18,22 @@
               </router-link>
             </template>
 
-            <template #cell-value="{item}">
-              {{ 'MXN' + item.value?.toLocaleString('en-US') }}
-            </template>
-
-            <template #cell-estimated_size="{item}">                           
-                {{ '$' + (item.estimated_size ? item.estimated_size?.toLocaleString('en-US', {minimumFractionDigits: 2}) : '0,00') }}
+            <template #cell-value="{item}">                           
+                {{ '$' + (item.value ? item.value?.toLocaleString('en-US', {minimumFractionDigits: 2}) : '0,00') }}
             </template>
 
             <template #cell-estimated_size_deal="{item}">
               <span
                 class="inline-block rounded-xl px-2"
                 :class="{
-                  'text_white': item.estimated_size,
-                  'bg-orange-400' : item.estimated_size > 10_000_000,
-                  'bg-blue-400' : item.estimated_size < 10_000_000 && item.estimated_size >= 5_000_000,
-                  'bg-green-400' : item.estimated_size < 5_000_000 && item.estimated_size >= 1_000_000,
-                  'bg-yellow-400' : item.estimated_size < 1_000_000 && item.estimated_size,
+                  'text_white': item.value,
+                  'bg-orange-400' : item.value > 10_000_000,
+                  'bg-blue-400' : item.value <= 10_000_000 && item.value >= 5_000_000,
+                  'bg-green-400' : item.value < 5_000_000 && item.value >= 1_000_000,
+                  'bg-yellow-400' : item.value < 1_000_000 && item.value,
                 }"
               >                
-                {{ calculateEstimatedSize(item.estimated_size) }}
+                {{ calculateEstimatedSize(item.value) }}
               </span>
             </template>
 
@@ -118,7 +114,7 @@ const mainQuery = reactive({
   limit: 'all',
   search: '',
   sort: {
-    column: 'estimated_size',
+    column: 'value',
     direction: 'desc'
   },
   filters: {
@@ -164,7 +160,7 @@ const page = reactive({
   isLoading: false
 });
 
-const fields = ['deal', 'branch', 'owner', 'has_project_manager', 'source', 'estimated_size_deal', 'estimated_size'];
+const fields = ['deal', 'branch', 'owner', 'source', 'estimated_size_deal', 'value'];
 
 dealColumns.push({
   key: 'estimated_size_deal',
@@ -182,7 +178,7 @@ const columns = fields.map(field => dealColumns.find(column => column.key == fie
       }
     });
 
-const estimateSizeColumn = columns.find(column => column.key == 'estimated_size');
+const estimateSizeColumn = columns.find(column => column.key == 'value');
 estimateSizeColumn.label = trans('deals.header.estimated_project_size')
 
 const table = reactive({ 
@@ -218,7 +214,7 @@ function calculateEstimatedSize(value) {
   let strValue = '';
   if (value > 10_000_000) {
     strValue = '...Más de 10';
-  } else if(value < 10_000_000 && value >= 5_000_000) {
+  } else if(value <= 10_000_000 && value >= 5_000_000) {
     strValue = '...5 a 10';
   } else if(value < 5_000_000 && value >= 1_000_000) {
     strValue = '...1 a 5';
