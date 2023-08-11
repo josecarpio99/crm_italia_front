@@ -12,7 +12,7 @@
             <Dropdown  
               class="mb-4" 
               :required="true"           
-              :label="trans('deals.labels.customer')"
+              :label="trans('deals.labels.main_contact')"
               :options="customers" 
               selectLabel="name"
               name="customer" 

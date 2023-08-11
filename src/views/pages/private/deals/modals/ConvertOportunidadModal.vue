@@ -5,13 +5,12 @@
 
     <Form ref="formRef" id="create-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
-      <div class="border-b-2 border-gray-100 pb-4 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">
+      <div class="flex gap-2 flex-col">
+          <div class="w-full">
             <Dropdown  
               class="mb-4" 
               :required="true"           
-              :label="trans('deals.labels.customer')"
+              :label="trans('deals.labels.main_contact')"
               :options="customers" 
               selectLabel="name"
               name="customer" 
@@ -22,7 +21,8 @@
 
                    
           </div>
-          <div class="w-full lg:w-1/2">
+
+          <div class="w-full">
             <TextInput type="text" class="mb-4" :required="true" name="name" v-model="form.name" :label="trans('deals.labels.name')"/>
 
             <Dropdown  
@@ -36,21 +36,8 @@
             />
                                  
           </div>
-        </div>
-      </div>
 
-      <div class="border-b-2 border-gray-100 mt-4">
-        <div class="flex gap-2 flex-col lg:flex-row">
-          <div class="w-full lg:w-1/2">      
-            
-            <Dropdown  
-              class="mb-4"
-              :required="true"
-              :label="trans('deals.labels.stage')"
-              :options="dealStages" 
-              name="deal_pipeline_stage_id" 
-              v-model="form.deal_pipeline_stage_id"              
-            />          
+          <div class="w-full">                      
             
             <Dropdown  
               class="mb-4"
@@ -60,21 +47,11 @@
               name="owner" 
               :options="users" 
               v-model="form.owner_id"              
-            /> 
-           
-            <TextInput class="mb-4" type="text" :required="true" name="estimated_size" v-model="form.estimated_size" :label="trans('deals.labels.estimated_size')"/>
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.pm_in_charge')"
-              name="pm" 
-              :options="pmChargeStatuses" 
-              v-model="form.has_project_manager"              
-            /> 
+            />                     
 
           </div>
-          <div class="w-full lg:w-1/2"> 
+
+          <div class="w-full"> 
           
             <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
 
@@ -94,20 +71,11 @@
               :options="dealCategories" 
               name="category" 
               v-model="form.category_id"              
-            />
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.customer_responsiveness')"
-              :options="dealCustomerResponsiveness" 
-              name="category" 
-              v-model="form.customer_responsiveness"              
-            />
+            />     
 
           </div>
+
         </div>
-      </div>
 
     </Form>
 
@@ -182,7 +150,7 @@ function onSubmit() {
 
   dealService.handleCreate(
       'create-deal', 
-      reduceProperties(form, ['deal_pipeline_stage_id', 'category_id', 'customer_id', 'source_id', 'owner_id', 'customer_responsiveness', 'has_project_manager', 'estimated_close_date_range'], 'id')
+      reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
       router.push({name: 'deals.cotizados.show', params: {id: res.data.data.id}});
@@ -198,21 +166,14 @@ function onCloseModal() {
 
 onMounted( async () => {
   form.customer_id = customers.find(option => option.id === props.deal.customer?.id);
-  form.has_project_manager = pmChargeStatuses.find(option => option.id == props.deal.has_project_manager);
   form.source_id = sources.find(option => option.id === props.deal.source?.id);
   form.owner_id = users.find(option => option.id === props.deal.owner?.id);
   form.category_id = dealCategories.find(option => option.id === props.deal.category?.id);
-  form.deal_pipeline_stage_id = dealStages.find(option => option.id == 2);
-  form.customer_responsiveness = dealCustomerResponsiveness.find(option => option.id === props.deal.customer_responsiveness);
   form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === props.deal.estimated_close_date_range);
 
 
   form.type = 'cotizado';
   form.win_probability = props.deal.win_probability;
-  form.deal_pipeline_id = 1;
-  form.estimated_close_date = props.deal.estimated_close_date;
-  form.estimated_size = props.deal.estimated_size;
-  form.customer_responsiveness = props.deal.customer_responsiveness;
   form.value = props.deal.value;
   form.name = props.deal.name;
   

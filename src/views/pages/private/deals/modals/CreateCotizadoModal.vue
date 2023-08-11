@@ -12,12 +12,12 @@
             <Dropdown  
               class="mb-4" 
               :required="true"           
-              :label="trans('deals.labels.customer')"
+              :label="trans('deals.labels.main_contact')"
               :options="customers" 
               selectLabel="name"
               name="customer" 
               v-model="form.customer_id"              
-            />  
+            />   
 
             <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.value')"/>
 
