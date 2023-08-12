@@ -10,7 +10,7 @@
         <div class="flex gap-2 flex-col">
           <div class="w-full">
             <Dropdown  
-              class="mb-4" 
+              class="" 
               :required="false"           
               :label="trans('deals.labels.main_contact')"
               :options="customers" 
@@ -19,8 +19,9 @@
               v-model="form.customer_id"              
             />   
 
-            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')"/>
+            <span class="text-blue-300 text-xs mt-[1px] mb-4 block">Agregar <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreatePersonModal')">Persona</button> o <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreateCompanyModal')">Empresa</button></span>
 
+            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')"/>
                    
           </div>
 
@@ -83,6 +84,11 @@
 
     </Form>
 
+    <template>
+      <CreatePersonModal :modalActive="showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
+      <CreateCompanyModal :modalActive="showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
+    </template>
+
   </BaseModal>
 </template>
 
@@ -104,7 +110,8 @@ import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
-
+import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
+import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
 const emit = defineEmits(["close-modal"]);
 
 const initialState = {
@@ -128,6 +135,8 @@ const authStore = useAuthStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
+const showCreatePersonModal = ref(false);
+const showCreateCompanyModal = ref(false);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
 
@@ -154,6 +163,25 @@ function onSubmit() {
 function onCloseModal() {
   Object.assign(form, initialState);
   emit('close-modal');
+}
+
+function toggleModal(key) {
+  alertStore.clear();
+  if (key === 'CreatePersonModal') {
+    showCreatePersonModal.value = !showCreatePersonModal.value;            
+  }
+  if (key === 'CreateCompanyModal') {
+    showCreateCompanyModal.value = !showCreateCompanyModal.value;
+  }  
+
+  if (
+      showCreateCompanyModal.value == true ||
+      showCreatePersonModal.value == true
+  ) {
+      alertStore.showOnPage = false;
+  } else {
+      alertStore.showOnPage = true;
+  }
 }
 
 onMounted( async () => {

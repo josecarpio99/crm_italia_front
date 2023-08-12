@@ -132,6 +132,7 @@ import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useCustomersStore} from "@/stores/customers";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -163,6 +164,7 @@ const countryService = new CountryService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
+const customersStore = useCustomersStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
@@ -179,7 +181,10 @@ function onSubmit() {
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
-
+        customersStore.customerList.unshift({
+          id: res.data.data.id,
+          name: res.data.data.name,
+        })
     }
   })
   
