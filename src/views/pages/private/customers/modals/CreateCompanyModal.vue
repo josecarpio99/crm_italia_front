@@ -136,6 +136,17 @@ import {useCustomersStore} from "@/stores/customers";
 
 const emit = defineEmits(["close-modal"]);
 
+const customerService = new CustomerService();
+const sectorService = new SectorService();
+const countryService = new CountryService();
+const alertStore = useAlertStore();
+const usersStore = useUsersStore();
+const authStore = useAuthStore();
+const customersStore = useCustomersStore();
+
+const formRef = ref(null);
+const isLoading = ref(true);
+
 const initialState = {
   is_company: 1,
   name: '',           
@@ -146,7 +157,10 @@ const initialState = {
   origin: '',
   sector_id: null,
   category_id: null,
-  owner_id: null,
+  owner_id: {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  },
   parent_id: null,
   city: '',
   postcode: '',
@@ -158,16 +172,6 @@ const initialState = {
 
 const form = reactive({...initialState});
 
-const customerService = new CustomerService();
-const sectorService = new SectorService();
-const countryService = new CountryService();
-const alertStore = useAlertStore();
-const usersStore = useUsersStore();
-const authStore = useAuthStore();
-const customersStore = useCustomersStore();
-
-const formRef = ref(null);
-const isLoading = ref(true);
 let sectors = null;
 let users = usersStore.userList;
 let companies = null;
@@ -200,10 +204,6 @@ onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
   companies = await customerService.list({company: 1}).then(res => res.data);
-  form.owner_id = {
-    id: authStore.user.id,
-    name: authStore.user.name,
-  }
   isLoading.value = false;
 
 });

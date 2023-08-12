@@ -163,6 +163,17 @@ import {useAuthStore} from "@/stores/auth";
 
 const emit = defineEmits(["close-modal"]);
 
+const leadService = new LeadService();
+const alertStore = useAlertStore();
+const usersStore = useUsersStore();
+const authStore = useAuthStore();
+
+const formRef = ref(null);
+const isLoading = ref(true);
+const sectorService = new SectorService();
+const countryService = new CountryService();
+const sourcesStore = useSourcesStore();
+
 const initialState = {
   name: '',           
   email: '',
@@ -177,23 +188,15 @@ const initialState = {
   showroom: null, 
   source_id: null,
   category_id: null,
-  owner_id: null,  
+  owner_id: {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  },  
   status: null,
   appointment_at: null,
 };
 
 const form = reactive({...initialState});
-
-const leadService = new LeadService();
-const alertStore = useAlertStore();
-const usersStore = useUsersStore();
-const authStore = useAuthStore();
-
-const formRef = ref(null);
-const isLoading = ref(true);
-const sectorService = new SectorService();
-const countryService = new CountryService();
-const sourcesStore = useSourcesStore();
 
 let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
@@ -224,10 +227,7 @@ function onCloseModal() {
 onMounted( async () => {
   sectors = await sectorService.index().then(res => res.data);
   countries = await countryService.index().then(res => res.data);
-  form.owner_id = {
-    id: authStore.user.id,
-    name: authStore.user.name,
-  }
+ 
   isLoading.value = false;
 });
 

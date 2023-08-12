@@ -114,20 +114,6 @@ import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePers
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
 const emit = defineEmits(["close-modal"]);
 
-const initialState = {
-  type: 'cotizado',    
-  customer_id: null,    
-  source_id: null,
-  category_id: null,
-  owner_id: null,
-  win_probability: null,  
-  estimated_close_date_range: null,
-  value: null,
-  name: null
-};
-
-const form = reactive({...initialState});
-
 const dealService = new DealService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
@@ -139,6 +125,24 @@ const showCreatePersonModal = ref(false);
 const showCreateCompanyModal = ref(false);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
+
+
+const initialState = {
+  type: 'cotizado',    
+  customer_id: null,    
+  source_id: null,
+  category_id: null,
+  owner_id: {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  },
+  win_probability: null,  
+  estimated_close_date_range: null,
+  value: null,
+  name: null
+};
+
+const form = reactive({...initialState});
 
 let users = usersStore.userList;
 let customers = customersStore.customerList;
@@ -185,10 +189,6 @@ function toggleModal(key) {
 }
 
 onMounted( async () => {
-  form.owner_id = {
-    id: authStore.user.id,
-    name: authStore.user.name,
-  }
   isLoading.value = false;
 });
 

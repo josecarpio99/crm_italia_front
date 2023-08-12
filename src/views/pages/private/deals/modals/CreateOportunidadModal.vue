@@ -63,7 +63,7 @@
             <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
 
             <Dropdown  
-              class="mb-4"
+              class="mb-4 estimated_close_date_range"
               :required="false"
               :label="trans('deals.labels.estimated_close_date')"
               :options="dealEstimatedCloseDateRange" 
@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, onMounted} from "vue";
+import {reactive, ref, onMounted, watch} from "vue";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
@@ -120,20 +120,6 @@ import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCom
 
 const emit = defineEmits(["close-modal"]);
 
-const initialState = {
-  type: 'oportunidad',    
-  customer_id: null,    
-  source_id: null,
-  category_id: null,
-  owner_id: null,
-  win_probability: null,
-  estimated_close_date_range: null,
-  value: null,
-  name: null
-};
-
-const form = reactive({...initialState});
-
 const dealService = new DealService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
@@ -145,6 +131,23 @@ const showCreatePersonModal = ref(false);
 const showCreateCompanyModal = ref(false);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
+
+const initialState = {
+  type: 'oportunidad',    
+  customer_id: null,    
+  source_id: null,
+  category_id: null,
+  owner_id: {
+    id: authStore.user.id,
+    name: authStore.user.name,
+  },
+  win_probability: null,
+  estimated_close_date_range: null,
+  value: null,
+  name: null
+};
+
+const form = reactive({...initialState});
 
 let users = usersStore.userList;
 let customers = customersStore.customerList;
@@ -190,13 +193,24 @@ function toggleModal(key) {
   }
 }
 
+const colour = 'red';
 
 onMounted( async () => {
-  form.owner_id = {
-    id: authStore.user.id,
-    name: authStore.user.name,
-  }
   isLoading.value = false;
 });
 
 </script>
+
+<style scoped>
+
+/* .estimated_close_date_range {
+  color: v-bind(colour);
+  background-color: v-bind(colour);
+
+}
+
+.estimated_close_date_range :deep(.vs__selected) {
+ color: v-bind('theme.color');
+} */
+
+</style>
