@@ -26,14 +26,22 @@
               <span>{{ customer.owner.name }}</span>
             </div>
           </div>
+
           <div v-if="customer.customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.customer_status') }}</h4>
             <span>{{ customer.customer_status }}</span>
           </div>
+
           <div v-if="customer.potential_customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.potential_customer_status') }}</h4>
             <span>{{ customer.potential_customer_status }}</span>
           </div>
+
+          <div v-if="customer.category" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.category') }}</h4>
+            <span>{{ customer.category.name }}</span>
+          </div>
+
           <div v-if="customer.mobile" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.mobile') }}</h4>
             <div class="flex items-center">
@@ -44,6 +52,7 @@
               <span>{{ customer.mobile }}</span>
             </div>
           </div>
+
           <div v-if="customer.email" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.email') }}</h4>
             <div class="flex items-center">
@@ -54,6 +63,7 @@
               <span>{{ customer.email }}</span>
             </div>
           </div>
+
           <div v-if="customer.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.created_at') }}</h4>
             <div class="flex items-center">
@@ -64,10 +74,22 @@
               <span>{{ $date(customer.created_at).format() }}</span>
             </div>
           </div>
+
           <div v-if="customer.origin" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.origin') }}</h4>
             <span>{{ customer.origin }}</span>
           </div>
+
+          <div v-if="customer.position" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.position') }}</h4>
+            <span>{{ customer.position }}</span>
+          </div>
+
+          <div v-if="customer.sector" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.sector') }}</h4>
+            <span>{{ customer.sector.name }}</span>
+          </div>
+
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
           <Note @submit="onNoteSubmit" />          

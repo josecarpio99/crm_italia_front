@@ -20,12 +20,18 @@
     <Panel v-if="lead" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
+
           <div v-if="lead.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
               <CircleAvatarIcon class="w-8 h-8" :avatarUrl="lead.owner?.avatar_url" />            
               <span>{{ lead.owner.name }}</span>
             </div>
+          </div>      
+        
+          <div v-if="lead.status" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.status') }}</h4>
+            <span>{{ lead.status }}</span>
           </div>
         
           <div v-if="lead.mobile" class="mb-6">
@@ -38,6 +44,7 @@
               <span>{{ lead.mobile }}</span>
             </div>
           </div>
+
           <div v-if="lead.email" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.email') }}</h4>
             <div class="flex items-center">
@@ -48,14 +55,22 @@
               <span>{{ lead.email }}</span>
             </div>
           </div>
+
+          <div v-if="lead.position" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.position') }}</h4>
+            <span>{{ lead.position }}</span>
+          </div>
+
           <div v-if="lead.sector" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.sector') }}</h4>
             <span>{{ lead.sector.name }}</span>
           </div>
+
           <div v-if="lead.source" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.source') }}</h4>
             <span>{{ lead.source.name }}</span>
           </div>
+
           <div v-if="lead.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.created_at') }}</h4>
             <div class="flex items-center">
@@ -66,13 +81,25 @@
               <span>{{ $date(lead.created_at).format() }}</span>
             </div>
           </div>
+
           <div v-if="lead.category" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.category') }}</h4>
             <span>{{ lead.category.name }}</span>
           </div>
+
+          <div v-if="lead.profile" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.profile') }}</h4>
+            <span>{{ lead.profile }}</span>
+          </div>
+
           <div v-if="lead.requirement" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.requirement') }}</h4>
             <span>{{ lead.requirement }}</span>
+          </div>
+
+          <div v-if="lead.quotation_list" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.quotation_list') }}</h4>
+            <span>{{ lead.quotation_list }}</span>
           </div>
           
         </div>

@@ -18,17 +18,7 @@
 
     <Panel v-if="deal" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
-        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">          
-
-          <div v-if="deal.customer_responsiveness" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.customer_responsiveness') }}</h4>
-            <span>{{ deal.customer_responsiveness }}</span>
-          </div>
-
-          <div v-if="deal.estimated_size" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.estimated_size') }}</h4>
-            <span>{{ deal.estimated_size }}</span>
-          </div>
+        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">       
 
           <div v-if="deal.category" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.category') }}</h4>
@@ -51,19 +41,14 @@
           <div v-if="deal.value" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.value') }}</h4>
             <span class="text-2xl text-gray-600 font-semibold">MXN{{ deal.value.toLocaleString('en-US') }}</span>
-          </div>
-
-          <div v-if="deal.stage" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.stage') }}</h4>
-            <span>{{ deal.stage.name }}</span>
-          </div> 
+          </div>       
 
           <div v-if="deal.win_probability" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.win_probability') }}</h4>
             <span>{{ deal.win_probability + '%' }}</span>
           </div>
 
-          <div v-if="deal.estimated_close_date" class="mb-6">
+          <!-- <div v-if="deal.estimated_close_date" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.estimated_close_date') }}</h4>
             <div class="flex items-center">
               <Icon 
@@ -72,7 +57,7 @@
               />
               <span>{{ $date(deal.estimated_close_date).format() }}</span>
             </div>
-          </div>
+          </div> -->
 
           <div v-if="deal.estimated_close_date_range" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.estimated_close_date') }}</h4>
@@ -90,10 +75,10 @@
             </div>
           </div>  
 
-          <div v-if="deal.stage_moved_at" class="mb-6">
+          <!-- <div v-if="deal.stage_moved_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.stage_moved_at') }}</h4>
             <span>{{ $date(deal.stage_moved_at).format() }}</span>
-          </div>                   
+          </div>                    -->
           
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
