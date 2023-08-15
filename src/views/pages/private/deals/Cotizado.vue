@@ -430,6 +430,10 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },
+      branch: {
+          value: '',
+          comparison: '='
+      },
       value: {
           value: '',
           comparison: '='
@@ -582,7 +586,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;

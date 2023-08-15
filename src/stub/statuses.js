@@ -144,3 +144,22 @@ export const pmChargeStatuses = [
     label: 'No tengo PM',
   }
 ];
+
+export const branches = [
+  {
+    id: 'CDMX',
+    label: 'CDMX',
+  },  
+  {
+    id: 'AGS',
+    label: 'AGS',
+  },  
+  {
+    id: 'MTY',
+    label: 'MTY',
+  },  
+  {
+    id: 'QRO',
+    label: 'QRO',
+  }
+]

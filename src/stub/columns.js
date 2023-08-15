@@ -3,7 +3,7 @@ import {customerCategories} from "@/stub/categories";
 import {dealCategories, leadCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
-import { leadStatuses, dealStages } from "@/stub/statuses";
+import { leadStatuses, dealStages, branches } from "@/stub/statuses";
 
 export const customerColumns = [
   {
@@ -278,7 +278,12 @@ export const dealColumns = [
       locked: false,
       editable: false,
       sorteable: false,
-      filterable: false,
+      filterable: true,
+      filter: {
+        modelValue: '',
+        type: 'multiselect',
+        options: branches,
+      },
       cellLabel: 'owner.branch'
   },         
   // {
