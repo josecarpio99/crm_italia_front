@@ -57,7 +57,7 @@ const props = defineProps({
         decimal: '.',
         separator: ',',
         prefix: 'MXN ',
-        precision: 2,
+        precision: 3,
         nullValue: 0
     }
   }

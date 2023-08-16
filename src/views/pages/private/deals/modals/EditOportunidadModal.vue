@@ -20,7 +20,18 @@
               v-model="form.customer_id"              
             />   
 
-            <MoneyInput class="mb-4" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')" />
+            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
+              <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')" />
+
+              <Dropdown  
+                class="md:mb-0 md:w-1/2 estimated_close_date_range"
+                :required="false"
+                :label="trans('deals.labels.estimated_close_date')"
+                :options="dealEstimatedCloseDateRange" 
+                name="estimated_close_date_range" 
+                v-model="form.estimated_close_date_range"              
+              />
+            </div>
                    
           </div>
 
@@ -52,16 +63,7 @@
 
           </div>
 
-          <div class="w-full">           
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.estimated_close_date')"
-              :options="dealEstimatedCloseDateRange" 
-              name="estimated_close_date_range" 
-              v-model="form.estimated_close_date_range"              
-            />
+          <div class="w-full">        
 
             <Dropdown  
               class="mb-4"
@@ -131,7 +133,7 @@ let sources = sourcesStore.sourceList;
 function onSubmit() {  
   alertStore.clear();
 
-  form.value = form.value.replace(/\D/g, '');
+  form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
   let data = reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id');
   dealService.handleUpdate(

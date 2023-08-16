@@ -23,7 +23,18 @@
 
             <span class="text-blue-300 text-xs mt-[1px] mb-4 block">Agregar <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreatePersonModal')">Persona</button> o <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreateCompanyModal')">Empresa</button></span>
 
-            <MoneyInput class="mb-4" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
+            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
+              <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
+
+              <Dropdown  
+                class="md:mb-0 md:w-1/2 estimated_close_date_range"
+                :required="false"
+                :label="trans('deals.labels.estimated_close_date')"
+                :options="dealEstimatedCloseDateRange" 
+                name="estimated_close_date_range" 
+                v-model="form.estimated_close_date_range"              
+              />
+            </div>
                    
           </div>
 
@@ -56,15 +67,6 @@
           </div>
 
           <div class="w-full">          
-
-            <Dropdown  
-              class="mb-4"
-              :required="false"
-              :label="trans('deals.labels.estimated_close_date')"
-              :options="dealEstimatedCloseDateRange" 
-              name="estimated_close_date_range" 
-              v-model="form.estimated_close_date_range"              
-            />
 
             <Dropdown  
               class="mb-4"
@@ -150,7 +152,7 @@ let sources = sourcesStore.sourceList;
 function onSubmit() {  
   alertStore.clear();
 
-  form.value = form.value.replace(/\D/g, '');
+  form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
   dealService.handleCreate(
       'create-cotizado', 
