@@ -127,8 +127,8 @@
     "labels": {
       "edit_oportunidad": "Editar oportunidad", 
       "add_oportunidad": "Agregar oportunidad", 
-      "add_cotizado": "Agregar cotizado", 
-      "edit_cotizado": "Editar cotizado", 
+      "add_cotizado": "Agregar cotización", 
+      "edit_cotizado": "Editar cotización", 
       "add_deal": "Agregar trato", 
       "total_deals": "Total de tratos", 
       "value_total": "Valor total", 
@@ -141,7 +141,7 @@
       "value": "Valor", 
       "source": "Origen",
       "oportunidad_source": "Origen de la oportunidad",
-      "cotizado_source": "Origen del cotizado",
+      "cotizado_source": "Origen de la cotización",
       "category": "Clasificación",
       "owner": "Dueño",  
       "status": "Estado",
@@ -155,11 +155,11 @@
       "value_estimated": "Valor estimado",
       "value_quoted": "Valor cotizado",
       "oportunidad_estimated_value": "Monto estimado de la oportunidad",
-      "cotizado_estimated_value": "Monto estimado del cotizado",
+      "cotizado_estimated_value": "Monto estimado de la cotización",
       "win_probability": "Probabilidad de ganar"
     },
     "phrases": {
-      "convert_oportunidad": "Convertir oportunidad a cotizado"
+      "convert_oportunidad": "Convertir oportunidad a cotización"
     }
   },
   "tasks" : {
@@ -199,9 +199,9 @@
       "leads": "Leads",
       "deal": "Trato",
       "oportunidad": "Oportunidad",
-      "cotizado": "Cotizado",
+      "cotizado": "Cotización",
       "oportunidades": "Oportunidades",
-      "cotizados": "Cotizados",
+      "cotizados": "Cotizaciones",
       "deals": "Tratos",
       "users": "Usuarios",
       "users_create": "Nuevo Usuario",
@@ -261,7 +261,7 @@
       "add_person": "Contacto: Persona",
       "add_company": "Contacto: Empresa",
       "oportunidad": "Oportunidad",
-      "cotizado": "Cotizado",
+      "cotizado": "Cotización",
       "clean_filter": "Borrar filtro",
       "lead": "Lead",
       "add_new": "Agregar nuevo",
