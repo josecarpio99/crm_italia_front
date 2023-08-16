@@ -114,7 +114,7 @@
               <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">Número Oportunidades</span>
+              <span class="font-semibold text-sm text-gray-700">Núm. Oportunidades</span>
               <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.AGS.count }}</span>
             </div>
           
