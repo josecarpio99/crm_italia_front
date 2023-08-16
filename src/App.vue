@@ -193,14 +193,14 @@ export default {
 
       const state = reactive({
           mainMenu: [
-              {
-                  name: trans('global.pages.home'),
-                  icon: 'home',
-                  showDesktop: true,
-                  showMobile: true,
-                  requiresAbility: false,
-                  to: '/panel/dashboard',
-              },
+            //   {
+            //       name: trans('global.pages.home'),
+            //       icon: 'home',
+            //       showDesktop: true,
+            //       showMobile: true,
+            //       requiresAbility: false,
+            //       to: '/panel/dashboard',
+            //   },
               {
                   name: trans('global.pages.customers'),
                   icon: 'users',

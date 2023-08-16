@@ -1,11 +1,19 @@
 <template>
     <ul class="aside-menu">
-        <li 
+        <!-- <li 
             class="logo" 
         >                 
             <img src="/assets/images/logo.png" class="w-10 h-10" alt="logo">
 
-        </li>
+        </li> -->
+        <li
+            v-tooltip.right="trans('global.pages.home')"
+            class="logo group hover:bg-theme-600"
+        >
+            <router-link :to="'/panel/dashboard'" class="flex items-center text-base text-white font-semibold rounded-lg group-hover:text-theme-300">
+                <img src="/assets/images/logo.png" class="w-10 h-10" alt="logo">                        
+            </router-link>                  
+        </li> 
         <template v-for="item in $props.state.mainMenu">            
             <li v-if="item.hasOwnProperty('children') && item.children.length > 0 && isEnabled(item, $props.type)"
                 class="hover:bg-theme-600" :class="isActive(item) ? 'bg-theme-800' : ''"    
@@ -218,6 +226,10 @@ export default defineComponent({
 
 .aside-menu li.logo { 
     padding: 8px 0;
+}
+
+.aside-menu li.logo a{ 
+    padding: 0;
 }
 
 </style>
