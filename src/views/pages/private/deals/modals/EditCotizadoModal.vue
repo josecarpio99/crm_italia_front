@@ -18,8 +18,7 @@
               v-model="form.customer_id"              
             />   
 
-            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')"/>
-
+            <MoneyInput class="mb-4" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
                    
           </div>
 
@@ -89,6 +88,7 @@ import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
+import MoneyInput from "@/views/components/input/MoneyInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
 import { dealCategories } from "@/stub/categories";
@@ -129,6 +129,9 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
+
+  form.value = form.value.replace(/\D/g, '');
+
   let data = reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id');
   dealService.handleUpdate(
       'update-deal', 

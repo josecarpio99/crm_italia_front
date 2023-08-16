@@ -24,7 +24,8 @@
 
             <span class="text-blue-300 text-xs mt-[1px] mb-4 block">Agregar <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreatePersonModal')">Persona</button> o <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreateCompanyModal')">Empresa</button></span>
 
-            <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')"/>
+            <MoneyInput class="mb-4" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')" />
+            <!-- <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')"/> -->
 
                    
           </div>
@@ -101,6 +102,7 @@ import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
+import MoneyInput from "@/views/components/input/MoneyInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCategories } from "@/stub/categories";
 import { dealEstimatedCloseDateRange } from "@/stub/statuses";
@@ -140,7 +142,7 @@ const initialState = {
     name: authStore.user.name,
   },
   estimated_close_date_range: null,
-  value: null,
+  value: 0,
   name: null
 };
 
@@ -152,6 +154,8 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
+
+  form.value = form.value.replace(/\D/g, '');
 
   dealService.handleCreate(
       'create-deal', 
