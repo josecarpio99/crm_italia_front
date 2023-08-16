@@ -377,7 +377,7 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import {dealColumns} from "@/stub/columns";
+import {cotizadoColumns} from "@/stub/columns";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
@@ -461,7 +461,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: dealColumns,           
+  columns: cotizadoColumns,           
   pagination: {
       meta: null,
       links: null,

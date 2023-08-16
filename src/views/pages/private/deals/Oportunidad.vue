@@ -218,7 +218,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
-import {dealColumns} from "@/stub/columns";
+import {oportunidadColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {useUsersStore} from "@/stores/users";
@@ -300,7 +300,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: dealColumns,           
+  columns: oportunidadColumns,           
   pagination: {
       meta: null,
       links: null,

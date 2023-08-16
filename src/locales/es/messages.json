@@ -152,6 +152,8 @@
       "estimated_close_date": "Fecha de cierre prevista",
       "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
       "estimated_value": "Monto estimado",
+      "value_estimated": "Valor estimado",
+      "value_quoted": "Valor cotizado",
       "oportunidad_estimated_value": "Monto estimado de la oportunidad",
       "cotizado_estimated_value": "Monto estimado del cotizado",
       "win_probability": "Probabilidad de ganar"
