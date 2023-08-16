@@ -12,6 +12,8 @@
         
         <div class="flex gap-2 flex-col">
           <div class="w-full">
+            <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
+
             <Dropdown  
               class="" 
               :required="false"           
@@ -30,8 +32,7 @@
                    
           </div>
 
-          <div class="w-full">
-            <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
+          <div class="w-full">            
 
             <Dropdown  
               :required="false"
