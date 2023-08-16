@@ -45,27 +45,36 @@
           <header class="w-full items-center bg-white py-2 px-6 hidden sm:flex">
               <!-- <div class="w-1/2"></div> -->
               <div class="relative w-1/2 flex" v-if="state.contentReady">
-                  <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAddMenuOpen = !state.isAddMenuOpen">
-                      <span class="relative pt-3 mr-2">{{ trans('global.buttons.add') }} <Icon :name="state.isAddMenuOpen ? 'angle-up' : 'angle-down'"/></span>
-                  </a>
-                  <button v-if="state.isAddMenuOpen" @click="state.isAddMenuOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button>
-                  <div v-if="state.isAddMenuOpen" class="absolute w-42 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
-                      <!-- <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreatePersonModal')">
-                          {{ trans('global.buttons.add_person') }}
-                      </a>
-                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCompanyModal')">
-                          {{ trans('global.buttons.add_company') }}
-                      </a> -->
-                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateLeadModal')">
-                          {{ trans('global.buttons.lead') }}
-                      </a>
-                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateOportunidadModal')">
-                          {{ trans('global.buttons.oportunidad') }}
-                      </a>
-                      <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCotizadoModal')">
-                          {{ trans('global.buttons.cotizado') }}
-                      </a>
-                  </div>
+
+                <Button
+                    v-if="showAddButton"
+                    :label="trans('global.buttons.add')"
+                    @click="handleAddButton"
+                />
+
+                <!-- <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAddMenuOpen = !state.isAddMenuOpen">
+                    <span class="relative pt-3 mr-2">{{ trans('global.buttons.add') }} <Icon :name="state.isAddMenuOpen ? 'angle-up' : 'angle-down'"/></span>
+                </a> -->
+                <!-- <button v-if="state.isAddMenuOpen" @click="state.isAddMenuOpen = false" class="h-full w-full fixed inset-0 cursor-pointer"></button> -->
+
+                <div v-if="state.isAddMenuOpen" class="absolute w-42 bg-white rounded-lg shadow-lg py-2 mt-16 z-50">
+                    <!-- <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreatePersonModal')">
+                        {{ trans('global.buttons.add_person') }}
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCompanyModal')">
+                        {{ trans('global.buttons.add_company') }}
+                    </a> -->
+                    <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateLeadModal')">
+                        {{ trans('global.buttons.lead') }}
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateOportunidadModal')">
+                        {{ trans('global.buttons.oportunidad') }}
+                    </a>
+                    <a href="#" class="block px-4 py-2 hover:bg-theme-800 hover:text-white hover:opacity-80" @click="toggleModal('CreateCotizadoModal')">
+                        {{ trans('global.buttons.cotizado') }}
+                    </a>
+                </div>
+                  
               </div>
               <div v-else class="relative w-1/2 flex">
                 <a class="flex focus:outline-none align-middle">
@@ -123,8 +132,8 @@
 
       </div>
         <template  v-if="state.contentReady">
-            <!-- <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
-            <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/> -->
+            <!-- <CreatePersonModal :modalActive="state.showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/> -->
+            <CreateCompanyModal :modalActive="state.showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
             <CreateLeadModal :modalActive="state.showCreateLeadModal" @close-modal="toggleModal('CreateLeadModal')"/>
             <CreateOportunidadModal :modalActive="state.showCreateOportunidadModal" @close-modal="toggleModal('CreateOportunidadModal')"/>
             <CreateCotizadoModal :modalActive="state.showCreateCotizadoModal" @close-modal="toggleModal('CreateCotizadoModal')"/>
@@ -142,6 +151,7 @@ import {computed, onBeforeMount, reactive, onMounted, watch} from "vue";
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
+import Button from "@/views/components/input/Button.vue";
 import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
 import CreateLeadModal from "@/views/pages/private/leads/modals/CreateLeadModal.vue";
@@ -169,6 +179,7 @@ export default {
       CreateLeadModal,
       CreateOportunidadModal,
       CreateCotizadoModal,
+      Button
   },
   setup() {
 
@@ -179,6 +190,8 @@ export default {
       const authStore = useAuthStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
+
+      const showAddButton = computed(() => ['deals', 'customers', 'leads'].some((word) => route.name.startsWith(word)));
       
       const isLoading = computed(() => {
           var value = false;
@@ -320,6 +333,25 @@ export default {
         }
       }
 
+      function handleAddButton() {
+        if (route.name.startsWith('customers')) {
+            toggleModal('CreateCompanyModal');
+        }
+
+        if (route.name.startsWith('lead')) {
+            toggleModal('CreateLeadModal');
+        }
+
+        if (route.name.startsWith('deals')) {
+            let type = (route.name.split('.'))[1]
+            if (type == 'oportunidades') {                
+                toggleModal('CreateOportunidadModal');
+            } else {
+                toggleModal('CreateCotizadoModal');
+            }
+        }
+      }
+
       async function loadData() {
         if (!usersStore.userList) {
             await usersStore.getUserList();            
@@ -332,7 +364,7 @@ export default {
         }
         
         state.contentReady = true;
-      }   
+      }  
 
       onBeforeMount(async () => {        
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
@@ -358,7 +390,9 @@ export default {
           isLoading,
           toggleModal,
           alertStore,
-          route
+          route,
+          showAddButton,
+          handleAddButton
       }
   }
 };
