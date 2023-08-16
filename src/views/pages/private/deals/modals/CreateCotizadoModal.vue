@@ -5,6 +5,8 @@
 
     <Form ref="formRef" id="create-cotizado" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
+      <p class="text-gray-500 text-xs"><span class="font-bold">Nota:</span> Es cuando ya tienes una cotización en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p>
+
       <div class="border-b-2 border-gray-100 pb-4 mt-4">
         
         <div class="flex gap-2 flex-col">
