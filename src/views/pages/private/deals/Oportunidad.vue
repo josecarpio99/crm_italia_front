@@ -129,7 +129,15 @@
             </template>
 
             <template #cell-value="{item}">
-              <span class="text-gray-600 font-bold">
+              <span 
+                class="text-gray-600 font-bold p-2 rounded-lg"
+                :class="{
+                  'bg-pink-100': item.value <= 500_000,
+                  'bg-blue-200': item.value > 500_000 && item.value <= 3_000_000,
+                  'bg-green-200': item.value > 3_000_000 && item.value <= 6_000_000,
+                  'bg-yellow-200': item.value > 6_000_000
+                }"
+              >
                 {{ 'MXN' + item.value?.toLocaleString('en-US') }}
               </span>              
             </template>

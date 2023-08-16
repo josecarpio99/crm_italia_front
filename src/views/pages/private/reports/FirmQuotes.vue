@@ -20,7 +20,7 @@
 
             <template #cell-value="{item}">
               <span class="text-gray-600 font-bold">
-                {{ '$' + item.value?.toLocaleString('en-US') }}
+                {{ 'MXN' + item.value?.toLocaleString('en-US') }}
               </span>
             </template>
 
