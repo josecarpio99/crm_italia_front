@@ -54,9 +54,7 @@
 
           </div>
 
-          <div class="w-full"> 
-          
-            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
+          <div class="w-full">          
 
             <Dropdown  
               class="mb-4"
@@ -136,7 +134,6 @@ const initialState = {
     id: authStore.user.id,
     name: authStore.user.name,
   },
-  win_probability: null,  
   estimated_close_date_range: null,
   value: null,
   name: null

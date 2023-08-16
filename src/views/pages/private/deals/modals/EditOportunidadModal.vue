@@ -52,9 +52,7 @@
 
           </div>
 
-          <div class="w-full"> 
-          
-            <TextInput class="mb-4" type="text" :required="false" name="win_probability" v-model="form.win_probability" :label="trans('deals.labels.win_probability')"/>
+          <div class="w-full">           
 
             <Dropdown  
               class="mb-4"
