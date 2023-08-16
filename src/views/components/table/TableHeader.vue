@@ -1,24 +1,29 @@
 <template>
   <th scope="col"
-    class="align-middle min-w-[16rem] group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 bg-gray-50 sticky top-0" :class="column.class">
+    class="align-middle  group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 bg-gray-50 sticky top-0" :class="column.class">
 
-    <div class="leading-loose inline-block">{{ column.label }}</div>
-    <div class="sort-arrows inline-block text-center align-text-bottom" v-if="column.sorteable">
-      <span @click.prevent="onSortChange(column.key, 'asc')" :class="sortControlClasses(column.key, 'asc')"
-        class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
-          class="fa fa-caret-up"></i></span>
-      <span @click.prevent="onSortChange(column.key, 'desc')" :class="sortControlClasses(column.key, 'desc')"
-        class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
-          class="fa fa-caret-down"></i></span>
-    </div>
+    <div class="flex">
 
-    <div 
-      v-if="column.filterable" 
-      class="inline-block float-right invisible group-hover:visible"
-    >
-      <span @click="handleClick"  class="flex mt-[1px] text-base cursor-pointer hover:text-gray-700">
-        <i class="fa fa-filter"></i>
-      </span>
+      <div class="leading-loose inline-block whitespace-nowrap">{{ column.label }}</div>
+
+      <div class="sort-arrows inline-block text-center align-text-bottom" v-if="column.sorteable">
+        <span @click.prevent="onSortChange(column.key, 'asc')" :class="sortControlClasses(column.key, 'asc')"
+          class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
+            class="fa fa-caret-up"></i></span>
+        <span @click.prevent="onSortChange(column.key, 'desc')" :class="sortControlClasses(column.key, 'desc')"
+          class="w-full block cursor-pointer font-normal hover:font-bold focus:font-bold hover:text-theme-600 focus:text-theme-600 dark:hover:text-theme-500 dark:focus:text-theme-500"><i
+            class="fa fa-caret-down"></i></span>
+      </div>
+
+      <div 
+        v-if="column.filterable" 
+        class="inline-block float-right ml-auto invisible group-hover:visible"
+      >
+        <span @click="handleClick"  class="flex mt-[1px] ml-4 text-base cursor-pointer hover:text-gray-700">
+          <i class="fa fa-filter"></i>
+        </span>
+      </div>
+
     </div>
 
     <VDropdown
