@@ -33,7 +33,7 @@
         </div>
       </template>
 
-      <template #beside-title>
+      <template #beside-title v-if="!authStore.isDirector()">
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"

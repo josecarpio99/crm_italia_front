@@ -42,7 +42,7 @@
         </div>
       </template>
 
-      <template #beside-title>
+      <template #beside-title v-if="!authStore.isDirector()">
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
@@ -92,7 +92,7 @@
       </template>
 
       <template #under-top>
-        <div class="hidden lg:grid grid-cols-11" v-if="authStore.isDirector() && table.pagination.meta">
+        <div class="hidden lg:grid grid-cols-11 bg-white" v-if="authStore.isDirector() && table.pagination.meta">
 
           <div class="grid grid-cols-2 col-span-3 bg-white place-content-center px-4 py-6 border-r-2">
             
@@ -111,11 +111,11 @@
 
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">De las cuales AGS.</span>
-              <span class="font-semibold text-sm text-gray-500">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">Número Cotizaciones</span>
-              <span class="font-semibold text-sm text-gray-500">{{ table.pagination.meta.branch.AGS.count }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.AGS.count }}</span>
             </div>
            
           </div>
@@ -124,11 +124,11 @@
 
           <div class="flex flex-col items-center">
             <span class="font-semibold text-sm text-gray-700">De las cuales CDMX.</span>
-            <span class="font-semibold text-sm text-gray-500">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
+            <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
           </div>
           <div class="flex flex-col items-center">
             <span class="font-semibold text-sm text-gray-700">Número Cotizaciones</span>
-            <span class="font-semibold text-sm text-gray-500">{{ table.pagination.meta.branch.CDMX.count }}</span>
+            <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.CDMX.count }}</span>
           </div>
 
           </div>
@@ -137,11 +137,11 @@
 
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">De las cuales MTY.</span>
-              <span class="font-semibold text-sm text-gray-500">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">Número Cotizaciones</span>
-              <span class="font-semibold text-sm text-gray-500">{{ table.pagination.meta.branch.MTY.count }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.MTY.count }}</span>
             </div>
            
           </div>
@@ -150,11 +150,11 @@
 
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">De las cuales QRO.</span>
-              <span class="font-semibold text-sm text-gray-500">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-semibold text-sm text-gray-700">Número Cotizaciones</span>
-              <span class="font-semibold text-sm text-gray-500">{{ table.pagination.meta.branch.QRO.count }}</span>
+              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.QRO.count }}</span>
             </div>
            
           </div>
