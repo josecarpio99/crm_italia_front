@@ -142,7 +142,7 @@
       "source": "Origen",
       "oportunidad_source": "Origen de la oportunidad",
       "cotizado_source": "Origen de la cotización",
-      "category": "Clasificación",
+      "category": "Clasificación de la cuenta",
       "owner": "Dueño",  
       "status": "Estado",
       "created_at": "Agregado el",
