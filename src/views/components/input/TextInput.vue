@@ -3,7 +3,7 @@
         <label
             :for="name"
             class="text-sm text-gray-500"
-            :class="{ 'sr-only': !showLabel }"
+            :class="[ $props.labelClass ]"
             v-if="label">
             {{ label }}<span class="text-red-600" v-if="$props.required">*</span>
         </label>
@@ -49,6 +49,10 @@ export default defineComponent({
             required: true,
         },
         label: {
+            type: String,
+            default: "",
+        },
+        labelClass: {
             type: String,
             default: "",
         },
