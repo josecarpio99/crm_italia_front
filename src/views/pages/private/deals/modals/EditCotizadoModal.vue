@@ -41,7 +41,7 @@
 
             <Dropdown  
               :required="false"
-              class="mb-4"
+              class="mb-4 deal_source"
               :label="trans('deals.labels.cotizado_source')"
               selectLabel="name"
               name="source" 
@@ -68,7 +68,7 @@
           <div class="w-full">            
 
             <Dropdown  
-              class="mb-4"
+              class="mb-4 deal_category"
               :required="false"
               :label="trans('deals.labels.category')"
               :options="dealCategories" 

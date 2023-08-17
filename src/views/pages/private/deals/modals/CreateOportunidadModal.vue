@@ -60,7 +60,7 @@
 
             <Dropdown  
               :required="false"
-              class="mb-4"
+              class="mb-4 deal_source"
               :label="trans('deals.labels.oportunidad_source')"
               selectLabel="name"
               name="source" 
@@ -87,7 +87,7 @@
           <div class="w-full">            
 
             <Dropdown  
-              class="mb-4"
+              class="mb-4 deal_category"
               :required="false"
               :label="trans('deals.labels.category')"
               :options="dealCategories" 
@@ -219,8 +219,6 @@ function toggleModal(key) {
   }
 }
 
-const colour = 'red';
-
 onMounted( async () => {
   isLoading.value = false;
 });
@@ -233,9 +231,9 @@ onMounted( async () => {
   color: v-bind(colour);
   background-color: v-bind(colour);
 
-}
+} */
 
-.estimated_close_date_range :deep(.vs__selected) {
+/* .estimated_close_date_range :deep(.vs__selected) {
  color: v-bind('theme.color');
 } */
 
