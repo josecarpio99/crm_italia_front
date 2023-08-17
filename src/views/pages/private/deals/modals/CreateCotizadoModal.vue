@@ -5,38 +5,53 @@
 
     <Form ref="formRef" id="create-cotizado" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
-      <p class="text-gray-500 text-xs"><span class="font-bold">Nota:</span> Es cuando ya tienes una cotización en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p>
+      <p class="text-gray-500 text-xs mb-2"><span class="font-bold">Nota:</span> Es cuando ya tienes una cotización en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p>
 
-      <div class="border-b-2 border-gray-100 pb-4 mt-4">
+      <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/> 
+
+      <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-8">
+        <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
+
+        <Dropdown  
+          class="md:mb-0 md:w-1/2 estimated_close_date_range"
+          :required="false"
+          :label="trans('deals.labels.estimated_close_date')"
+          :options="dealEstimatedCloseDateRange" 
+          name="estimated_close_date_range" 
+          v-model="form.estimated_close_date_range"              
+        />
+      </div>
+
+      <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo contacto" />
+
+      <div v-if="showCustomerSection" class="rounded-sm border-2 px-2 pt-4 mb-6">
+
+        <p class="text-gray-500 font-semibold">{{ trans('deals.phrases.main_contact') }}</p>
+
+        <TextInput class="mb-4 w-full" type="text" :required="true" name="name" v-model="form.customer.name" :label="trans('global.labels.name')"/>
+
+        <TextInput class="mb-4 w-full" type="email" :required="false" name="email" v-model="form.customer.email" :label="trans('users.labels.email')"/>
+
+        <TextInput class="mb-4 w-full " type="text" :required="false" name="mobile" v-model="form.customer.mobile" :label="trans('customers.labels.mobile')"/>
+      </div>
+
+      <Dropdown  
+        v-else
+        class="mb-4" 
+        :required="false"           
+        :label="trans('deals.labels.main_contact')"
+        :options="customers" 
+        selectLabel="name"
+        name="customer" 
+        v-model="form.customer_id"              
+      /> 
         
         <div class="flex gap-2 flex-col">
-          <div class="w-full">
-            <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
+          <div class="w-full">                      
 
-            <Dropdown  
-              class="" 
-              :required="false"           
-              :label="trans('deals.labels.main_contact')"
-              :options="customers" 
-              selectLabel="name"
-              name="customer" 
-              v-model="form.customer_id"              
-            />   
+            <!-- <span class="text-blue-300 text-xs mt-[1px] mb-4 block">Agregar <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreatePersonModal')">Persona</button> o <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreateCompanyModal')">Empresa</button></span> -->
 
-            <span class="text-blue-300 text-xs mt-[1px] mb-4 block">Agregar <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreatePersonModal')">Persona</button> o <button class="uppercase text-blue-500 font-semibold hover:text-blue-700" @click.prevent="toggleModal('CreateCompanyModal')">Empresa</button></span>
-
-            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
-              <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
-
-              <Dropdown  
-                class="md:mb-0 md:w-1/2 estimated_close_date_range"
-                :required="false"
-                :label="trans('deals.labels.estimated_close_date')"
-                :options="dealEstimatedCloseDateRange" 
-                name="estimated_close_date_range" 
-                v-model="form.estimated_close_date_range"              
-              />
-            </div>
+            <!-- <TextInput type="text" class="mb-4" :required="false" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')"/> -->
                    
           </div>
 
@@ -45,7 +60,7 @@
             <Dropdown  
               :required="false"
               class="mb-4"
-              :label="trans('deals.labels.cotizado_source')"
+              :label="trans('deals.labels.oportunidad_source')"
               selectLabel="name"
               name="source" 
               :options="sources" 
@@ -68,7 +83,7 @@
 
           </div>
 
-          <div class="w-full">          
+          <div class="w-full">            
 
             <Dropdown  
               class="mb-4"
@@ -81,9 +96,7 @@
 
           </div>
 
-        </div>
-
-      </div>  
+        </div>  
 
     </Form>
 
@@ -102,6 +115,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import MoneyInput from "@/views/components/input/MoneyInput";
+import Toggle from "@/views/components/input/Toggle";
 import Dropdown from "@/views/components/input/Dropdown";
 import { dealCategories } from "@/stub/categories";
 import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
@@ -124,6 +138,7 @@ const usersStore = useUsersStore();
 const authStore = useAuthStore();
 
 const formRef = ref(null);
+const showCustomerSection = ref(true);
 const isLoading = ref(true);
 const showCreatePersonModal = ref(false);
 const showCreateCompanyModal = ref(false);
@@ -142,10 +157,15 @@ const initialState = {
   },
   estimated_close_date_range: null,
   value: 0,
-  name: null
+  name: null,
+  customer: {
+    name: null,
+    email: null,
+    mobile: null,
+  }
 };
 
-const form = reactive({...initialState});
+const form = reactive(structuredClone(initialState));
 
 let users = usersStore.userList;
 let customers = customersStore.customerList;
@@ -156,12 +176,16 @@ function onSubmit() {
 
   form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
+  if (!showCustomerSection.value) {
+    delete form['customer'];
+  }
+
   dealService.handleCreate(
       'create-cotizado', 
       reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id','estimated_close_date_range'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
-        Object.assign(form, initialState);
+        Object.assign(form, structuredClone(initialState));
 
     }
   })
@@ -170,7 +194,7 @@ function onSubmit() {
 }
 
 function onCloseModal() {
-  Object.assign(form, initialState);
+  Object.assign(form, structuredClone(initialState));
   emit('close-modal');
 }
 

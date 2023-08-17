@@ -159,7 +159,8 @@
       "win_probability": "Probabilidad de ganar"
     },
     "phrases": {
-      "convert_oportunidad": "Convertir oportunidad a cotización"
+      "convert_oportunidad": "Convertir oportunidad a cotización",
+      "main_contact": "Información del contacto principal"
     }
   },
   "tasks" : {
