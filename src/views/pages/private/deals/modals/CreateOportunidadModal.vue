@@ -25,7 +25,7 @@
 
       <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo contacto" />
 
-      <div v-if="showCustomerSection" class="rounded-sm border-2 px-2 pt-4 mb-6">
+      <div v-if="showCustomerSection" class="rounded-sm border-2 px-2 pt-4 mb-6 bg-gray-50">
 
         <p class="text-gray-500 font-semibold">{{ trans('deals.phrases.main_contact') }}</p>
 
