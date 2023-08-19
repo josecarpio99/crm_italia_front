@@ -155,7 +155,7 @@
       "value_estimated": "Valor estimado",
       "value_quoted": "Valor de la cotización",
       "oportunidad_estimated_value": "Monto estimado de la oportunidad",
-      "cotizado_estimated_value": "Monto estimado de la cotización",
+      "cotizado_estimated_value": "Monto exacto de la cotización",
       "win_probability": "Probabilidad de ganar"
     },
     "phrases": {

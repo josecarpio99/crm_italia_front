@@ -7,18 +7,7 @@
           v-if="label">
           {{ label }}<span class="text-red-600" v-if="$props.required">*</span>
       </label>
-
-      <!-- <input 
-      :id="name"
-      :type="type"
-      :value="modelValue"
-      :required="required"
-      :disabled="disabled"
-      :min="min"
-      @input="onInput"
-      :placeholder="placeholder"
-      :autocomplete="autocomplete"
-      class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm"/> -->      
+       
       <vue-number 
         v-model="inputValue" 
         @input="onInput"
@@ -26,6 +15,10 @@
         class="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-theme-500 focus:border-theme-500 text-sm"
       >
       </vue-number>
+
+      <span v-if="$props.errorMessage.length > 0" class="text-red-500 text-sm ml-1">
+          {{ $props.errorMessage }}
+      </span>
   </div>
 </template>
 
@@ -51,6 +44,10 @@ const props = defineProps({
   showLabel: {
     type: Boolean,
     default: true,
+  },
+  errorMessage: {
+    type: String,
+    default: '',
   },
   number: {
     default: {

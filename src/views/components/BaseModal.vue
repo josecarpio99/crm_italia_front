@@ -39,10 +39,12 @@
                     @click="$emit('close-modal')"
                   />
 
-                  <Button
-                    :label="trans('global.buttons.save')"
-                    @click="$emit('save-modal')"
-                  />
+                  <slot name="primary-button"> 
+                    <Button
+                      :label="trans('global.buttons.save')"
+                      @click="$emit('save-modal')"
+                    />
+                  </slot>
                 </div>
             </div>
           </div>
