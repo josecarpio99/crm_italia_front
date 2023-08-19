@@ -6,4 +6,14 @@ export default class DealService extends ModelService {
         super();
         this.url = 'v1/deal';
     }
+
+    public convert(id, payload) {
+        return this.post( 
+            this.url + `/${id}/convert`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
 }
