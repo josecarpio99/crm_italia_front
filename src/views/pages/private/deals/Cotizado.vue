@@ -265,6 +265,10 @@
                 {{ $date(item.created_at).format() }}          
             </template>
 
+            <template #cell-estimated_close_date_range="{item}">                  
+              <EstimatedCloseDateRangeField :value="item.estimated_close_date_range" />
+            </template>
+
             <template #cell-estimated_close_date="{item}" v-if="authStore.isDirector()">
               <span
                class="inline-block rounded-xl px-2"
@@ -343,6 +347,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {cotizadoColumns} from "@/stub/columns";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {customerCategories} from "@/stub/categories";

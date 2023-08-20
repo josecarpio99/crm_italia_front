@@ -49,8 +49,8 @@
           </div>      
 
           <div v-if="deal.estimated_close_date_range" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.estimated_close_date') }}</h4>
-            <span>{{ deal.estimated_close_date_range }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.estimated_close_date') }}</h4>
+            <EstimatedCloseDateRangeField :value="deal.estimated_close_date_range" />
           </div>
 
           <div v-if="deal.created_at" class="mb-6">
@@ -107,6 +107,7 @@ import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
