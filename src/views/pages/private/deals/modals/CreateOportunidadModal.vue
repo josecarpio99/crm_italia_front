@@ -11,10 +11,24 @@
 
       </div>
         
-      <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/> 
+      <TextInput 
+        type="text" 
+        class="mb-4" 
+        :required="false" 
+        name="name" 
+        v-model="form.name" 
+        :label="trans('deals.labels.company_name')"
+        :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+      /> 
 
       <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-8">
-        <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.oportunidad_estimated_value')" />
+        <MoneyInput 
+          class="md:mb-0 md:w-1/2" 
+          name="value" 
+          v-model="form.value" 
+          :label="trans('deals.labels.oportunidad_estimated_value')" 
+          :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
+        />
 
         <Dropdown  
           class="md:mb-0 md:w-1/2 estimated_close_date_range"
@@ -22,7 +36,8 @@
           :label="trans('deals.labels.estimated_close_date')"
           :options="dealEstimatedCloseDateRange" 
           name="estimated_close_date_range" 
-          v-model="form.estimated_close_date_range"              
+          v-model="form.estimated_close_date_range"  
+          :errorMessage="v$.estimated_close_date_range.$errors.length ? v$.estimated_close_date_range.$errors[0].$message : ''"
         />
       </div>
 
@@ -32,7 +47,15 @@
 
         <p class="text-white font-semibold mb-2">{{ trans('deals.phrases.main_contact') }}</p>
 
-        <TextInput class="mb-4 w-full" labelClass="text-white" type="text" :required="true" name="name" v-model="form.customer.name" :label="trans('global.labels.name')"/>
+        <TextInput 
+          class="mb-4 w-full" 
+          labelClass="text-white" 
+          type="text" 
+          :required="true" 
+          name="name" 
+          v-model="form.customer.name" 
+          :label="trans('global.labels.name')"
+        />
 
         <TextInput class="mb-4 w-full" labelClass="text-white" type="email" :required="false" name="email" v-model="form.customer.email" :label="trans('users.labels.email')"/>
 
@@ -47,7 +70,7 @@
         :options="customers" 
         selectLabel="name"
         name="customer" 
-        v-model="form.customer_id"              
+        v-model="form.customer_id"
       /> 
         
         <div class="flex gap-2 flex-col">
@@ -68,7 +91,8 @@
               selectLabel="name"
               name="source" 
               :options="sources" 
-              v-model="form.source_id"              
+              v-model="form.source_id"      
+              :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
             />
                                  
           </div>
@@ -82,7 +106,8 @@
               selectLabel="name"
               name="owner" 
               :options="users" 
-              v-model="form.owner_id"              
+              v-model="form.owner_id"  
+              :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
             />                     
 
           </div>
@@ -95,7 +120,8 @@
               :label="trans('deals.labels.category')"
               :options="dealCategories" 
               name="category" 
-              v-model="form.category_id"              
+              v-model="form.category_id"
+              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"
             />     
 
           </div>
@@ -105,8 +131,8 @@
     </Form>
 
     <template>
-      <CreatePersonModal :modalActive="showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
-      <CreateCompanyModal :modalActive="showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/>
+      <!-- <CreatePersonModal :modalActive="showCreatePersonModal" @close-modal="toggleModal('CreatePersonModal')"/>
+      <CreateCompanyModal :modalActive="showCreateCompanyModal" @close-modal="toggleModal('CreateCompanyModal')"/> -->
     </template>
   </BaseModal>
 
@@ -135,6 +161,12 @@ import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  maxLength,  
+  helpers
+} from '@vuelidate/validators';
 
 const emit = defineEmits(["close-modal"]);
 
@@ -172,12 +204,43 @@ const initialState = {
 
 const form = reactive(structuredClone(initialState));
 
+const rules = {
+  name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  owner_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  category_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  source_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  value: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  estimated_close_date_range: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }
+}
+
+const v$ = useVuelidate(rules, form);
+
 let users = usersStore.userList;
 let customers = customersStore.customerList;
 let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
+
+  v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    return true
+  }
+
+  v$.value.$reset();
 
   form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 

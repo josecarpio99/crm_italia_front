@@ -8,7 +8,15 @@
         <div class="flex gap-2 flex-col ">
          
           <div class="w-full ">
-            <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>
+            <TextInput 
+              class="mb-4" 
+              type="text" 
+              :required="true" 
+              name="name" 
+              v-model="form.name" 
+              :label="trans('global.labels.name')"
+              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+            />
             
             <Dropdown  
               class="mb-4"            
@@ -24,9 +32,26 @@
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput class="mb-4 w-full " type="text" :required="true" name="mobile" v-model="form.mobile" :label="trans('customers.labels.mobile')"/>
+            <TextInput 
+              class="mb-4 w-full " 
+              type="text" 
+              :required="true" 
+              name="mobile" 
+              v-model="form.mobile" 
+              :label="trans('customers.labels.mobile')"
+              :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
+            />
             <TextInput class="mb-4 w-full " type="text" :required="false" name="phone" v-model="form.phone" :label="trans('customers.labels.phone')"/>
-            <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
+
+            <TextInput 
+              class="mb-4" 
+              type="email" 
+              :required="true" 
+              name="email" 
+              v-model="form.email" 
+              :label="trans('users.labels.email')"
+              :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
+            />
 
             <Dropdown  
               class="mb-4"            
@@ -39,7 +64,16 @@
 
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput class="mb-4 w-full " type="text" :required="true" name="city" v-model="form.city" :label="trans('customers.labels.city')"/>
+            <TextInput 
+              class="mb-4 w-full " 
+              type="text" 
+              :required="true" 
+              name="city" 
+              v-model="form.city" 
+              :label="trans('customers.labels.city')"
+              :errorMessage="v$.city.$errors.length ? v$.city.$errors[0].$message : ''"
+            />
+
             <TextInput class="mb-4 w-full " type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('customers.labels.postcode')"/>
 
             <!-- <div class="flex flex-col sm:flex-row gap-2">
@@ -100,11 +134,20 @@
               :label="trans('customers.labels.category')"
               :options="customerCategories" 
               name="category" 
-              v-model="form.category_id"              
+              v-model="form.category_id"   
+              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"                         
             /> 
           </div>
           <div class="w-full ">     
-            <TextInput class="mb-4" type="text" :required="true" name="origen" v-model="form.origin" :label="trans('customers.labels.origin')"/>
+            <TextInput 
+              class="mb-4" 
+              type="text" 
+              :required="true"
+              name="origen"
+              v-model="form.origin" 
+              :label="trans('customers.labels.origin')"
+              :errorMessage="v$.origin.$errors.length ? v$.origin.$errors[0].$message : ''"
+            />
           </div>
         </div>
       </div>
@@ -131,6 +174,12 @@ import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  maxLength,  
+  helpers
+} from '@vuelidate/validators';
 
 const props = defineProps({  
   customer: {
@@ -147,6 +196,29 @@ const emit = defineEmits(['close-modal', 'updated', 'delete']);
 
 const form = reactive({});
 
+const rules = {
+  name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  mobile: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  email: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  origin: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  city: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  category_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+}
+
+const v$ = useVuelidate(rules, form);
+
 const customerService = new CustomerService();
 const sectorService = new SectorService();
 const countryService = new CountryService();
@@ -161,6 +233,15 @@ let countries = null;
 
 function onSubmit() {  
   alertStore.clear();
+
+  v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    return true
+  }
+
+  v$.value.$reset();
+
   let data = reduceProperties(form, ['customer_status', 'potential_customer_status', 'category_id', 'sector_id', 'country_id', 'parent_id', 'owner_id'], 'id');
   customerService.handleUpdate(
       'update-company', 

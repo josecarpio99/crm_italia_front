@@ -8,7 +8,15 @@
         <div class="flex gap-2 flex-col ">
          
           <div class="w-full ">
-            <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('global.labels.name')"/>            
+            <TextInput 
+              class="mb-4" 
+              type="text" 
+              :required="true"
+              name="name" 
+              v-model="form.name" 
+              :label="trans('global.labels.name')"
+              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+            />            
 
             <TextInput class="mb-4" type="text" :required="false" name="position" v-model="form.position" :label="trans('leads.labels.position')"/>
 
@@ -26,8 +34,17 @@
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput class="mb-4 w-full " type="text" :required="false" name="mobile" v-model="form.mobile" :label="trans('leads.labels.mobile')"/>
+            <TextInput 
+              class="mb-4 w-full " 
+              type="text" 
+              :required="false" 
+              name="mobile" 
+              v-model="form.mobile" 
+              :label="trans('leads.labels.mobile')"
+            />
+
             <TextInput class="mb-4 w-full " type="text" :required="false" name="phone" v-model="form.phone" :label="trans('leads.labels.phone')"/>
+
             <Dropdown  
               :required="true"
               class="mb-4"
@@ -35,15 +52,32 @@
               selectLabel="name"
               name="source" 
               :options="sources" 
-              v-model="form.source_id"              
+              v-model="form.source_id"   
+              :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
             /> 
 
-            <TextInput class="mb-4" type="email" :required="false" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
+            <TextInput 
+              class="mb-4" 
+              type="email" 
+              :required="false"
+              name="email" 
+              v-model="form.email" 
+              :label="trans('users.labels.email')"
+             />
             
 
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput class="mb-4 w-full " type="text" :required="true" name="city" v-model="form.city" :label="trans('leads.labels.city')"/>
+            <TextInput 
+              class="mb-4 w-full " 
+              type="text" 
+              :required="true" 
+              name="city" 
+              v-model="form.city" 
+              :label="trans('leads.labels.city')"
+              :errorMessage="v$.city.$errors.length ? v$.city.$errors[0].$message : ''"
+            />
+
             <TextInput class="mb-4 w-full " type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('leads.labels.postcode')"/>
 
             <!-- <div class="flex flex-col sm:flex-row gap-2">
@@ -74,7 +108,8 @@
               :label="trans('leads.labels.status')"
               :options="leadStatuses" 
               name="status" 
-              v-model="form.status"              
+              v-model="form.status"    
+              :errorMessage="v$.status.$errors.length ? v$.status.$errors[0].$message : ''"
             />           
           </div>
           <div class="w-full ">
@@ -85,7 +120,9 @@
               selectLabel="name"
               name="owner" 
               :options="users" 
-              v-model="form.owner_id"              
+              v-model="form.owner_id"   
+              :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
+
             />
                                  
           </div>
@@ -135,6 +172,7 @@
         </div>
       </div>
 
+
     </Form>
 
   </BaseModal>
@@ -158,6 +196,12 @@ import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import $date from "@/helpers/date";
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  maxLength,  
+  helpers
+} from '@vuelidate/validators';
 
 const props = defineProps({  
   lead: {
@@ -173,6 +217,29 @@ const props = defineProps({
 const emit = defineEmits(['close-modal', 'updated', 'delete']);
 
 const form = reactive({});
+
+const rules = {
+  name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  status: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  source_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  owner_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  city: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+  category_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }, 
+}
+
+const v$ = useVuelidate(rules, form);
 
 const leadService = new LeadService();
 const sectorService = new SectorService();
@@ -190,6 +257,15 @@ let countries = null;
 
 function onSubmit() {  
   alertStore.clear();
+  
+  v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    return true
+  }
+
+  v$.value.$reset();
+
   let data = reduceProperties(form, ['status', 'profile', 'category_id', 'sector_id', 'source_id', 'owner_id', 'requirement_size', 'country_id'], 'id');
   leadService.handleUpdate(
       'update-lead', 

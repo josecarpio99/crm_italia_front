@@ -9,7 +9,15 @@
         <div class="flex gap-2 flex-col">
           <div class="w-full">
 
-            <TextInput type="text" class="mb-4" :required="false" name="name" v-model="form.name" :label="trans('deals.labels.company_name')"/>
+            <TextInput 
+              type="text" 
+              class="mb-4" 
+              :required="false" 
+              name="name" 
+              v-model="form.name" 
+              :label="trans('deals.labels.company_name')"
+              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+            /> 
 
             <Dropdown  
               class="mb-4" 
@@ -18,11 +26,18 @@
               :options="customers" 
               selectLabel="name"
               name="customer" 
-              v-model="form.customer_id"              
+              v-model="form.customer_id"    
+              :errorMessage="v$.customer_id.$errors.length ? v$.customer_id.$errors[0].$message : ''"
             />   
 
             <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
-              <MoneyInput class="md:mb-0 md:w-1/2" name="value" v-model="form.value" :label="trans('deals.labels.cotizado_estimated_value')" />
+              <MoneyInput 
+                class="md:mb-0 md:w-1/2" 
+                name="value" 
+                v-model="form.value" 
+                :label="trans('deals.labels.cotizado_estimated_value')" 
+                :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
+              />
 
               <Dropdown  
                 class="md:mb-0 md:w-1/2 estimated_close_date_range"
@@ -30,7 +45,8 @@
                 :label="trans('deals.labels.estimated_close_date')"
                 :options="dealEstimatedCloseDateRange" 
                 name="estimated_close_date_range" 
-                v-model="form.estimated_close_date_range"              
+                v-model="form.estimated_close_date_range"  
+                :errorMessage="v$.estimated_close_date_range.$errors.length ? v$.estimated_close_date_range.$errors[0].$message : ''"
               />
             </div>
                    
@@ -46,7 +62,8 @@
               selectLabel="name"
               name="source" 
               :options="sources" 
-              v-model="form.source_id"              
+              v-model="form.source_id"      
+              :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
             />
                                  
           </div>
@@ -60,8 +77,9 @@
               selectLabel="name"
               name="owner" 
               :options="users" 
-              v-model="form.owner_id"              
-            />                     
+              v-model="form.owner_id"  
+              :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
+            />                      
 
           </div>
 
@@ -73,8 +91,9 @@
               :label="trans('deals.labels.category')"
               :options="dealCategories" 
               name="category" 
-              v-model="form.category_id"              
-            />     
+              v-model="form.category_id"
+              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"
+            />   
 
           </div>
 
@@ -104,6 +123,12 @@ import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
 import {useSourcesStore} from "@/stores/sources";
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  maxLength,  
+  helpers
+} from '@vuelidate/validators';
 
 const props = defineProps({  
   deal: {
@@ -120,6 +145,32 @@ const emit = defineEmits(['close-modal', 'updated', 'delete']);
 
 const form = reactive({});
 
+const rules = {
+  name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  customer_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  owner_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  category_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  source_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  value: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  estimated_close_date_range: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }
+}
+
+const v$ = useVuelidate(rules, form);
+
 const dealService = new DealService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
@@ -134,6 +185,14 @@ let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
   alertStore.clear();
+
+  v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    return true
+  }
+
+  v$.value.$reset();
 
   form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
