@@ -257,6 +257,10 @@
               {{ item.owner?.name }}
             </template>
 
+            <template #cell-source="{item}">                  
+              <SourceField :value="item?.source?.name" />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -338,6 +342,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import ValueField from "@/views/components/ValueField";
+import SourceField from "@/views/components/SourceField";
 import {cotizadoColumns} from "@/stub/columns";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {customerCategories} from "@/stub/categories";

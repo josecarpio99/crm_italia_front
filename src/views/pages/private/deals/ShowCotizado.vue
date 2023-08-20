@@ -26,8 +26,8 @@
           </div>        
         
           <div v-if="deal.source" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.source') }}</h4>
-            <span>{{ deal.source.name }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.source') }}</h4>
+            <SourceField :value="deal?.source?.name" />
           </div>     
           
           <div v-if="deal.owner" class="mb-6">
@@ -106,6 +106,7 @@ import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ValueField from "@/views/components/ValueField";
+import SourceField from "@/views/components/SourceField";
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
