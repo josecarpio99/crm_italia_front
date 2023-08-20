@@ -38,7 +38,7 @@
             </template>
 
             <template #cell-owner="{item}">             
-              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" />               
+              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />              
               {{ item.owner?.name }}
             </template>
 

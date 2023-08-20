@@ -33,7 +33,7 @@
           <div v-if="deal.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
-              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="deal.owner?.avatar_url" />            
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="deal.owner?.avatar_url" :user="deal.owner" />            
               <span>{{ deal.owner.name }}</span>
             </div>
           </div>

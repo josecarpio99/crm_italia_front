@@ -24,7 +24,7 @@
           <div v-if="lead.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
-              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="lead.owner?.avatar_url" />            
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="lead.owner?.avatar_url" :user="lead.owner" />            
               <span>{{ lead.owner.name }}</span>
             </div>
           </div>      

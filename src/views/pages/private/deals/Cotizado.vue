@@ -253,12 +253,16 @@
             </template>
 
             <template #cell-owner="{item}">             
-              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" />               
+              <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />               
               {{ item.owner?.name }}
             </template>
 
             <template #cell-source="{item}">                  
               <SourceField :value="item?.source?.name" />
+            </template>
+
+            <template #cell-branch="{item}">                  
+              <BranchField :value="item?.owner?.branch" />
             </template>
 
             <template #cell-created_at="{item}">            
@@ -351,6 +355,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import BranchField from "@/views/components/BranchField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {cotizadoColumns} from "@/stub/columns";

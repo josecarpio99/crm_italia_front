@@ -1,5 +1,11 @@
 <template>
-  <span class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle border-gray-400 mr-2 focus:border-gray-300 focus:outline-none" :class="class">
+  <span 
+  class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle border-gray-400 mr-2 focus:border-gray-300 focus:outline-none" :class="[{
+    'border-amber-200': user?.branch == 'CDMX',
+    'border-teal-200': user?.branch == 'AGS',
+    'border-indigo-300': user?.branch == 'MTY',
+    'border-fuchsia-300': user?.branch == 'QRO',
+  }, props.class]">
     <img v-if="avatarUrl" :src="avatarUrl" alt="">
 
     <svg v-else xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -13,6 +19,10 @@
 const props = defineProps({
   avatarUrl: {
     type: String,
+    default: null
+  },
+  user: {
+    type: Object,
     default: null
   },
   class: {
