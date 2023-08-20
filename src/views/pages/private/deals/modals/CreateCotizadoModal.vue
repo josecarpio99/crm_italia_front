@@ -5,8 +5,8 @@
 
     <Form ref="formRef" id="create-cotizado" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
-      <div class="rounded-md bg-theme-500 p-2 mb-2">
-        <p class="text-white text-xs mb-2"><span class="font-bold">Nota:</span> Es cuando ya tienes una cotización en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p> 
+      <div class="rounded-md bg-gray-100 p-2 mb-2">
+        <p class="text-gray-600 text-xs mb-2"><span class="font-bold">Nota:</span>Recuerda que una cotización es cuando ya tienes un monto estipulado en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p> 
       </div>
 
       <TextInput 
@@ -41,15 +41,15 @@
 
       <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo contacto" />
 
-      <div v-if="showCustomerSection" class="rounded-lg p-4 mb-6 bg-theme-500">
+      <div v-if="showCustomerSection" class="rounded-lg p-4 mb-6 bg-gray-100">
 
-      <p class="text-white font-semibold mb-2">{{ trans('deals.phrases.main_contact') }}</p>
+        <p class="text-gray-600 font-semibold mb-2">{{ trans('deals.phrases.main_contact') }}</p>
 
-      <TextInput class="mb-4 w-full" labelClass="text-white" type="text" :required="true" name="name" v-model="form.customer.name" :label="trans('global.labels.name')"/>
+        <TextInput class="mb-4 w-full" type="text" :required="true" name="name" v-model="form.customer.name" :label="trans('global.labels.name')"/>
 
-      <TextInput class="mb-4 w-full" labelClass="text-white" type="email" :required="false" name="email" v-model="form.customer.email" :label="trans('users.labels.email')"/>
+        <TextInput class="mb-4 w-full" type="email" :required="false" name="email" v-model="form.customer.email" :label="trans('users.labels.email')"/>
 
-      <TextInput class="mb-4 w-full " labelClass="text-white" type="text" :required="false" name="mobile" v-model="form.customer.mobile" :label="trans('customers.labels.mobile')"/>
+        <TextInput class="mb-4 w-full " type="text" :required="false" name="mobile" v-model="form.customer.mobile" :label="trans('customers.labels.mobile')"/>
       </div>
 
       <Dropdown  
