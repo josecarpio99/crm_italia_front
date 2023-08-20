@@ -6,7 +6,7 @@
     <Form ref="formRef" id="create-cotizado" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
 
       <div class="rounded-md bg-gray-100 p-2 mb-2">
-        <p class="text-gray-600 text-xs mb-2"><span class="font-bold">Nota:</span>Recuerda que una cotización es cuando ya tienes un monto estipulado en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p> 
+        <p class="text-gray-600 text-xs mb-2"><span class="font-bold">Nota:</span> Recuerda que una cotización es cuando ya tienes un monto estipulado en firme con tu cliente.  El proyecto debe de estar vivo para que siga contanto como una cotización.</p> 
       </div>
 
       <TextInput 
