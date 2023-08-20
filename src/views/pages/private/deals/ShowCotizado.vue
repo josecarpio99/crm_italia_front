@@ -21,8 +21,8 @@
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">         
 
           <div v-if="deal.category" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.category') }}</h4>
-            <span>{{ deal.category.name }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.category') }}</h4>
+            <DealCategoryField :value="deal?.category?.name" />
           </div>        
         
           <div v-if="deal.source" class="mb-6">
@@ -107,6 +107,7 @@ import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";

@@ -217,6 +217,10 @@
               <SourceField :value="item?.source?.name" />
             </template>
 
+            <template #cell-category="{item}">                  
+              <DealCategoryField :value="item?.category?.name" />
+            </template>
+
             <template #cell-estimated_close_date_range="{item}">                  
               <EstimatedCloseDateRangeField :value="item.estimated_close_date_range" />
             </template>
@@ -293,6 +297,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {oportunidadColumns} from "@/stub/columns";
