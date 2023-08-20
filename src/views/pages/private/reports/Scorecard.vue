@@ -5,17 +5,23 @@
     :is-loading="page.isLoading"
   > 
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading">           
+          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter">           
 
-            <template #cell-opportunities_estimated_size_sum="{item}">
+            <template #cell-opportunities_sum_value="{item}">
               <span class="text-gray-600 font-bold">
-                {{ '$' + item.opportunities_estimated_size_sum?.toLocaleString('en-US') }}
+                {{ '$' + item.opportunities_sum_value?.toLocaleString('en-US') }}
               </span>              
             </template>
 
-            <template #cell-quotations_value_sum="{item}">
+            <template #cell-quotations_sum_value="{item}">
               <span class="text-gray-600 font-bold">
-                {{ '$' + item.quotations_value_sum?.toLocaleString('en-US') }}
+                {{ '$' + item.quotations_sum_value?.toLocaleString('en-US') }}
+              </span>  
+            </template>
+
+            <template #cell-deals_sum_value="{item}">
+              <span class="text-gray-600 font-bold">
+                {{ '$' + item.deals_sum_value?.toLocaleString('en-US') }}
               </span>  
             </template>
             
@@ -61,8 +67,38 @@ import Icon from "@/views/components/icons/Icon";
 import Table from "@/views/components/Table";
 import Page from "@/views/layouts/Page";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
+import { branches } from "@/stub/statuses";
 
 const scorecardService = new ScorecardService();
+
+const mainQuery = reactive({
+  page: 1,
+  limit: 'all',
+  search: '',
+  sort: '',
+  filters: {
+      name: {
+          value: '',
+          comparison: '='
+      },    
+      branch: {
+          value: '',
+          comparison: '='
+      },
+      opportunities_sum_value: {
+          value: '',
+          comparison: '='
+      },       
+      quotations_sum_value: {
+          value: '',
+          comparison: '='
+      },       
+      deals_sum_value: {
+          value: '',
+          comparison: '='
+      },       
+  }
+});
 
 const page = reactive({
   id: 'list_scorecard',
@@ -78,22 +114,45 @@ const table = reactive({
       key: 'name',
       label: trans('users.header.seller'),
       show: true,
+      filterable: true,
+      sorteable: true,
+      filter: {
+        modelValue: '',
+        type: 'input'            
+      }
     },
     {
       key: 'branch',
       label: trans('users.labels.branch'),
       show: true,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: true,
+      filter: {
+        modelValue: '',
+        type: 'multiselect',
+        options: branches,
+      }
     },
     {
-      key: 'opportunities_estimated_size_sum',
+      key: 'opportunities_sum_value',
       label: trans('users.header.opportunities_estimated'),
       show: true,
+      sorteable: true
     },
     {
-      key: 'quotations_value_sum',
+      key: 'quotations_sum_value',
       label: trans('users.header.active_quotations'),
       show: true,
-    }
+      sorteable: true
+    },
+    {
+      key: 'deals_sum_value',
+      label: trans('users.header.deals_sum_value'),
+      show: true,
+      sorteable: true
+    },
   ],           
   pagination: {
       meta: null,
@@ -103,11 +162,28 @@ const table = reactive({
   records: null  
 });
 
-function fetchPage() {
+function onTableFilter({column, value}) {
+    if (column.key == 'branch') {
+      mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
+    } else {
+      mainQuery.filters[column.key].value = value || null;
+    }
+
+    let _column = table.columns.find(tableColumn => tableColumn.key == column.key);
+    
+    _column.filter.modelValue = value;
+}
+
+function onTableSort(params) {
+  mainQuery.sort = params;
+}
+
+function fetchPage(params) {
   table.records = [];
   table.loading = true;
+  let query = prepareQuery(params);
   scorecardService
-      .index()
+      .index(query)
       .then((response) => {
           table.records = response.data.data;
           table.loading = false;
@@ -118,8 +194,12 @@ function fetchPage() {
       });
 }
 
+watch(mainQuery, (newTableState) => {
+  fetchPage(mainQuery);
+});
+
 onMounted(async () => { 
-  fetchPage();
+  fetchPage(mainQuery);
 });
 
 

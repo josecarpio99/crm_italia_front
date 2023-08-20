@@ -11,7 +11,8 @@
       "opportunities_score": "Score Oportunidad",
       "active_quotations": "Cotizaciones activas",
       "quotations_score": "Score Cotizaciones",
-      "total_score": "Score Total"
+      "total_score": "Score Total",
+      "deals_sum_value": "Monto Total"
     },
     "roles": {
       "regular": "Regular",
