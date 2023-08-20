@@ -19,7 +19,7 @@
             </template>
 
             <template #cell-value="{item}">                           
-                {{ '$' + (item.value ? item.value?.toLocaleString('en-US', {minimumFractionDigits: 2}) : '0,00') }}
+              <ValueField :value="item.value" />
             </template>
 
             <template #cell-estimated_size_deal="{item}">
@@ -104,6 +104,7 @@ import {toUrl} from "@/helpers/routing";
 import DealService from "@/services/DealService";
 import Icon from "@/views/components/icons/Icon";
 import Table from "@/views/components/Table";
+import ValueField from "@/views/components/ValueField";
 import Page from "@/views/layouts/Page";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 

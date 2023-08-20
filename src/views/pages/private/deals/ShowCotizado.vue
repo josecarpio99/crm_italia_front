@@ -39,8 +39,8 @@
           </div>
 
           <div v-if="deal.value" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.value') }}</h4>
-            <span class="text-2xl text-gray-600 font-semibold">MXN{{ deal.value.toLocaleString('en-US') }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.value') }}</h4>
+            <ValueField :value="deal.value" :large="true" />
           </div>        
 
           <div v-if="deal.win_probability" class="mb-6">
@@ -105,6 +105,7 @@ import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
+import ValueField from "@/views/components/ValueField";
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";

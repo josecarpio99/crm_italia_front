@@ -7,22 +7,17 @@
       <template #default>
           <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter">           
 
-            <template #cell-opportunities_sum_value="{item}">
-              <span class="text-gray-600 font-bold">
-                {{ '$' + item.opportunities_sum_value?.toLocaleString('en-US') }}
-              </span>              
+            <template #cell-opportunities_sum_value="{item}">           
+              <ValueField :value="item.opportunities_sum_value" />
             </template>
 
             <template #cell-quotations_sum_value="{item}">
-              <span class="text-gray-600 font-bold">
-                {{ '$' + item.quotations_sum_value?.toLocaleString('en-US') }}
-              </span>  
+              <ValueField :value="item.quotations_sum_value" />
+
             </template>
 
             <template #cell-deals_sum_value="{item}">
-              <span class="text-gray-600 font-bold">
-                {{ '$' + item.deals_sum_value?.toLocaleString('en-US') }}
-              </span>  
+              <ValueField :value="item.deals_sum_value" />
             </template>
             
           </Table>
@@ -65,6 +60,7 @@ import {toUrl} from "@/helpers/routing";
 import ScorecardService from "@/services/ScorecardService";
 import Icon from "@/views/components/icons/Icon";
 import Table from "@/views/components/Table";
+import ValueField from "@/views/components/ValueField";
 import Page from "@/views/layouts/Page";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import { branches } from "@/stub/statuses";

@@ -196,18 +196,8 @@
               </router-link>
             </template>
 
-            <template #cell-value="{item}">
-              <span 
-                class="text-gray-600 font-bold p-2 rounded-lg"
-                :class="{
-                  'bg-pink-100': item.value <= 500_000,
-                  'bg-blue-200': item.value > 500_000 && item.value <= 3_000_000,
-                  'bg-green-200': item.value > 3_000_000 && item.value <= 6_000_000,
-                  'bg-yellow-200': item.value > 6_000_000
-                }"
-              >
-                {{ 'MXN' + item.value?.toLocaleString('en-US') }}
-              </span>              
+            <template #cell-value="{item}">        
+              <ValueField :value="item.value" />
             </template>
 
             <template #cell-stage="{item}">
@@ -293,6 +283,7 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import ValueField from "@/views/components/ValueField";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {oportunidadColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
