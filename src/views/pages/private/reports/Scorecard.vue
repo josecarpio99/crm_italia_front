@@ -5,7 +5,16 @@
     :is-loading="page.isLoading"
   > 
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter">           
+          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter">   
+            
+            <template #cell-name="{item}">             
+              <CircleAvatarIcon :avatarUrl="item.avatar_url" :user="item" />              
+              {{ item.name }}
+            </template>
+
+            <template #cell-branch="{item}">                  
+              <BranchField :value="item.branch" />
+            </template>
 
             <template #cell-opportunities_sum_value="{item}">           
               <ValueField :value="item.opportunities_sum_value" />
@@ -61,6 +70,7 @@ import ScorecardService from "@/services/ScorecardService";
 import Icon from "@/views/components/icons/Icon";
 import Table from "@/views/components/Table";
 import ValueField from "@/views/components/ValueField";
+import BranchField from "@/views/components/BranchField";
 import Page from "@/views/layouts/Page";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import { branches } from "@/stub/statuses";
