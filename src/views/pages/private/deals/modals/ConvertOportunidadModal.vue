@@ -7,8 +7,8 @@
 
       <div class="flex gap-2 flex-col">
 
-        <div class="rounded-md bg-gray-500 p-2 mb-2">
-          <p class="text-white text-xs mb-2"><span class="font-bold">Nota:</span> Recuerda que al convertir una oportunidad a cotización, la oportunidad se borra del CRM y se reemplaza por una cotización.</p> 
+        <div class="rounded-md bg-gray-100 p-2 mb-2">
+          <p class="text-gray-600 text-xs mb-2"><span class="font-bold">Nota:</span> Recuerda que al convertir una oportunidad a cotización, la oportunidad se borra del CRM y se reemplaza por una cotización.</p> 
 
         </div>
           <div class="w-full">           
@@ -44,7 +44,7 @@
     <template #primary-button>
       <Button
         :label="trans('global.actions.convert')"
-        @click="$emit('save-modal')"
+        @click="onSubmit"
       />
     </template>
 

@@ -97,12 +97,12 @@
           <div class="grid grid-cols-5 col-span-3 bg-white place-content-center px-4 py-6 border-r-2">
             
             <div class="flex flex-col items-center col-span-2">
-              <span class="font-bold text-xl text-gray-700">Total Estimado</span>
-              <span class="font-semibold text-xl text-gray-500">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-lg text-gray-600">Total Estimado</span>
+              <span class="font-semibold text-2xl text-gray-500">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center col-span-3">
-              <span class="font-bold text-xl text-gray-700">Número Oportunidades</span>
-              <span class="font-semibold text-xl text-gray-500">{{ table.pagination.meta.total }}</span>
+              <span class="font-bold text-lg text-gray-600">Número Oportunidades</span>
+              <span class="font-semibold text-2xl text-gray-500">{{ table.pagination.meta.total }}</span>
             </div>
           
           </div>          
@@ -110,12 +110,12 @@
           <div class="grid grid-cols-2 col-span-2 place-content-center px-[.25rem] py-6 border-r-2">
 
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">De las cuales AGS.</span>
-              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-sm text-gray-700">De las cuales AGS.</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">Núm. Oportunidades</span>
-              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.AGS.count }}</span>
+              <span class="font-bold text-sm text-gray-700">Núm. Oportunidades</span>
+              <span class="font-bold text-lg text-gray-500">{{ table.pagination.meta.branch.AGS.count }}</span>
             </div>
           
           </div>
@@ -123,12 +123,12 @@
           <div class="grid grid-cols-2 col-span-2 place-content-center px-[.25rem] py-6 border-r-2">
 
           <div class="flex flex-col items-center">
-            <span class="font-semibold text-sm text-gray-700">De las cuales CDMX.</span>
-            <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
+            <span class="font-bold text-sm text-gray-700">De las cuales CDMX.</span>
+            <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
           </div>
           <div class="flex flex-col items-center">
-            <span class="font-semibold text-sm text-gray-700">Núm. Oportunidades</span>
-            <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.CDMX.count }}</span>
+            <span class="font-bold text-sm text-gray-700">Núm. Oportunidades</span>
+            <span class="font-bold text-lg text-gray-500">{{ table.pagination.meta.branch.CDMX.count }}</span>
           </div>
 
           </div>
@@ -136,12 +136,12 @@
           <div class="grid grid-cols-2 col-span-2 place-content-center px-[.25rem] py-6 border-r-2">
 
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">De las cuales MTY.</span>
-              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-sm text-gray-700">De las cuales MTY.</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">Núm. Oportunidades</span>
-              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.MTY.count }}</span>
+              <span class="font-bold text-sm text-gray-700">Núm. Oportunidades</span>
+              <span class="font-bold text-lg text-gray-500">{{ table.pagination.meta.branch.MTY.count }}</span>
             </div>
           
           </div>
@@ -149,12 +149,12 @@
           <div class="grid grid-cols-2 col-span-2 place-content-center px-[.25rem] py-6">
 
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">De las cuales QRO.</span>
-              <span class="font-semibold text-sm text-gray-600">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-sm text-gray-700">De las cuales QRO.</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
             </div>
             <div class="flex flex-col items-center">
-              <span class="font-semibold text-sm text-gray-700">Núm. Oportunidades</span>
-              <span class="font-semibold text-sm text-gray-600">{{ table.pagination.meta.branch.QRO.count }}</span>
+              <span class="font-bold text-sm text-gray-700">Núm. Oportunidades</span>
+              <span class="font-bold text-lg text-gray-500">{{ table.pagination.meta.branch.QRO.count }}</span>
             </div>
           
           </div>
