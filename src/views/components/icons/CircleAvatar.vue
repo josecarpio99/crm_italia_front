@@ -1,10 +1,11 @@
 <template>
   <span 
-  class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle border-gray-400 mr-2 focus:border-gray-300 focus:outline-none" :class="[{
+  class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle mr-2 focus:border-gray-300 focus:outline-none" :class="[{
     'border-amber-200': user?.branch == 'CDMX',
     'border-teal-200': user?.branch == 'AGS',
     'border-indigo-300': user?.branch == 'MTY',
     'border-fuchsia-300': user?.branch == 'QRO',
+    'border-gray-400': !user?.branch
   }, props.class]">
     <img v-if="avatarUrl" :src="avatarUrl" alt="">
 

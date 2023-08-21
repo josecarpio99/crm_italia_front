@@ -12,7 +12,7 @@
       </div>
     </div>
 
-    <div v-if="isOpen" class="flex items-center justify-center p-4">
+    <div v-if="isOpen" class="flex items-center p-4 bg-gray-50">
       <p class="whitespace-normal"><slot /></p>
     </div>
   </div>
