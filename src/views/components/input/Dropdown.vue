@@ -223,54 +223,17 @@ export default defineComponent({
     padding: 0 !important;
 }
 
-// Soource colors #################
-div[data-value="Prospección"] .vs__selected {
-    @apply bg-orange-300;
-    @apply text-gray-600;
-}
-
-div[data-value="Publicidad"] .vs__selected {
-    @apply bg-lime-300;
-    @apply text-gray-600;
-}
-
-div[data-value="Recompra"] .vs__selected {
-    @apply bg-cyan-300;
-    @apply text-gray-600;
-}
-
-div[data-value="Referido"] .vs__selected {
-    @apply bg-violet-300;
-    @apply text-gray-600;
-}
-
-.deal_source .vs__dropdown-menu li:nth-child(1) {
-    @apply text-orange-300;
-}
-
-.deal_source .vs__dropdown-menu li:nth-child(2) {
-    @apply text-lime-300;
-}
-
-.deal_source .vs__dropdown-menu li:nth-child(3) {
-    @apply text-cyan-300;
-}
-
-.deal_source .vs__dropdown-menu li:nth-child(4) {
-    @apply text-violet-300;
-}
-
-// #################################
-
 div[data-value="AAA - Corporativos e Industrias"] .vs__selected,
-div[data-value="de 0 a 3 meses"] .vs__selected
+div[data-value="de 0 a 3 meses"] .vs__selected,
+div[data-value="Prospección - Cartera"] .vs__selected
 {
     @apply bg-green-300;
     @apply text-gray-600;
 }
 
 div[data-value="AA - Pymes"] .vs__selected,
-div[data-value="de 3 a 6 meses"] .vs__selected
+div[data-value="de 3 a 6 meses"] .vs__selected,
+div[data-value="Publicidad - Guardia"] .vs__selected
 {
     @apply bg-yellow-300;
     @apply text-gray-600;
@@ -294,14 +257,16 @@ div[data-value="6 meses o más"] .vs__selected
 }
 
 .deal_category .vs__dropdown-menu li:nth-child(1),
-.estimated_close_date_range .vs__dropdown-menu li:nth-child(1) 
+.estimated_close_date_range .vs__dropdown-menu li:nth-child(1),
+.deal_source .vs__dropdown-menu li:nth-child(1)
 {
     @apply bg-green-300;
     @apply text-gray-600;
 }
 
 .deal_category .vs__dropdown-menu li:nth-child(2),
-.estimated_close_date_range .vs__dropdown-menu li:nth-child(2) 
+.estimated_close_date_range .vs__dropdown-menu li:nth-child(2),
+.deal_source .vs__dropdown-menu li:nth-child(2)
 {
     @apply bg-yellow-300;
     @apply text-gray-600;
