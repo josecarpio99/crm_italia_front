@@ -21,6 +21,11 @@
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
 
+          <div v-if="lead.company_name" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.company_name') }}</h4>
+            <span>{{ lead.company_name }}</span>
+          </div>
+
           <div v-if="lead.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
@@ -56,7 +61,7 @@
             </div>
           </div>
 
-          <div v-if="lead.position" class="mb-6">
+          <!-- <div v-if="lead.position" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.position') }}</h4>
             <span>{{ lead.position }}</span>
           </div>
@@ -69,7 +74,7 @@
           <div v-if="lead.source" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.source') }}</h4>
             <span>{{ lead.source.name }}</span>
-          </div>
+          </div> -->
 
           <div v-if="lead.created_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.created_at') }}</h4>
@@ -83,11 +88,11 @@
           </div>
 
           <div v-if="lead.category" class="mb-6">
-            <h4 class="font-semibold">{{ trans('leads.labels.category') }}</h4>
-            <span>{{ lead.category.name }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('leads.labels.category') }}</h4>
+            <DealCategoryField :value="lead?.category?.name" />
           </div>
 
-          <div v-if="lead.profile" class="mb-6">
+          <!-- <div v-if="lead.profile" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.profile') }}</h4>
             <span>{{ lead.profile }}</span>
           </div>
@@ -100,7 +105,7 @@
           <div v-if="lead.quotation_list" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.quotation_list') }}</h4>
             <span>{{ lead.quotation_list }}</span>
-          </div>
+          </div> -->
           
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
@@ -152,6 +157,7 @@ import ConvertLeadModal from "@/views/pages/private/leads/modals/ConvertLeadModa
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
+import DealCategoryField from "@/views/components/DealCategoryField";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
