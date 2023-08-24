@@ -47,6 +47,8 @@
     "labels": {
       "edit_person": "Editar persona",
       "edit_company": "Editar compañia",
+      "add_contact": "Agregar contacto",
+      "edit_contact": "Editar contacto",
       "add_person": "Agregar persona",
       "add_company": "Agregar compañia",
       "phone": "Número de trabajo",

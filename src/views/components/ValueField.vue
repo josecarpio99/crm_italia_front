@@ -4,8 +4,8 @@
     :class="{
       'bg-pink-100': value <= 500_000,
       'bg-blue-200': value > 500_000 && value <= 3_000_000,
-      'bg-green-200': value > 3_000_000 && value <= 6_000_000,
-      'bg-yellow-200': value > 6_000_000,
+      'bg-yellow-200': value > 3_000_000 && value <= 6_000_000,
+      'bg-green-200': value > 6_000_000,
       'font-semibold': props.large,
       'text-2xl': props.large,
     }"

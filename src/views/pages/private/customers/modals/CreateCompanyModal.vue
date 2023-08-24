@@ -1,6 +1,6 @@
 <template>
   <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
-    <template #title>{{ trans('customers.labels.add_company') }}</template>
+    <template #title>{{ trans('customers.labels.add_contact') }}</template>
     <Alert class="mb-4"/>
 
     <Form ref="formRef" id="create-company" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
@@ -92,8 +92,6 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
-import SectorService from "@/services/SectorService";
-import CountryService from "@/services/CountryService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
@@ -110,8 +108,6 @@ import {
 const emit = defineEmits(["close-modal"]);
 
 const customerService = new CustomerService();
-const sectorService = new SectorService();
-const countryService = new CountryService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
@@ -158,10 +154,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
-let sectors = null;
 let users = usersStore.userList;
-let companies = null;
-let countries = null;
 
 function onSubmit() {  
   alertStore.clear();
@@ -196,9 +189,6 @@ function onCloseModal() {
 }
 
 onMounted( async () => {
-  sectors = await sectorService.index().then(res => res.data);
-  countries = await countryService.index().then(res => res.data);
-  companies = await customerService.list({company: 1}).then(res => res.data);
   isLoading.value = false;
 
 });

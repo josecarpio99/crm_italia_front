@@ -19,6 +19,12 @@
     <Panel v-if="customer" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
+
+          <div v-if="customer.company_name" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.company_name') }}</h4>
+            <span>{{ customer.company_name }}</span>
+          </div>
+
           <div v-if="customer.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
@@ -27,7 +33,7 @@
             </div>
           </div>
 
-          <div v-if="customer.customer_status" class="mb-6">
+          <!-- <div v-if="customer.customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.customer_status') }}</h4>
             <span>{{ customer.customer_status }}</span>
           </div>
@@ -35,11 +41,11 @@
           <div v-if="customer.potential_customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.potential_customer_status') }}</h4>
             <span>{{ customer.potential_customer_status }}</span>
-          </div>
+          </div> -->
 
           <div v-if="customer.category" class="mb-6">
-            <h4 class="font-semibold">{{ trans('customers.labels.category') }}</h4>
-            <span>{{ customer.category.name }}</span>
+            <h4 class="font-semibold mb-2">{{ trans('customers.labels.category') }}</h4>
+            <DealCategoryField :value="customer?.category?.name" />
           </div>
 
           <div v-if="customer.mobile" class="mb-6">
@@ -75,7 +81,7 @@
             </div>
           </div>
 
-          <div v-if="customer.origin" class="mb-6">
+          <!-- <div v-if="customer.origin" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.origin') }}</h4>
             <span>{{ customer.origin }}</span>
           </div>
@@ -88,7 +94,7 @@
           <div v-if="customer.sector" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.sector') }}</h4>
             <span>{{ customer.sector.name }}</span>
-          </div>
+          </div> -->
 
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">
@@ -104,7 +110,7 @@
 
   </Page>
 
-  <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
+  <!-- <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
   <EditCompanyModal v-if="customer" :show-delete="true" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
 
 </template>
@@ -139,6 +145,7 @@ import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompany
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
+import DealCategoryField from "@/views/components/DealCategoryField";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -153,7 +160,6 @@ const taskService = new TaskService();
 const documentService = new DocumentService();
 
 const route = useRoute();
-const showEditPersonModal = ref(false);
 const showEditCompanyModal = ref(false);
 let customer = null;
 
@@ -241,15 +247,16 @@ function onPageAction(data) {
 
 function toggleModal() {
   alertStore.clear();
-  if (customer.is_company == 1) {
-    showEditCompanyModal.value = !showEditCompanyModal.value;      
-  } else {
-    showEditPersonModal.value = !showEditPersonModal.value;
-  }      
+  showEditCompanyModal.value = !showEditCompanyModal.value;      
+
+  // if (customer.is_company == 1) {
+  //   showEditCompanyModal.value = !showEditCompanyModal.value;      
+  // } else {
+  //   showEditPersonModal.value = !showEditPersonModal.value;
+  // }      
 
   if (
-    showEditCompanyModal.value == true ||       
-    showEditPersonModal.value == true
+    showEditCompanyModal.value == true
   ) {
       alertStore.showOnPage = false;
   } else {
