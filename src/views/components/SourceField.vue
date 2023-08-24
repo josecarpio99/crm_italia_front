@@ -2,10 +2,8 @@
   <span 
     class="text-gray-600 font-bold p-2 rounded-lg"
     :class="{
-      'bg-orange-300': value == 'Prospección',
-      'bg-lime-300': value == 'Publicidad',
-      'bg-cyan-300': value == 'Recompra',
-      'bg-violet-300': value == 'Referido',
+      'bg-green-300': value == 'Prospección - Cartera',
+      'bg-yellow-300': value == 'Publicidad - Guardia'
     }"
   >
     {{ value }}
