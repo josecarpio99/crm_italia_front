@@ -8,7 +8,7 @@ import { leadStatuses, dealStages, branches } from "@/stub/statuses";
 export const customerColumns = [
   {
       key: 'name',
-      label: trans('global.labels.name'),
+      label: trans('customers.labels.name'),
       show: true,
       locked: true,
       editable: true,
@@ -19,6 +19,56 @@ export const customerColumns = [
         type: 'input'            
       }
   },
+  {
+      key: 'company_name',
+      label: trans('customers.labels.company_name'),
+      show: true,
+      locked: true,
+      editable: true,
+      sorteable: true,
+      filterable: true,
+      filter: {
+        modelValue: '',
+        type: 'input'            
+      }
+  },
+  {
+    key: 'branch',
+    label: trans('users.labels.branch'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: true,
+    filter: {
+      modelValue: '',
+      type: 'multiselect',
+      options: branches,
+    },
+    cellLabel: 'owner.branch'
+  },     
+  {
+    key: 'owner',
+    label: trans('global.labels.owner'),
+    show: true,
+    locked: false,
+    sorteable: true,
+    filterable: true,
+    editable: true,
+    filter: {
+      modelValue: '',
+      type: 'multiselect',
+      options: [],
+      optionsLabel: 'name'
+    },
+    edit: {
+      type: 'list',
+      options: [],
+      optionsLabel: 'name'
+    },
+    cellKey: 'owner.id',
+    cellLabel: 'owner.name'
+  }, 
   {
       key: 'email',
       label: trans('global.labels.email'),
@@ -54,49 +104,7 @@ export const customerColumns = [
       },
       cellKey: 'category.id',
       cellLabel: 'category.name'
-  },    
-  {
-      key: 'owner',
-      label: trans('global.labels.owner'),
-      show: true,
-      locked: false,
-      sorteable: true,
-      filterable: true,
-      editable: true,
-      filter: {
-        modelValue: '',
-        type: 'multiselect',
-        options: [],
-        optionsLabel: 'name'
-      },
-      edit: {
-        type: 'list',
-        options: [],
-        optionsLabel: 'name'
-      },
-      cellKey: 'owner.id',
-      cellLabel: 'owner.name'
-  },    
-  {
-      key: 'status',
-      cellLabel: 'customer_status',
-      label: trans('customers.labels.customer_status'),
-      show: true,
-      locked: false,
-      sorteable: false,
-      filterable: true,
-      editable: true,
-      filter: {
-        modelValue:'',
-        type: 'select',
-        options: customerStatuses,
-        type: 'multiselect'
-      },
-      edit: {
-        type: 'list',
-        options: customerStatuses
-      }
-  },    
+  },      
   {
       key: 'created_at',
       label: trans('customers.labels.created_at'),

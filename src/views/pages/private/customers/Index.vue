@@ -42,7 +42,7 @@
         </div>
       </template>
 
-      <template #beside-title>
+      <template #beside-title v-if="!authStore.isDirector()">
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
@@ -114,10 +114,17 @@
               {{ item.mobile }}
             </template>
 
-            <template #cell-owner="{item}">  
-
+            <template #cell-owner="{item}">
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />             
               {{ item.owner?.name }}
+            </template>
+
+            <template #cell-branch="{item}">                  
+              <BranchField :value="item?.owner?.branch" />
+            </template>
+
+            <template #cell-category="{item}">                  
+              <DealCategoryField :value="item?.category?.name" />
             </template>
 
             <template #cell-created_at="{item}">            
@@ -132,18 +139,22 @@
             <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
           </div>
           <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[550px] text-gray-500 tracking-tight">
+
             <div class="flex items-center">
               <span>{{ trans('customers.labels.total_contacts') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
             </div>
-            <div class="flex items-center">
+
+            <!-- <div class="flex items-center">
               <span>{{ trans('customers.labels.clients') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalClients }}</span>
             </div>
+
             <div class="flex items-center">
               <span>{{ trans('customers.labels.potential_clients') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalPotentialClients }}</span>
-            </div>
+            </div> -->
+
           </div>
         </div>
       </template>
@@ -185,6 +196,8 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import BranchField from "@/views/components/BranchField";
+import DealCategoryField from "@/views/components/DealCategoryField";
 import {customerColumns} from "@/stub/columns";
 import {customerCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
@@ -219,7 +232,15 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },    
+      company_name: {
+          value: '',
+          comparison: '='
+      },    
       owner: {
+          value: '',
+          comparison: '='
+      },
+      branch: {
           value: '',
           comparison: '='
       },
@@ -394,7 +415,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'status') {
+    if (column.key == 'owner' || column.key == 'status' || column.key == 'branch') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     }
     else if (column.key == 'created_at') {
