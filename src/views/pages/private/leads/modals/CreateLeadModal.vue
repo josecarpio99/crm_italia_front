@@ -91,7 +91,6 @@ import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import InfiniteDropdown from "@/views/components/input/InfiniteDropdown";
-import { leadStatuses, leadProfile, leadRequirementSize } from "@/stub/statuses";
 import { leadCategories } from "@/stub/categories";
 import LeadService from "@/services/LeadService";
 import Alert from "@/views/components/Alert";
@@ -127,6 +126,7 @@ const initialState = {
     name: authStore.user.name,
   }
 };
+
 const form = reactive({...initialState});
 
 const rules = {
