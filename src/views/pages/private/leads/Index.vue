@@ -42,7 +42,7 @@
         </div>
       </template>
 
-      <template #beside-title>
+      <template #beside-title v-if="!authStore.isDirector()">
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
             v-if="!smartList"
@@ -93,7 +93,8 @@
   
       <template #default>
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
-            <template #cell-lead="{item}">
+
+            <template #cell-name="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'leads.show', params: {id: item.id}}"
@@ -104,6 +105,19 @@
               </router-link>
             </template>
 
+            <template #cell-mobile="{item}">
+              <Icon v-if="item.mobile" class="mr-2 text-xl align-middle" name="mobile-phone" />
+              {{ item.mobile }}
+            </template>
+
+            <template #cell-branch="{item}">                  
+              <BranchField :value="item?.owner?.branch" />
+            </template>
+
+            <template #cell-category="{item}">                  
+              <DealCategoryField :value="item?.category?.name" />
+            </template>
+
             <template #cell-owner="{item}">             
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />              
               {{ item.owner?.name }}
@@ -112,6 +126,7 @@
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
+
           </Table>
       </template>
 
@@ -125,18 +140,22 @@
               <span>{{ trans('leads.labels.total_leads') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
             </div>
-            <div class="flex items-center">
+
+            <!-- <div class="flex items-center">
               <span>{{ trans('leads.labels.new') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalNew }}</span>
             </div>
+
             <div class="flex items-center">
               <span>{{ trans('leads.labels.assigned') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalAssigned }}</span>
             </div>
+
             <div class="flex items-center">
               <span>{{ trans('leads.labels.unqualified') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.totalUnqualified }}</span>
-            </div>
+            </div> -->
+
           </div>
         </div>
       </template>
@@ -176,6 +195,8 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import DealCategoryField from "@/views/components/DealCategoryField";
+import BranchField from "@/views/components/BranchField";
 import {leadColumns} from "@/stub/columns";
 import { leadStatuses } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
@@ -213,11 +234,11 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },    
-      status: {
+      company_name: {
           value: '',
           comparison: '='
       },    
-      source: {
+      branch: {
           value: '',
           comparison: '='
       },    
@@ -364,6 +385,7 @@ function onTableFilter({column, value}) {
       column.key == 'owner' 
       || column.key == 'status'
       || column.key == 'source'
+      || column.key == 'branch'
       ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'category') {
@@ -604,10 +626,6 @@ onMounted(async () => {
   smartLists = await smartListservice.index({'filter[resource_type]': 'lead'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
-  let sourceColumn = table.columns.find(column => column.key == 'source');
-
-  sourceColumn.filter.options = sources;
-  sourceColumn.edit.options = sources;
 
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;  

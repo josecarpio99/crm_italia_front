@@ -121,16 +121,10 @@ export const customerColumns = [
   },
 ]
 
-export const leadColumns = [  
-  {
-    key: 'lead',
-    label: trans('global.pages.lead'),
-    show: true,
-      locked: true,
-  },         
+export const leadColumns = [
   {
       key: 'name',
-      label: trans('global.labels.name'),
+      label: trans('customers.labels.name'),
       show: true,
       locked: true,
       editable: true,
@@ -140,7 +134,35 @@ export const leadColumns = [
         modelValue: '',
         type: 'input'            
       }
-  },         
+  },
+  {
+      key: 'company_name',
+      label: trans('customers.labels.company_name'),
+      show: true,
+      locked: true,
+      editable: true,
+      sorteable: true,
+      filterable: true,
+      filter: {
+        modelValue: '',
+        type: 'input'            
+      }
+  },
+  {
+      key: 'branch',
+      label: trans('users.labels.branch'),
+      show: true,
+      locked: false,
+      editable: false,
+      sorteable: false,
+      filterable: true,
+      filter: {
+        modelValue: '',
+        type: 'multiselect',
+        options: branches,
+      },
+      cellLabel: 'owner.branch'
+  },      
   {
       key: 'owner',
       label: trans('global.labels.owner'),
@@ -162,46 +184,22 @@ export const leadColumns = [
       },
       cellKey: 'owner.id',
       cellLabel: 'owner.name'
-  },    
-  {
-      key: 'status',
-      label: trans('global.labels.status'),
-      show: true,
-      locked: false,
-      sorteable: false,
-      filterable: true,
-      editable: true,
-      filter: {
-        modelValue:'',
-        type: 'multiselect',
-        options: leadStatuses
-      },
-      edit: {
-        type: 'list',
-        options: leadStatuses
-      }
   },
   {
-      key: 'source',
-      label: trans('global.labels.source'),
-      show: true,
-      locked: false,
-      sorteable: false,
-      filterable: true,
-      editable: true,
-      filter: {
-        modelValue: '',
-        type: 'multiselect',
-        options: [],
-        optionsLabel: 'name'
-      },
-      edit: {
-        type: 'list',
-        options: [],
-        optionsLabel: 'name'
-      },
-      cellKey: 'source.id',
-      cellLabel: 'source.name'
+    key: 'email',
+    label: trans('global.labels.email'),
+    show: true,
+    locked: true,
+    sorteable: true,
+    editable: true
+  },    
+  {
+    key: 'mobile',
+    label: trans('customers.header.phone'),
+    show: true,
+    locked: false,
+    sorteable: false,
+    editable: true
   },
   {
     key: 'category',
@@ -223,20 +221,20 @@ export const leadColumns = [
     cellKey: 'category.id',
     cellLabel: 'category.name'
 }, 
-  {
-      key: 'created_at',
-      label: trans('global.labels.created_at'),
-      show: true,
-      locked: false,
-      sorteable: true,
-      filterable: true,
-      editable: false,
-      filter: {
-        modelValue:'',
-        type: 'select',
-        options: datesFilter
-      }          
-  },
+{
+    key: 'created_at',
+    label: trans('global.labels.created_at'),
+    show: true,
+    locked: false,
+    sorteable: true,
+    filterable: true,
+    editable: false,
+    filter: {
+      modelValue:'',
+      type: 'select',
+      options: datesFilter
+    }          
+},
 ]
 
 export const dealColumns = [
