@@ -256,7 +256,7 @@ div[data-value="6 meses o más"] .vs__selected
     @apply opacity-80;
 }
 
-.deal_category .vs__dropdown-menu li:nth-child(1),
+.customer_category .vs__dropdown-menu li:nth-child(1),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(1),
 .deal_source .vs__dropdown-menu li:nth-child(1)
 {
@@ -264,7 +264,7 @@ div[data-value="6 meses o más"] .vs__selected
     @apply text-gray-600;
 }
 
-.deal_category .vs__dropdown-menu li:nth-child(2),
+.customer_category .vs__dropdown-menu li:nth-child(2),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(2),
 .deal_source .vs__dropdown-menu li:nth-child(2)
 {
@@ -272,7 +272,7 @@ div[data-value="6 meses o más"] .vs__selected
     @apply text-gray-600;
 }
 
-.deal_category .vs__dropdown-menu li:nth-child(3),
+.customer_category .vs__dropdown-menu li:nth-child(3),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(3) 
 {
     @apply bg-blue-300;
