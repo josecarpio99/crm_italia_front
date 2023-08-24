@@ -4,7 +4,15 @@ import {roles} from "@/stub/roles";
 export const can = function (name) {
   const authStore = useAuthStore();
 
-  if (name == 'view:customers') {
+  // if (name == 'view:customers') {
+  //   if (authStore.isDirector()) {
+  //     return false;
+  //   }
+
+  //   return true;
+  // }
+
+  if (name == 'view:leads') {
     if (authStore.isDirector()) {
       return false;
     }

@@ -220,7 +220,6 @@ export default {
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
-                  permission : 'view:customers',
                   to: '/panel/customers/list',
               },
               {
@@ -229,7 +228,7 @@ export default {
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: false,
-                  permission : 'view:customers',
+                  permission : 'view:leads',
                   to: '/panel/leads/list',
               },
               {
