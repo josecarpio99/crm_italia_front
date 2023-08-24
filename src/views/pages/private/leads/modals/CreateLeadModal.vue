@@ -4,7 +4,6 @@
     <Alert class="mb-4"/>
 
     <Form ref="formRef" id="create-lead" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
-
       <div class="border-b-2 border-gray-100 pb-4">
         <div class="flex gap-2 flex-col ">
          
@@ -12,23 +11,22 @@
             <TextInput 
               class="mb-4" 
               type="text" 
-              :required="true"
+              :required="true" 
+              name="company_name" 
+              v-model="form.company_name" 
+              :label="trans('customers.labels.company_name')"
+              :errorMessage="v$.company_name.$errors.length ? v$.company_name.$errors[0].$message : ''"
+            />
+
+            <TextInput 
+              class="mb-4" 
+              type="text" 
+              :required="true" 
               name="name" 
               v-model="form.name" 
-              :label="trans('global.labels.name')"
+              :label="trans('customers.labels.name')"
               :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
-            />            
-
-            <TextInput class="mb-4" type="text" :required="false" name="position" v-model="form.position" :label="trans('leads.labels.position')"/>
-
-            <Dropdown  
-              class="mb-4"            
-              :label="trans('leads.labels.sector')"
-              selectLabel="name"
-              :options="sectors" 
-              name="sector" 
-              v-model="form.sector_id"              
-            /> 
+            />         
 
           </div>
           
@@ -36,84 +34,35 @@
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
             <TextInput 
-              class="mb-4 w-full " 
-              type="text" 
-              :required="false" 
-              name="mobile" 
-              v-model="form.mobile" 
-              :label="trans('leads.labels.mobile')"
-            />
-
-            <TextInput class="mb-4 w-full " type="text" :required="false" name="phone" v-model="form.phone" :label="trans('leads.labels.phone')"/>
-
-            <Dropdown  
-              :required="true"
-              class="mb-4"
-              :label="trans('leads.labels.source')"
-              selectLabel="name"
-              name="source" 
-              :options="sources" 
-              v-model="form.source_id"   
-              :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
-            /> 
-
-            <TextInput 
               class="mb-4" 
               type="email" 
-              :required="false"
+              :required="true" 
               name="email" 
               v-model="form.email" 
               :label="trans('users.labels.email')"
-             />
-            
+              :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
+            />
 
-            <!-- <div class="flex flex-col sm:flex-row gap-2">
-            </div> -->
             <TextInput 
               class="mb-4 w-full " 
               type="text" 
               :required="true" 
-              name="city" 
-              v-model="form.city" 
-              :label="trans('leads.labels.city')"
-              :errorMessage="v$.city.$errors.length ? v$.city.$errors[0].$message : ''"
-            />
-
-            <TextInput class="mb-4 w-full " type="text" :required="false" name="postcode" v-model="form.postcode" :label="trans('leads.labels.postcode')"/>
-
-            <!-- <div class="flex flex-col sm:flex-row gap-2">
-            </div> -->
-            <TextInput class="mb-4 w-full " type="text" :required="false" name="state" v-model="form.state" :label="trans('leads.labels.state')"/>
-
-            <Dropdown  
-              class="mb-4 w-full "            
-              :label="trans('leads.labels.country')"
-              selectLabel="name"
-              :options="countries" 
-              name="country" 
-              v-model="form.country_id"              
-            /> 
-
-          </div>
-
-        </div>
-      </div>
-
-      <div class="border-b-2 border-gray-100 pb-4 mt-4">
-        <div class="flex gap-2 flex-col ">
-          <div class="w-full ">
+              name="mobile" 
+              v-model="form.mobile" 
+              :label="trans('customers.labels.mobile')"
+              :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
+            />          
             
             <Dropdown  
-              class="mb-4"  
-              :required="true"          
-              :label="trans('leads.labels.status')"
-              :options="leadStatuses" 
-              name="status" 
-              v-model="form.status"    
-              :errorMessage="v$.status.$errors.length ? v$.status.$errors[0].$message : ''"
-            />           
-          </div>
-          <div class="w-full ">
+              class="mb-4 customer_category"
+              :required="true"
+              :label="trans('customers.labels.category')"
+              :options="leadCategories" 
+              name="category" 
+              v-model="form.category_id"   
+              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"                         
+            /> 
+
             <Dropdown  
               class="mb-4"
               :required="true"
@@ -121,55 +70,11 @@
               selectLabel="name"
               name="owner" 
               :options="users" 
-              v-model="form.owner_id"   
-              :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
-
-            />
-                                 
-          </div>
-        </div>
-      </div>
-
-      <div class="border-b-2 border-gray-100 mt-4">
-        <div class="flex gap-2 flex-col ">
-          <div class="w-full ">
-            <Dropdown  
-              class="mb-4"
-              :label="trans('leads.labels.requirement_size')"
-              :options="leadRequirementSize" 
-              name="requirement_size" 
-              v-model="form.requirement_size"              
-            /> 
-            <Dropdown  
-              class="mb-4"
-              :label="trans('leads.labels.profile')"
-              :options="leadProfile" 
-              name="profile" 
-              v-model="form.profile"              
-            /> 
-
-            <TextInput type="textarea" class="mb-4" :required="false" name="quotation_list" v-model="form.quotation_list" :label="trans('leads.labels.quotation_list')"/>
-
-            <TextInput type="text" :required="false" name="showroom" v-model="form.showroom" :label="trans('leads.labels.showroom')"/>
-
+              v-model="form.owner_id"              
+            />   
 
           </div>
-          <div class="w-full ">  
-            <Dropdown  
-              class="mb-4"
-              :required="true"
-              :label="trans('leads.labels.category')"
-              :options="leadCategories" 
-              name="category" 
-              v-model="form.category_id"              
-            />
 
-            <TextInput class="mb-4" type="textarea" :required="false" name="requirement" v-model="form.requirement" :label="trans('leads.labels.requirement')"/>
-
-            <TextInput type="datetime-local" :required="false" name="appointment_at" v-model="form.appointment_at" :label="trans('leads.labels.appointment_at')"/>
-
-
-          </div>
         </div>
       </div>
 
@@ -189,13 +94,10 @@ import InfiniteDropdown from "@/views/components/input/InfiniteDropdown";
 import { leadStatuses, leadProfile, leadRequirementSize } from "@/stub/statuses";
 import { leadCategories } from "@/stub/categories";
 import LeadService from "@/services/LeadService";
-import SectorService from "@/services/SectorService";
-import CountryService from "@/services/CountryService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
-import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import useVuelidate from '@vuelidate/core';
 import {
@@ -213,61 +115,44 @@ const authStore = useAuthStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
-const sectorService = new SectorService();
-const countryService = new CountryService();
-const sourcesStore = useSourcesStore();
 
 const initialState = {
+  company_name: '',           
   name: '',           
   email: '',
-  phone: '',
   mobile: '',
-  website: '',
-  sector_id: null,
-  requirement: null, 
-  requirement_size: null, 
-  profile: null, 
-  quotation_list: null, 
-  showroom: null, 
-  source_id: null,
   category_id: null,
   owner_id: {
     id: authStore.user.id,
     name: authStore.user.name,
-  },  
-  status: null,
-  appointment_at: null,
+  }
 };
-
 const form = reactive({...initialState});
 
 const rules = {
+  company_name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
   name: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
-  status: {
+  mobile: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   }, 
-  source_id: {
+  email: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  category_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   }, 
   owner_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
-  city: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
-  category_id: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
+  }
 }
 
 const v$ = useVuelidate(rules, form);
 
 let users = usersStore.userList;
-let sources = sourcesStore.sourceList;
-let countries = null;
-let sectors = null;
 
 function onSubmit() {  
   alertStore.clear();
@@ -280,7 +165,7 @@ function onSubmit() {
 
   v$.value.$reset();
 
-  let data = reduceProperties(form, ['status', 'profile', 'category_id', 'sector_id', 'source_id', 'owner_id', 'requirement_size', 'country_id'], 'id');
+  let data = reduceProperties(form, ['category_id', 'owner_id',], 'id');
   leadService.handleCreate(
       'create-lead', 
       removeEmpty(data)   
@@ -299,10 +184,7 @@ function onCloseModal() {
   emit('close-modal');
 }
 
-onMounted( async () => {
-  sectors = await sectorService.index().then(res => res.data);
-  countries = await countryService.index().then(res => res.data);
- 
+onMounted( async () => { 
   isLoading.value = false;
 });
 
