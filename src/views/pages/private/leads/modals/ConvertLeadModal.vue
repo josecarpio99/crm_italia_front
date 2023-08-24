@@ -6,6 +6,11 @@
     <Form ref="formRef" id="convert-lead" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">
       <div class="border-b-2 border-gray-100 pb-4">
         <div class="flex gap-2 flex-col ">
+
+          <div class="rounded-md bg-gray-100 p-2 mb-2">
+            <p class="text-gray-600 text-xs mb-2"><span class="font-bold">Nota:</span> Recuerda que al convertir un lead en contacto, el lead se borra del CRM y se reemplaza por un contacto.</p> 
+
+          </div>
          
           <div class="w-full ">
             <TextInput 
@@ -92,7 +97,7 @@ import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import { customerCategories } from "@/stub/categories";
-import CustomerService from "@/services/CustomerService";
+import LeadService from "@/services/LeadService";
 import Alert from "@/views/components/Alert";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
@@ -148,7 +153,7 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
-const customerService = new CustomerService();
+const leadService = new LeadService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
@@ -168,8 +173,8 @@ function onSubmit() {
 
   v$.value.$reset();
 
-  customerService.handleCreate(
-      'convert-lead', 
+  leadService.convert(
+      props.lead.id, 
       reduceProperties(form, ['category_id','owner_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {
