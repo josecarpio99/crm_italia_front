@@ -8,6 +8,15 @@
         <div class="flex gap-2 flex-col ">
          
           <div class="w-full ">
+            <StarToggle 
+              class="mb-4"
+              v-model="form.star" 
+              iconClass="h-6 w-6"  
+              :label="trans('customers.labels.star')"
+              :showLabel="true"
+            />
+
+
             <TextInput 
               class="mb-4" 
               type="text" 
@@ -90,6 +99,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import StarToggle from "@/views/components/input/StarToggle";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
 import Alert from "@/views/components/Alert";
@@ -160,6 +170,7 @@ function onSubmit() {
   v$.value.$reset();
 
   let data = reduceProperties(form, ['category_id', 'sector_id', 'owner_id'], 'id');
+
   customerService.handleUpdate(
       'update-company', 
       form.id,

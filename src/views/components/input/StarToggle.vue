@@ -5,6 +5,8 @@
         :class="{'cursor-pointer': props.clickable}"
         @click.stop="false"
        >
+          <span v-if="showLabel" class="mr-2 text-sm font-medium text-gray-500 dark:text-gray-300">{{ props.label }}</span>
+
           <input 
             type="checkbox" 
             :checked="inputValue"
@@ -24,7 +26,7 @@
               </svg>
           </div>
 
-          <span v-if="showLabel" class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ props.label }}</span>
+          
       </label>
   </div>
 </template>

@@ -8,6 +8,14 @@
         <div class="flex gap-2 flex-col ">
          
           <div class="w-full ">
+            <StarToggle 
+              class="mb-4"
+              v-model="form.star" 
+              iconClass="h-6 w-6"  
+              :label="trans('customers.labels.star')"
+              :showLabel="true"
+            />
+
             <TextInput 
               class="mb-4" 
               type="text" 
@@ -90,6 +98,7 @@ import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import StarToggle from "@/views/components/input/StarToggle";
 import { customerCategories } from "@/stub/categories";
 import CustomerService from "@/services/CustomerService";
 import Alert from "@/views/components/Alert";
@@ -118,6 +127,7 @@ const isLoading = ref(true);
 
 const initialState = {
   // is_company: 1,
+  star: false,           
   company_name: '',           
   name: '',           
   email: '',
@@ -156,7 +166,7 @@ const v$ = useVuelidate(rules, form);
 
 let users = usersStore.userList;
 
-function onSubmit() {  
+function onSubmit() { 
   alertStore.clear();
 
   v$.value.$touch();
