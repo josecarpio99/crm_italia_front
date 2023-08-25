@@ -8,6 +8,10 @@
     @action="onPageAction"
   >  
     <template #beside-title>
+      <div v-if="customer && customer.star" class="flex items-center ml-2">
+        <StarToggle :modelValue="customer.star" iconClass="h-6 w-6" :clickable="false" class="text-center" />
+      </div>
+
       <div class="flex items-center ml-6" v-if="customer">
         <slot v-for="(action, j) in page.actions" :name="'page-actions-'+action.id">
             <Button v-if="action.hasOwnProperty('to') && action.to" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :to="action.to" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
@@ -145,6 +149,7 @@ import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompany
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
+import StarToggle from "@/views/components/input/StarToggle";
 import DealCategoryField from "@/views/components/DealCategoryField";
 
 const authStore = useAuthStore();
