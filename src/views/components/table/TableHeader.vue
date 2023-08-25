@@ -54,6 +54,11 @@
             :label="$t('global.labels.filter')"
           />
 
+          <Toggle 
+            v-if="column.filter.type == 'toggle'"
+            class="mb-4" name="filter" v-model="inputValue" 
+          />
+
           <div           
             v-if="column.filter.type == 'range'"
           >
@@ -94,6 +99,7 @@
 import { reactive, ref, watch, computed } from "vue";
 import Dropdown from "@/views/components/input/Dropdown";
 import TextInput from "@/views/components/input/TextInput";
+import Toggle from "@/views/components/input/Toggle";
 import Button from "@/views/components/input/Button";
 import {trans} from "@/helpers/i18n";
 

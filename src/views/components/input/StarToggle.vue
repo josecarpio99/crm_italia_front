@@ -1,6 +1,6 @@
 <template>
   <div :style="style" :class="$props.class">      
-      <label class="relative inline-flex items-center cursor-pointer" @click.stop="false">
+      <label class="inline-flex items-center cursor-pointer" @click.stop="false">
           <input 
             type="checkbox" 
             :checked="inputValue"
@@ -53,7 +53,6 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'updated']);
 
 const inputValue = ref(props.modelValue);
-console.log(inputValue.value);
 
 function onInput(event) {
   inputValue.value = event.target.checked;

@@ -3,7 +3,7 @@ import {customerCategories} from "@/stub/categories";
 import {dealCategories, leadCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
-import { leadStatuses, dealStages, branches } from "@/stub/statuses";
+import { leadStatuses, dealStages, branches, customerStarStatus } from "@/stub/statuses";
 
 export const customerColumns = [
   {
@@ -13,10 +13,11 @@ export const customerColumns = [
     locked: false,
     editable: false,
     sorteable: false,
-    filterable: false,
+    filterable: true,
     filter: {
       modelValue: '',
-      type: 'input'            
+      type: 'select',
+      options: customerStarStatus
     }
   },
   {
@@ -28,8 +29,8 @@ export const customerColumns = [
       sorteable: true,
       filterable: true,
       filter: {
-        modelValue: '',
-        type: 'input'            
+        modelValue: null,
+        type: 'input'
       }
   },
   {

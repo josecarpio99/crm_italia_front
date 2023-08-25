@@ -163,3 +163,18 @@ export const branches = [
     label: 'QRO',
   }
 ]
+
+export const customerStarStatus = [
+  {
+    id: null,
+    label: 'Todos',
+  },  
+  {
+    id: true,
+    label: 'Estrellas',
+  },  
+  {
+    id: 'false',
+    label: 'No estrellas',
+  },
+]

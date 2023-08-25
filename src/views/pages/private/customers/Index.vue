@@ -110,7 +110,7 @@
             </template>
 
             <template #cell-star="{item}">
-              <StarToggle :modelValue="item.star" :item="item" class="text-center" @updated="onStarUpdate" />
+              <StarToggle :modelValue="item.star" :item="item" :key="item.id" class="text-center" @updated="onStarUpdate" />
             </template>
 
             <template #cell-mobile="{item}">
@@ -242,6 +242,10 @@ const mainQuery = reactive({
           comparison: '='
       },    
       owner: {
+          value: '',
+          comparison: '='
+      },
+      star: {
           value: '',
           comparison: '='
       },
@@ -423,6 +427,9 @@ function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'status' || column.key == 'branch') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     }
+    else if (column.key == 'star') {
+        mainQuery.filters['star'].value = value.id || null;
+    } 
     else if (column.key == 'created_at') {
         mainQuery.filters['created_at'].value = value?.id || null;
     } 
@@ -622,10 +629,14 @@ function handleRowClick({record}) {
 
 function onStarUpdate({value, item}) {
   item.star = value;
+  // let record = table.records.find((item) => item.id == payload.record.id);
+  // let oldRecord = {...record};
+  // record['star'] = value;
+
   service.toggleStar(
       item.id
     ).then((res) => {                
-    if (res?.status == 200 || res?.status == 201 || res?.status == 204) {        
+    if (res?.status == 200 || res?.status == 201 || res?.status == 204) {
       toast.success();
     }
   })
