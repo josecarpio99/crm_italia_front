@@ -221,6 +221,10 @@
               <BranchField :value="item?.owner?.branch" />
             </template>
 
+            <template #cell-next_task="{item}">                  
+              <NextTaskField :task="item?.lastActivetask" />
+            </template>
+
             <template #cell-category="{item}">                  
               <DealCategoryField :value="item?.customer?.category?.name" />
             </template>
@@ -302,6 +306,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
 import BranchField from "@/views/components/BranchField";
+import NextTaskField from "@/views/components/NextTaskField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";

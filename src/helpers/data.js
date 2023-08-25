@@ -40,6 +40,10 @@ export const clearObject = (object) => {
     }
 };
 
+export const limitStr = (str, chars = 30) => {    
+    return str.slice(0, chars) + (str.length > chars ? "..." : "");    
+};
+
 export const numberFormatter = Intl.NumberFormat('en', {notation: 'compact'});
 
 export const removeEmpty = (object) => {
