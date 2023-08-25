@@ -81,18 +81,8 @@
 
           </div>
 
-          <div class="w-full">        
-
-            <Dropdown  
-              class="mb-4 deal_category"
-              :required="false"
-              :label="trans('deals.labels.category')"
-              :options="dealCategories" 
-              name="category" 
-              v-model="form.category_id"   
-              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"
-
-            />     
+          <div class="w-full">
+            
 
           </div>
 
@@ -149,9 +139,6 @@ const rules = {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
   owner_id: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  category_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
   source_id: {
@@ -219,7 +206,6 @@ onMounted( async () => {
   form.customer_id = customers.find(option => option.id === form.customer?.id);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
-  form.category_id = dealCategories.find(option => option.id === form.category?.id);
   form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === form.estimated_close_date_range);
   
   isLoading.value = false;

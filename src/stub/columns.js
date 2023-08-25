@@ -598,25 +598,23 @@ export const cotizadoColumns = [
       cellLabel: 'owner.name'
   },
   {
-      key: 'category',
-      label: trans('deals.labels.category'),
-      show: false,
-      locked: false,
-      sorteable: true,
-      filterable: false,
-      editable: true,
-      filter: {
-        modelValue: '',
-        type: 'select',
-        options: dealCategories
-      },
-      edit: {
-        type: 'list',
-        options: dealCategories
-      },
-      cellKey: 'category.id',
-      cellLabel: 'category.name'
-  },   
+    key: 'category',
+    label: trans('deals.labels.category'),
+    show: true,
+    locked: false,
+    sorteable: true,
+    filterable: false,
+    editable: false,
+    filter: {
+      modelValue: '',
+      type: 'select',
+      options: dealCategories
+    },
+    edit: {
+      type: 'list',
+      options: dealCategories
+    }
+  },      
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),
@@ -790,11 +788,11 @@ export const oportunidadColumns = [
   {
       key: 'category',
       label: trans('deals.labels.category'),
-      show: false,
+      show: true,
       locked: false,
       sorteable: true,
       filterable: false,
-      editable: true,
+      editable: false,
       filter: {
         modelValue: '',
         type: 'select',
@@ -803,9 +801,7 @@ export const oportunidadColumns = [
       edit: {
         type: 'list',
         options: dealCategories
-      },
-      cellKey: 'category.id',
-      cellLabel: 'category.name'
+      }
   },   
   {
       key: 'created_at',

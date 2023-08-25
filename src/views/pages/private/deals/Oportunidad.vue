@@ -222,7 +222,7 @@
             </template>
 
             <template #cell-category="{item}">                  
-              <DealCategoryField :value="item?.category?.name" />
+              <DealCategoryField :value="item?.customer?.category?.name" />
             </template>
 
             <template #cell-estimated_close_date_range="{item}">                  
