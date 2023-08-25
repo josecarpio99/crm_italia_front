@@ -3,6 +3,7 @@
      <div :class="{hidden:showInput}">
       <slot />
       <span 
+        v-if="props.editable"
         @click.stop="handleClick" 
         class="cursor-pointer invisible text-gray-400 hover:text-gray-700 ml-2"
       >
@@ -65,7 +66,7 @@ const props = defineProps({
     required: true
   },
   cellvalue: {
-    type: [String, Object, Number],
+    type: [String, Object, Number, Boolean],
     required: false
   },
   editable: {

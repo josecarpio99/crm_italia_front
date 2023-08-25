@@ -7,6 +7,19 @@ import { leadStatuses, dealStages, branches } from "@/stub/statuses";
 
 export const customerColumns = [
   {
+    key: 'star',
+    label: trans('customers.labels.star'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    filter: {
+      modelValue: '',
+      type: 'input'            
+    }
+  },
+  {
       key: 'name',
       label: trans('customers.labels.name'),
       show: true,
@@ -121,7 +134,7 @@ export const customerColumns = [
   },
 ]
 
-export const leadColumns = [
+export const leadColumns = [ 
   {
       key: 'name',
       label: trans('customers.labels.name'),

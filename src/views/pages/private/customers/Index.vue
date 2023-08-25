@@ -109,6 +109,10 @@
               </router-link>
             </template>
 
+            <template #cell-star="{item}">
+              <StarToggle :modelValue="item.star" :item="item" class="text-center" @updated="onStarUpdate" />
+            </template>
+
             <template #cell-mobile="{item}">
               <Icon v-if="item.mobile" class="mr-2 text-xl align-middle" name="mobile-phone" />
               {{ item.mobile }}
@@ -196,6 +200,7 @@ import FiltersRow from "@/views/components/filters/FiltersRow";
 import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
+import StarToggle from "@/views/components/input/StarToggle";
 import BranchField from "@/views/components/BranchField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import {customerColumns} from "@/stub/columns";
@@ -613,6 +618,17 @@ function onScrollEnd() {
 
 function handleRowClick({record}) {
   router.push({name: 'customers.show', params: {id: record.id }});
+}
+
+function onStarUpdate({value, item}) {
+  item.star = value;
+  service.toggleStar(
+      item.id
+    ).then((res) => {                
+    if (res?.status == 200 || res?.status == 201 || res?.status == 204) {        
+      toast.success();
+    }
+  })
 }
 
 watch(mainQuery, (newTableState) => {
