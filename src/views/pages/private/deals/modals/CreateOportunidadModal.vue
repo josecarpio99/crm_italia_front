@@ -280,11 +280,7 @@ function onSubmit() {
 
   v$.value.$reset();
 
-  form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
-
-  // if (!showCustomerSection.value) {
-  //   delete form['customer'];
-  // }
+  form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;  
 
   const dataForm = {
     ...reduceProperties(form, ['customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id'), 
