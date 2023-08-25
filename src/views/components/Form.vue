@@ -1,5 +1,5 @@
 <template>
-    <form :novalidate="$props.novalidate">
+    <form :novalidate="$props.novalidate" :id="$props.id">
         <template v-if="isElementLoading">
             <div class="pt-10 pb-6 text-center">
                 <Spinner/>

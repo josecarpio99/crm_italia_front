@@ -43,27 +43,50 @@
 
       <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo contacto" />
 
-      <div v-if="showCustomerSection" class="rounded-lg p-4 mb-6 bg-gray-100">
+      <div v-show="showCustomerSection" class="rounded-lg p-4 mb-6 bg-gray-100">
 
         <p class="text-gray-600 font-semibold mb-2">{{ trans('deals.phrases.main_contact') }}</p>
 
         <TextInput 
-          class="mb-4 w-full" 
-           
+          class="mb-4 w-full"           
+          type="text" 
+          :required="true" 
+          name="name" 
+          v-model="form.customer.company_name" 
+          :label="trans('customers.labels.company_name')"
+          :errorMessage="v$.customer.company_name.$errors.length ? v$.customer.company_name.$errors[0].$message : ''"
+          @input="v$.customer.company_name.$touch()"          
+        />
+
+        <TextInput 
+          class="mb-4 w-full"           
           type="text" 
           :required="true" 
           name="name" 
           v-model="form.customer.name" 
-          :label="trans('global.labels.name')"
+          :label="trans('customers.labels.name')"
+          :errorMessage="v$.customer.name.$errors.length ? v$.customer.name.$errors[0].$message : ''"
+
         />
 
         <TextInput class="mb-4 w-full"  type="email" :required="false" name="email" v-model="form.customer.email" :label="trans('users.labels.email')"/>
 
         <TextInput class="mb-4 w-full "  type="text" :required="false" name="mobile" v-model="form.customer.mobile" :label="trans('customers.labels.mobile')"/>
+
+        <Dropdown  
+          class="mb-4 customer_category"
+          :required="true"
+          :label="trans('customers.labels.category')"
+          :options="customerCategories" 
+          name="category" 
+          v-model="form.customer.category_id"   
+          :errorMessage="v$.customer.category_id.$errors.length ? v$.customer.category_id.$errors[0].$message : ''"                         
+        /> 
+
       </div>
 
       <Dropdown  
-        v-else
+        v-show="! showCustomerSection"
         class="mb-4" 
         :required="false"           
         :label="trans('deals.labels.main_contact')"
@@ -71,6 +94,9 @@
         selectLabel="name"
         name="customer" 
         v-model="form.customer_id"
+        :errorMessage="v$.customer_id.$errors.length ? v$.customer_id.$errors[0].$message : ''"
+        @input="v$.customer_id.$touch()"  
+
       /> 
         
         <div class="flex gap-2 flex-col">
@@ -110,21 +136,7 @@
               :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
             />                     
 
-          </div>
-
-          <div class="w-full">            
-
-            <Dropdown  
-              class="mb-4 deal_category"
-              :required="false"
-              :label="trans('deals.labels.category')"
-              :options="dealCategories" 
-              name="category" 
-              v-model="form.category_id"
-              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"
-            />     
-
-          </div>
+          </div>   
 
         </div>
 
@@ -148,7 +160,7 @@ import TextInput from "@/views/components/input/TextInput";
 import MoneyInput from "@/views/components/input/MoneyInput";
 import Toggle from "@/views/components/input/Toggle";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCategories } from "@/stub/categories";
+import { customerCategories } from "@/stub/categories";
 import { dealEstimatedCloseDateRange } from "@/stub/statuses";
 import DealService from "@/services/DealService";
 import SectorService from "@/services/SectorService";
@@ -164,6 +176,7 @@ import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCom
 import useVuelidate from '@vuelidate/core';
 import {
   required,
+  requiredIf,
   maxLength,  
   helpers
 } from '@vuelidate/validators';
@@ -187,7 +200,6 @@ const initialState = {
   type: 'oportunidad',    
   customer_id: null,    
   source_id: null,
-  category_id: null,
   owner_id: {
     id: authStore.user.id,
     name: authStore.user.name,
@@ -196,9 +208,11 @@ const initialState = {
   value: 0,  
   name: null,
   customer: {
+    company_name: null,
     name: null,
     email: null,
     mobile: null,
+    category_id: null,
   }
 };
 
@@ -211,8 +225,11 @@ const rules = {
   owner_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
-  category_id: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
+  customer_id: {
+    required: helpers.withMessage(
+        trans('global.validation.required'), 
+        requiredIf(() => showCustomerSection.value == false)
+    )    
   },
   source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
@@ -222,8 +239,29 @@ const rules = {
   },
   estimated_close_date_range: {
     required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  customer: {
+    category_id: {
+      required: helpers.withMessage(
+        trans('global.validation.required'), 
+        requiredIf(() => showCustomerSection.value == true)
+      )
+    },
+    name: {
+      required: helpers.withMessage(
+        trans('global.validation.required'), 
+        requiredIf(() => showCustomerSection.value == true)
+      )
+    },
+    company_name: {
+      required: helpers.withMessage(
+        trans('global.validation.required'), 
+        requiredIf(() => showCustomerSection.value == true)
+      )
+    },
   }
-}
+} 
+
 
 const v$ = useVuelidate(rules, form);
 
@@ -244,13 +282,18 @@ function onSubmit() {
 
   form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
-  if (!showCustomerSection.value) {
-    delete form['customer'];
-  }
+  // if (!showCustomerSection.value) {
+  //   delete form['customer'];
+  // }
 
+  const dataForm = {
+    ...reduceProperties(form, ['customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id'), 
+    customer: reduceProperties(form.customer, ['category_id'], 'id')
+  };  
+  
   dealService.handleCreate(
       'create-deal', 
-      reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id')
+      dataForm
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {
         Object.assign(form, structuredClone(initialState));
@@ -291,16 +334,9 @@ onMounted( async () => {
 
 </script>
 
-<style scoped>
-
-/* .estimated_close_date_range {
-  color: v-bind(colour);
-  background-color: v-bind(colour);
-
-} */
-
-/* .estimated_close_date_range :deep(.vs__selected) {
- color: v-bind('theme.color');
-} */
+<style>
+#create-deal .customer_category .v-select {
+  background-color: #fff !important;
+}
 
 </style>
