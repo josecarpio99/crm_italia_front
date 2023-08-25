@@ -32,11 +32,11 @@
         <tr 
         v-for="(record, i) in records" 
         @click="handleRowClick(record)"
-        :class="{
+        :class="[{
           'pointer-events-none': isEditing,
           'hover:bg-gray-100': clickeableRow,
           'cursor-pointer': clickeableRow
-        }"
+        }, rowClassHandle(record)]"
         >          
          
           <template v-for="(column, j) in columnsData">
@@ -143,6 +143,9 @@ const props = defineProps({
   clickeableRow: {
     type: Boolean,
     default: false
+  },
+  rowClass: {
+    type: Function
   },
   infiniteScroll: {
     type: Boolean,
@@ -293,6 +296,15 @@ function getCellLabel(record, column) {
 
 function onColumnChange(value) {
   emit('moved', {columns: columnsData});
+}
+
+function rowClassHandle(item) {
+  if (props.rowClass) {
+    if (typeof props.rowClass === 'function') {
+      // console.log(props.rowClass(item));
+      return props.rowClass(item);  
+    }
+  }
 }
 
 const currentPage = computed(() => {

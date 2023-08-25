@@ -184,7 +184,7 @@
 
       <template #default>            
 
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick" :row-class="rowClassFn">
 
             <template #cell-deal="{item}">
               <router-link 
@@ -222,7 +222,7 @@
             </template>
 
             <template #cell-next_task="{item}">                  
-              <NextTaskField :task="item?.lastActivetask" />
+              <NextTaskField :task="item?.lastActiveTask" />
             </template>
 
             <template #cell-category="{item}">                  
@@ -289,6 +289,7 @@ import {toUrl} from "@/helpers/routing";
 import {useAlertStore} from "@/stores";
 import alertHelpers from "@/helpers/alert";
 import $date from "@/helpers/date";
+import dayjs from "dayjs";
 import Icon from "@/views/components/icons/Icon";
 import Page from "@/views/layouts/Page";
 import SmartLists from "@/views/components/SmartLists";
@@ -742,6 +743,16 @@ function onScrollEnd() {
 
 function handleRowClick({record}) {
   router.push({name: 'deals.oportunidades.show', params: {id: record.id }});
+}
+
+function rowClassFn(item) {
+  if (
+    ! item.lastActiveTask || 
+    dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
+  ) 
+  {
+    return ['bg-red-100'];
+  }   
 }
 
 watch(mainQuery, (newTableState) => {
