@@ -767,7 +767,7 @@ onMounted(async () => {
   if (!route.params.id) {
     page.title = trans('deals.menu.oportunidades');
     if (authStore.isDirector()) {
-      const directorFields = ['deal', 'branch', 'owner', 'category', 'value'];
+      const directorFields = ['deal', 'branch', 'owner', 'category', 'value', 'next_task'];
 
       table.columns.forEach(column => {
         column.show = false;
