@@ -20,6 +20,11 @@
     },
     "labels": {
       "id": "IDENTIFICACIÓN",
+      "superadmin": "Master",
+      "admin": "Manager",
+      "advisor": "Asesor",
+      "team_leader": "Team leader",
+      "lead_qualifier": "Lead qualifier",
       "id_pound": "",
       "first_name": "Nombre de pila",
       "last_name": "Apellido",
