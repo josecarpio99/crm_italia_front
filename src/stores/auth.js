@@ -150,6 +150,14 @@ export const useAuthStore = defineStore("auth", {
             } else {
                 return false;
             }
+        },
+
+        isMasterOrDirector() {
+            if (this.user.role === roles.SUPERADMIN || this.user.role === roles.DIRECTOR) {
+                return true;
+            }
+
+            return false
         }
     },
     getters: {

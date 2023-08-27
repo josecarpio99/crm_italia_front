@@ -104,7 +104,7 @@ export default defineComponent({
             default: '',
         }
     },
-    emits: ['update:modelValue', 'input', 'closed', 'selected'],
+    emits: ['update:modelValue', 'input', 'closed', 'selected', 'deselected'],
     setup(props, {emit}) {
 
         let selectOptionsArr = ref(props.options);
@@ -157,9 +157,9 @@ export default defineComponent({
             emit('closed');
         }
 
-        function handleSelect() {
-            emit('selected');
-        }
+        function handleSelect(item) {
+            emit('selected', item);
+        }      
 
         function dropdownShouldOpen({ noDrop: e, open: t, mutableLoading: s }) {            
             if (props.open) {

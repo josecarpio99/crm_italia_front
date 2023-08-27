@@ -1,20 +1,35 @@
 export const roles = {
   SUPERADMIN : 'superadmin',
+  DIRECTOR : 'director',
   ADMIN : 'admin',
-  OPERATOR : 'operador',
+  TEAM_LEADER : 'team_leader',
+  LEAD_QUALIFIER : 'lead_qualifier',
+  ADVISOR : 'advisor',
 }
 
 export const roleOptions = [
   {
       id: 'superadmin',
-      label: 'Superadmin'
+      label: 'Master'
+  },
+  {
+      id: 'director',
+      label: 'Director'
   },
   {
       id: 'admin',
-      label: 'Admin'
+      label: 'Manager'
   },
   {
-      id: 'operador',
-      label: 'Operador'
+      id: 'team_leader',
+      label: 'Team Leader'
+  },
+  {
+      id: 'lead_qualifier',
+      label: 'Lead Qualifier'
+  },
+  {
+      id: 'advisor',
+      label: 'Asesor'
   }
 ];
