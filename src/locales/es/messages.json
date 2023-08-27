@@ -360,7 +360,9 @@
       "maxlength": "El campo no debe contener más de {count} caracteres"
     },    
 		"menu": {
-			"scorecard": "Scorecard"
+			"scorecard": "Scorecard",
+			"origins": "Orígenes",
+			"reports": "Reportes"
 		}
   }
 }

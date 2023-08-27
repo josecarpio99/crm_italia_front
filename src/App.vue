@@ -248,6 +248,14 @@ export default {
                   requiresAbility: false,
                   to: '/panel/deals/cotizados/list',
               },           
+              {
+                  name: trans('global.menu.reports'),
+                  icon: 'bar-chart',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/reportes/lista',
+              },           
             //   {
             //       name: trans('global.pages.users'),
             //       icon: 'user',

@@ -27,6 +27,7 @@ import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/O
 import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
 import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
+import {default as ReportList} from "@/views/pages/private/reports/ReportList";
 
 import {roles} from "@/stub/roles";
 
@@ -154,6 +155,12 @@ const routes = [
                 path: "reportes",
                 children: [
                     {
+                        name: "reports.list",
+                        path: "lista",
+                        meta: {requiresAuth: true},
+                        component: ReportList,
+                    },
+                    {
                         name: "reports.opportunities_best_customers",
                         path: "oportunidades-mejores-clientes",
                         meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
@@ -174,7 +181,7 @@ const routes = [
                     {
                         name: "reports.scorecard",
                         path: "scorecard",
-                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        meta: {requiresAuth: true},
                         component: Scorecard
                     },
                     {

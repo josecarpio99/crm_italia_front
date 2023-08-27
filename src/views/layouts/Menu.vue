@@ -60,7 +60,7 @@
                 </router-link>
             </li>            
         </template>        
-        <li
+        <!-- <li
             v-if="authStore.isDirector()"
             v-tooltip.right="'Scorecard'"
             class="group hover:bg-theme-600"
@@ -110,7 +110,7 @@
 
                 
             </template>
-        </VMenu> 
+        </VMenu>  -->
         <li
             v-tooltip.right="trans('global.pages.faq')"
             class="group hover:bg-theme-600"
