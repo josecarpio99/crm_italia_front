@@ -26,6 +26,7 @@ import {default as OpportunitiesBestCustomers} from "@/views/pages/private/repor
 import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/OpportunitiesBestSizes";
 import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
 import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
+import {default as Origins} from "@/views/pages/private/reports/Origins";
 
 import {roles} from "@/stub/roles";
 
@@ -175,6 +176,12 @@ const routes = [
                         path: "scorecard",
                         meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: Scorecard
+                    },
+                    {
+                        name: "reports.origins",
+                        path: "origins",
+                        meta: {requiresAuth: true},
+                        component: Origins
                     },
                 ]
             }
