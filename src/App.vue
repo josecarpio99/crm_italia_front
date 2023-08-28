@@ -216,7 +216,7 @@ export default {
             //       to: '/panel/dashboard',
             //   },
               {
-                  name: trans('global.pages.customers'),
+                  name: trans('global.pages.wallet'),
                   icon: 'users',
                   showDesktop: true,
                   showMobile: true,
