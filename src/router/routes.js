@@ -181,7 +181,7 @@ const routes = [
                     {
                         name: "reports.scorecard",
                         path: "scorecard",
-                        meta: {requiresAuth: true},
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: Scorecard
                     },
                     {

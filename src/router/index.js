@@ -24,9 +24,11 @@ router.beforeEach(async (to, from, next) => {
     const visitor = to.meta.visitor;
     const belongsToOwnerOnly = to.meta.isOwner;
     if (requiresRole && requiresAuth) {
-        
-        if (authStore.hasAccessByRole(requiresRole)) {
-            next()            
+
+        if(authStore.isMasterOrDirector()) {
+            next(); 
+        } else if (authStore.hasAccessByRole(requiresRole)) {
+            next();       
         } else {
             next({
                 name: 'dashboard'

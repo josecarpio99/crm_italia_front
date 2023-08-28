@@ -21,6 +21,7 @@
     "labels": {
       "id": "IDENTIFICACIÓN",
       "superadmin": "Master",
+      "director": "Master",
       "admin": "Manager",
       "advisor": "Asesor",
       "team_leader": "Team leader",
