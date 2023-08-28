@@ -232,7 +232,7 @@
       <template #default>
      
 
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick" :row-class="rowClassFn">
 
             <template #cell-deal="{item}">
               <router-link 
@@ -838,6 +838,16 @@ function handleRowClick({record}) {
   router.push({name: 'deals.cotizados.show', params: {id: record.id }});
 }
 
+function rowClassFn(item) {
+  if (
+    ! item.lastActiveTask || 
+    dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
+  ) 
+  {
+    return ['bg-red-100'];
+  }   
+}
+
 watch(mainQuery, (newTableState) => {
   if (smartList) {
     checkIfTableChange();
@@ -850,7 +860,7 @@ onMounted(async () => {
   if (!route.params.id) {
     page.title = trans('deals.menu.cotizados');
     if (authStore.isDirector()) {
-      const directorFields = ['deal', 'branch', 'owner', 'estimated_close_date_range', 'source',  'value'];
+      const directorFields = ['deal', 'branch', 'owner', 'source', 'category', 'next_task', 'value'];
 
       table.columns.forEach(column => {
         column.show = false;

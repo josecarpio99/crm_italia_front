@@ -614,7 +614,22 @@ export const cotizadoColumns = [
       type: 'list',
       options: dealCategories
     }
-  },      
+  },
+  {
+    key: 'next_task',
+    label: trans('global.labels.next_task'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    filter: {
+      modelValue: '',
+      type: 'input'            
+    },
+    cellKey: 'lastActivetask.id',
+    cellLabel: 'lastActivetask.name'
+  },    
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),
