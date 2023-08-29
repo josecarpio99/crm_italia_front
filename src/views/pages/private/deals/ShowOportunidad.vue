@@ -23,8 +23,17 @@
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
 
           <div v-if="deal.created_by_lead_qualifier" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.response_time') }}</h4>
-            <Countup class="mb-2" :date="deal.created_at" />
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.response_time') }}</h4>
+            <Countup
+              v-if="! deal.confirmed_at"
+              class="mb-2" 
+              :date="deal.created_at" 
+             />
+            <ResponseTimeField 
+              v-else
+              :value="deal.confirmed_at" 
+              :compDate="deal.created_at"
+            />
             <Button
               v-if="! deal.confirmed_at && authStore.user.id == deal.owner?.id"
               :label="trans('global.buttons.already_attended')"
@@ -135,6 +144,7 @@ import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
+import ResponseTimeField from "@/views/components/ResponseTimeField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import AssociatedContact from "@/views/components/AssociatedContact";

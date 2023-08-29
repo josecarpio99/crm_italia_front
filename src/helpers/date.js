@@ -15,3 +15,22 @@ const $date = function(date = null) {
 };
 
 export default $date;
+
+export function timeDiff(date, compDate = null) {
+  let dateDiffMS = new Date(date).getTime();
+  let now = compDate ? new Date(compDate).getTime() : new Date().getTime();
+  
+  let distance = now - dateDiffMS;
+    
+  let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  let seconds = Math.floor((distance % (1000 * 60)) / 1000);    
+
+  return `
+    ${(days > 0) ? days + "d " : ''}
+    ${(hours > 0) ? hours + "h " : ''}
+    ${minutes + "m "} 
+    ${seconds + "s "}
+  `; 
+}
