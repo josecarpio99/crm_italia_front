@@ -166,6 +166,7 @@ import {useSourcesStore} from "@/stores/sources";
 import {useGlobalStateStore} from "@/stores";
 import {useRoute} from "vue-router";
 import {useAlertStore} from "@/stores";
+import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 import {getAbilitiesForRoute} from "@/helpers/routing";
 import {roles} from "@/stub/roles";
 
@@ -189,6 +190,7 @@ export default {
       const customersStore = useCustomersStore();
       const sourcesStore = useSourcesStore();
       const authStore = useAuthStore();
+      const pendingOpportunitiesStore = usePendingOpportunitiesStore();
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
 
@@ -369,9 +371,15 @@ export default {
         }
         if (!sourcesStore.sourceList) {
             await sourcesStore.getSourceList();         
-        }
+        }       
         
         state.contentReady = true;
+
+        // if (authStore.user.role === roles.ADVISOR) {
+        //     const interval = setInterval(async () => {
+        //         await pendingOpportunitiesStore.getPendingOpportunities();
+        //     }, 2000);
+        // }
       }  
 
       onBeforeMount(async () => {        
@@ -379,6 +387,15 @@ export default {
               alertStore.success(trans('global.phrases.email_verified'));
           }
       });
+
+    //   onMounted(async () => {
+    //     if (authStore.user.role === roles.ADVISOR) {
+    //         const interval = setInterval(async () => {
+    //             await pendingOpportunitiesStore.getPendingOpportunities();
+    //             console.log(pendingOpportunitiesStore.data);
+    //         }, 2000);
+    //     }
+    //   })
 
       watch(authStore, (newState) => {
         if (authStore.loggedIn) {
