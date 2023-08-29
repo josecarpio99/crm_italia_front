@@ -17,6 +17,16 @@ export default class DealService extends ModelService {
         );
     }
 
+    public confirm(id) {
+        return this.post( 
+            this.url + `/${id}/confirm`,
+            null, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
+
     public getPendingOpportunities() {
         return this.get( 
             this.url + `/pending`,

@@ -20,7 +20,12 @@ export function timeDiff(date, compDate = null) {
   let dateDiffMS = new Date(date).getTime();
   let now = compDate ? new Date(compDate).getTime() : new Date().getTime();
   
-  let distance = now - dateDiffMS;
+  let distance = null;
+  if (now > dateDiffMS) {
+    distance = now - dateDiffMS;    
+  } else {
+    distance = dateDiffMS - now;
+  }
     
   let days = Math.floor(distance / (1000 * 60 * 60 * 24));
   let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

@@ -38,6 +38,11 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
     },
     answered(id) {
       this.data = this.data.filter(item => item.id != id);
+
+      if (this.isEmpty) {
+        this.showAlert = false;
+        this.showModal = false;
+      }
     }
   },
   getters: {

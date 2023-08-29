@@ -37,6 +37,7 @@
             <Button
               v-if="! deal.confirmed_at && authStore.user.id == deal.owner?.id"
               :label="trans('global.buttons.already_attended')"
+              @click="answered"
             />
           </div>
 
@@ -157,6 +158,7 @@ import ConvertOportunidadModal from "@/views/pages/private/deals/modals/ConvertO
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
+import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -164,6 +166,7 @@ const taskStore = useTaskStore();
 const noteStore = useNoteStore();
 const feedStore = useFeedStore();
 const documentStore = useDocumentStore();
+const pendingOpportunitiesStore = usePendingOpportunitiesStore();
 
 const dealService = new DealService();
 const noteService = new NoteService();
@@ -299,6 +302,18 @@ function onModalDelete() {
       router.push({name: 'deals.list'});
     });
   });
+}
+
+function answered() {
+  dealService.confirm(
+      deal.id
+    ).then((res) => {                
+    if (res?.status == 200 || res?.status == 201 || res?.status == 204) {
+      toast.success();
+      pendingOpportunitiesStore.answered(deal.id);
+      fetchRecord();
+    }
+  })
 }
 
 async function fetchRecord() {
