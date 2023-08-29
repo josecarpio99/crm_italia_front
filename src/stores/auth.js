@@ -6,6 +6,7 @@ import AuthService from "@/services/AuthService";
 import UserService from "@/services/UserService";
 import {trans} from "@/helpers/i18n";
 import {roles} from "@/stub/roles";
+import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 
 export const useAuthStore = defineStore("auth", {
     state: () => {
@@ -80,6 +81,7 @@ export const useAuthStore = defineStore("auth", {
                     .logout()
                     .then((response) => {
                         this.clearBrowserData();
+                        this.stopIntervals();
                         this.user = null;
                         if (router.currentRoute.name !== "login") {
                             router.push({path: "/login"});
@@ -102,6 +104,10 @@ export const useAuthStore = defineStore("auth", {
         },
         clearBrowserData() {
             window.localStorage.removeItem('currentUser');
+        },
+        stopIntervals() {
+            const pendingOpportunitiesStore = usePendingOpportunitiesStore();
+            pendingOpportunitiesStore.stopIntervalFn();    
         },
         hasAbilities(abilities) {
             return this.user.hasOwnProperty('abilities') && !!this.user.abilities.find((ab) => {

@@ -272,6 +272,8 @@
     },
     "buttons": {
       "add": "Agregar",
+      "see": "Ver",
+      "go_to_opportunity": "Ir a la oportunidad",
       "add_person": "Contacto: Persona",
       "add_company": "Contacto: Empresa",
       "oportunidad": "Oportunidad",

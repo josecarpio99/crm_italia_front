@@ -139,6 +139,7 @@
             <CreateOportunidadModal :modalActive="state.showCreateOportunidadModal" @close-modal="toggleModal('CreateOportunidadModal')"/>
             <CreateCotizadoModal :modalActive="state.showCreateCotizadoModal" @close-modal="toggleModal('CreateCotizadoModal')"/>
 
+            <PendingOpportunityAlert />
         </template>
   </div>
   <template v-else>
@@ -159,6 +160,7 @@ import CreateLeadModal from "@/views/pages/private/leads/modals/CreateLeadModal.
 import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOportunidadModal.vue";
 import CreateCotizadoModal from "@/views/pages/private/deals/modals/CreateCotizadoModal.vue";
 import AvatarIcon from "@/views/components/icons/Avatar";
+import PendingOpportunityAlert from "@/views/components/PendingOpportunityAlert";
 import {useAuthStore} from "@/stores/auth";
 import {useUsersStore} from "@/stores/users";
 import {useCustomersStore} from "@/stores/customers";
@@ -181,7 +183,8 @@ export default {
       CreateLeadModal,
       CreateOportunidadModal,
       CreateCotizadoModal,
-      Button
+      Button,
+      PendingOpportunityAlert
   },
   setup() {
 
@@ -375,11 +378,19 @@ export default {
         
         state.contentReady = true;
 
-        // if (authStore.user.role === roles.ADVISOR) {
-        //     const interval = setInterval(async () => {
-        //         await pendingOpportunitiesStore.getPendingOpportunities();
-        //     }, 2000);
-        // }
+        if (authStore.user.role === roles.ADVISOR) {
+            pendingOpportunitiesStore.setIntervalFn();
+            // const interval = setInterval(async () => {
+            //     await pendingOpportunitiesStore.getPendingOpportunities();
+            //     if (pendingOpportunitiesStore.first) {
+            //         if (pendingOpportunitiesStore.showAlert == false) {
+            //             pendingOpportunitiesStore.showModal = true;                        
+            //         }
+
+            //         pendingOpportunitiesStore.showAlert = true;
+            //     }                
+            // }, 2000);
+        }
       }  
 
       onBeforeMount(async () => {        

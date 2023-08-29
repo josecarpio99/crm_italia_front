@@ -4,21 +4,39 @@ import DealService from "@/services/DealService";
 export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", {
   state: () => {
     return {
-      data: []
+      data: [],
+      showModal: false,
+      showAlert: false,
+      interval: null
     }
   },
   actions: {
     async getPendingOpportunities() {
       const dealService = new DealService();
-      this.data = await dealService.getPendingOpportunities().then(res => res.data);;
-    }    
+      this.data = await dealService.getPendingOpportunities().then(res => res.data.data);
+    },
+    setIntervalFn() {
+      this.interval = setInterval(async () => {
+          await this.getPendingOpportunities();
+          if (this.first) {
+              if (this.showAlert == false) {
+                  this.showModal = true;                        
+              }
+
+              this.showAlert = true;
+          }                
+      }, 2000);      
+    },
+    stopIntervalFn() {
+      clearInterval(this.interval);
+    }
   },
   getters: {
     isEmpty: (state) => {
       return state.data.length == 0;
     },
     first(state) {
-      return state.isEmpty() ? null : state.data[0];
+      return state.data[0] ?? null;
     },
   }
 });
