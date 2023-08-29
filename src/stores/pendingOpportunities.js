@@ -24,8 +24,11 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
               }
 
               this.showAlert = true;
-          }                
-      }, 2000);      
+          } else {
+            this.showAlert = false;
+            this.showModal = false;
+          }              
+      }, 3000);      
     },
     stopIntervalFn() {
       clearInterval(this.interval);
