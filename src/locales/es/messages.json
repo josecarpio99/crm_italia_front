@@ -136,6 +136,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "response_time": "Tiempo de respuesta", 
       "edit_oportunidad": "Editar oportunidad", 
       "add_oportunidad": "Agregar oportunidad", 
       "add_cotizado": "Agregar cotización", 
@@ -273,6 +274,7 @@
     "buttons": {
       "add": "Agregar",
       "see": "Ver",
+      "already_attended": "Ya lo atendí",
       "go_to_opportunity": "Ir a la oportunidad",
       "add_person": "Contacto: Persona",
       "add_company": "Contacto: Empresa",

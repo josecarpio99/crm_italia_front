@@ -17,7 +17,10 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
     },
     setIntervalFn() {
       this.interval = setInterval(async () => {
+          if (this.first) return;
+
           await this.getPendingOpportunities();
+
           if (this.first) {
               if (this.showAlert == false) {
                   this.showModal = true;                        
@@ -32,6 +35,9 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
     },
     stopIntervalFn() {
       clearInterval(this.interval);
+    },
+    answered(id) {
+      this.data = this.data.filter(item => item.id != id);
     }
   },
   getters: {

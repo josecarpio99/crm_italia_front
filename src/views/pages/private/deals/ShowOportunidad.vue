@@ -20,7 +20,16 @@
 
     <Panel v-if="deal" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
-        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">       
+        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
+
+          <div v-if="deal.created_by_lead_qualifier" class="mb-6">
+            <h4 class="font-semibold">{{ trans('deals.labels.response_time') }}</h4>
+            <Countup class="mb-2" :date="deal.created_at" />
+            <Button
+              v-if="! deal.confirmed_at && authStore.user.id == deal.owner?.id"
+              :label="trans('global.buttons.already_attended')"
+            />
+          </div>
 
           <div v-if="deal.category" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.category') }}</h4>
@@ -131,6 +140,7 @@ import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateR
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
+import Countup from "@/views/components/Countup";
 import Page from "@/views/layouts/Page";
 import EditOportunidadModal from "@/views/pages/private/deals/modals/EditOportunidadModal.vue";
 import ConvertOportunidadModal from "@/views/pages/private/deals/modals/ConvertOportunidadModal.vue";
