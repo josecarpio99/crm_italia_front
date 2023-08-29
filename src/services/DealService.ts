@@ -16,4 +16,14 @@ export default class DealService extends ModelService {
             }
         );
     }
+
+    public getPendingOpportunities() {
+        return this.get( 
+            this.url + `/pending`,
+            null, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
 }
