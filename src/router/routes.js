@@ -188,7 +188,7 @@ const routes = [
                     {
                         name: "reports.opportunities_by_lead_qualifier",
                         path: "oportunidades-por-lead",
-                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        meta: {requiresAuth: true, requiresPermission: 'view:opportunities_by_lead_qualifier'},
                         component: OpportunitiesByLeadQualifier
                     },
                     {
