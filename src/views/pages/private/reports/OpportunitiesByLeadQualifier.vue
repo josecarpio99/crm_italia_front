@@ -39,12 +39,17 @@
             </template>
 
             <template #cell-response_time="{item}">                  
-              <span
+              <!-- <span
                 v-if="! item.confirmed_at"
                 class="bg-gray-300 text-gray-600 font-bold p-2 rounded-lg"
               >
                 En espera...
-              </span>
+              </span> -->
+              <Countup
+                v-if="! item.confirmed_at"
+                class="text-[1rem]" 
+                :date="item.created_at" 
+              />
               <ResponseTimeField 
                 v-else
                 :value="item.confirmed_at" 
@@ -89,6 +94,7 @@ import NextTaskField from "@/views/components/NextTaskField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import ResponseTimeField from "@/views/components/ResponseTimeField";
+import Countup from "@/views/components/Countup";
 import router from "@/router";
 import {dealCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
