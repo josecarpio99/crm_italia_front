@@ -21,27 +21,8 @@ const props = defineProps({
 
 
 const diff = ref(null);
-// const dateDiffMS = ref(new Date(props.date).getTime());
+
 let interval = null;
-
-// function timeDiff(date) {
-//   let dateDiffMS = ref(new Date(date).getTime());
-//   let now = new Date().getTime();
-  
-//   let distance = now - dateDiffMS.value;
-    
-//   let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-//   let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-//   let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-//   let seconds = Math.floor((distance % (1000 * 60)) / 1000);    
-
-//   return `
-//     ${(days > 0) ? days + "d " : ''}
-//     ${(hours > 0) ? hours + "h " : ''}
-//     ${minutes + "m "} 
-//     ${seconds + "s "}
-//   `;  
-// }
 
 onMounted(() => {
   interval = setInterval(() => {

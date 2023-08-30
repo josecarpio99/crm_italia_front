@@ -25,13 +25,11 @@ const props = defineProps({
   },
 });
 
-console.log(props.value, props.compDate);
 const $diffInMin = computed(() => diffInMin());
 
 const display = computed(() => timeDiff(props.value, props.compDate));
 
 function diffInMin() {
-  console.log(dayjs(props.value).diff(props.compDate, 'minutes'));
   return dayjs(props.value).diff(props.compDate, 'minutes')
 }
 

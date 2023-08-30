@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, onBeforeMount, onMounted} from "vue";
+import {reactive, ref, onBeforeMount, onMounted, onUnmounted} from "vue";
 import router from "@/router";
 import {useRoute} from "vue-router";
 import toast from '@/helpers/toast';
@@ -159,6 +159,7 @@ import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
 import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
+import {roles} from "@/stub/roles";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -178,6 +179,8 @@ const showEditDealModal = ref(false);
 const showConvertDealModal = ref(false);
 
 let deal = null;
+
+let interval = null;
 
 const page = reactive({
     id: 'show_deal',
@@ -328,14 +331,37 @@ async function fetchRecord() {
       page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
     }
     page.loading = false;
+    
+    if (! interval) {
+      setIntervalFn();      
+    }
   });
 }
 
+function setIntervalFn() {
+  if (
+    deal.created_by_lead_qualifier &&
+    deal.confirmed_at == null &&
+    authStore.user.role != roles.ADVISOR
+  ) {
+    interval = setInterval(() => {
+      dealService.find(route.params.id).then((response) => {
+        let resData = response.data.data;
+
+        if (resData.confirmed_at) {
+          clearInterval(interval);
+          fetchRecord();
+        }
+      });   
+    }, 5000);
+  }
+}
+
 onBeforeMount(async () => {  
-  await fetchRecord();  
+  const res = await fetchRecord();
 });
+
+onUnmounted(() => {
+  clearInterval(interval);
+}) 
 </script>
-
-<style lang="scss" scoped>
-
-</style>
