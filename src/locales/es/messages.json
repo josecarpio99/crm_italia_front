@@ -368,7 +368,8 @@
 		"menu": {
 			"scorecard": "Scorecard",
 			"origins": "Orígenes",
-			"reports": "Reportes"
+			"reports": "Reportes",
+			"assigned_leads": "Leads Asignados"
 		}
   }
 }

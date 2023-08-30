@@ -27,6 +27,7 @@ import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/O
 import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
 import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
+import {default as OpportunitiesByLeadQualifier} from "@/views/pages/private/reports/OpportunitiesByLeadQualifier";
 import {default as ReportList} from "@/views/pages/private/reports/ReportList";
 
 import {roles} from "@/stub/roles";
@@ -183,6 +184,12 @@ const routes = [
                         path: "scorecard",
                         meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: Scorecard
+                    },
+                    {
+                        name: "reports.opportunities_by_lead_qualifier",
+                        path: "oportunidades-por-lead",
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        component: OpportunitiesByLeadQualifier
                     },
                     {
                         name: "reports.origins",
