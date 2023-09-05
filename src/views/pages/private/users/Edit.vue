@@ -2,10 +2,60 @@
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onAction" :is-loading="page.loading">
         <Panel>
             <Form id="edit-user" @submit.prevent="onSubmit">           
-                <TextInput class="mb-4" type="text" :required="true" name="name" v-model="form.name" :label="trans('users.labels.name')"/>
-                <TextInput class="mb-4" type="email" :required="true" name="email" v-model="form.email" :label="trans('users.labels.email')"/>
-                <Dropdown class="mb-4" :options="roleOptions" :required="true" name="type" v-model="form.role" :label="trans('users.labels.role')"/>                 
-                <TextInput class="mb-4" type="password" name="password" v-model="form.password" :label="trans('users.labels.password')"/>
+                <TextInput 
+                    class="mb-4" 
+                    type="text" 
+                    :required="true" 
+                    name="name" 
+                    v-model="form.name" 
+                    :label="trans('users.labels.name')"
+                    :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+
+                /> 
+
+                <TextInput 
+                    class="mb-4" 
+                    type="email" 
+                    :required="true" 
+                    name="email" 
+                    v-model="form.email" 
+                    :label="trans('users.labels.email')"
+                    :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
+
+                />
+
+                <Dropdown 
+                    class="mb-4" 
+                    :options="branches" 
+                    :required="true" 
+                    name="type" 
+                    v-model="form.branch" 
+                    :label="trans('users.labels.branch')"
+                    :errorMessage="v$.branch.$errors.length ? v$.branch.$errors[0].$message : ''"
+
+                />  
+
+                <Dropdown 
+                    class="mb-4" 
+                    :options="roleOptions" 
+                    :required="true" 
+                    name="type" 
+                    v-model="form.role" 
+                    :label="trans('users.labels.role')"
+                    :errorMessage="v$.role.$errors.length ? v$.role.$errors[0].$message : ''"
+
+                />  
+
+                <TextInput 
+                    class="mb-4" 
+                    type="password" 
+                    :required="true" 
+                    name="password" 
+                    v-model="form.password" 
+                    :label="trans('users.labels.password')"
+                    :errorMessage="v$.password.$errors.length ? v$.password.$errors[0].$message : ''"
+
+                />
             </Form>
         </Panel>
     </Page>
@@ -28,6 +78,13 @@ import Page from "@/views/layouts/Page";
 import FileInput from "@/views/components/input/FileInput";
 import Form from "@/views/components/Form";
 import {roleOptions} from "@/stub/roles";
+import {branches} from "@/stub/statuses";
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  minLength,  
+  helpers
+} from '@vuelidate/validators';
 
 export default defineComponent({
     components: {
@@ -47,8 +104,32 @@ export default defineComponent({
             name: '',
             email: '',
             role: '',
+            branch: '',
             password: '',
         });
+
+        const rules = {
+            name: {
+                required: helpers.withMessage(trans('global.validation.required'), required)
+            },
+            email: {
+                required: helpers.withMessage(trans('global.validation.required'), required)
+            },
+            branch: {
+                required: helpers.withMessage(trans('global.validation.required'), required)
+            },
+            role: {
+                required: helpers.withMessage(trans('global.validation.required'), required)
+            },
+            password: {
+                minLength: helpers.withMessage(
+                    trans('global.validation.minlength', { count: 8 }),
+                    minLength(8)
+                ),
+            }
+        }
+
+        const v$ = useVuelidate(rules, form);
 
         const page = reactive({
             id: 'edit_user',
@@ -88,6 +169,7 @@ export default defineComponent({
             service.find(route.params.id).then((response) => {
                 fillObject(form, response.data.data);                
                 form.role = roleOptions.find(option => option.id === form.role);
+                form.branch = branches.find(option => option.id === form.branch);
                 page.loading = false;
             })
         });
@@ -101,7 +183,15 @@ export default defineComponent({
         }
 
         function onSubmit() {
-            service.handleUpdate('edit-user', route.params.id, reduceProperties(form, 'role', 'id'));
+            v$.value.$touch();
+
+            if (v$.value.$invalid) {
+                return true
+            }
+
+            v$.value.$reset();
+
+            service.handleUpdate('edit-user', route.params.id, reduceProperties(form, ['role', 'branch'], 'id'));
             return false;
         }
 
@@ -112,7 +202,9 @@ export default defineComponent({
             onSubmit,
             onAction,
             page,
-            roleOptions
+            roleOptions,
+            branches,
+            v$
         }
     }
 })

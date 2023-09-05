@@ -220,7 +220,7 @@
       "deals": "Tratos",
       "users": "Usuarios",
       "users_create": "Nuevo Usuario",
-      "users_edit": "editar usuario",
+      "users_edit": "Editar usuario",
       "profile": "Perfil",
       "register": "Registro",
       "login": "Acceso",
@@ -363,7 +363,8 @@
     },
     "validation": {
       "required": "El campo es requerido",
-      "maxlength": "El campo no debe contener más de {count} caracteres"
+      "maxlength": "El campo no debe contener más de {count} caracteres",
+      "minlength": "El campo debe contener al menos {count} caracteres"
     },    
 		"menu": {
 			"scorecard": "Scorecard",

@@ -21,12 +21,12 @@ export const roleOptions = [
       label: 'Manager'
   },
   {
-      id: 'team_leader',
-      label: 'Team Leader'
-  },
-  {
       id: 'lead_qualifier',
       label: 'Lead Qualifier'
+  },
+  {
+      id: 'team_leader',
+      label: 'Team Leader'
   },
   {
       id: 'advisor',

@@ -1,7 +1,7 @@
 <template>
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
         <template #default>
-            <Table :id="page.id" v-if="table" :columns="table.columns" :actions="table.actions" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @cell-change="onCellChange">
+            <Table :id="page.id" v-if="table && table.records" :columns="table.columns" :actions="table.actions" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @cell-change="onCellChange" :clickeable-row="table.clickeableRow" @row-click="handleRowClick" @scroll-end="onScrollEnd" :infinite-scroll="true">
               
                 <!-- <template v-slot:cell-name="{ item }">
                     <TableCell 
@@ -23,10 +23,10 @@
                     >                        
                         {{ item.email }}
                     </TableCell>                   
-                </template>    
+                </template>  -->  
 
                 <template v-slot:cell-role="{ item }">
-                    <TableCell 
+                    <!-- <TableCell 
                         :cellvalue="roleOptions.find(option => option.id === item.role)"
                         :record="item" 
                         :options="roleOptions"
@@ -35,15 +35,16 @@
                         @changed="handleCellChange"
                     >                        
                         {{ item.role }}
-                    </TableCell>                   
-                </template>     -->
+                    </TableCell>                    -->
+                    {{ roleOptions.find(option => option.id === item.role).label ?? null }}
+                </template>
             </Table>
         </template>
     </Page>
 </template>
 
 <script setup>
-
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import UserService from "@/services/UserService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent } from 'vue';
@@ -61,6 +62,7 @@ import FiltersCol from "@/views/components/filters/FiltersCol";
 import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {roleOptions} from "@/stub/roles";
+import { PAGE_LIMIT } from "@/stub/constans";
 
 const service = new UserService();
 const alertStore = useAlertStore();
@@ -69,6 +71,7 @@ const mainQuery = reactive({
     page: 1,
     search: '',
     sort: '',
+    limit: PAGE_LIMIT,
     filters: {
         search: {
             value: '',
@@ -95,32 +98,38 @@ const page = reactive({
 });
 
 const table = reactive({
-    // headers: {
-    //     name: trans('users.labels.name'),
-    //     email: trans('users.labels.email'),
-    //     role: trans('users.labels.role'),
-    // },
-    // sorting: {
-    //     name: true,
-    //     email: true
-    // },
     columns: [
         {
             key: 'name',
+            show: true,
             label: trans('users.labels.name'),
-            editable: true,
+            editable: false,
             sorteable: true
         },
         {
+            key: 'branch',
+            show: true,
+            label: trans('users.labels.branch'),
+            editable: false,
+            sorteable: false
+        },
+        {
             key: 'email',
+            show: true,
             label: trans('users.labels.email'),
-            editable: true,
+            editable: false,
             sorteable: true
         },
         {
             key: 'role',
+            show: true,
             label: trans('users.labels.role'),
             sortable: false,
+            editable: true,
+            edit: {
+                type: 'list',
+                options: roleOptions
+            },
         },
         
     ],           
@@ -145,7 +154,8 @@ const table = reactive({
     //     }
     // },
     loading: false,
-    records: null
+    records: null,
+    clickeableRow: true
 })  
 
 function onTableSort(params) {
@@ -184,8 +194,18 @@ function onFiltersClear() {
     mainQuery.filters = clonedFilters;
 }
 
+function handleRowClick({record}) {
+  router.push({name: 'users.edit', params: {id: record.id }});
+}
+
+function onScrollEnd() {
+  if (mainQuery.limit < table.pagination.meta.total) {
+    mainQuery.limit += PAGE_LIMIT;  
+  }
+}
+
 function fetchPage(params) {
-    table.records = [];
+    // table.records = [];
     table.loading = true;
     let query = prepareQuery(params);
     service

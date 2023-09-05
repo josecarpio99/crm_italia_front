@@ -149,7 +149,7 @@
 
 <script>
 import {computed, onBeforeMount, reactive, onMounted, watch} from "vue";
-
+import router from "@/router";
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
@@ -197,7 +197,7 @@ export default {
       const globalStateStore = useGlobalStateStore();
       const route = useRoute();
 
-      const showAddButton = computed(() => ['deals', 'customers', 'leads'].some((word) => route.name.startsWith(word)));
+      const showAddButton = computed(() => ['deals', 'customers', 'leads'].some((word) => route.name.startsWith(word) || route.name == 'users.list' ));
       
       const isLoading = computed(() => {
           var value = false;
@@ -362,6 +362,10 @@ export default {
             } else {
                 toggleModal('CreateCotizadoModal');
             }
+        }
+
+        if (route.name.startsWith('users')) {
+            router.push({name: 'users.create'})
         }
       }
 
