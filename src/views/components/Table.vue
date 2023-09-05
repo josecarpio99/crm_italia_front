@@ -28,7 +28,7 @@
         </draggable>
         
       </thead>
-      <tbody v-if="records && records.length" class="bg-white divide-y divide-gray-200">
+      <tbody v-if="records && records.length" class="bg-white row-divider">
         <tr 
         v-for="(record, i) in records" 
         @click="handleRowClick(record)"
@@ -350,5 +350,10 @@ if (props.infiniteScroll) {
 
 .sort-arrows .fa {
   font-size: 15px;
+}
+
+.row-divider > :not([hidden]):not(.border-b-2):not(.border-y-2) {
+  @apply border-y-[1px];
+  @apply border-gray-200;
 }
 </style>

@@ -751,7 +751,8 @@ function rowClassFn(item) {
     dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
   ) 
   {
-    return ['bg-red-100'];
+    console.log('llega');
+    return ['bg-red-100', 'border-y-2', 'border-red-300'];
   }   
 }
 
