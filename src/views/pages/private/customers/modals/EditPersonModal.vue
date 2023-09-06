@@ -249,6 +249,7 @@ function onSubmit() {
     if (res?.status == 200 || res?.status == 201) {        
         // Object.assign(form, initialState);
         emit('updated');
+        emit('close-modal');
     }
   })
   

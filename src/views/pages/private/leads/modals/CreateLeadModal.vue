@@ -85,6 +85,7 @@
 
 <script setup>
 import {reactive, ref, onMounted} from "vue";
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
@@ -172,7 +173,8 @@ function onSubmit() {
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);
-
+        emit('close-modal');
+        router.push({name: 'leads.show', params: {id: res.data.data.id}});
     }
   })
   

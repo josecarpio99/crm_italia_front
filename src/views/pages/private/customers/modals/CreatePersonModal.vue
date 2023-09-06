@@ -159,6 +159,7 @@
 
 <script setup>
 import {reactive, ref, onMounted} from "vue";
+import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
@@ -270,7 +271,9 @@ function onSubmit() {
         customersStore.customerList.unshift({
           id: res.data.data.id,
           name: res.data.data.name,
-        })
+        });
+        emit('close-modal');
+        router.push({name: 'customers.show', params: {id: res.data.data.id}});
     }
   })
   

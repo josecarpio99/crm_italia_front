@@ -190,6 +190,7 @@ function onSubmit() {
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {
         emit('updated');
+        emit('close-modal');
     }
   })
   
