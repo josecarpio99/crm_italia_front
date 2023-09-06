@@ -38,6 +38,11 @@
                     </TableCell>                    -->
                     {{ roleOptions.find(option => option.id === item.role).label ?? null }}
                 </template>
+
+                <template #cell-branch="{item}">                  
+                    <BranchField :value="item.branch" />
+                </template>
+
             </Table>
         </template>
     </Page>
@@ -63,6 +68,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import {roleOptions} from "@/stub/roles";
 import { PAGE_LIMIT } from "@/stub/constans";
+import BranchField from "@/views/components/BranchField";
 
 const service = new UserService();
 const alertStore = useAlertStore();
