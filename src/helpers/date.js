@@ -9,7 +9,7 @@ const $date = function(date = null) {
   return {
     $dayjs,
     format(format = 'DD-MM-YYYY') {
-      return $dayjs.format(format);
+      return $dayjs.locale("es").format(format);
     }
   }
 };

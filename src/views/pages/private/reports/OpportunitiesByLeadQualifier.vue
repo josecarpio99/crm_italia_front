@@ -17,9 +17,9 @@
               </router-link>
             </template>
 
-            <template #cell-value="{item}">        
+            <!-- <template #cell-value="{item}">        
               <ValueField :value="item.value" />
-            </template>
+            </template> -->
 
             <template #cell-owner="{item}">             
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />              
@@ -66,7 +66,7 @@
             </template>
 
             <template #cell-created_at="{item}">            
-                {{ $date(item.created_at).format() }}          
+                {{ $date(item.created_at).format('DD MMM, YYYY') }}          
             </template>
 
           </Table>
@@ -257,22 +257,22 @@ const table = reactive({
       sorteable: false,
       filterable: false            
   }, 
-  {
-      key: 'value',
-      label: trans('deals.labels.value_estimated'),
-      show: true,
-      locked: false,
-      editable: false,
-      sorteable: true,
-      filterable: true,
-      filter: {
-        modelValue: {
-          minValue: null,
-          maxValue: null
-        },
-        type: 'range'
-      },       
-  }, 
+  // {
+  //     key: 'value',
+  //     label: trans('deals.labels.value_estimated'),
+  //     show: true,
+  //     locked: false,
+  //     editable: false,
+  //     sorteable: true,
+  //     filterable: true,
+  //     filter: {
+  //       modelValue: {
+  //         minValue: null,
+  //         maxValue: null
+  //       },
+  //       type: 'range'
+  //     },       
+  // }, 
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),
