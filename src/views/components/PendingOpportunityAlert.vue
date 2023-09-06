@@ -10,7 +10,13 @@
       </div>
 
       <div class="mb-8">
-        <h3 class="text-2xl uppercase text-gray-700 font-bold">Nueva oportunidad asignada</h3>
+        <h3 class="text-2xl uppercase text-gray-700 font-bold">
+          {{ 
+          pendingOpportunitiesStore.count > 1 
+            ? `Tienes ${pendingOpportunitiesStore.count} oportunidades asignadas` 
+            : 'Nueva oportunidad asignada' 
+          }}
+        </h3>
       </div>
 
       <div>
@@ -28,10 +34,10 @@
 
   <div 
     v-if="pendingOpportunitiesStore.showAlert"
-    class="absolute right-4 bottom-10 animate-bounce cursor-pointer"
+    class="absolute right-6 bottom-10 animate-bounce cursor-pointer"
     @click="pendingOpportunitiesStore.showModal = true"
-  >
-    <Icon class="text-red-500 text-6xl" name="exclamation-circle" />    
+  >    
+    <Icon class="text-red-500 text-6xl" name="exclamation-circle" />
   </div>
 </template>
 

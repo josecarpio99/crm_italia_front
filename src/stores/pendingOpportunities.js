@@ -49,6 +49,9 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
     isEmpty: (state) => {
       return state.data.length == 0;
     },
+    count: (state) => {
+      return state.data.length;
+    },
     first(state) {
       return state.data[0] ?? null;
     },
