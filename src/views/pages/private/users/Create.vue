@@ -1,7 +1,7 @@
 <template>
     <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onAction">
         <Panel>
-            <Form id="create-user" @submit.prevent="onSubmit">
+            <Form id="create-user" :novalidate="true" @submit.prevent="onSubmit">
                 <TextInput 
                     class="mb-4" 
                     type="text" 
@@ -55,6 +55,12 @@
                     :label="trans('users.labels.password')"
                     :errorMessage="v$.password.$errors.length ? v$.password.$errors[0].$message : ''"
 
+                />
+
+                <Button
+                    :label="trans('global.buttons.update')"
+                    class="mt-4"
+                    icon="fa fa-save"
                 />
             </Form>
         </Panel>
@@ -144,12 +150,12 @@ export default defineComponent({
                     to: toUrl('/users/list'),
                     theme: 'outline',
                 },
-                {
-                    id: 'submit',
-                    name: trans('global.buttons.save'),
-                    icon: "fa fa-save",
-                    type: 'submit',
-                }
+                // {
+                //     id: 'submit',
+                //     name: trans('global.buttons.save'),
+                //     icon: "fa fa-save",
+                //     type: 'submit',
+                // }
             ]
         });
 

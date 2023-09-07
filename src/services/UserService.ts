@@ -14,4 +14,14 @@ export default class UserService extends ModelService {
         return this.post(`/users/${id}/avatar`, formData);
     }
 
+    public syncManagerUser(id, payload) {
+        return this.post( 
+            this.url + `/${id}/sync-manager-user`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
+
 }
