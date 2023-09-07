@@ -162,8 +162,6 @@ const page = reactive({
   isLoading: false
 });
 
-
-
 const table = reactive({ 
   columns: [
   {
