@@ -10,7 +10,7 @@
       'text-2xl': props.large,
     }"
   >
-    {{ 'MXN ' + value?.toLocaleString('en-US') }}
+    {{ 'MXN ' + value?.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
   </span>   
 </template>
 
@@ -18,7 +18,8 @@
 
 const props = defineProps({
   value: {
-    required: true
+    required: true,
+    default: 0
   },
   large: {
     type: Boolean,

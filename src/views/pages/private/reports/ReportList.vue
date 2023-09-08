@@ -23,6 +23,11 @@
               {{ trans('global.menu.assigned_leads') }}
             </router-link>
           </li>
+          <li v-if="authStore.isMasterOrDirector()">
+            <router-link :to="{name: 'reports.sells_by_advisors'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+              {{ trans('global.menu.sells_by_advisors') }}
+            </router-link>
+          </li>
         </ul>
       </div>
     </Panel>

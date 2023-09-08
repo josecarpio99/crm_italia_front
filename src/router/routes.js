@@ -26,6 +26,7 @@ import {default as OpportunitiesBestCustomers} from "@/views/pages/private/repor
 import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/OpportunitiesBestSizes";
 import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
 import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
+import {default as SellsByAdvisors} from "@/views/pages/private/reports/SellsByAdvisors";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
 import {default as OpportunitiesByLeadQualifier} from "@/views/pages/private/reports/OpportunitiesByLeadQualifier";
 import {default as ReportList} from "@/views/pages/private/reports/ReportList";
@@ -184,6 +185,12 @@ const routes = [
                         path: "scorecard",
                         meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
                         component: Scorecard
+                    },
+                    {
+                        name: "reports.sells_by_advisors",
+                        path: "ventas-por-asesor",
+                        meta: {requiresAuth: true, requiresRole: roles.SUPERADMIN},
+                        component: SellsByAdvisors
                     },
                     {
                         name: "reports.opportunities_by_lead_qualifier",

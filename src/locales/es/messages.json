@@ -372,7 +372,22 @@
 			"scorecard": "Scorecard",
 			"origins": "Orígenes",
 			"reports": "Reportes",
-			"assigned_leads": "Leads Asignados"
+			"assigned_leads": "Leads Asignados",
+			"sells_by_advisors": "Ventas por asesores"
 		}
-  }
+  },
+  "january": "enero",
+  "february": "febrero",
+  "march": "marzo",
+  "april": "abril",
+  "may": "mayo",
+  "june": "junio",
+  "july": "julio",
+  "august": "agosto",
+  "september": "septiembre",
+  "october": "octubre",
+  "november": "noviembre",
+  "december": "diciembre",
+  "total": "total",
+  "month_average": "promedio por mes"
 }
