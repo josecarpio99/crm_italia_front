@@ -82,7 +82,7 @@ import UserService from "@/services/UserService";
 import {clearObject, reduceProperties} from "@/helpers/data";
 import {toUrl} from "@/helpers/routing";
 import Form from "@/views/components/Form";
-import {roleOptions} from "@/stub/roles";
+import {roleOptionsList as roleOptions} from "@/stub/roles";
 import {branches} from "@/stub/statuses";
 import useVuelidate from '@vuelidate/core';
 import {

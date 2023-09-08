@@ -14,11 +14,34 @@ export const roleOptions = [
   },
   {
       id: 'director',
-      label: 'Director'
+      label: 'Master'
   },
   {
       id: 'admin',
-      label: 'Manager'
+      label: 'Gerente'
+  },
+  {
+      id: 'lead_qualifier',
+      label: 'Lead Qualifier'
+  },
+  {
+      id: 'team_leader',
+      label: 'Team Leader'
+  },
+  {
+      id: 'advisor',
+      label: 'Asesor'
+  }
+];
+
+export const roleOptionsList = [
+  {
+      id: 'superadmin',
+      label: 'Master'
+  },  
+  {
+      id: 'admin',
+      label: 'Gerente'
   },
   {
       id: 'lead_qualifier',

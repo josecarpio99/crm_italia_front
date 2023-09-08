@@ -128,7 +128,7 @@ import Panel from "@/views/components/Panel";
 import Page from "@/views/layouts/Page";
 import FileInput from "@/views/components/input/FileInput";
 import Form from "@/views/components/Form";
-import {roleOptions, roles} from "@/stub/roles";
+import {roleOptionsList as roleOptions, roles} from "@/stub/roles";
 import {branches} from "@/stub/statuses";
 import useVuelidate from '@vuelidate/core';
 import {
