@@ -58,7 +58,7 @@
                 />
 
                 <Button
-                    :label="trans('global.buttons.update')"
+                    :label="trans('global.buttons.save')"
                     class="mt-4"
                     icon="fa fa-save"
                 />
