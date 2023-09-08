@@ -5,7 +5,7 @@
       :is-loading="page.isLoading"
     > 
       <template #default>
-          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">   
+          <Table :id="page.id" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @sort="onTableSort" @filter="onTableFilter" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick" @scroll-end="onScrollEnd">   
 
             <template #cell-deal="{item}">
               <router-link 
@@ -176,8 +176,8 @@ const table = reactive({
       show: true,
       locked: true,
       editable: false,
-      sorteable: true,
-      filterable: true,
+      sorteable: false,
+      filterable: false,
       filter: {
         modelValue: '',
         type: 'input'            
@@ -190,7 +190,7 @@ const table = reactive({
       locked: false,
       editable: false,
       sorteable: false,
-      filterable: true,
+      filterable: false,
       filter: {
         modelValue: '',
         type: 'multiselect',
@@ -203,8 +203,8 @@ const table = reactive({
       label: trans('global.labels.owner'),
       show: true,
       locked: false,
-      sorteable: true,
-      filterable: true,
+      sorteable: false,
+      filterable: false,
       editable: false,
       filter: {
         modelValue: '',
@@ -221,7 +221,7 @@ const table = reactive({
       show: true,
       locked: false,
       sorteable: false,
-      filterable: true,
+      filterable: false,
       editable: false,
       filter: {
         modelValue: '',
@@ -237,7 +237,7 @@ const table = reactive({
       label: trans('deals.labels.category'),
       show: true,
       locked: false,
-      sorteable: true,
+      sorteable: false,
       filterable: false,
       editable: false,
       filter: {
@@ -261,8 +261,8 @@ const table = reactive({
   //     show: true,
   //     locked: false,
   //     editable: false,
-  //     sorteable: true,
-  //     filterable: true,
+  //     sorteable: false,
+  //     filterable: false,
   //     filter: {
   //       modelValue: {
   //         minValue: null,
@@ -277,8 +277,8 @@ const table = reactive({
       show: true,
       locked: false,
       editable: false,
-      sorteable: true,
-      filterable: true,
+      sorteable: false,
+      filterable: false,
       filter: {
         modelValue:'',
         type: 'select',
