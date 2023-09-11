@@ -35,10 +35,13 @@
       </div>
 
       <div v-if="! isLoading">
-        <div class="flex flex-col md:flex-row gap-4 justify-center items-center text-gray-500 mb-8">
+        <div class="flex flex-col md:flex-row gap-6 justify-center items-center text-gray-500 mb-8">
 
           <div>            
-            <h4 class="text-center text-gray-600 font-bold mb-4">Prospección - Cartera</h4>
+            <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
+              <span class="inline-block h-4 w-4 bg-green-300 mr-2"></span>
+              Prospección
+            </h4>
             <div class="flex gap-4">
               <div class="font-semibold">Total: <span><ValueField :value="sourceData?.prospeccion?.sum" /></span></div>
               <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.prospeccion?.count }}</span></div>
@@ -46,10 +49,24 @@
           </div>
 
           <div>            
-            <h4 class="text-center text-gray-600 font-bold mb-4">Publicidad - Guardia</h4>
+            <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
+              <span class="inline-block h-4 w-4 bg-yellow-300 mr-2"></span>
+              Publicidad - Guardia
+            </h4>
             <div class="flex gap-4">
               <div class="font-semibold">Total: <span><ValueField :value="sourceData?.publicidad?.sum" /></span></div>
               <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.publicidad?.count }}</span></div>
+            </div>
+          </div>
+
+          <div>            
+            <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
+              <span class="inline-block h-4 w-4 bg-blue-300 mr-2"></span>
+              Recompra
+            </h4>
+            <div class="flex gap-4">
+              <div class="font-semibold">Total: <span><ValueField :value="sourceData?.recompra?.sum" /></span></div>
+              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.recompra?.count }}</span></div>
             </div>
           </div>
 
@@ -168,7 +185,7 @@ const barChart = reactive({
 
 const pieChart = reactive({
   chartData: {
-    labels: ['Prospección - Cartera', 'Publicidad - Guardia'],
+    labels: ['Prospección', 'Publicidad - Guardia', 'Recompra'],
     datasets: [ { data: [] } ]
   },
   chartOptions: {
@@ -187,7 +204,7 @@ function fetchPage(params) {
           sourceData.value = response.data.meta.source;
           barChart.chartData.datasets = [
             {
-              label: 'Prospección - Cartera',
+              label: 'Prospección',
               data: [
                 response.data.meta.source.prospeccion.sum
               ],
@@ -199,7 +216,13 @@ function fetchPage(params) {
                 response.data.meta.source.publicidad.sum
               ],
               backgroundColor: '#FDE047'
-
+            },
+            {
+              label: 'Recompra',
+              data: [
+                response.data.meta.source.recompra.sum
+              ],
+              backgroundColor: '#93C5FD'
             }
           ]
 
@@ -208,8 +231,9 @@ function fetchPage(params) {
               data: [
                 response.data.meta.source.prospeccion.count,
                 response.data.meta.source.publicidad.count,
+                response.data.meta.source.recompra.count
               ],
-              backgroundColor: ['#86EFAC', '#FDE047']
+              backgroundColor: ['#86EFAC', '#FDE047', '#93C5FD']
             },          
           ]
           isLoading.value = false;
