@@ -865,7 +865,7 @@ onMounted(async () => {
   if (!route.params.id) {
     page.title = trans('deals.menu.cotizados');
     if (authStore.isDirector()) {
-      const directorFields = ['deal', 'branch', 'owner', 'source', 'category', 'next_task', 'value'];
+      const directorFields = ['name', 'branch', 'owner', 'source', 'category', 'next_task', 'value'];
 
       table.columns.forEach(column => {
         column.show = false;
