@@ -369,6 +369,7 @@ import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {cotizadoColumns} from "@/stub/columns";
 import { PAGE_LIMIT } from "@/stub/constans";
+import { branches } from "@/stub/statuses";
 import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import { datesFilter } from "@/stub/date";
@@ -621,6 +622,7 @@ function fetchSmartList(id) {
 function updateColumnsForSmartList() {
   const {
     owner: ownerFilter, 
+    branch: branchFilter,
     source: sourceFilter, 
     name: nameFilter,
     created_at: createdAtFilter,
@@ -665,7 +667,16 @@ function updateColumnsForSmartList() {
     
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
-  }    
+  } 
+  
+  if (branchFilter.value) {
+    let selectedBranches = branchFilter.value.split(',').map(item => {
+      return branches.find(option => option.id == item);
+    });
+    
+    let branchColumn = table.columns.find(column => column.key == 'branch');
+    branchColumn.filter.modelValue = selectedBranches;         
+  }
 }
 
 function setColumnsForSmartList() {

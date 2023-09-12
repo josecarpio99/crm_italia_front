@@ -315,6 +315,7 @@ import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import {oportunidadColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
+import { branches } from "@/stub/statuses";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
@@ -564,6 +565,7 @@ function fetchSmartList(id) {
 function updateColumnsForSmartList() {
   const {
     owner: ownerFilter, 
+    branch: branchFilter,
     source: sourceFilter, 
     name: nameFilter,
     created_at: createdAtFilter,
@@ -609,6 +611,15 @@ function updateColumnsForSmartList() {
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
   }   
+
+  if (branchFilter.value) {
+    let selectedBranches = branchFilter.value.split(',').map(item => {
+      return branches.find(option => option.id == item);
+    });
+    
+    let branchColumn = table.columns.find(column => column.key == 'branch');
+    branchColumn.filter.modelValue = selectedBranches;         
+  }
 }
 
 function onSmartListSave({name}) {

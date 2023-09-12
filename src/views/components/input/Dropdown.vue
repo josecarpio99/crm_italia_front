@@ -57,7 +57,7 @@ export default defineComponent({
             default: "label",
         },
         modelValue: {
-            type: [Object, String, Number],
+            type: [Object, String, Number, Boolean],
         },
         showLabel: {
             type: Boolean,

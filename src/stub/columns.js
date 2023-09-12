@@ -472,7 +472,7 @@ export const cotizadoColumns = [
   {
       key: 'branch',
       label: trans('users.labels.branch'),
-      show: false,
+      show: true,
       locked: false,
       editable: false,
       sorteable: false,

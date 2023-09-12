@@ -198,7 +198,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import BranchField from "@/views/components/BranchField";
 import {leadColumns} from "@/stub/columns";
-import { leadStatuses } from "@/stub/statuses";
+import { leadStatuses, branches } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {clearObject, removeEmpty} from "@/helpers/data";
@@ -426,17 +426,18 @@ function fetchSmartList(id) {
 
 function updateColumnsForSmartList() {
   const {
+      branch: branchFilter,
       owner: ownerFilter, 
-      status: statusFilter, 
+      // status: statusFilter, 
       name: nameFilter, 
-      source: sourceFilter,
+      // source: sourceFilter,
       created_at: createdAtFilter,
     } = smartList.definition.query.filters;
 
     if (nameFilter.value) {      
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
-    }  
+    }   
 
     if (createdAtFilter.value) { 
       let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
@@ -454,23 +455,32 @@ function updateColumnsForSmartList() {
       ownerColumn.filter.modelValue = selectedUsers;         
     }
 
-    if (sourceFilter.value) {
-      let selectedSources = sourceFilter.value.split(',').map(item => {
-        return sources.find(option => option.id == item);
+    if (branchFilter.value) {
+      let selectedBranches = branchFilter.value.split(',').map(item => {
+        return branches.find(option => option.id == item);
       });
       
-      let sourceColumn = table.columns.find(column => column.key == 'source');
-      sourceColumn.filter.modelValue = selectedSources;         
+      let branchColumn = table.columns.find(column => column.key == 'branch');
+      branchColumn.filter.modelValue = selectedBranches;         
     }
 
-    if (statusFilter.value) {
-      let selectedStatuses = statusFilter.value.split(',').map(item => {
-        return leadStatuses.find(option => option.id == item);
-      });
+    // if (sourceFilter.value) {
+    //   let selectedSources = sourceFilter.value.split(',').map(item => {
+    //     return sources.find(option => option.id == item);
+    //   });
       
-      let statusColumn = table.columns.find(column => column.key == 'status');
-      statusColumn.filter.modelValue = selectedStatuses;         
-    } 
+    //   let sourceColumn = table.columns.find(column => column.key == 'source');
+    //   sourceColumn.filter.modelValue = selectedSources;         
+    // }
+
+    // if (statusFilter.value) {
+    //   let selectedStatuses = statusFilter.value.split(',').map(item => {
+    //     return leadStatuses.find(option => option.id == item);
+    //   });
+      
+    //   let statusColumn = table.columns.find(column => column.key == 'status');
+    //   statusColumn.filter.modelValue = selectedStatuses;         
+    // } 
 }
 
 function onSmartListSave({name}) {

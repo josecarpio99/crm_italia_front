@@ -206,7 +206,7 @@ import DealCategoryField from "@/views/components/DealCategoryField";
 import {customerColumns} from "@/stub/columns";
 import {customerCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
-import { customerStatuses } from "@/stub/statuses";
+import { customerStatuses, customerStarStatus, branches } from "@/stub/statuses";
 import { PAGE_LIMIT } from "@/stub/constans";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
@@ -475,6 +475,8 @@ function deleteSmartList() {
 
 function updateColumnsForSmartList() {
   const {
+    branch: branchFilter, 
+    star: starFilter, 
     owner: ownerFilter, 
     status: statusFilter, 
     name: nameFilter, 
@@ -485,6 +487,13 @@ function updateColumnsForSmartList() {
   if (nameFilter.value) {      
     let nameColumn = table.columns.find(column => column.key == 'name');
     nameColumn.filter.modelValue = nameFilter.value;         
+  }
+
+  if (starFilter.value) {      
+    let starOptionSelected = customerStarStatus.find(option => option.id == starFilter.value);
+
+    let starColumn = table.columns.find(column => column.key == 'star');
+    starColumn.filter.modelValue = starOptionSelected;         
   }
 
   if (createdAtFilter.value) { 
@@ -508,6 +517,15 @@ function updateColumnsForSmartList() {
     
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
+  }
+
+  if (branchFilter.value) {
+    let selectedBranches = branchFilter.value.split(',').map(item => {
+      return branches.find(option => option.id == item);
+    });
+    
+    let branchColumn = table.columns.find(column => column.key == 'branch');
+    branchColumn.filter.modelValue = selectedBranches;         
   }
 
   if (statusFilter.value) {
