@@ -1,5 +1,5 @@
 <template>  
-  <div class="flex gap-2">
+  <div class="flex items-center gap-2 group ">
     <div>
         <Icon 
           v-if="!task || !dayjs().isBefore(dayjs(task.due_at))"
@@ -28,6 +28,9 @@
 
     </div> 
 
+    <div class="pl-2">
+      <TaskPopup @submit="onTaskSubmit" iconClass="text-lg align-sub invisible group-hover:visible" />
+    </div>
   </div>
 
      
@@ -38,6 +41,7 @@ import Icon from "@/views/components/icons/Icon";
 import { limitStr } from "@/helpers/data";
 import $date from "@/helpers/date";
 import dayjs from "dayjs";
+import TaskPopup from "@/views/components/task/TaskPopup";
 
 const props = defineProps({
   task: {
@@ -45,5 +49,11 @@ const props = defineProps({
     default: null
   }
 });
+
+const emit = defineEmits(['submit']);
+
+function onTaskSubmit(params) {
+  emit('submit', params);
+}
 
 </script>

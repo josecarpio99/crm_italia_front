@@ -12,7 +12,7 @@
   >
     <Icon 
       name="plus" 
-      class="text-gray-500 cursor-pointer hover:text-blue-300" 
+      :class="['text-gray-500', 'cursor-pointer', 'hover:text-blue-300', props.iconClass]" 
       @click.stop="showDropdown = !showDropdown"
     />
 
@@ -29,6 +29,13 @@
 import {ref, reactive, onMounted} from 'vue';
 import TaskForm from "@/views/components/task/TaskForm";
 import Icon from "@/views/components/icons/Icon";
+
+const props = defineProps({
+  iconClass: {
+    type: String,
+    default: ''
+  }
+})
 
 const emit = defineEmits(['submit']);
 

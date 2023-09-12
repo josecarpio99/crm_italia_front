@@ -222,7 +222,7 @@
             </template>
 
             <template #cell-next_task="{item}">                  
-              <NextTaskField :task="item?.lastActiveTask" />
+              <NextTaskField :task="item?.lastActiveTask" @submit="(args) => onTaskFormSubmit({record: item, ...args})" />
             </template>
 
             <template #cell-category="{item}">                  
@@ -283,6 +283,7 @@ import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import SmartListService from "@/services/SmartListService";
 import DealService from "@/services/DealService";
+import TaskService from "@/services/TaskService";
 import {watch, onMounted, defineComponent, reactive, ref, defineAsyncComponent, computed } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -321,6 +322,7 @@ import toast from '@/helpers/toast';
 
 const route = useRoute();
 const dealService = new DealService();
+const taskService = new TaskService();
 const customerService = new CustomerService();
 const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
@@ -753,6 +755,25 @@ function rowClassFn(item) {
   {
     return ['bg-red-100', 'border-y-2', 'border-red-300'];
   }   
+}
+
+function onTaskFormSubmit({content, due_at, owner, record}) { 
+  taskService.store({
+    content: content,
+    due_at: due_at,
+    owner_id: owner.id,
+    task_type: 'deal',
+    id: record.id,
+    user_id: authStore.user.id
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      let item = table.records.find((item) => item.id == record.id);
+      if (! item.lastActiveTask) {
+        item.lastActiveTask = res.data.data;
+      }
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {
