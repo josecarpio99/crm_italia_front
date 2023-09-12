@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" :class="$props.class">      
+  <div :style="style" :class="$props.class" @click.stop="false">      
       <label 
         class="inline-flex items-center"
         :class="{'cursor-pointer': props.clickable}"

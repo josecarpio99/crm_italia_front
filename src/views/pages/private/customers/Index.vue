@@ -110,7 +110,7 @@
             </template>
 
             <template #cell-star="{item}">
-              <StarToggle :modelValue="item.star" :item="item" :key="item.id" class="text-center" iconClass=" h-6 w-6" @updated="onStarUpdate" />
+              <StarToggle :modelValue="item.star" :item="item" :key="item.id" class="text-center" iconClass="h-6 w-6" @updated="onStarUpdate" />
             </template>
 
             <template #cell-mobile="{item}">
