@@ -8,7 +8,7 @@ import { leadStatuses, dealStages, branches, customerStarStatus } from "@/stub/s
 export const customerColumns = [
   {
     key: 'star',
-    label: trans('customers.labels.star'),
+    label: trans('customers.labels.key_contact'),
     show: true,
     locked: false,
     editable: false,
@@ -601,6 +601,7 @@ export const cotizadoColumns = [
       }        
   },         
 ]
+
 export const oportunidadColumns = [
   // {
   //     key: 'deal',
