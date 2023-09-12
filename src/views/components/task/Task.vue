@@ -11,7 +11,8 @@
       </div>
       <div class="text-right basis-2/12 flex justify-between items-center">
         <div>
-          <Icon 
+          <TaskPopup @submit="onSubmit" />
+          <!-- <Icon 
             name="plus" 
             class="text-gray-500 cursor-pointer hover:text-blue-300" 
             @click.stop="showDropdown = !showDropdown"
@@ -68,7 +69,7 @@
                   </div>
                 </Form>
               </template>
-          </VDropdown> 
+          </VDropdown>  -->
         </div>
         <Icon :name="isOpen ? 'angle-up' : 'angle-down'" class="text-gray-500" />        
       </div>
@@ -100,6 +101,7 @@ import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useTaskStore} from "@/stores/tasks";
 import IncompleteTaskItem from "@/views/components/task/IncompleteTaskItem";
+import TaskPopup from "@/views/components/task/TaskPopup";
 import Icon from "@/views/components/icons/Icon";
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
@@ -143,17 +145,17 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
-function onSubmit() {
-  v$.value.$touch();
+function onSubmit(params) {
+  // v$.value.$touch();
 
-  if (v$.value.$invalid) {
-    return true
-  }
+  // if (v$.value.$invalid) {
+  //   return true
+  // }
 
-  v$.value.$reset();
-  showDropdown.value = false;
-  emit('submit', {...form});
-  form.value = Object.assign(form, initialState);
+  // v$.value.$reset();
+  // showDropdown.value = false;
+  emit('submit', params);
+  // form.value = Object.assign(form, initialState);
 };
 
 </script>
