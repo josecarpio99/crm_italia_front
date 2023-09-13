@@ -2,7 +2,7 @@
   <span 
   class="w-6 h-6 inline-block rounded-full overflow-hidden border-2 align-middle mr-2 focus:border-gray-300 focus:outline-none" :class="[{
     'border-violet-200': user?.branch == 'CDMX',
-    'border-teal-200': user?.branch == 'AGS',
+    'border-amber-500': user?.branch == 'AGS',
     'border-rose-300': user?.branch == 'MTY',
     'border-lime-300': user?.branch == 'QRO',
     'border-gray-400': !user?.branch
