@@ -20,6 +20,12 @@
         </Accordion>
         
       </div>
+
+
+
+      <div class="mt-16 pt-8 border-t-2">
+        <img src="\assets\images\organigrama.jpg" alt="organigrama" class="">
+      </div>
     </Panel>
   </Page>
 </template>

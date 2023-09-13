@@ -1,9 +1,9 @@
 <template>
-  <div class="rounded-md border-2 mt-2">
+  <div class="rounded-md border-2 mt-4">
     <div class="flex items-center border-b-[1px] py-2 pl-4 pr-6 cursor-pointer bg-theme-500 hover:bg-theme-700 text-white"
       @click="isOpen = !isOpen">
       <div class="basis-full">
-        <h5 class="font-semibold">{{ title }}</h5>
+        <h5 class="font-semibold whitespace-normal">{{ title }}</h5>
       </div>
       <div class="text-right flex justify-between items-center">
         <div>        
