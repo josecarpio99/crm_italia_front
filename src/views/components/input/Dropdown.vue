@@ -241,7 +241,7 @@ div[data-value="Publicidad - Guardia"] .vs__selected
 
 div[data-value="A - Micro y Personas Físicas"] .vs__selected,
 div[data-value="6 meses o más"] .vs__selected,
-div[data-value="Recompra"] .vs__selected,
+div[data-value="Recompra"] .vs__selected
 {
     @apply bg-blue-300;
     @apply text-gray-600;

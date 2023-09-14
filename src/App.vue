@@ -310,7 +310,7 @@ export default {
           contentReady: false,
           currentExpandedMenuItem: null,
           app: window.AppConfig,
-      });
+      });    
 
       function onLogout() {
           authStore.logout()
@@ -434,7 +434,8 @@ export default {
           alertStore,
           route,
           showAddButton,
-          handleAddButton
+          handleAddButton,
+          color
       }
   }
 };
