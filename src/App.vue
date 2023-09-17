@@ -434,8 +434,7 @@ export default {
           alertStore,
           route,
           showAddButton,
-          handleAddButton,
-          color
+          handleAddButton
       }
   }
 };
