@@ -229,6 +229,18 @@
         </div> -->
       </template>
 
+      <template #filters>
+        <div class="py-4 pl-10 bg-white">
+          <TextInput
+            class="flex items-center gap-2 w-64"
+            type="text" 
+            name="name" 
+            label="Buscar"
+            v-model="mainQuery.filters.search.value"
+          />
+        </div>
+      </template>
+
       <template #default>
      
 
@@ -402,6 +414,10 @@ const mainQuery = reactive({
   search: '',
   sort: '',
   filters: {
+      search: {
+          value: '',
+          comparison: '='
+      },  
       type: {
           value: 'cotizado',
           comparison: '='

@@ -335,7 +335,7 @@ if (props.infiniteScroll) {
 </script>
 <style>
 .table-wrapper {
-  max-height: calc(100vh - 240px);
+  max-height: calc(100vh - 240px - 61.5px);
 }
 
 .sort-arrows {

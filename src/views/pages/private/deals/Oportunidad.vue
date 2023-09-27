@@ -89,7 +89,7 @@
             @update="onFieldsChange"
           />
         </div>
-      </template>
+      </template>      
 
       <template #under-top>
         <div class="hidden lg:grid grid-cols-11 bg-white" v-if="authStore.isDirector() && table.pagination.meta">
@@ -180,6 +180,18 @@
             </div>
           </div>
         </div> -->
+      </template>
+
+      <template #filters>
+        <div class="py-4 pl-10 bg-white">
+          <TextInput
+            class="flex items-center gap-2 w-64"
+            type="text" 
+            name="name" 
+            label="Buscar"
+            v-model="mainQuery.filters.search.value"
+          />
+        </div>
       </template>
 
       <template #default>            
@@ -345,6 +357,10 @@ const mainQuery = reactive({
   search: '',
   sort: '',
   filters: {
+      search: {
+          value: '',
+          comparison: '='
+      },  
       type: {
           value: 'oportunidad',
           comparison: '='

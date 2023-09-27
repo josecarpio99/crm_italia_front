@@ -42,6 +42,18 @@
         </div>
       </template>
 
+      <template #filters>
+        <div class="py-4 pl-10 bg-white">
+          <TextInput
+            class="flex items-center gap-2 w-64"
+            type="text" 
+            name="name" 
+            label="Buscar"
+            v-model="mainQuery.filters.search.value"
+          />
+        </div>
+      </template>
+
       <template #beside-title v-if="!authStore.isDirector()">
         <div v-if="!page.isLoading" class="flex ml-4">
           <Button
@@ -233,6 +245,10 @@ const mainQuery = reactive({
   search: '',
   sort: '',
   filters: {
+      search: {
+          value: '',
+          comparison: '='
+      },    
       name: {
           value: '',
           comparison: '='
