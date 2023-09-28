@@ -446,6 +446,10 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },
+      status: {
+          value: 'en proceso',
+          comparison: '='
+      },
       created_at: {
           value: '',
           comparison: '='
