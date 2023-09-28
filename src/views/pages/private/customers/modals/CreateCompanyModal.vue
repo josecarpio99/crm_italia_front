@@ -83,6 +83,35 @@
 
           </div>
 
+          <Dropdown  
+            :required="false"
+            class="mb-4 deal_source"
+            :label="trans('customers.labels.customer_source')"
+            selectLabel="name"
+            name="source" 
+            :options="sourcesStore.sourceList" 
+            v-model="form.source_id"      
+            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
+
         </div>
       </div>
 
@@ -107,6 +136,7 @@ import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useSourcesStore} from "@/stores/sources";
 import {useCustomersStore} from "@/stores/customers";
 import useVuelidate from '@vuelidate/core';
 import {
@@ -122,6 +152,7 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const customersStore = useCustomersStore();
+const sourcesStore = useSourcesStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
@@ -130,6 +161,8 @@ const initialState = {
   // is_company: 1,
   star: false,           
   company_name: '',           
+  requirement: '',           
+  city: '',           
   name: '',           
   email: '',
   mobile: '',
@@ -144,6 +177,9 @@ const form = reactive({...initialState});
 
 const rules = {
   company_name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
   name: {
@@ -180,7 +216,7 @@ function onSubmit() {
 
   customerService.handleCreate(
       'create-company', 
-      reduceProperties(form, ['category_id', 'owner_id'], 'id')
+      reduceProperties(form, ['category_id', 'owner_id', 'source_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {        
         Object.assign(form, initialState);

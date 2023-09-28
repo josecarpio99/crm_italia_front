@@ -136,7 +136,16 @@
               :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"
             />                     
 
-          </div>   
+          </div> 
+          
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
 
         </div>
 
@@ -208,6 +217,7 @@ const initialState = {
   estimated_close_date_range: null,
   value: 0,  
   name: null,
+  requirement: null,
   customer: {
     company_name: null,
     name: null,

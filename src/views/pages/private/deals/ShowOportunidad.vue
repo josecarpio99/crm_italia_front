@@ -96,6 +96,11 @@
             </div>
           </div>  
 
+          <div v-if="deal.requirement" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
+            <span class="whitespace-normal">{{ deal.requirement }}</span>
+          </div>
+
           <!-- <div v-if="deal.stage_moved_at" class="mb-6">
             <h4 class="font-semibold">{{ trans('deals.labels.stage_moved_at') }}</h4>
             <span>{{ $date(deal.stage_moved_at).format() }}</span>

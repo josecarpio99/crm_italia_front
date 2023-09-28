@@ -62,7 +62,12 @@
               />
               <span>{{ $date(deal.created_at).format() }}</span>
             </div>
-          </div>                         
+          </div> 
+          
+          <div v-if="deal.requirement" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
+            <span class="whitespace-normal">{{ deal.requirement }}</span>
+          </div>
           
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">

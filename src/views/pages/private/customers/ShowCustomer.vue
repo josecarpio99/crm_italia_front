@@ -52,6 +52,11 @@
             <DealCategoryField :value="customer?.category?.name" />
           </div>
 
+          <div v-if="customer.source" class="mb-6">
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.source') }}</h4>
+            <SourceField :value="customer?.source?.name" />
+          </div> 
+
           <div v-if="customer.mobile" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.mobile') }}</h4>
             <div class="flex items-center">
@@ -83,6 +88,16 @@
               />
               <span>{{ $date(customer.created_at).format() }}</span>
             </div>
+          </div>
+
+          <div v-if="customer.city" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.city') }}</h4>
+            <span class="whitespace-normal">{{ customer.city }}</span>
+          </div>
+
+          <div v-if="customer.requirement" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
+            <span class="whitespace-normal">{{ customer.requirement }}</span>
           </div>
 
           <!-- <div v-if="customer.origin" class="mb-6">
@@ -151,6 +166,7 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
 import StarToggle from "@/views/components/input/StarToggle";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import SourceField from "@/views/components/SourceField";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

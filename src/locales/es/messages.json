@@ -64,6 +64,7 @@
       "key_contact": "Cuenta clave",
       "star": "Contacto estrella",
       "email": "Correo",
+      "customer_source": "Origen del contacto",
       "name": "Nombre del contacto",
       "total_contacts": "Total de contactos",
       "clients": "Clientes",
@@ -324,6 +325,7 @@
     "labels": {
       "id": "IDENTIFICACIÓN",
       "id_pound": "",
+      "requirement": "Requerimientos",
       "associated_contact": "Contacto asociado",
       "document": "Documento",
       "documents": "Documentos",
