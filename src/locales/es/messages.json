@@ -138,6 +138,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "cotizado_status": "Status", 
       "response_time": "Tiempo de respuesta", 
       "edit_oportunidad": "Editar oportunidad", 
       "add_oportunidad": "Agregar oportunidad", 

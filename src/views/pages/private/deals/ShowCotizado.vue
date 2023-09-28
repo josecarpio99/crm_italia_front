@@ -20,9 +20,9 @@
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">         
 
-          <div v-if="deal.category" class="mb-6">
-            <h4 class="font-semibold mb-2">{{ trans('deals.labels.category') }}</h4>
-            <DealCategoryField :value="deal?.category?.name" />
+          <div v-if="deal.status" class="mb-6">
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.cotizado_status') }}</h4>
+            <DealStatusField :value="deal.status" />
           </div>        
         
           <div v-if="deal.source" class="mb-6">
@@ -105,6 +105,7 @@ import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
+import DealStatusField from "@/views/components/DealStatusField";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
 import DealCategoryField from "@/views/components/DealCategoryField";
