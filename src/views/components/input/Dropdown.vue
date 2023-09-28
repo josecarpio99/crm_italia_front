@@ -225,7 +225,8 @@ export default defineComponent({
 
 div[data-value="AAA - Corporativos e Industrias"] .vs__selected,
 div[data-value="de 0 a 3 meses"] .vs__selected,
-div[data-value="Prospección"] .vs__selected
+div[data-value="Prospección"] .vs__selected,
+div[data-value="Vendido"] .vs__selected
 {
     @apply bg-green-300;
     @apply text-gray-600;
@@ -247,11 +248,15 @@ div[data-value="Recompra"] .vs__selected
     @apply text-gray-600;
 }
 
-// div[data-value="6 meses o más"] .vs__selected
-// {
-//     @apply bg-red-400;
-//     @apply text-gray-600;
-// }
+div[data-value="Perdido"] .vs__selected
+{
+    @apply bg-red-300;
+}
+
+div[data-value="En proceso"] .vs__selected
+{
+    @apply bg-gray-300;
+}
 
 .vs__dropdown-menu li:hover {
     @apply opacity-80;
@@ -259,7 +264,8 @@ div[data-value="Recompra"] .vs__selected
 
 .customer_category .vs__dropdown-menu li:nth-child(1),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(1),
-.deal_source .vs__dropdown-menu li:nth-child(1)
+.deal_source .vs__dropdown-menu li:nth-child(1),
+.deal_status .vs__dropdown-menu li:nth-child(1)
 {
     @apply bg-green-300;
     @apply text-gray-600;
@@ -278,6 +284,18 @@ div[data-value="Recompra"] .vs__selected
 .deal_source .vs__dropdown-menu li:nth-child(3)
 {
     @apply bg-blue-300;
+    @apply text-gray-600;
+}
+
+.deal_status .vs__dropdown-menu li:nth-child(2)
+{
+    @apply bg-red-300;
+    @apply text-gray-600;
+}
+
+.deal_status .vs__dropdown-menu li:nth-child(3)
+{
+    @apply bg-gray-300;
     @apply text-gray-600;
 }
 

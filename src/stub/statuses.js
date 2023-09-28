@@ -178,3 +178,18 @@ export const customerStarStatus = [
     label: 'No estrellas',
   },
 ]
+
+export const dealStatus = [
+  {
+    id: 'vendido',
+    label: 'Vendido',
+  },  
+  {
+    id: 'perdido',
+    label: 'Perdido',
+  },  
+  {
+    id: 'en proceso',
+    label: 'En proceso',
+  },
+]

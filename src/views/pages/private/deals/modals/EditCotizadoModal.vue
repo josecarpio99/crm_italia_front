@@ -30,6 +30,16 @@
               :errorMessage="v$.customer_id.$errors.length ? v$.customer_id.$errors[0].$message : ''"
             />   
 
+            <Dropdown  
+              class="mb-4 deal_status"
+              :required="false"
+              :label="trans('deals.labels.cotizado_status')"
+              name="status" 
+              :options="dealStatus" 
+              v-model="form.status"  
+              :errorMessage="v$.status.$errors.length ? v$.status.$errors[0].$message : ''"
+            /> 
+
             <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
               <MoneyInput 
                 class="md:mb-0 md:w-1/2" 
@@ -104,7 +114,7 @@ import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
 import MoneyInput from "@/views/components/input/MoneyInput";
 import Dropdown from "@/views/components/input/Dropdown";
-import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealEstimatedCloseDateRange } from "@/stub/statuses";
+import { dealCustomerResponsiveness, dealStages, pmChargeStatuses, dealStatus, dealEstimatedCloseDateRange } from "@/stub/statuses";
 import { dealCategories } from "@/stub/categories";
 import DealService from "@/services/DealService";
 import Alert from "@/views/components/Alert";
@@ -136,6 +146,9 @@ const emit = defineEmits(['close-modal', 'updated', 'delete']);
 const form = reactive({});
 
 const rules = {
+  status: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
   name: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
@@ -183,7 +196,7 @@ function onSubmit() {
 
   form.value = typeof form.value == 'string' ? form.value.replace(/\D/g, '') : form.value;
 
-  let data = reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range'], 'id');
+  let data = reduceProperties(form, ['category_id', 'customer_id', 'source_id', 'owner_id', 'estimated_close_date_range', 'status'], 'id');
   dealService.handleUpdate(
       'update-deal', 
       form.id,
@@ -205,6 +218,7 @@ function onCloseModal() {
 onMounted( async () => {
   Object.assign(form, props.deal);
   
+  form.status = dealStatus.find(option => option.id === form.status);
   form.customer_id = customers.find(option => option.id === form.customer?.id);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
