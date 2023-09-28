@@ -164,6 +164,25 @@ export const branches = [
   }
 ]
 
+export const branchList = [
+  {
+    id: 1,
+    name: 'CDMX',
+  },  
+  {
+    id: 2,
+    name: 'AGS',
+  },  
+  {
+    id: 3,
+    name: 'MTY',
+  },  
+  {
+    id: 4,
+    name: 'QRO',
+  }
+]
+
 export const customerStarStatus = [
   {
     id: null,

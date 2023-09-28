@@ -24,4 +24,14 @@ export default class UserService extends ModelService {
         );
     }
 
+    public syncBranchUser(id, payload) {
+        return this.post( 
+            this.url + `/${id}/sync-branch-user`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
+
 }

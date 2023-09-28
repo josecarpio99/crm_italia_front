@@ -105,6 +105,50 @@
                 />
 
             </div>
+
+            <div    
+                v-if="form.role.id == roles.ADMIN"
+                class="border-t-2 pl-2 border-gray-200 pt-8 mt-8 mb-4"
+            >
+                <h4 class="font-semibold mb-4">Sucursales asignadas</h4>
+
+                <ul
+                    v-if="assignedBranches.length > 0"
+                    class="flex flex-col gap-2"
+                >  
+                    <li
+                        v-for="branch in assignedBranches"
+                        :key="branch.id"
+                        class="inline-block w-min text-sm text-gray-800 font-semibold p-2 bg-gray-100 rounded-lg"
+                    >
+                        {{ branch.name }}
+                    </li>
+
+                </ul>
+
+                <div class="mt-6">
+                    <Dropdown  
+                        class="mb-4"
+                        :required="false"
+                        :label="trans('users.labels.branches')"
+                        selectLabel="name"
+                        name="branches" 
+                        :options="branchList" 
+                        v-model="assignedBranches"
+                        :multiple="true"
+                        :close-on-select="false"
+                    />   
+                </div>
+
+                <Button
+                    :label="trans('global.buttons.update_assigned_branches')"
+                    class="mt-4"
+                    icon="fa fa-save"
+                    @click="updateUserBranches"
+                    :disabled="assignedBranches.length == 0"
+                />
+
+            </div>
         </Panel>
     </Page>
 </template>
@@ -129,7 +173,7 @@ import Page from "@/views/layouts/Page";
 import FileInput from "@/views/components/input/FileInput";
 import Form from "@/views/components/Form";
 import {roleOptionsList as roleOptions, roles} from "@/stub/roles";
-import {branches} from "@/stub/statuses";
+import {branches, branchList} from "@/stub/statuses";
 import useVuelidate from '@vuelidate/core';
 import {
   required,
@@ -164,11 +208,12 @@ export default defineComponent({
         });
 
         const assignedUsers = ref([]);
+        const assignedBranches = ref([]);
 
         const userList = computed(() => usersStore.userList.filter(
                 (item) => item.branch == form.branch.id && item.role == roles.ADVISOR
             )
-        );       
+        );               
 
         const rules = {
             name: {
@@ -233,6 +278,7 @@ export default defineComponent({
                 form.role = roleOptions.find(option => option.id === form.role);
                 form.branch = branches.find(option => option.id === form.branch);
                 assignedUsers.value = response.data.data.assignedUsers ?? []; 
+                assignedBranches.value = response.data.data.branches ?? []; 
 
                 page.loading = false;
             })
@@ -275,6 +321,22 @@ export default defineComponent({
             })
         }
 
+        function updateUserBranches() {
+            globalUserState.loadingElements['edit-user'] = true;
+
+            let data = {
+                branches: assignedBranches.value.map(item => item)
+            };
+
+            service.syncBranchUser(
+                route.params.id,
+                data
+            ).then((res) => {              
+                alertStore.success();  
+                globalUserState.loadingElements['edit-user'] = false;
+            })
+        }
+
         function onBranchChange() {
             assignedUsers.value = [];
         }
@@ -294,7 +356,10 @@ export default defineComponent({
             usersStore,
             userList,
             onBranchChange,
-            v$
+            v$,
+            branchList,
+            updateUserBranches,
+            assignedBranches
         }
     }
 })

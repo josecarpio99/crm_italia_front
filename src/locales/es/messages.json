@@ -33,6 +33,7 @@
       "middle_name": "Segundo nombre",
       "name": "Nombre",
       "branch": "Sucursal",
+      "branches": "Sucursales",
       "avatar": "Avatar",
       "email": "Correo electrónico",
       "role": "Role",
@@ -302,6 +303,7 @@
       "back": "Atrás",
       "upload": "Subir",
       "update": "Actualizar",
+      "update_assigned_branches": "Actualizar Sucursales Asignadas",
       "update_assigned_advisors": "Actualizar Asesores Asignados",
       "save_smart_list": "Guardar como lista inteligente",
       "change_avatar": "Cambiar avatar"
