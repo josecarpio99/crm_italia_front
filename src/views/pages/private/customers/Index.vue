@@ -143,6 +143,10 @@
               <DealCategoryField :value="item?.category?.name" />
             </template>
 
+            <template #cell-source="{item}">                  
+              <SourceField :value="item?.source?.name" />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -214,6 +218,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import StarToggle from "@/views/components/input/StarToggle";
 import BranchField from "@/views/components/BranchField";
+import SourceField from "@/views/components/SourceField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import {customerColumns} from "@/stub/columns";
 import {customerCategories} from "@/stub/categories";
@@ -223,6 +228,7 @@ import { PAGE_LIMIT } from "@/stub/constans";
 import {clearObject, removeEmpty} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useSourcesStore} from "@/stores/sources";
 import toast from '@/helpers/toast';
 
 const route = useRoute();
@@ -231,11 +237,13 @@ const smartListservice = new SmartListService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
+const sourcesStore = useSourcesStore();
 
 const tableKey = ref(1);
 const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
+let sources = sourcesStore.sourceList;
 let smartList = null;
 let smartLists =  [];
 
@@ -256,7 +264,11 @@ const mainQuery = reactive({
       company_name: {
           value: '',
           comparison: '='
-      },    
+      }, 
+      source: {
+          value: '',
+          comparison: '='
+      },     
       owner: {
           value: '',
           comparison: '='
@@ -414,6 +426,12 @@ function onCellChange(payload) {
         name: payload.value.label
     };
 
+  } else if (payload.key == 'source') {
+    record.source_id = payload.value.id;
+    record.source = {
+        id: payload.value.id,
+        name: payload.value.name
+    };  
   } else if (payload.key == 'owner') {
     record.owner_id = payload.value.id;
     record.owner = {
@@ -492,6 +510,7 @@ function deleteSmartList() {
 function updateColumnsForSmartList() {
   const {
     branch: branchFilter, 
+    source: sourceFilter,
     star: starFilter, 
     owner: ownerFilter, 
     status: statusFilter, 
@@ -503,6 +522,15 @@ function updateColumnsForSmartList() {
   if (nameFilter.value) {      
     let nameColumn = table.columns.find(column => column.key == 'name');
     nameColumn.filter.modelValue = nameFilter.value;         
+  }
+
+  if (sourceFilter.value) {
+    let selectedSources = sourceFilter.value.split(',').map(item => {
+      return sources.find(option => option.id == item);
+    });
+    
+    let sourceColumn = table.columns.find(column => column.key == 'source');
+    sourceColumn.filter.modelValue = selectedSources;         
   }
 
   if (starFilter.value) {      
@@ -695,8 +723,13 @@ onMounted(async () => {
   smartLists = await smartListservice.index({'filter[resource_type]': 'customer'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
+  let sourceColumn = table.columns.find(column => column.key == 'source');
+
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
+
+  sourceColumn.filter.options = sources;
+  sourceColumn.edit.options = sources;
   
   page.isLoading = false;
   fetchPage(mainQuery);
