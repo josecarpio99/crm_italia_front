@@ -61,6 +61,11 @@
             </div>
           </div>
 
+          <div v-if="lead.source" class="mb-6">
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.source') }}</h4>
+            <SourceField :value="lead?.source?.name" />
+          </div> 
+
           <!-- <div v-if="lead.position" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.position') }}</h4>
             <span>{{ lead.position }}</span>
@@ -90,6 +95,16 @@
           <div v-if="lead.category" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('leads.labels.category') }}</h4>
             <DealCategoryField :value="lead?.category?.name" />
+          </div>
+
+          <div v-if="lead.city" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.city') }}</h4>
+            <span class="whitespace-normal">{{ lead.city }}</span>
+          </div>
+
+          <div v-if="lead.requirement" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
+            <span class="whitespace-normal">{{ lead.requirement }}</span>
           </div>
 
           <!-- <div v-if="lead.profile" class="mb-6">
@@ -158,6 +173,7 @@ import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import SourceField from "@/views/components/SourceField";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();

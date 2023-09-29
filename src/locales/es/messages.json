@@ -101,6 +101,7 @@
       "add_lead": "Agregar Lead", 
       "requirement": "Requerimiento", 
       "requirement_size": "Tamaño de requerimiento", 
+      "lead_source": "Origen del lead", 
       "customer": "Contacto", 
       "profile": "Perfil", 
       "total_leads": "Total de leads", 

@@ -75,6 +75,35 @@
 
           </div>
 
+          <Dropdown  
+            :required="false"
+            class="mb-4 deal_source"
+            :label="trans('leads.labels.lead_source')"
+            selectLabel="name"
+            name="source" 
+            :options="sourcesStore.sourceList" 
+            v-model="form.source_id"      
+            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
+
         </div>
       </div>
     </Form>
@@ -97,6 +126,7 @@ import Alert from "@/views/components/Alert";
 import {clearObject, fillObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
+import {useSourcesStore} from "@/stores/sources";
 import $date from "@/helpers/date";
 import useVuelidate from '@vuelidate/core';
 import {
@@ -124,6 +154,9 @@ const rules = {
   company_name: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
+  source_id: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
   name: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
@@ -146,6 +179,8 @@ const v$ = useVuelidate(rules, form);
 const leadService = new LeadService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
+const sourcesStore = useSourcesStore();
+
 const formRef = ref(null);
 const isLoading = ref(true);
 
@@ -162,7 +197,7 @@ function onSubmit() {
 
   v$.value.$reset();
 
-  let data = reduceProperties(form, ['category_id', 'owner_id'], 'id');
+  let data = reduceProperties(form, ['category_id', 'owner_id', 'source_id'], 'id');
   
   leadService.handleUpdate(
       'update-lead', 
@@ -188,6 +223,7 @@ onMounted( async () => {
 
   form.owner_id = users.find(option => option.id === form.owner?.id);
   form.category_id = leadCategories.find(option => option.id === form.category?.id);
+  form.source_id = sourcesStore.sourceList.find(option => option.id === form.source?.id);
   
   isLoading.value = false;
 });

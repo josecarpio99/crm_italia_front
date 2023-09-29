@@ -75,6 +75,35 @@
 
           </div>
 
+          <Dropdown  
+            :required="false"
+            class="mb-4 deal_source"
+            :label="trans('leads.labels.lead_source')"
+            selectLabel="name"
+            name="source" 
+            :options="sourcesStore.sourceList" 
+            v-model="form.source_id"      
+            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
+
         </div>
       </div>
 
@@ -99,6 +128,7 @@ import {clearObject, reduceProperties, removeEmpty} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useSourcesStore} from "@/stores/sources";
 import useVuelidate from '@vuelidate/core';
 import {
   required,
@@ -112,6 +142,7 @@ const leadService = new LeadService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
+const sourcesStore = useSourcesStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
@@ -122,6 +153,7 @@ const initialState = {
   email: '',
   mobile: '',
   category_id: null,
+  source_id: null,
   owner_id: {
     id: authStore.user.id,
     name: authStore.user.name,
@@ -132,6 +164,9 @@ const form = reactive({...initialState});
 
 const rules = {
   company_name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
   name: {
@@ -166,7 +201,7 @@ function onSubmit() {
 
   v$.value.$reset();
 
-  let data = reduceProperties(form, ['category_id', 'owner_id',], 'id');
+  let data = reduceProperties(form, ['category_id', 'owner_id', 'source_id'], 'id');
   leadService.handleCreate(
       'create-lead', 
       removeEmpty(data)   
