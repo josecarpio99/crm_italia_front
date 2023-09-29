@@ -95,14 +95,7 @@
             :label="trans('customers.labels.city')"
           />
 
-          <TextInput 
-            class="mb-4" 
-            type="textarea" 
-            :required="false" 
-            name="requirement" 
-            v-model="form.requirement" 
-            :label="trans('global.labels.requirement')"
-          />
+         
 
         </div>
       </div>
