@@ -72,7 +72,7 @@
 
         </div>
 
-        <div class="flex flex-col lg:flex-row gap-4">
+        <div class="flex flex-col items-center lg:flex-row gap-4 max-w-[1000px] mx-auto">
   
           <div class="w-full">
             <Bar
@@ -189,7 +189,10 @@ const pieChart = reactive({
     datasets: [ { data: [] } ]
   },
   chartOptions: {
-    responsive: true
+    responsive: true,
+    layout: {
+      padding: 20
+    }
   }
 });
 
