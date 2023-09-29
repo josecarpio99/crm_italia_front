@@ -3,7 +3,7 @@ import {customerCategories} from "@/stub/categories";
 import {dealCategories, leadCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses } from "@/stub/statuses";
-import { leadStatuses, dealStages, branches, customerStarStatus } from "@/stub/statuses";
+import { leadStatuses, dealStages, branches, customerStarStatus, dealStatus } from "@/stub/statuses";
 
 export const customerColumns = [
   {
@@ -387,6 +387,27 @@ export const dealColumns = [
     cellLabel: 'source.name'
 },
 {
+  key: 'status',
+  label: trans('deals.labels.cotizado_status'),
+  show: true,
+  locked: false,
+  sorteable: false,
+  filterable: true,
+  editable: true,
+  filter: {
+    modelValue: {
+      id: 'en proceso',
+      label: 'En proceso',
+    },
+    type: 'multiselect',
+    options: dealStatus
+  },
+  edit: {
+    type: 'list',
+    options: dealStatus
+  }
+}, 
+{
     key: 'category',
     label: trans('deals.labels.category'),
     show: true,
@@ -565,6 +586,27 @@ export const cotizadoColumns = [
     cellKey: 'source.id',
     cellLabel: 'source.name'
 },  
+{
+    key: 'status',
+    label: trans('deals.labels.cotizado_status'),
+    show: true,
+    locked: false,
+    sorteable: false,
+    filterable: true,
+    editable: true,
+    filter: {
+      modelValue: {
+        id: 'en proceso',
+        label: 'En proceso',
+      },
+      type: 'multiselect',
+      options: dealStatus
+    },
+    edit: {
+      type: 'list',
+      options: dealStatus
+    }
+  }, 
 {
     key: 'category',
     label: trans('deals.labels.category'),

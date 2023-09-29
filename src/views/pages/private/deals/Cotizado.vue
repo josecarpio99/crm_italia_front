@@ -330,6 +330,10 @@
               {{ item.owner?.name }}
             </template>
 
+            <template #cell-status="{item}">                  
+              <DealStatusField :value="item.status" />
+            </template>
+
             <template #cell-source="{item}">                  
               <SourceField :value="item?.source?.name" />
             </template>
@@ -439,10 +443,11 @@ import SourceField from "@/views/components/SourceField";
 import BranchField from "@/views/components/BranchField";
 import NextTaskField from "@/views/components/NextTaskField";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import DealStatusField from "@/views/components/DealStatusField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {cotizadoColumns} from "@/stub/columns";
 import { PAGE_LIMIT } from "@/stub/constans";
-import { branches } from "@/stub/statuses";
+import { branches, dealStatus } from "@/stub/statuses";
 import {customerCategories} from "@/stub/categories";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
 import { datesFilter } from "@/stub/date";
@@ -662,7 +667,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'status') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
@@ -708,6 +713,7 @@ function updateColumnsForSmartList() {
     owner: ownerFilter, 
     branch: branchFilter,
     source: sourceFilter, 
+    status: statusFilter, 
     name: nameFilter,
     created_at: createdAtFilter,
     value: valueFilter
@@ -753,6 +759,15 @@ function updateColumnsForSmartList() {
     ownerColumn.filter.modelValue = selectedUsers;         
   } 
   
+  if (statusFilter.value) {
+    let selectedStatus = statusFilter.value.split(',').map(item => {
+      return dealStatus.find(option => option.id == item);
+    });
+    
+    let statusColumn = table.columns.find(column => column.key == 'status');
+    statusColumn.filter.modelValue = selectedStatus;         
+  }
+
   if (branchFilter.value) {
     let selectedBranches = branchFilter.value.split(',').map(item => {
       return branches.find(option => option.id == item);

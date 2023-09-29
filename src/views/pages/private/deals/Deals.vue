@@ -250,6 +250,10 @@
               </div>
             </template>
 
+            <template #cell-status="{item}">                  
+              <DealStatusField :value="item.status" />
+            </template>
+
             <template #cell-value="{item}">        
               <ValueField :value="item.value" />
             </template>
@@ -364,12 +368,13 @@ import SourceField from "@/views/components/SourceField";
 import BranchField from "@/views/components/BranchField";
 import NextTaskField from "@/views/components/NextTaskField";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import DealStatusField from "@/views/components/DealStatusField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
-import {oportunidadColumns} from "@/stub/columns";
+import {dealColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
-import { branches } from "@/stub/statuses";
+import { branches, dealStatus } from "@/stub/statuses";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
@@ -458,7 +463,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: oportunidadColumns,           
+  columns: dealColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -586,7 +591,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'branch' ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
@@ -632,6 +637,7 @@ function updateColumnsForSmartList() {
     owner: ownerFilter, 
     branch: branchFilter,
     source: sourceFilter, 
+    status: statusFilter, 
     name: nameFilter,
     created_at: createdAtFilter,
     value: valueFilter,
@@ -675,7 +681,16 @@ function updateColumnsForSmartList() {
     
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
-  }   
+  } 
+  
+  if (statusFilter.value) {
+    let selectedStatus = statusFilter.value.split(',').map(item => {
+      return dealStatus.find(option => option.id == item);
+    });
+    
+    let statusColumn = table.columns.find(column => column.key == 'status');
+    statusColumn.filter.modelValue = selectedStatus;         
+  }
 
   if (branchFilter.value) {
     let selectedBranches = branchFilter.value.split(',').map(item => {
