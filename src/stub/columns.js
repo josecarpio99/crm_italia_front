@@ -7,6 +7,12 @@ import { leadStatuses, dealStages, branches, customerStarStatus } from "@/stub/s
 
 export const customerColumns = [
   {
+    key: 'checkall',
+    label: trans('global.labels.checkall'),
+    show: true,
+    locked: true 
+  },
+  {
     key: 'star',
     label: trans('customers.labels.key_contact'),
     show: true,
@@ -157,7 +163,13 @@ export const customerColumns = [
   },
 ]
 
-export const leadColumns = [ 
+export const leadColumns = [   
+  {
+    key: 'checkall',
+    label: trans('global.labels.checkall'),
+    show: true,
+    locked: true 
+  },
   {
       key: 'name',
       label: trans('customers.labels.name'),
@@ -481,6 +493,12 @@ export const cotizadoColumns = [
   //     locked: true,
   // },   
   {
+    key: 'checkall',
+    label: trans('global.labels.checkall'),
+    show: true,
+    locked: true 
+  },
+  {
       key: 'name',
       label: trans('deals.labels.company_name'),
       show: true,
@@ -652,7 +670,13 @@ export const oportunidadColumns = [
   //     label: trans('deals.labels.company_name'),
   //     show: true,
   //     locked: true,
-  // },   
+  // },
+  {
+    key: 'checkall',
+    label: trans('global.labels.checkall'),
+    show: true,
+    locked: true 
+  },   
   {
       key: 'name',
       label: trans('deals.labels.company_name'),

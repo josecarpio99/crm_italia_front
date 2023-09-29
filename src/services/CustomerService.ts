@@ -16,4 +16,14 @@ export default class CustomerService extends ModelService {
             }
         );
     }
+
+    public bulkDelete(payload) {
+        return this.post( 
+            this.url + `/bulk-delete`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
 }

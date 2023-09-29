@@ -44,13 +44,32 @@
 
       <template #filters>
         <div class="py-4 pl-10 bg-white">
-          <TextInput
-            class="flex items-center gap-2 w-64"
-            type="text" 
-            name="name" 
-            label="Buscar"
-            v-model="mainQuery.filters.search.value"
-          />
+
+          <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
+            <div class="flex text-lg text-gray-600 gap-1">
+              <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
+              <span>/</span>
+              <span>{{ table.pagination.meta.total }}</span>
+            </div>
+
+            <div class="ml-6">
+              <Button
+                theme="danger"
+                :label="trans('global.actions.delete')"
+                @click="onBulkDelete"
+              />
+            </div>
+          </div>
+
+          <div v-else >
+            <TextInput
+              class="flex items-center gap-2 w-64"
+              type="text" 
+              name="name" 
+              label="Buscar"
+              v-model="mainQuery.filters.search.value"
+            />            
+          </div>
         </div>
       </template>
 
@@ -104,7 +123,10 @@
       </template>
   
       <template #default>
-          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick">
+          <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange" @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" 
+          @row-click="handleRowClick"
+          @all-selected="handleAllSelected"
+          >
 
             <template #cell-name="{item}">
               <router-link 
@@ -115,6 +137,18 @@
 
                 {{ item.name}}
               </router-link>
+            </template>
+
+            <template #cell-checkall="{item}">
+              <div class="text-center">
+                <input 
+                  class="" 
+                  type="checkbox" 
+                  @click.stop="false"
+                  v-model="item.selected"
+                  @change="handleSelectedRecord(item)"
+                /> 
+              </div>
             </template>
 
             <template #cell-mobile="{item}">
@@ -305,6 +339,7 @@ const table = reactive({
 })  
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
+const selectedRecords = computed(() => table.records.filter(item => item.selected))
 
 
 function onTableSort(params) {
@@ -354,10 +389,12 @@ function fetchPage(params) {
           table.pagination.meta = response.data.meta;
           table.pagination.links = response.data.links;
           table.loading = false;
+          page.isLoading = false;
       })
       .catch((error) => {
           alertStore.error(getResponseError(error));
           table.loading = false;
+          page.isLoading = false;
       });
 }
 
@@ -650,6 +687,30 @@ function onScrollEnd() {
 
 function handleRowClick({record}) {
   router.push({name: 'leads.show', params: {id: record.id }});
+}
+
+function handleSelectedRecord(item) {
+}
+
+function handleAllSelected(params) {
+  table.records.forEach(item => {
+    item.selected = params.selected;
+  });
+}
+
+async function onBulkDelete() {
+  alertHelpers.confirmDanger(async function () {
+    page.isLoading = true;
+
+    let data = {
+      leads: selectedRecords.value.map(item => item)
+    };
+
+    leadService.bulkDelete(data).then(function (response) {
+      toast.success();
+      fetchPage(mainQuery);
+    });
+  })
 }
 
 watch(mainQuery, (newTableState) => {

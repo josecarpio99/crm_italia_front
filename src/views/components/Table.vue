@@ -5,19 +5,21 @@
   >
     <table class="w-full divide-y divide-gray-200">
       <thead class="bg-gray-50">
+       
         <draggable 
           
           :list="columnsData"
           tag="tr" 
           item-key="columns"
           @change="onColumnChange"
-        >
+        >          
           <template #item="{ element: column }" >
             <TableHeader  
               :column="column" 
               :currentSort="currentSort"
               @sort-change="onSortChange" 
-              @filter-change="onFilterChange"              
+              @filter-change="onFilterChange"  
+              @all-selected="onAllSelected"            
             />
 
           </template>
@@ -37,8 +39,8 @@
           'hover:bg-gray-100': clickeableRow,
           'cursor-pointer': clickeableRow
         }, rowClassHandle(record)]"
-        >          
-         
+        >        
+
           <template v-for="(column, j) in columnsData">
             <TableCell
                     :editable="column.editable" 
@@ -157,7 +159,7 @@ const props = defineProps({
   }
 });
 
-const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved', 'scrollEnd', 'row-click']);
+const emit = defineEmits(['pageChanged', 'action', 'sort', 'filter', 'cell-change', 'moved', 'scrollEnd', 'row-click', 'all-selected']);
 
 const isEditing = ref(false);
 
@@ -238,6 +240,10 @@ function onFilterChange(params) {
 
 function onCellChange(params) {
   emit('cell-change', params);
+}
+
+function onAllSelected(params) {
+  emit('all-selected', params);
 }
 
 function onCellBlur() {
