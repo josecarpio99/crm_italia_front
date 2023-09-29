@@ -94,6 +94,7 @@
   },
   "leads": {
     "phrases": {
+      "convert_lead": "Convertir prospecto a contacto",
       "sure_to_convert": "¿Está seguro de que desea convertir {name}?"
     },
     "labels": {
