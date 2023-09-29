@@ -256,6 +256,15 @@ export default {
                   to: '/panel/deals/cotizados/list',
               },           
               {
+                  name: trans('global.pages.publicity'),
+                  icon: 'bullhorn',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  requiresRole: roles.SUPERADMIN,
+                  to: '/panel/deals/publicidad/list',
+              },           
+              {
                   name: trans('global.menu.reports'),
                   icon: 'bar-chart',
                   showDesktop: true,

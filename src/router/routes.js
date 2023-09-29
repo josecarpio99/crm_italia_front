@@ -17,6 +17,7 @@ import {default as PageCustomersShow} from "@/views/pages/private/customers/Show
 import {default as PageLeads} from "@/views/pages/private/leads/Index";
 import {default as PageLeadsShow} from "@/views/pages/private/leads/ShowLead";
 
+import {default as PageDeals} from "@/views/pages/private/deals/Deals";
 import {default as PageDealsCotizado} from "@/views/pages/private/deals/Cotizado";
 import {default as PageDealsOportunidad} from "@/views/pages/private/deals/Oportunidad";
 import {default as PageDealsOportunidadShow} from "@/views/pages/private/deals/ShowOportunidad";
@@ -133,6 +134,12 @@ const routes = [
             {
                 path: "deals",
                 children: [
+                    {
+                        name: "deals.list",
+                        path: "publicidad/list/:id?",
+                        meta: {requiresAuth: true},
+                        component: PageDeals,
+                    },
                     {
                         name: "deals.oportunidades.list",
                         path: "oportunidades/list/:id?",

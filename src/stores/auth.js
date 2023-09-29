@@ -142,6 +142,7 @@ export const useAuthStore = defineStore("auth", {
         hasAccessByRole(role) {
             if (
                 this.user.role === roles.SUPERADMIN ||
+                this.user.role === roles.DIRECTOR ||
                 this.user.role === role
             ) {
                 return true;
@@ -151,7 +152,10 @@ export const useAuthStore = defineStore("auth", {
         },
 
         isDirector() {
-            if (this.user.id == 38 || this.user.email == 'jpgonzalez@lineaitalia.com.mx') {
+            if (
+                this.user.email == 'jpgonzalez@lineaitalia.com.mx' ||
+                this.user.role === roles.DIRECTOR
+            ) {
                 return true;
             } else {
                 return false;

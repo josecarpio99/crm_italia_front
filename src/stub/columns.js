@@ -308,12 +308,12 @@ export const leadColumns = [
 ]
 
 export const dealColumns = [
-  // {
-  //     key: 'deal',
-  //     label: trans('deals.labels.company_name'),
-  //     show: true,
-  //     locked: true,
-  // },   
+  {
+    key: 'checkall',
+    label: trans('global.labels.checkall'),
+    show: true,
+    locked: true 
+  },   
   {
       key: 'name',
       label: trans('deals.labels.company_name'),
@@ -326,31 +326,11 @@ export const dealColumns = [
         modelValue: '',
         type: 'input'            
       }
-  },
-  // {
-  //     key: 'stage',
-  //     label: trans('deals.labels.stage'),
-  //     show: false,
-  //     locked: false,
-  //     editable: true,
-  //     sorteable: false,
-  //     filterable: true,
-  //     edit: {
-  //       type: 'list',
-  //       options: dealStages,
-  //     },
-  //     filter: {
-  //       modelValue: '',
-  //       type: 'multiselect',
-  //       options: dealStages
-  //     },
-  //     cellKey: 'stage.id',
-  //     cellLabel: 'stage.name'  
-  // },         
+  },       
   {
       key: 'branch',
       label: trans('users.labels.branch'),
-      show: false,
+      show: true,
       locked: false,
       editable: false,
       sorteable: false,
@@ -409,11 +389,11 @@ export const dealColumns = [
 {
     key: 'category',
     label: trans('deals.labels.category'),
-    show: false,
+    show: true,
     locked: false,
     sorteable: true,
     filterable: false,
-    editable: true,
+    editable: false,
     filter: {
       modelValue: '',
       type: 'select',
@@ -422,13 +402,11 @@ export const dealColumns = [
     edit: {
       type: 'list',
       options: dealCategories
-    },
-    cellKey: 'category.id',
-    cellLabel: 'category.name'
-  },       
+    }
+  }, 
   {
       key: 'value',
-      label: trans('global.labels.value'),
+      label: trans('deals.labels.value_estimated'),
       show: true,
       locked: false,
       editable: true,
@@ -441,25 +419,7 @@ export const dealColumns = [
         },
         type: 'range'
       },       
-  },         
-  // {
-  //     key: 'estimated_size',
-  //     label: trans('deals.labels.estimated_size'),
-  //     show: false,
-  //     locked: false,
-  //     editable: false,
-  //     sorteable: false,
-  //     filterable: false           
-  // },         
-  // {
-  //     key: 'customer_responsiveness',
-  //     label: trans('deals.labels.customer_responsiveness'),
-  //     show: false,
-  //     locked: false,
-  //     editable: false,
-  //     sorteable: false,
-  //     filterable: false           
-  // },         
+  },       
   {
       key: 'estimated_close_date_range',
       label: trans('deals.labels.estimated_close_date'),
@@ -468,7 +428,22 @@ export const dealColumns = [
       editable: false,
       sorteable: false,
       filterable: false           
-  },  
+  },
+  {
+    key: 'next_task',
+    label: trans('global.labels.next_task'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    filter: {
+      modelValue: '',
+      type: 'input'            
+    },
+    cellKey: 'lastActivetask.id',
+    cellLabel: 'lastActivetask.name'
+  }, 
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),
