@@ -46,4 +46,14 @@ export default class DealService extends ModelService {
             }
         );
     }
+
+    public massStatusUpdate(payload) {
+        return this.post( 
+            this.url + `/update-status`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
 }

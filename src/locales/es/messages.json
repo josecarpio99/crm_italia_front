@@ -281,6 +281,7 @@
     "buttons": {
       "add": "Agregar",
       "see": "Ver",
+      "change_status": "Cambiar Status",
       "already_attended": "Ya lo atendí",
       "go_to_opportunity": "Ir a la oportunidad",
       "add_person": "Contacto: Persona",

@@ -233,6 +233,7 @@
         <div class="py-4 pl-10 bg-white">
 
           <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
+
             <div class="flex text-lg text-gray-600 gap-1">
               <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
               <span>/</span>
@@ -240,6 +241,33 @@
             </div>
 
             <div class="ml-6">
+              <VDropdown 
+                placement="right"
+              >
+                <Button 
+                  :label="trans('global.buttons.change_status')"
+                />
+    
+                <template #popper>
+                  <ul>
+                    <li 
+                      class="py-2 px-4 cursor-pointer border-2 border-green-500 text-green-500 hover:bg-gray-100"
+                      @click="handleBulkStatusUpdate('vendido')"
+                    >
+                      Vendido
+                    </li>
+                    <li 
+                      class="py-2 px-4 cursor-pointer border-2 border-red-500 text-red-500 hover:bg-gray-100"
+                      @click="handleBulkStatusUpdate('perdido')"
+                    >
+                      Perdido
+                    </li>
+                  </ul>
+                </template>
+              </VDropdown>
+            </div>
+
+            <div class="ml-4">
               <Button
                 theme="danger"
                 :label="trans('global.actions.delete')"
@@ -962,6 +990,22 @@ async function onBulkDelete() {
     };
 
     dealService.bulkDelete(data).then(function (response) {
+      toast.success();
+      fetchPage(mainQuery);
+    });
+  })
+}
+
+function handleBulkStatusUpdate(status) {
+  alertHelpers.confirmDanger(async function () {
+    page.isLoading = true;
+
+    let data = {
+      status: status,
+      deals: selectedRecords.value.map(item => item)
+    };
+
+    dealService.massStatusUpdate(data).then(function (response) {
       toast.success();
       fetchPage(mainQuery);
     });
