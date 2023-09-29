@@ -80,6 +80,26 @@
 
           </div>
 
+          <Dropdown  
+            :required="false"
+            class="mb-4 deal_source"
+            :label="trans('leads.labels.lead_source')"
+            selectLabel="name"
+            name="source" 
+            :options="sourcesStore.sourceList" 
+            v-model="form.source_id"      
+            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
+          />
+
+          <TextInput 
+            class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />
+
         </div>
       </div>
 
@@ -103,6 +123,7 @@ import {clearObject, reduceProperties} from "@/helpers/data";
 import {useAlertStore} from "@/stores";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
+import {useSourcesStore} from "@/stores/sources";
 import useVuelidate from '@vuelidate/core';
 import {
   required,
@@ -124,7 +145,9 @@ const initialState = {
   name: '',           
   email: '',
   mobile: '',
+  city: '',
   category_id: null,
+  source_id: null,
   owner_id: null
 };
 
@@ -132,6 +155,9 @@ const form = reactive({...initialState});
 
 const rules = {
   company_name: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  },
+  source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
   name: {
@@ -157,6 +183,7 @@ const leadService = new LeadService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
+const sourcesStore = useSourcesStore();
 
 const formRef = ref(null);
 const isLoading = ref(true);
@@ -175,7 +202,7 @@ function onSubmit() {
 
   leadService.convert(
       props.lead.id, 
-      reduceProperties(form, ['category_id','owner_id'], 'id')
+      reduceProperties(form, ['category_id','owner_id', 'source_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {
         router.push({name: 'customers.show', params: {id: res.data.data.id}});
@@ -193,10 +220,12 @@ onMounted( async () => {
 
   form.owner_id = users.find(option => option.id === props.lead.owner?.id);
   form.category_id = customerCategories.find(option => option.id === props.lead.category?.id);
+  form.source_id = sourcesStore.sourceList.find(option => option.id === props.lead.source?.id);
 
   form.company_name = props.lead.company_name;
   form.name = props.lead.name;
   form.email = props.lead.email;
+  form.city = props.lead.city;
   form.mobile = props.lead.mobile;
   isLoading.value = false;
 });

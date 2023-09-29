@@ -93,12 +93,7 @@
           <div v-if="customer.city" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.city') }}</h4>
             <span class="whitespace-normal">{{ customer.city }}</span>
-          </div>
-
-          <div v-if="customer.requirement" class="mb-6">
-            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
-            <span class="whitespace-normal">{{ customer.requirement }}</span>
-          </div>
+          </div>       
 
           <!-- <div v-if="customer.origin" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.origin') }}</h4>

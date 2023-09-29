@@ -102,12 +102,7 @@
           <div v-if="lead.city" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.city') }}</h4>
             <span class="whitespace-normal">{{ lead.city }}</span>
-          </div>
-
-          <div v-if="lead.requirement" class="mb-6">
-            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
-            <span class="whitespace-normal">{{ lead.requirement }}</span>
-          </div>
+          </div>         
 
           <!-- <div v-if="lead.profile" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.profile') }}</h4>
