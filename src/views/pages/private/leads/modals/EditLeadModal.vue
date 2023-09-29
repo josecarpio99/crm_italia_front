@@ -11,21 +11,19 @@
             <TextInput 
               class="mb-4" 
               type="text" 
-              :required="true" 
+              :required="false" 
               name="company_name" 
               v-model="form.company_name" 
               :label="trans('customers.labels.company_name')"
-              :errorMessage="v$.company_name.$errors.length ? v$.company_name.$errors[0].$message : ''"
             />
 
             <TextInput 
               class="mb-4" 
               type="text" 
-              :required="true" 
+              :required="false" 
               name="name" 
               v-model="form.name" 
               :label="trans('customers.labels.name')"
-              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
             />         
 
           </div>
@@ -36,31 +34,28 @@
             <TextInput 
               class="mb-4" 
               type="email" 
-              :required="true" 
+              :required="false" 
               name="email" 
               v-model="form.email" 
               :label="trans('users.labels.email')"
-              :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
             />
 
             <TextInput 
               class="mb-4 w-full " 
               type="text" 
-              :required="true" 
+              :required="false" 
               name="mobile" 
               v-model="form.mobile" 
               :label="trans('customers.labels.mobile')"
-              :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
             />          
             
             <Dropdown  
               class="mb-4 customer_category"
-              :required="true"
+              :required="false"
               :label="trans('customers.labels.category')"
               :options="leadCategories" 
               name="category" 
-              v-model="form.category_id"   
-              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"                         
+              v-model="form.category_id"                  
             /> 
 
             <Dropdown  
@@ -70,7 +65,9 @@
               selectLabel="name"
               name="owner" 
               :options="users" 
-              v-model="form.owner_id"              
+              v-model="form.owner_id"   
+              :errorMessage="v$.owner_id.$errors.length ? v$.owner_id.$errors[0].$message : ''"                         
+
             />   
 
           </div>
@@ -83,7 +80,6 @@
             name="source" 
             :options="sourcesStore.sourceList" 
             v-model="form.source_id"      
-            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
           />
 
           <TextInput 
@@ -144,24 +140,24 @@ const emit = defineEmits(['close-modal', 'updated', 'delete']);
 const form = reactive({});
 
 const rules = {
-  company_name: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  source_id: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  name: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  mobile: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
-  email: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  category_id: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
+  // company_name: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // name: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // source_id: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // mobile: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // }, 
+  // email: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // category_id: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // }, 
   owner_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   }
