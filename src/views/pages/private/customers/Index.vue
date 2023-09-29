@@ -458,7 +458,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'status' || column.key == 'branch') {
+    if (column.key == 'owner' || column.key == 'status' || column.key == 'branch' || column.key == 'source') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     }
     else if (column.key == 'star') {

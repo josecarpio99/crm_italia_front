@@ -135,6 +135,10 @@
               {{ item.owner?.name }}
             </template>
 
+            <template #cell-source="{item}">                  
+              <SourceField :value="item?.source?.name" />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -209,6 +213,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import BranchField from "@/views/components/BranchField";
+import SourceField from "@/views/components/SourceField";
 import {leadColumns} from "@/stub/columns";
 import { leadStatuses, branches } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
@@ -254,6 +259,10 @@ const mainQuery = reactive({
           value: '',
           comparison: '='
       },    
+      source: {
+          value: '',
+          comparison: '='
+      },
       branch: {
           value: '',
           comparison: '='
@@ -446,7 +455,7 @@ function updateColumnsForSmartList() {
       owner: ownerFilter, 
       // status: statusFilter, 
       name: nameFilter, 
-      // source: sourceFilter,
+      source: sourceFilter,
       created_at: createdAtFilter,
     } = smartList.definition.query.filters;
 
@@ -454,6 +463,15 @@ function updateColumnsForSmartList() {
       let nameColumn = table.columns.find(column => column.key == 'name');
       nameColumn.filter.modelValue = nameFilter.value;         
     }   
+
+    if (sourceFilter.value) {
+      let selectedSources = sourceFilter.value.split(',').map(item => {
+        return sources.find(option => option.id == item);
+      });
+      
+      let sourceColumn = table.columns.find(column => column.key == 'source');
+      sourceColumn.filter.modelValue = selectedSources;         
+    }
 
     if (createdAtFilter.value) { 
       let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
@@ -652,9 +670,13 @@ onMounted(async () => {
   smartLists = await smartListservice.index({'filter[resource_type]': 'lead'}).then(res => res.data.data);  
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
+  let sourceColumn = table.columns.find(column => column.key == 'source');
 
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;  
+
+  sourceColumn.filter.options = sources;
+  sourceColumn.edit.options = sources;
 
   page.isLoading = false;
   fetchPage(mainQuery);

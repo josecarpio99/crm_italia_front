@@ -258,6 +258,28 @@ export const leadColumns = [
     cellLabel: 'category.name'
 }, 
 {
+  key: 'source',
+  label: trans('global.labels.source'),
+  show: true,
+  locked: false,
+  sorteable: false,
+  filterable: true,
+  editable: true,
+  filter: {
+    modelValue: '',
+    type: 'multiselect',
+    options: [],
+    optionsLabel: 'name'
+  },
+  edit: {
+    type: 'list',
+    options: [],
+    optionsLabel: 'name'
+  },
+  cellKey: 'source.id',
+  cellLabel: 'source.name'
+},    
+{
     key: 'created_at',
     label: trans('global.labels.created_at'),
     show: true,
