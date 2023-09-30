@@ -323,6 +323,9 @@ function onSubmit() {
 
 function onCloseModal() {
   Object.assign(form, structuredClone(initialState));
+  if (customerId.value) {
+    form.customer_id = customers.find(item => item.id == customerId.value);
+  }
   emit('close-modal');
 }
 

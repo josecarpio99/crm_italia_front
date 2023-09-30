@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import {reactive, ref, onMounted} from "vue";
+import {reactive, ref, onMounted, computed} from "vue";
 import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
@@ -185,6 +185,13 @@ import {
   helpers
 } from '@vuelidate/validators';
 
+const props = defineProps({
+  customer_id: {
+    type: Number,
+    default: null
+  }
+});
+
 const emit = defineEmits(["close-modal"]);
 
 const dealService = new DealService();
@@ -199,6 +206,7 @@ const showCreatePersonModal = ref(false);
 const showCreateCompanyModal = ref(false);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
+const customerId = computed(() => props.customer_id);
 
 
 const initialState = {
@@ -307,6 +315,9 @@ function onSubmit() {
 
 function onCloseModal() {
   Object.assign(form, structuredClone(initialState));
+  if (customerId.value) {
+    form.customer_id = customers.find(item => item.id == customerId.value);
+  }
   emit('close-modal');
 }
 
@@ -330,6 +341,11 @@ function toggleModal(key) {
 }
 
 onMounted( async () => {
+  if (customerId.value) {
+    form.customer_id = customers.find(item => item.id == customerId.value);
+    showCustomerSection.value = false;
+  }
+
   isLoading.value = false;
 });
 

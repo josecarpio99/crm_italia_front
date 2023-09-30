@@ -123,9 +123,11 @@
     </Panel>
 
   </Page>
+  <CreateOportunidadModal v-if="customer" :customer_id="customer.id" :modalActive="showCreateOportunidadModal" @close-modal="toggleModal('showCreateOportunidadModal')"/>
+  <CreateCotizadoModal v-if="customer" :customer_id="customer.id" :modalActive="showCreateCotizadoModal" @close-modal="toggleModal('showCreateCotizadoModal')"/>
 
   <!-- <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
-  <EditCompanyModal v-if="customer" :show-delete="true" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" />
+  <EditCompanyModal v-if="customer" :show-delete="true" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal('showEditCompanyModal')" @delete="onModalDelete" />
 
 </template>
 
@@ -154,6 +156,8 @@ import Document from "@/views/components/Document";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
+import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOportunidadModal.vue";
+import CreateCotizadoModal from "@/views/pages/private/deals/modals/CreateCotizadoModal.vue";
 import EditPersonModal from "@/views/pages/private/customers/modals/EditPersonModal.vue";
 import EditCompanyModal from "@/views/pages/private/customers/modals/EditCompanyModal.vue";
 import Icon from "@/views/components/icons/Icon";
@@ -177,6 +181,8 @@ const documentService = new DocumentService();
 
 const route = useRoute();
 const showEditCompanyModal = ref(false);
+const showCreateOportunidadModal = ref(false);
+const showCreateCotizadoModal = ref(false);
 let customer = null;
 
 const page = reactive({
@@ -200,7 +206,19 @@ const page = reactive({
         id: 'edit',
         name: trans('global.actions.edit'),
         type: 'button'
-      }
+      },
+      {
+        id: 'add_oportunidad',
+        name: trans('deals.labels.add_oportunidad'),
+        theme: 'outline',
+        type: 'button'
+      },
+      {
+        id: 'add_cotizado',
+        name: trans('deals.labels.add_cotizado'),
+        theme: 'outline',
+        type: 'button'
+      },
     ]
 });
 
@@ -256,14 +274,30 @@ function onDocumentSubmit({file}) {
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
-      toggleModal();
+      toggleModal('showEditCompanyModal');
+      break;
+    case 'add_oportunidad':
+      toggleModal('showCreateOportunidadModal');
+      break;
+    case 'add_cotizado':
+      toggleModal('showCreateCotizadoModal');
       break;
   }
 }
 
-function toggleModal() {
+function toggleModal(key) {
   alertStore.clear();
-  showEditCompanyModal.value = !showEditCompanyModal.value;      
+  // showEditCompanyModal.value = !showEditCompanyModal.value;  
+  
+  if (key === 'showEditCompanyModal') {
+      showEditCompanyModal.value = !showEditCompanyModal.value;            
+  }
+  if (key === 'showCreateOportunidadModal') {
+      showCreateOportunidadModal.value = !showCreateOportunidadModal.value;
+  }
+  if (key === 'showCreateCotizadoModal') {
+      showCreateCotizadoModal.value = !showCreateCotizadoModal.value;
+  }
 
   // if (customer.is_company == 1) {
   //   showEditCompanyModal.value = !showEditCompanyModal.value;      
@@ -272,7 +306,9 @@ function toggleModal() {
   // }      
 
   if (
-    showEditCompanyModal.value == true
+    showEditCompanyModal.value == true ||
+    showCreateCotizadoModal.value == true ||
+    showCreateOportunidadModal.value == true
   ) {
       alertStore.showOnPage = false;
   } else {
