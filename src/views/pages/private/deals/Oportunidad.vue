@@ -811,6 +811,7 @@ function handleRowClick({record}) {
 }
 
 function rowClassFn(item) {
+  if (item.status != 'en proceso') return '';
   if (
     ! item.lastActiveTask || 
     dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
