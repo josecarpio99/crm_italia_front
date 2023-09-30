@@ -294,7 +294,6 @@ function onSubmit() {
   v$.value.$touch();
 
   if (v$.value.$invalid) {
-    console.log(v$);
     return true
   }
 
