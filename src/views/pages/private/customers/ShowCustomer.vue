@@ -213,12 +213,12 @@ const page = reactive({
         theme: 'outline',
         type: 'button'
       },
-      {
-        id: 'add_cotizado',
-        name: trans('deals.labels.add_cotizado'),
-        theme: 'outline',
-        type: 'button'
-      },
+      // {
+      //   id: 'add_cotizado',
+      //   name: trans('deals.labels.add_cotizado'),
+      //   theme: 'outline',
+      //   type: 'button'
+      // },
     ]
 });
 
@@ -279,9 +279,9 @@ function onPageAction(data) {
     case 'add_oportunidad':
       toggleModal('showCreateOportunidadModal');
       break;
-    case 'add_cotizado':
-      toggleModal('showCreateCotizadoModal');
-      break;
+    // case 'add_cotizado':
+    //   toggleModal('showCreateCotizadoModal');
+    //   break;
   }
 }
 
