@@ -316,7 +316,7 @@ export const dealColumns = [
   },   
   {
       key: 'name',
-      label: trans('deals.labels.company_name'),
+      label: trans('deals.labels.title'),
       show: true,
       locked: true,
       editable: true,
@@ -326,7 +326,17 @@ export const dealColumns = [
         modelValue: '',
         type: 'input'            
       }
-  },       
+  },
+  {
+    key: 'contact_name',
+    label: trans('customers.labels.name'),
+    show: true,
+    locked: true,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    cellLabel: 'customer.name'
+  }, 
   {
       key: 'branch',
       label: trans('users.labels.branch'),
@@ -496,7 +506,7 @@ export const cotizadoColumns = [
   },
   {
       key: 'name',
-      label: trans('deals.labels.company_name'),
+      label: trans('deals.labels.title'),
       show: true,
       locked: true,
       editable: true,
@@ -507,6 +517,16 @@ export const cotizadoColumns = [
         type: 'input'            
       }
   },
+  {
+    key: 'contact_name',
+    label: trans('customers.labels.name'),
+    show: true,
+    locked: true,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    cellLabel: 'customer.name'
+  }, 
   // {
   //     key: 'stage',
   //     label: trans('deals.labels.stage'),
@@ -696,7 +716,7 @@ export const oportunidadColumns = [
   },   
   {
       key: 'name',
-      label: trans('deals.labels.company_name'),
+      label: trans('deals.labels.title'),
       show: true,
       locked: true,
       editable: true,
@@ -706,7 +726,17 @@ export const oportunidadColumns = [
         modelValue: '',
         type: 'input'            
       }
-  },       
+  },  
+  {
+    key: 'contact_name',
+    label: trans('customers.labels.name'),
+    show: true,
+    locked: true,
+    editable: false,
+    sorteable: false,
+    filterable: false,
+    cellLabel: 'customer.name'
+  },    
   {
       key: 'branch',
       label: trans('users.labels.branch'),

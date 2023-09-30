@@ -14,7 +14,7 @@
               :required="false" 
               name="name" 
               v-model="form.name" 
-              :label="trans('deals.labels.company_name')"
+              :label="trans('deals.labels.title')"
               :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
             /> 
 

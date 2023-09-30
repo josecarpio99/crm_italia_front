@@ -164,15 +164,15 @@ const page = reactive({
 
 const table = reactive({ 
   columns: [
-  {
-      key: 'deal',
-      label: trans('deals.labels.company_name'),
-      show: true,
-      locked: true,
-  },   
+  // {
+  //     key: 'deal',
+  //     label: trans('deals.labels.title'),
+  //     show: true,
+  //     locked: true,
+  // },   
   {
       key: 'name',
-      label: trans('global.labels.name'),
+      label: trans('deals.labels.title'),
       show: true,
       locked: true,
       editable: false,
