@@ -23,7 +23,7 @@
               name="company_name" 
               v-model="form.company_name" 
               :label="trans('customers.labels.company_name')"
-              :errorMessage="v$.company_name.$errors.length ? v$.company_name.$errors[0].$message : ''"
+              :errorMessage="vv$.company_name.$errors.length ? vv$.company_name.$errors[0].$message : ''"
             />
 
             <TextInput 
@@ -33,7 +33,7 @@
               name="name" 
               v-model="form.name" 
               :label="trans('customers.labels.name')"
-              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+              :errorMessage="vv$.name.$errors.length ? vv$.name.$errors[0].$message : ''"
             />         
 
           </div>
@@ -48,7 +48,7 @@
               name="email" 
               v-model="form.email" 
               :label="trans('users.labels.email')"
-              :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
+              :errorMessage="vv$.email.$errors.length ? vv$.email.$errors[0].$message : ''"
             />
 
             <TextInput 
@@ -58,7 +58,7 @@
               name="mobile" 
               v-model="form.mobile" 
               :label="trans('customers.labels.mobile')"
-              :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
+              :errorMessage="vv$.mobile.$errors.length ? vv$.mobile.$errors[0].$message : ''"
             />          
             
             <Dropdown  
@@ -68,7 +68,7 @@
               :options="customerCategories" 
               name="category" 
               v-model="form.category_id"   
-              :errorMessage="v$.category_id.$errors.length ? v$.category_id.$errors[0].$message : ''"                         
+              :errorMessage="vv$.category_id.$errors.length ? vv$.category_id.$errors[0].$message : ''"                         
             /> 
 
             <Dropdown  
@@ -91,7 +91,7 @@
             name="source" 
             :options="sourcesStore.sourceList" 
             v-model="form.source_id"      
-            :errorMessage="v$.source_id.$errors.length ? v$.source_id.$errors[0].$message : ''"
+            :errorMessage="vv$.source_id.$errors.length ? vv$.source_id.$errors[0].$message : ''"
           />
 
           <TextInput 
@@ -101,14 +101,29 @@
             name="city" 
             v-model="form.city" 
             :label="trans('customers.labels.city')"
-          />          
+          />   
+          
+          <div class="flex items-center justify-end gap-2 pl-2 pt-4">
+            <input 
+              type="checkbox"
+              ref="saveAndCreateOportunidad"
+              name="saveAndCreateOportunidad"
+              id="saveAndCreateOportunidad"
+            >
+            <label for="saveAndCreateOportunidad">Guardar y crear oportunidad</label>
+          </div>
 
         </div>
       </div>
 
     </Form>
 
+    <template>
+      <CreateOportunidadModal v-if="customerId" :customer_id="customerId" :modalActive="showCreateOportunidadModal" @close-modal="handleCloseOportunidad"/>
+    </template>
   </BaseModal>
+
+
 </template>
 
 <script setup>
@@ -129,6 +144,7 @@ import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useSourcesStore} from "@/stores/sources";
 import {useCustomersStore} from "@/stores/customers";
+import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOportunidadModal.vue";
 import useVuelidate from '@vuelidate/core';
 import {
   required,
@@ -144,19 +160,21 @@ const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
+const customerId = ref(null);
 
 const formRef = ref(null);
 const isLoading = ref(true);
+const saveAndCreateOportunidad = ref(null);
+const showCreateOportunidadModal = ref(false);
 
 const initialState = {
   // is_company: 1,
   star: false,           
-  company_name: '',           
-  requirement: '',           
-  city: '',           
-  name: '',           
-  email: '',
-  mobile: '',
+  company_name: null,      
+  city: null,           
+  name: null,           
+  email: null,
+  mobile: null,
   category_id: null,
   owner_id: {
     id: authStore.user.id,
@@ -190,20 +208,23 @@ const rules = {
   }
 }
 
-const v$ = useVuelidate(rules, form);
+const vv$ = useVuelidate(rules, form);
 
 let users = usersStore.userList;
 
 function onSubmit() { 
+  let createOportunidad = saveAndCreateOportunidad.value.checked;
+  // return;
   alertStore.clear();
 
-  v$.value.$touch();
+  vv$.value.$touch();
 
-  if (v$.value.$invalid) {
-    return true
+  if (vv$.value.$invalid) {
+    console.log(vv$);
+    return true;
   }
 
-  v$.value.$reset();
+  vv$.value.$reset();
 
   customerService.handleCreate(
       'create-company', 
@@ -215,8 +236,17 @@ function onSubmit() {
           id: res.data.data.id,
           name: res.data.data.name,
         });
-        emit('close-modal');
-        router.push({name: 'customers.show', params: {id: res.data.data.id}});
+
+        
+        if (createOportunidad) {
+          customerId.value = res.data.data.id;
+          showCreateOportunidadModal.value = true;
+        } else {
+          emit('close-modal');
+          router.push({name: 'customers.show', params: {id: res.data.data.id}});
+        }
+        // emit('close-modal');
+
     }
   })
   
@@ -225,6 +255,11 @@ function onSubmit() {
 
 function onCloseModal() {
   Object.assign(form, initialState);
+  emit('close-modal');
+}
+
+function handleCloseOportunidad() {
+  showCreateOportunidadModal.value = false;
   emit('close-modal');
 }
 

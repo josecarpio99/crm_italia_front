@@ -133,10 +133,10 @@ const formRef = ref(null);
 const isLoading = ref(true);
 
 const initialState = {
-  company_name: '',           
-  name: '',           
-  email: '',
-  mobile: '',
+  company_name: null,           
+  name: null,           
+  email: null,
+  mobile: null,
   category_id: null,
   source_id: null,
   owner_id: {
