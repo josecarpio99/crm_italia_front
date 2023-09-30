@@ -20,7 +20,7 @@
                   :class="{'border-blue-300': !route.params.id}"
                   :to="{name: 'deals.list'}"
                 >
-                  <h4 class="text-2xl">{{ trans('global.pages.oportunidad') }}</h4>
+                  <h4 class="text-2xl">{{ trans('global.pages.publicity') }}</h4>
                 </router-link>
 
             </div>
