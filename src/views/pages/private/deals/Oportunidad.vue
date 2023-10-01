@@ -205,10 +205,10 @@
             <TextInput
               class="flex items-center gap-2 w-64"
               type="text" 
-              name="name" 
+              name="global-search" 
               label="Buscar"
-              v-model="mainQuery.filters.search.value"
-            />            
+              @update:modelValue="setSearchQueryValue"
+            />             
           </div>
         </div>
       </template>
@@ -356,7 +356,7 @@ import BranchField from "@/views/components/BranchField";
 import NextTaskField from "@/views/components/NextTaskField";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
-import {clearObject, removeEmpty, numberFormatter} from "@/helpers/data";
+import {clearObject, removeEmpty, numberFormatter, debounce} from "@/helpers/data";
 import {oportunidadColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
@@ -457,6 +457,7 @@ const table = reactive({
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
+const setSearchQueryValue = debounce(value => mainQuery.filters.search.value = value, 400);
 
 function onTableSort(params) {
   mainQuery.sort = params;

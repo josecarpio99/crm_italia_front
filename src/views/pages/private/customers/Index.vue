@@ -65,9 +65,9 @@
             <TextInput
               class="flex items-center gap-2 w-64"
               type="text" 
-              name="name" 
+              name="global-search" 
               label="Buscar"
-              v-model="mainQuery.filters.search.value"
+              @update:modelValue="setSearchQueryValue"
             />            
           </div>
         </div>
@@ -257,7 +257,8 @@ import {customerCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
 import { customerStatuses, customerStarStatus, branches } from "@/stub/statuses";
 import { PAGE_LIMIT } from "@/stub/constans";
-import {clearObject, removeEmpty} from "@/helpers/data";
+import {clearObject, removeEmpty, debounce} from "@/helpers/data";
+// import debounce from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useSourcesStore} from "@/stores/sources";
@@ -278,6 +279,7 @@ let users = usersStore.userList;
 let sources = sourcesStore.sourceList;
 let smartList = null;
 let smartLists =  [];
+
 
 const mainQuery = reactive({
   page: 1,
@@ -365,7 +367,8 @@ const table = reactive({
 });
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
-const selectedRecords = computed(() => table.records.filter(item => item.selected))
+const selectedRecords = computed(() => table.records.filter(item => item.selected));
+const setSearchQueryValue = debounce(value => mainQuery.filters.search.value = value, 400);
 
 function onTableSort(params) {
   mainQuery.sort = params;

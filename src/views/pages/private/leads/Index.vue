@@ -65,10 +65,10 @@
             <TextInput
               class="flex items-center gap-2 w-64"
               type="text" 
-              name="name" 
+              name="global-search" 
               label="Buscar"
-              v-model="mainQuery.filters.search.value"
-            />            
+              @update:modelValue="setSearchQueryValue"
+            />             
           </div>
         </div>
       </template>
@@ -252,7 +252,7 @@ import {leadColumns} from "@/stub/columns";
 import { leadStatuses, branches } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
-import {clearObject, removeEmpty} from "@/helpers/data";
+import {clearObject, removeEmpty, debounce} from "@/helpers/data";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
@@ -340,6 +340,7 @@ const table = reactive({
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
+const setSearchQueryValue = debounce(value => mainQuery.filters.search.value = value, 400);
 
 
 function onTableSort(params) {
