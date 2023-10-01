@@ -192,11 +192,23 @@
               <span>{{ table.pagination.meta.total }}</span>
             </div>
 
-            <div class="ml-6">
+            <div v-if="!page.isLoading" class="ml-6 flex items-center gap-2">
               <Button
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"
+              />
+
+              <Button
+                theme="outline_success"
+                :label="trans('deals.labels.update_won')"
+                @click="handleBulkStatusUpdate('ganado')"
+              />
+
+              <Button
+                theme="outline_danger"
+                :label="trans('deals.labels.update_lost')"
+                @click="handleBulkStatusUpdate('perdido')"
               />
             </div>
           </div>
@@ -878,6 +890,22 @@ async function onBulkDelete() {
     };
 
     dealService.bulkDelete(data).then(function (response) {
+      toast.success();
+      fetchPage(mainQuery);
+    });
+  })
+}
+
+function handleBulkStatusUpdate(status) {
+  alertHelpers.confirmDanger(async function () {
+    page.isLoading = true;
+
+    let data = {
+      status: status,
+      deals: selectedRecords.value.map(item => item)
+    };
+
+    dealService.massStatusUpdate(data).then(function (response) {
       toast.success();
       fetchPage(mainQuery);
     });

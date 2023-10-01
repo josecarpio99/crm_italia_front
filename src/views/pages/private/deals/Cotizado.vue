@@ -240,7 +240,7 @@
               <span>{{ table.pagination.meta.total }}</span>
             </div>
 
-            <div class="ml-6">
+            <!-- <div class="ml-6">
               <VDropdown 
                 placement="right"
               >
@@ -265,13 +265,25 @@
                   </ul>
                 </template>
               </VDropdown>
-            </div>
+            </div> -->
 
-            <div class="ml-4">
+            <div v-if="!page.isLoading" class="ml-6 flex items-center gap-2">
               <Button
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"
+              />
+
+              <Button
+                theme="outline_success"
+                :label="trans('deals.labels.update_won')"
+                @click="handleBulkStatusUpdate('ganado')"
+              />
+
+              <Button
+                theme="outline_danger"
+                :label="trans('deals.labels.update_lost')"
+                @click="handleBulkStatusUpdate('perdido')"
               />
             </div>
           </div>
