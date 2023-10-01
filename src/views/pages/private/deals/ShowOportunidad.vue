@@ -13,7 +13,7 @@
 
             <Button v-if="action.hasOwnProperty('to') && action.to" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :to="action.to" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
 
-            <Button v-else @click="onPageAction({action: action})" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name" v-tooltip.right="trans('deals.phrases.convert_oportunidad')" />
+            <Button v-else @click="onPageAction({action: action})" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name" v-tooltip.right="action.tooltip" />
         </slot>
       </div>
     </template>
@@ -220,7 +220,8 @@ const page = reactive({
         id: 'convert',
         name: trans('global.actions.convert'),
         type: 'button',
-        theme: 'outline'
+        theme: 'outline',
+        tooltip: trans('deals.phrases.convert_oportunidad')
       },
     ]
 });
