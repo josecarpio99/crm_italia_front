@@ -148,6 +148,7 @@
       "add_oportunidad": "Agregar oportunidad", 
       "add_cotizado": "Agregar cotización", 
       "edit_cotizado": "Editar cotización", 
+      "convert_oportunidad": "Convertir a Oportunidad", 
       "add_deal": "Agregar trato", 
       "total_deals": "Total de registros", 
       "value_total": "Valor total", 

@@ -209,7 +209,7 @@ const page = reactive({
       },
       {
         id: 'add_oportunidad',
-        name: trans('deals.labels.add_oportunidad'),
+        name: trans('deals.labels.convert_oportunidad'),
         theme: 'outline',
         type: 'button'
       },
