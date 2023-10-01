@@ -148,6 +148,8 @@
       "add_oportunidad": "Agregar oportunidad", 
       "add_cotizado": "Agregar cotización", 
       "edit_cotizado": "Editar cotización", 
+      "update_won": "Cambiar a Ganado", 
+      "update_lost": "Cambiar a Perdido", 
       "convert_oportunidad": "Convertir a Oportunidad", 
       "add_deal": "Agregar trato", 
       "total_deals": "Total de registros", 

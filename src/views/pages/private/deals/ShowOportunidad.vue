@@ -41,6 +41,11 @@
             />
           </div>
 
+          <div v-if="deal.status" class="mb-6">
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.cotizado_status') }}</h4>
+            <DealStatusField :value="deal.status" />
+          </div>  
+
           <div v-if="deal.category" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.category') }}</h4>
             <DealCategoryField :value="deal?.category?.name" />
@@ -121,7 +126,7 @@
 
   </Page>
 
-  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditDealModal')" @delete="onModalDelete" />
+  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditDealModal')" @delete="onModalDelete" :key="modalKey" />
   <ConvertOportunidadModal v-if="deal" :modalActive="showConvertDealModal" :deal="deal" @close-modal="toggleModal('ConvertDealModal')" />
 
 </template>
@@ -152,6 +157,7 @@ import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
 import ResponseTimeField from "@/views/components/ResponseTimeField";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import DealStatusField from "@/views/components/DealStatusField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import AssociatedContact from "@/views/components/AssociatedContact";
 import Task from "@/views/components/task/Task";
@@ -182,6 +188,7 @@ const documentService = new DocumentService();
 const route = useRoute();
 const showEditDealModal = ref(false);
 const showConvertDealModal = ref(false);
+const modalKey = ref(0);
 
 let deal = null;
 
@@ -275,6 +282,12 @@ function onPageAction(data) {
     case 'convert':
       toggleModal('ConvertDealModal');
       break;
+    case 'update_won':
+      updateStatus('ganado');
+      break;
+    case 'update_lost':
+      updateStatus('perdido');
+      break;
   }
 }
 
@@ -299,8 +312,47 @@ function toggleModal(key) {
   }
 }
 
-function onModalUpdate() {
-  fetchRecord();
+async function onModalUpdate() {  
+  await fetchRecord();
+  console.log(deal.status);
+  if (deal.status == 'en proceso' && page.actions.length == 2) {
+    page.actions.push(
+      {      
+        id: 'update_won',
+        theme: 'outline_success',
+        name: trans('deals.labels.update_won'),
+        type: 'button'      
+      }
+    );
+    page.actions.push(
+      {      
+        id: 'update_lost',
+        theme: 'outline_danger',
+        name: trans('deals.labels.update_lost'),
+        type: 'button'      
+      }
+    );
+  }
+}
+
+function updateStatus(status) {
+  alertHelpers.confirmDanger(function () {
+    page.actions.pop();
+    page.actions.pop();
+  
+    page.loading = true;
+    let data = {
+      name: deal.name,
+      status: status
+    }
+
+    dealService.update(deal.id, data).then(async function (response) {
+      toast.success();
+      await fetchRecord();
+      modalKey.value++;
+      
+    });
+  });
 }
 
 function onModalDelete() {
@@ -326,7 +378,7 @@ function answered() {
 
 async function fetchRecord() {
   page.loading = true;
-  dealService.find(route.params.id).then((response) => {
+  return dealService.find(route.params.id).then((response) => {
     deal = response.data.data;
     taskStore.tasks = deal.tasks;
     noteStore.notes = deal.notes;
@@ -363,7 +415,26 @@ function setIntervalFn() {
 }
 
 onBeforeMount(async () => {  
-  const res = await fetchRecord();
+  await fetchRecord();  
+
+  if (deal.status == 'en proceso') {
+    page.actions.push(
+      {      
+        id: 'update_won',
+        theme: 'outline_success',
+        name: trans('deals.labels.update_won'),
+        type: 'button'      
+      }
+    );
+    page.actions.push(
+      {      
+        id: 'update_lost',
+        theme: 'outline_danger',
+        name: trans('deals.labels.update_lost'),
+        type: 'button'      
+      }
+    );
+  }
 });
 
 onUnmounted(() => {

@@ -226,7 +226,7 @@ export default defineComponent({
 div[data-value="AAA - Corporativos e Industrias"] .vs__selected,
 div[data-value="de 0 a 3 meses"] .vs__selected,
 div[data-value="Prospección"] .vs__selected,
-div[data-value="Vendido"] .vs__selected
+div[data-value="Ganado"] .vs__selected
 {
     @apply bg-green-300;
     @apply text-gray-600;

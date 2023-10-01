@@ -70,6 +70,12 @@ export default defineComponent({
                 case 'outline':
                     value += 'text-theme-500 border-[1px] border-theme-500 border-solid hover:bg-theme-600 hover:text-white hover:border-transparent'
                     break;
+                case 'outline_success':
+                    value += 'border-2 border-green-500 border-solid hover:bg-green-600 hover:text-white hover:border-transparent'
+                    break;
+                case 'outline_danger':
+                    value += 'border-2 border-red-500 border-solid hover:bg-red-600 hover:text-white hover:border-transparent'
+                    break;
                 case 'transparent':
                     value += 'text-blue-600 bg-transparent hover:bg-gray-200'
                     break;        

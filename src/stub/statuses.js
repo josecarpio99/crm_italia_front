@@ -200,8 +200,8 @@ export const customerStarStatus = [
 
 export const dealStatus = [
   {
-    id: 'vendido',
-    label: 'Vendido',
+    id: 'ganado',
+    label: 'Ganado',
   },  
   {
     id: 'perdido',
