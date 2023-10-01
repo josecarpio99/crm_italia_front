@@ -23,7 +23,7 @@
               class="mb-4" 
               :required="false"           
               :label="trans('deals.labels.main_contact')"
-              :options="customers" 
+              :options="customerList" 
               selectLabel="name"
               name="customer" 
               v-model="form.customer_id"    
@@ -138,6 +138,7 @@ import {
   maxLength,  
   helpers
 } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({  
   deal: {
@@ -188,8 +189,9 @@ const sourcesStore = useSourcesStore();
 const formRef = ref(null);
 const isLoading = ref(true);
 
+const { customerList } = storeToRefs(customersStore);
+
 let users = usersStore.userList;
-let customers = customersStore.customerList;
 let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
@@ -228,7 +230,7 @@ onMounted( async () => {
   Object.assign(form, props.deal);
   
   form.status = dealStatus.find(option => option.id === form.status);
-  form.customer_id = customers.find(option => option.id === form.customer?.id);
+  form.customer_id = customerList.value.find(option => option.id === form.customer?.id);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);
   form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === form.estimated_close_date_range);

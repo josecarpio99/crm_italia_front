@@ -237,6 +237,7 @@ function onSubmit() {
           name: res.data.data.name,
         });
 
+        customersStore.getCustomerList();
         
         if (createOportunidad) {
           customerId.value = res.data.data.id;

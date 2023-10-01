@@ -88,7 +88,7 @@
         class="mb-4" 
         :required="false"           
         :label="trans('deals.labels.main_contact')"
-        :options="customers" 
+        :options="customerList" 
         selectLabel="name"
         name="customer" 
         v-model="form.customer_id" 
@@ -184,6 +184,7 @@ import {
   maxLength,  
   helpers
 } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
   customer_id: {
@@ -208,6 +209,7 @@ const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
 const customerId = computed(() => props.customer_id);
 
+const { customerList } = storeToRefs(customersStore);
 
 const initialState = {
   type: 'cotizado',    
@@ -278,7 +280,6 @@ const rules = {
 const v$ = useVuelidate(rules, form);
 
 let users = usersStore.userList;
-let customers = customersStore.customerList;
 let sources = sourcesStore.sourceList;
 
 function onSubmit() {  
@@ -316,7 +317,7 @@ function onSubmit() {
 function onCloseModal() {
   Object.assign(form, structuredClone(initialState));
   if (customerId.value) {
-    form.customer_id = customers.find(item => item.id == customerId.value);
+    form.customer_id = customerList.value.find(item => item.id == customerId.value);
   }
   emit('close-modal');
 }
@@ -342,7 +343,7 @@ function toggleModal(key) {
 
 onMounted( async () => {
   if (customerId.value) {
-    form.customer_id = customers.find(item => item.id == customerId.value);
+    form.customer_id = customerList.value.find(item => item.id == customerId.value);
     showCustomerSection.value = false;
   }
 
