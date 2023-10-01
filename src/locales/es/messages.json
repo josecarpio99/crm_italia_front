@@ -168,6 +168,8 @@
       "created_at": "Agregado el",
       "customer_responsiveness": "¿Que Tan Responsivo Notas al Cliente?",
       "name": "Nombre del trato",
+      "cotizado_name": "Nombre De La Cotización",
+      "oportunidad_name": "Nombre De La Oportunidad",
       "stage_moved_at": "Movido a esta fase el",
       "estimated_close_date": "Fecha de cierre prevista",
       "estimated_size": "Tamaño Estimado del Proyecto (Antes de Cotizar)",
@@ -316,7 +318,7 @@
     },
     "actions": {
       "name": "Acciones",
-      "edit": "Editar",
+      "edit": "Actualizar",
       "delete": "Borrar",
       "convert": "Convertir"
     },

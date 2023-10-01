@@ -316,7 +316,7 @@ export const dealColumns = [
   },   
   {
       key: 'name',
-      label: trans('deals.labels.title'),
+      label: trans('global.labels.name'),
       show: true,
       locked: true,
       editable: true,
@@ -506,7 +506,7 @@ export const cotizadoColumns = [
   },
   {
       key: 'name',
-      label: trans('deals.labels.title'),
+      label: trans('deals.labels.cotizado_name'),
       show: true,
       locked: true,
       editable: true,
@@ -716,7 +716,7 @@ export const oportunidadColumns = [
   },   
   {
       key: 'name',
-      label: trans('deals.labels.title'),
+      label: trans('deals.labels.oportunidad_name'),
       show: true,
       locked: true,
       editable: true,
