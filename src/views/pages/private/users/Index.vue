@@ -1,5 +1,10 @@
 <template>
-    <Page :title="page.title" :breadcrumbs="page.breadcrumbs" :actions="page.actions" @action="onPageAction">      
+    <Page 
+    :title="page.title" 
+    :breadcrumbs="page.breadcrumbs" 
+    :actions="page.actions" 
+    @action="onPageAction"
+    >      
         <template #default>
             <Table :id="page.id" v-if="table && table.records" :columns="table.columns" :actions="table.actions" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @cell-change="onCellChange" :clickeable-row="table.clickeableRow" @row-click="handleRowClick" @scroll-end="onScrollEnd" :infinite-scroll="true">
               

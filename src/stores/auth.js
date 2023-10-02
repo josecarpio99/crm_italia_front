@@ -85,6 +85,7 @@ export const useAuthStore = defineStore("auth", {
                         this.user = null;
                         if (router.currentRoute.name !== "login") {
                             router.push({path: "/login"});
+                            window.location.reload();
                             console.log('logout...');
                         }
                         resolve(response)
