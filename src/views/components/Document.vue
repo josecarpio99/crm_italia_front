@@ -31,7 +31,8 @@
 
   <Modal :is-showing="showModal" @close="showModal = false;">
     <Panel :title="'Subir documento'">
-        <form @submit.prevent="onSubmit">
+        <span class="text-gray-600 font-semibold">Máximo: 40MB</span>
+        <form @submit.prevent="onSubmit">            
             <FileInput name="file" :required="true" :label="trans('global.labels.document')" v-model="form.file" @clear="form.file = ''" class="mb-4"></FileInput>
             <Button :label="trans('global.buttons.upload')" :disabled="!form.file" />
         </form>
@@ -69,6 +70,11 @@ const form = reactive({
 })
 
 function onSubmit() {
+  let maxMbSize = (1024 * 1024) * 40;
+  if (form.file.size > maxMbSize) {
+    alert('El tamaño del archivo no debe ser mayor a 40MB');
+    return;
+  }
   emit('submit', {file: form.file});
   form.file = null;
 }
