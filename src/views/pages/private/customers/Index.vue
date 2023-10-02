@@ -346,7 +346,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: customerColumns,           
+  columns: [],           
   pagination: {
       meta: null,
       links: null,
@@ -365,6 +365,8 @@ const table = reactive({
   clickeableRow: true,
   records: []  
 });
+
+Object.assign(table.columns, structuredClone(customerColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected));
@@ -777,6 +779,7 @@ watch(mainQuery, (newTableState) => {
 
 onMounted(async () => {
   page.isLoading = true;
+
   if (!route.params.id) {
     page.title = trans('global.pages.customers');
   } else {

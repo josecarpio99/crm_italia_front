@@ -463,7 +463,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: dealColumns,           
+  columns: [],           
   pagination: {
       meta: null,
       links: null,
@@ -472,6 +472,8 @@ const table = reactive({
   clickeableRow: true,
   records: []  
 })  
+
+Object.assign(table.columns, structuredClone(dealColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
