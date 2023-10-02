@@ -255,7 +255,7 @@ export const leadColumns = [
     show: true,
     locked: false,
     sorteable: false,
-    filterable: false,
+    filterable: true,
     editable: false,
     filter: {
       modelValue: '',

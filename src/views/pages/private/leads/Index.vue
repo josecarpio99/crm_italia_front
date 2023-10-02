@@ -257,6 +257,7 @@ import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
+import {leadCategories} from "@/stub/categories";
 
 const route = useRoute();
 const leadService = new LeadService();
@@ -302,6 +303,10 @@ const mainQuery = reactive({
           comparison: '='
       },    
       owner: {
+          value: '',
+          comparison: '='
+      },
+      category: {
           value: '',
           comparison: '='
       },
@@ -453,8 +458,6 @@ function onTableFilter({column, value}) {
       || column.key == 'branch'
       ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
-    } else if (column.key == 'category') {
-      mainQuery.filters['category_id'].value = value || null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
     }
@@ -497,7 +500,16 @@ function updateColumnsForSmartList() {
       name: nameFilter, 
       source: sourceFilter,
       created_at: createdAtFilter,
+      category: categoryFilter,
+
     } = smartList.definition.query.filters;
+
+    if (categoryFilter.value) {  
+      let selectedcategory = leadCategories.find(option => option.id == categoryFilter.value.id);
+      
+      let categoryColumn = table.columns.find(column => column.key == 'category');
+      categoryColumn.filter.modelValue = selectedcategory;         
+    }
 
     if (nameFilter.value) {      
       let nameColumn = table.columns.find(column => column.key == 'name');
