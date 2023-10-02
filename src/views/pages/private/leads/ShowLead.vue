@@ -66,7 +66,7 @@
           <div v-if="lead.source" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.source') }}</h4>
             <SourceField :value="lead?.source?.name" />
-          </div> 
+          </div>           
 
           <!-- <div v-if="lead.position" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.position') }}</h4>
@@ -102,22 +102,12 @@
           <div v-if="lead.city" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.city') }}</h4>
             <span class="whitespace-normal">{{ lead.city }}</span>
-          </div>         
-
-          <!-- <div v-if="lead.profile" class="mb-6">
-            <h4 class="font-semibold">{{ trans('leads.labels.profile') }}</h4>
-            <span>{{ lead.profile }}</span>
-          </div>
+          </div>          
 
           <div v-if="lead.requirement" class="mb-6">
-            <h4 class="font-semibold">{{ trans('leads.labels.requirement') }}</h4>
-            <span>{{ lead.requirement }}</span>
+            <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>
+            <span class="whitespace-normal">{{ lead.requirement }}</span>
           </div>
-
-          <div v-if="lead.quotation_list" class="mb-6">
-            <h4 class="font-semibold">{{ trans('leads.labels.quotation_list') }}</h4>
-            <span>{{ lead.quotation_list }}</span>
-          </div> -->
           
         </div>
         <div class="basis-[120%] border-r-2 overflow-auto pt-2 px-4">

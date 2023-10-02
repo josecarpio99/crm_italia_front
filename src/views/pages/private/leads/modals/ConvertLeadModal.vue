@@ -130,6 +130,7 @@ import {
   maxLength,  
   helpers
 } from '@vuelidate/validators';
+import {useCustomersStore} from "@/stores/customers";
 
 const emit = defineEmits(["close-modal"]);
 
@@ -139,6 +140,8 @@ const props = defineProps({
     type: Object
   }
 });
+
+const customersStore = useCustomersStore();
 
 const initialState = {
   company_name: '',           
@@ -205,6 +208,7 @@ function onSubmit() {
       reduceProperties(form, ['category_id','owner_id', 'source_id'], 'id')
     ).then((res) => {                
     if (res?.status == 200 || res?.status == 201) {
+        customersStore.getCustomerList();
         router.push({name: 'customers.show', params: {id: res.data.data.id}});
     }
   })

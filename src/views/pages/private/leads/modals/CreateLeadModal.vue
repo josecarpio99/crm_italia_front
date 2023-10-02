@@ -87,7 +87,16 @@
             name="city" 
             v-model="form.city" 
             :label="trans('customers.labels.city')"
-          />          
+          />   
+          
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
 
         </div>
       </div>
@@ -139,6 +148,7 @@ const initialState = {
   mobile: null,
   category_id: null,
   source_id: null,
+  requirement: null,
   owner_id: {
     id: authStore.user.id,
     name: authStore.user.name,
