@@ -379,6 +379,7 @@ import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
+import {dealCategories} from "@/stub/categories";
 
 const route = useRoute();
 const dealService = new DealService();
@@ -433,6 +434,10 @@ const mainQuery = reactive({
           comparison: '='
       },
       value: {
+          value: '',
+          comparison: '='
+      },
+      category: {
           value: '',
           comparison: '='
       },
@@ -644,7 +649,15 @@ function updateColumnsForSmartList() {
     name: nameFilter,
     created_at: createdAtFilter,
     value: valueFilter,
+    category: categoryFilter,
   } = smartList.definition.query.filters;
+
+  if (categoryFilter.value) {  
+    let selectedcategory = dealCategories.find(option => option.id == categoryFilter.value.id);
+    
+    let categoryColumn = table.columns.find(column => column.key == 'category');
+    categoryColumn.filter.modelValue = selectedcategory;         
+  }
 
   if (nameFilter.value) {      
     let nameColumn = table.columns.find(column => column.key == 'name');

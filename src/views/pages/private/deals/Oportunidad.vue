@@ -377,11 +377,12 @@ import {clearObject, removeEmpty, numberFormatter, debounce} from "@/helpers/dat
 import {oportunidadColumns} from "@/stub/columns";
 import { datesFilter } from "@/stub/date";
 import { PAGE_LIMIT } from "@/stub/constans";
-import { branches } from "@/stub/statuses";
+import { branches, dealStatus } from "@/stub/statuses";
 import {useUsersStore} from "@/stores/users";
 import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
+import {dealCategories} from "@/stub/categories";
 
 const route = useRoute();
 const dealService = new DealService();
@@ -436,6 +437,10 @@ const mainQuery = reactive({
           comparison: '='
       },
       value: {
+          value: '',
+          comparison: '='
+      },
+      category: {
           value: '',
           comparison: '='
       },
@@ -601,8 +606,6 @@ function onTableFilter({column, value}) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
-    } else if (column.key == 'category') {
-      mainQuery.filters['category_id'].value = value || null;
     } else if (column.key == 'value') {  
       let newValue = (!value.minValue && !value.maxValue) ? null : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
       mainQuery.filters['value'].value = newValue;
@@ -647,7 +650,16 @@ function updateColumnsForSmartList() {
     name: nameFilter,
     created_at: createdAtFilter,
     value: valueFilter,
+    category: categoryFilter,
+
   } = smartList.definition.query.filters;
+
+  if (categoryFilter.value) {  
+    let selectedcategory = dealCategories.find(option => option.id == categoryFilter.value.id);
+    
+    let categoryColumn = table.columns.find(column => column.key == 'category');
+    categoryColumn.filter.modelValue = selectedcategory;         
+  }
 
   if (nameFilter.value) {      
     let nameColumn = table.columns.find(column => column.key == 'name');
