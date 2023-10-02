@@ -12,7 +12,7 @@
               class="mb-4"
               v-model="form.star" 
               iconClass="h-6 w-6"  
-              :label="trans('customers.labels.star')"
+              :label="trans('customers.labels.key_contact')"
               :showLabel="true"
             />
 
