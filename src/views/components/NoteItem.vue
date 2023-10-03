@@ -43,7 +43,7 @@
           <span :class="{'group-hover:hidden': !showEdit}">{{ $date(note.created_at).format('DD-MM-YYYY HH:mm A') }}</span>
         </div>
       </div>
-      <div v-if="!showEdit" class="my-2 text-gray-600">
+      <div v-if="!showEdit" class="my-2 text-gray-600 whitespace-normal">
         {{ note.content }}
       </div>
       
