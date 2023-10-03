@@ -51,7 +51,7 @@
         <textarea 
           v-model="note.content" 
           ref="textareaEl" 
-          class="bg-inherit text-sm text-gray-700 h-24 max-h-40 border-none w-full resize-none p-0 focus:ring-0"
+          class="bg-inherit text-sm text-gray-700 h-40 max-h-40 border-none w-full resize-none p-0 focus:ring-0"
           @input="resize()"
         >
         </textarea>
