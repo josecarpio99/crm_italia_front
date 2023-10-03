@@ -119,6 +119,7 @@
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <AssociatedContact :customer="deal.customer" />
           <Task @submit="onTaskSubmit" />
+          <DealFlow :deal="deal" />
           <Document @submit="onDocumentSubmit" />
         </div>
       </div>
@@ -160,6 +161,7 @@ import DealCategoryField from "@/views/components/DealCategoryField";
 import DealStatusField from "@/views/components/DealStatusField";
 import EstimatedCloseDateRangeField from "@/views/components/EstimatedCloseDateRangeField";
 import AssociatedContact from "@/views/components/AssociatedContact";
+import DealFlow from "@/views/components/DealFlow";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Countup from "@/views/components/Countup";
