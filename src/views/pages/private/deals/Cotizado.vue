@@ -98,7 +98,7 @@
             
             <div class="flex flex-col items-center">
               <span class="font-bold text-lg text-gray-600">Total Cotizado</span>
-              <span class="font-semibold text-2xl text-gray-500">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</span>
+              <span class="font-semibold text-2xl text-gray-500">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-bold text-lg text-gray-600">Número Cotizaciones</span>
@@ -111,7 +111,7 @@
 
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">De las cuales AGS.</span>
-              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">Número Cotizaciones</span>
@@ -124,7 +124,7 @@
 
           <div class="flex flex-col items-center">
             <span class="font-bold text-sm text-gray-700">De las cuales CDMX.</span>
-            <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
+            <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
           </div>
           <div class="flex flex-col items-center">
             <span class="font-bold text-sm text-gray-700">Número Cotizaciones</span>
@@ -137,7 +137,7 @@
 
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">De las cuales MTY.</span>
-              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">Número Cotizaciones</span>
@@ -150,7 +150,7 @@
 
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">De las cuales QRO.</span>
-              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
+              <span class="font-bold text-lg text-gray-500">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex flex-col items-center">
               <span class="font-bold text-sm text-gray-700">Número Cotizaciones</span>
@@ -164,7 +164,7 @@
           <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
             <div class="flex items-center">
               <span class="">Total cotizado</span>
-              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.valueSum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex items-center">
               <span class="">Número cotizaciones</span>
@@ -177,7 +177,7 @@
           <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
             <div class="flex items-center">
               <span class="">De las cuales AGS</span>
-              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.AGS.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex items-center">
               <span class="">Número cotizaciones</span>
@@ -190,7 +190,7 @@
           <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
             <div class="flex items-center">
               <span class="">De las cuales CDMX</span>
-              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.CDMX.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex items-center">
               <span class="">Número cotizaciones</span>
@@ -203,7 +203,7 @@
           <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
             <div class="flex items-center">
               <span class="">De las cuales MTY</span>
-              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.MTY.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex items-center">
               <span class="">Número cotizaciones</span>
@@ -216,7 +216,7 @@
           <div class="flex ml-14 gap-6 text-sm uppercase  text-gray-600 tracking-tight">
             <div class="flex items-center">
               <span class="">De las cuales QRO</span>
-              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US') }}</span>
+              <span class="ml-2 text-xl font-semibold text-gray-500 tracking-tight">{{ '$' + table.pagination.meta.branch.QRO.sum.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}</span>
             </div>
             <div class="flex items-center">
               <span class="">Número cotizaciones</span>
