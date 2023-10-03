@@ -43,12 +43,18 @@
           <span :class="{'group-hover:hidden': !showEdit}">{{ $date(note.created_at).format('DD-MM-YYYY HH:mm A') }}</span>
         </div>
       </div>
-      <div v-if="!showEdit" class="my-2 text-gray-600 whitespace-normal">
+      <div v-if="!showEdit" class="my-2 text-gray-600 whitespace-normal max-h-40 overflow-y-scroll">
         {{ note.content }}
       </div>
       
       <div v-else="showEdit" class="bg-[#fff7ed] py-2 px-4 rounded-md">
-        <textarea v-model="note.content" ref="textareaEl" class="bg-inherit text-sm text-gray-700 border-none w-full resize-none p-0 focus:ring-0"></textarea>
+        <textarea 
+          v-model="note.content" 
+          ref="textareaEl" 
+          class="bg-inherit text-sm text-gray-700 h-24 max-h-40 border-none w-full resize-none p-0 focus:ring-0"
+          @input="resize()"
+        >
+        </textarea>
         <div class="">
           <div class="text-right">
             <Button
@@ -61,7 +67,7 @@
 
             <Button
               theme="info"
-              :label="trans('global.buttons.add')"
+              :label="trans('global.buttons.update')"
               @click="onSubmit"
             />
           </div>
@@ -123,6 +129,10 @@ function deleteNote() {
         }
       });
   });
+}
+
+function resize() {
+  textareaEl.value.style.height = textareaEl.value.scrollHeight + "px";
 }
 </script>
 

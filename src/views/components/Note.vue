@@ -11,7 +11,13 @@
       {{ trans('customers.phrases.add_note') }}
     </p>
     <div v-if="isOpen">
-      <textarea v-model="content" ref="textareaEl" class="bg-inherit text-sm text-gray-700 border-none w-full resize-none p-0 focus:ring-0"></textarea>
+      <textarea 
+        v-model="content" 
+        ref="textareaEl" 
+        class="bg-inherit text-sm text-gray-700 max-h-40 border-none w-full resize-none p-0 focus:ring-0"
+        @input="resize()"
+      >
+      </textarea>
       <div class="">
         <div class="text-right">
           <Button
@@ -60,6 +66,11 @@ function onSubmit() {
   isOpen.value = false;
   emit('submit', {content: content.value});
   content.value = '';
+}
+
+function resize() {
+  textareaEl.value.style.height = "18px";
+  textareaEl.value.style.height = textareaEl.value.scrollHeight + "px";
 }
 </script>
 
