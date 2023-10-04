@@ -4,11 +4,11 @@ export default class SearchService extends ModelService {
 
     constructor() {
         super();
-        this.url = '/v1/search';
+        this.url = 'v1/search';
     }
 
     public search(phrase) {
-        return this.get(this.url + `/?search=${phrase}`);
+        return this.get(this.url + `?search=${phrase}`);
     }
 
 }
