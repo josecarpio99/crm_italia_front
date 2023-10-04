@@ -1,16 +1,14 @@
-import BaseService from "@/services/BaseService";
-import axios from "axios";
+import ModelService from "@/services/ModelService";
 
-export default class SearchService extends BaseService {
+export default class SearchService extends ModelService {
 
-    constructor(entity) {
+    constructor() {
         super();
-        this.url = '/api/' + entity;
-        this.setupAPI(axios.defaults.baseURL);
+        this.url = '/v1/search';
     }
 
-    public begin(phrase, page, perPage) {
-        return this.get(this.url + `/?search=${phrase}&per_page=${perPage}&page=${page}`)
+    public search(phrase) {
+        return this.get(this.url + `/?search=${phrase}`);
     }
 
 }

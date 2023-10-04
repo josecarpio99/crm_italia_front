@@ -83,6 +83,9 @@
               </div>
 
               <div class="relative w-1/2 flex justify-end">
+                <div class="items-center mr-6 hidden md:flex">
+                    <GlobalSearch />
+                </div>
                   <span class="text-white bg-theme-500 text-xs mr-[0.250rem] h-min lowercase self-center px-2 rounded-xl">{{ trans('users.labels.' + authStore.user.role) }}</span>
                   <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAccountDropdownOpen = !state.isAccountDropdownOpen">
                       <span class="relative pt-3 mr-2">{{ authStore.user.name }} <Icon :name="state.isAccountDropdownOpen ? 'angle-up' : 'angle-down'"/></span>
@@ -155,6 +158,7 @@ import router from "@/router";
 import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
+import GlobalSearch from "@/views/components/GlobalSearch";
 import Button from "@/views/components/input/Button.vue";
 import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
 import CreateCompanyModal from "@/views/pages/private/customers/modals/CreateCompanyModal.vue";
@@ -186,7 +190,8 @@ export default {
       CreateOportunidadModal,
       CreateCotizadoModal,
       Button,
-      PendingOpportunityAlert
+      PendingOpportunityAlert,
+      GlobalSearch
   },
   setup() {
 
