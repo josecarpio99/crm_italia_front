@@ -14,7 +14,7 @@
           >
             {{ trans('tasks.buttons.mark_incomplete') }}
           </a>
-          <span>{{ $date(task.done_date).format('DD-MM-YYYY HH:mm A') }}</span>
+          <span>{{ $date(task.due_date).format('DD-MM-YYYY HH:mm A') }}</span>
         </div>
       </div>
       <div class="my-2 text-gray-600 line-through whitespace-normal">
