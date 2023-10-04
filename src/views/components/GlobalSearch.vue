@@ -14,7 +14,7 @@
 
       <template #no-options="{ search, searching, loading }">
         <span class="text-xs px-2">
-          {{ search.length < 3 ? 'Buscar contacto, lead, oportunidad o cotizado' : 'No se encontraron resultados'  }}
+          {{ search.length < 3 ? 'Buscar contacto, prospecto, oportunidad o cotizado' : 'No se encontraron resultados'  }}
         </span>
       </template>
 

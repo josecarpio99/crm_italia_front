@@ -30,6 +30,7 @@ import {useTaskStore} from "@/stores/tasks";
 import $date from "@/helpers/date";
 import Icon from "@/views/components/icons/Icon";
 import toast from '@/helpers/toast';
+import {useAuthStore} from "@/stores/auth";
 
 const props = defineProps({
   task: {
@@ -39,11 +40,13 @@ const props = defineProps({
 });
 
 const taskStore = useTaskStore();
+const authStore = useAuthStore();
 
 function markAsInComplete() {
   taskStore.markAsInComplete(props.task.id)
     .then(res => {
       if (res.status == 200 || res.status == 201) {
+        authStore.getCurrentUser();
         toast.success();
       }
     });

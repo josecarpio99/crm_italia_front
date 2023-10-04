@@ -239,6 +239,7 @@ function onTaskSubmit({content, due_at, owner}) {
     user_id: authStore.user.id
   }).then(res => {
     if (res.status == 200 || res.status == 201) {
+      authStore.getCurrentUser();
       toast.success();    
       fetchRecord();
     }

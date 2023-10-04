@@ -150,6 +150,7 @@ function markAsCompleted(task) {
   taskStore.markAsCompleted(task)
     .then(res => {
       if (res.status == 200 || res.status == 201) {
+        authStore.getCurrentUser();
         toast.success();
       }
     });
@@ -160,6 +161,7 @@ function deletetask(task) {
     taskStore.delete(task)
       .then(res => {
         if (res.status == 200 || res.status == 201 || res.status == 204) {
+          authStore.getCurrentUser();
           toast.success();
         }
       });
@@ -177,6 +179,7 @@ function onSubmit() {
   taskStore.update(form)
     .then(res => {
       if (res.status == 200 || res.status == 201) {
+        authStore.getCurrentUser();
         toast.success();
       }
     });

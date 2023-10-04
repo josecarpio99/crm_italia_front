@@ -190,6 +190,7 @@ import {
   maxLength,  
   helpers
 } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
   customer_id: {
@@ -197,7 +198,6 @@ const props = defineProps({
     default: null
   }
 });
-import { storeToRefs } from 'pinia';
 
 const emit = defineEmits(["close-modal"]);
 

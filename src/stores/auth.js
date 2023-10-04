@@ -12,6 +12,7 @@ export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
             user: null,
+            lastIncompletedTasks: null,
             error: null,
         };
     },
@@ -47,6 +48,7 @@ export const useAuthStore = defineStore("auth", {
             try {
                 const response = await authService.getCurrentUser();
                 this.user = response.data.data;
+                this.lastIncompletedTasks = response.data.data.lastIncompletedTasks;
                 this.loading = false
             } catch (error) {
                 this.loading = false
