@@ -123,7 +123,7 @@
     </Panel>
 
   </Page>
-  <CreateOportunidadModal v-if="customer" :customer_id="customer.id" :requirement="customer.requirement" :modalActive="showCreateOportunidadModal" @close-modal="toggleModal('showCreateOportunidadModal')"/>
+  <CreateOportunidadModal v-if="customer" :customer_id="customer.id" :modalActive="showCreateOportunidadModal" @close-modal="toggleModal('showCreateOportunidadModal')"/>
   <CreateCotizadoModal v-if="customer" :customer_id="customer.id" :modalActive="showCreateCotizadoModal" @close-modal="toggleModal('showCreateCotizadoModal')"/>
 
   <!-- <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
