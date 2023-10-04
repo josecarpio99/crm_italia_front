@@ -229,15 +229,16 @@ function onSubmit() {
   customerService.handleCreate(
       'create-company', 
       reduceProperties(form, ['category_id', 'owner_id', 'source_id'], 'id')
-    ).then((res) => {                
-    if (res?.status == 200 || res?.status == 201) {        
+    ).then(async (res) => {                
+    if (res?.status == 200 || res?.status == 201) { 
+
         Object.assign(form, initialState);
         customersStore.customerList.unshift({
           id: res.data.data.id,
           name: res.data.data.name,
         });
 
-        customersStore.getCustomerList();
+        await customersStore.getCustomerList();
         
         if (createOportunidad) {
           customerId.value = res.data.data.id;

@@ -196,7 +196,11 @@ const props = defineProps({
   customer_id: {
     type: Number,
     default: null
-  }
+  },
+  requirement: {
+    type: String,
+    default: null
+  },
 });
 
 const emit = defineEmits(["close-modal"]);
@@ -214,6 +218,7 @@ const showCreateCompanyModal = ref(false);
 const customersStore = useCustomersStore();
 const sourcesStore = useSourcesStore();
 const customerId = computed(() => props.customer_id);
+const requirement = computed(() => props.requirement);
 
 const { customerList } = storeToRefs(customersStore);
 
@@ -354,6 +359,10 @@ onMounted( async () => {
   if (customerId.value) {
     form.customer_id = customerList.value.find(item => item.id == customerId.value);
     showCustomerSection.value = false;
+  }
+
+  if (requirement.value) {
+    form.requirement = requirement.value;
   }
 
   isLoading.value = false;

@@ -100,11 +100,33 @@
             :label="trans('customers.labels.city')"
           />
 
+          <TextInput 
+            class="mb-4" 
+            type="textarea" 
+            :required="false" 
+            name="requirement" 
+            v-model="form.requirement" 
+            :label="trans('global.labels.requirement')"
+          />
+
+          <div class="flex items-center justify-end gap-2 pl-2 pt-4">
+            <input 
+              type="checkbox"
+              ref="saveAndCreateOportunidad"
+              name="saveAndCreateOportunidad"
+              id="saveAndCreateOportunidad"
+            >
+            <label for="saveAndCreateOportunidad">Guardar y crear oportunidad</label>
+          </div>
+
         </div>
       </div>
 
     </Form>
 
+    <template>
+      <CreateOportunidadModal v-if="customerId" :customer_id="customerId" :requirement="requirement" :modalActive="showCreateOportunidadModal" @close-modal="handleCloseOportunidad"/>
+    </template>
   </BaseModal>
 </template>
 
@@ -131,7 +153,9 @@ import {
   helpers
 } from '@vuelidate/validators';
 import {useCustomersStore} from "@/stores/customers";
+import CreateOportunidadModal from "@/views/pages/private/deals/modals/CreateOportunidadModal.vue";
 
+import {useGlobalStateStore} from "@/stores/global";
 const emit = defineEmits(["close-modal"]);
 
 const props = defineProps({
@@ -141,7 +165,6 @@ const props = defineProps({
   }
 });
 
-const customersStore = useCustomersStore();
 
 const initialState = {
   company_name: '',           
@@ -149,6 +172,7 @@ const initialState = {
   email: '',
   mobile: '',
   city: '',
+  requirement: null,
   category_id: null,
   source_id: null,
   owner_id: null
@@ -187,12 +211,22 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const sourcesStore = useSourcesStore();
+const customersStore = useCustomersStore();
+const globalUserState = useGlobalStateStore();
 
+const customerId = ref(null);
+const requirement = ref(null);
 const formRef = ref(null);
 const isLoading = ref(true);
+const saveAndCreateOportunidad = ref(null);
+const showCreateOportunidadModal = ref(false);
 let users = usersStore.userList;
 
-function onSubmit() {  
+
+
+async function onSubmit() {  
+  let createOportunidad = saveAndCreateOportunidad.value.checked;
+
   alertStore.clear();
   
   v$.value.$touch();
@@ -203,17 +237,34 @@ function onSubmit() {
 
   v$.value.$reset();
 
+  globalUserState.loadingElements['convert-lead'] = true;
   leadService.convert(
       props.lead.id, 
       reduceProperties(form, ['category_id','owner_id', 'source_id'], 'id')
-    ).then((res) => {                
+    ).then(async (res) => {                
     if (res?.status == 200 || res?.status == 201) {
-        customersStore.getCustomerList();
-        router.push({name: 'customers.show', params: {id: res.data.data.id}});
+        await customersStore.getCustomerList();
+        if (createOportunidad) {
+          requirement.value = res.data.data.requirement;
+          customerId.value = res.data.data.id;
+          showCreateOportunidadModal.value = true;
+        } else {
+          emit('close-modal');
+          router.push({name: 'customers.show', params: {id: res.data.data.id}});
+        }
     }
+  })
+  .finally(() => {
+    globalUserState.loadingElements['convert-lead'] = false;
   })
   
   return false;
+}
+
+function handleCloseOportunidad() {
+  router.push({name: 'customers.show', params: {id: customerId.value}});
+  showCreateOportunidadModal.value = false;
+  emit('close-modal');
 }
 
 function onCloseModal() {
@@ -231,6 +282,7 @@ onMounted( async () => {
   form.email = props.lead.email;
   form.city = props.lead.city;
   form.mobile = props.lead.mobile;
+  form.requirement = props.lead.requirement;
   isLoading.value = false;
 });
 
