@@ -12,7 +12,7 @@ export const useAuthStore = defineStore("auth", {
     state: () => {
         return {
             user: null,
-            lastIncompletedTasks: null,
+            lastIncompletedTasks: [],
             error: null,
         };
     },

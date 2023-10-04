@@ -25,7 +25,10 @@ router.beforeEach(async (to, from, next) => {
     const requiresAuth = to.meta.requiresAuth;
     const visitor = to.meta.visitor;
     const belongsToOwnerOnly = to.meta.isOwner;
-    if ((requiresRole && requiresAuth)) {
+    
+    if (requiresAuth && !authStore.user) {
+        next({name: 'home'});
+    } else if ((requiresRole)) {
 
         if(authStore.isMasterOrDirector()) {
             next(); 
@@ -37,14 +40,14 @@ router.beforeEach(async (to, from, next) => {
             })
         }
 
+    } else if (requiresAuth && !authStore.user) {
+        next({name: 'home'})
     } else if (requiresPermission && requiresAuth) {
         if (can(requiresPermission)) {
             next();
         }else {
             next({name: 'dashboard'});
         }
-    } else if (requiresAuth && !authStore.user) {
-        next({name: 'home'})
     } else if (visitor && authStore.user) {
         next({name: 'dashboard'})
     }  else {

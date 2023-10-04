@@ -1,8 +1,9 @@
 <template>
   <div class="flex items-center mr-4 relative">
-    <span class="relative" v-if="lastIncompletedTasks.length > 0" @click="showList = !showList">
+    <span class="relative" @click="showList = !showList">
         <span 
           class="absolute top-0 right-[-3px] inline-block rounded-full text-white bg-red-500 text-[.6rem] pointer-events-none"
+          v-if="lastIncompletedTasks.length > 0"
         >
             {{ lastIncompletedTasks.length }}
 
