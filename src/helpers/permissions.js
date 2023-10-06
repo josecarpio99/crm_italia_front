@@ -12,6 +12,17 @@ export const can = function (name) {
   //   return true;
   // }
 
+  if (name == 'view:created_by') {
+    if (
+      authStore.isMasterOrDirector() ||
+      authStore.hasAccessByRole(roles.LEAD_QUALIFIER)
+      ) {
+      return true;
+    }
+
+    return false;
+  }
+
   if (name == 'view:opportunities_by_lead_qualifier') {
     if (
       authStore.isMasterOrDirector() ||

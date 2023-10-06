@@ -37,6 +37,14 @@
             </div>
           </div>
 
+          <div v-if="customer.creator && can('view:created_by')" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.created_by') }}</h4>
+            <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="customer.creator?.avatar_url" :user="customer.creator" />            
+              <span>{{ customer.creator.name }}</span>
+            </div>
+          </div>
+
           <!-- <div v-if="customer.customer_status" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.customer_status') }}</h4>
             <span>{{ customer.customer_status }}</span>
@@ -139,6 +147,7 @@ import toast from '@/helpers/toast';
 import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import alertHelpers from "@/helpers/alert";
+import {can} from "@/helpers/permissions";
 import $date from "@/helpers/date";
 import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";

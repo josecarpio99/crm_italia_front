@@ -38,6 +38,14 @@
             </div>
           </div>
 
+          <div v-if="deal.creator && can('view:created_by')" class="mb-6">
+            <h4 class="font-semibold">{{ trans('global.labels.created_by') }}</h4>
+            <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
+              <CircleAvatarIcon class="w-8 h-8" :avatarUrl="deal.creator?.avatar_url" :user="deal.creator" />            
+              <span>{{ deal.creator.name }}</span>
+            </div>
+          </div>
+
           <div v-if="deal.value" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.value') }}</h4>
             <ValueField :value="deal.value" :large="true" />
@@ -98,6 +106,7 @@ import {trans} from "@/helpers/i18n";
 import {toUrl} from "@/helpers/routing";
 import alertHelpers from "@/helpers/alert";
 import $date from "@/helpers/date";
+import {can} from "@/helpers/permissions";
 import DealService from "@/services/DealService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
