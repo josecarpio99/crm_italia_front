@@ -169,6 +169,11 @@
               {{ item.owner?.name }}
             </template>
 
+            <template #cell-creator="{item}">             
+              <CircleAvatarIcon :avatarUrl="item.creator?.avatar_url" :user="item.creator" />              
+              {{ item.creator?.name }}
+            </template>
+
             <template #cell-source="{item}">                  
               <SourceField :value="item?.source?.name" />
             </template>
@@ -258,6 +263,7 @@ import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
 import {leadCategories} from "@/stub/categories";
+import {can} from "@/helpers/permissions";
 
 const route = useRoute();
 const leadService = new LeadService();
@@ -303,6 +309,10 @@ const mainQuery = reactive({
           comparison: '='
       },    
       owner: {
+          value: '',
+          comparison: '='
+      },
+      creator: {
           value: '',
           comparison: '='
       },
@@ -456,6 +466,7 @@ function onTableFilter({column, value}) {
       || column.key == 'status'
       || column.key == 'source'
       || column.key == 'branch'
+      || column.key == 'creator'
       ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
@@ -496,6 +507,7 @@ function updateColumnsForSmartList() {
   const {
       branch: branchFilter,
       owner: ownerFilter, 
+      creator: creatorFilter,
       // status: statusFilter, 
       name: nameFilter, 
       source: sourceFilter,
@@ -540,6 +552,16 @@ function updateColumnsForSmartList() {
       let ownerColumn = table.columns.find(column => column.key == 'owner');
       ownerColumn.filter.modelValue = selectedUsers;         
     }
+
+    if (creatorFilter.value) {
+    let selectedUsers = creatorFilter.value.split(',').map(item => {
+      return users.find(option => option.id == item);
+    });
+    
+    let creatorColumn = table.columns.find(column => column.key == 'creator');
+    creatorColumn.filter.modelValue = selectedUsers;         
+  }
+
 
     if (branchFilter.value) {
       let selectedBranches = branchFilter.value.split(',').map(item => {
@@ -747,13 +769,19 @@ onMounted(async () => {
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
+  let creatorColumn = table.columns.find(column => column.key == 'creator');
 
+  creatorColumn.filter.options = users;
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;  
 
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
 
+  if (! can('view:created_by')) {
+    table.columns = table.columns.filter(column => column.key != 'creator');
+  }
+  
   page.isLoading = false;
   fetchPage(mainQuery);
 });

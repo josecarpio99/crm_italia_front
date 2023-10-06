@@ -265,6 +265,11 @@
               <PipelineStage :stage-id="item.stage.id" />
             </template>
 
+            <template #cell-creator="{item}">             
+              <CircleAvatarIcon :avatarUrl="item.creator?.avatar_url" :user="item.creator" />              
+              {{ item.creator?.name }}
+            </template>
+
             <template #cell-owner="{item}">             
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />              
               {{ item.owner?.name }}
@@ -383,6 +388,7 @@ import {useSourcesStore} from "@/stores/sources";
 import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
 import {dealCategories} from "@/stub/categories";
+import {can} from "@/helpers/permissions";
 
 const route = useRoute();
 const dealService = new DealService();
@@ -429,6 +435,10 @@ const mainQuery = reactive({
           comparison: '='
       },    
       owner: {
+          value: '',
+          comparison: '='
+      },
+      creator: {
           value: '',
           comparison: '='
       },
@@ -602,7 +612,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch'|| column.key == 'status') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'status' || column.key == 'creator') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
       mainQuery.filters['created_at'].value = value?.id || null;
@@ -644,6 +654,7 @@ function fetchSmartList(id) {
 function updateColumnsForSmartList() {
   const {
     owner: ownerFilter, 
+    creator: creatorFilter, 
     branch: branchFilter,
     source: sourceFilter, 
     status: statusFilter, 
@@ -699,6 +710,15 @@ function updateColumnsForSmartList() {
     
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
+  }
+
+  if (creatorFilter.value) {
+    let selectedUsers = creatorFilter.value.split(',').map(item => {
+      return users.find(option => option.id == item);
+    });
+    
+    let creatorColumn = table.columns.find(column => column.key == 'creator');
+    creatorColumn.filter.modelValue = selectedUsers;         
   }
 
   if (statusFilter.value) {
@@ -966,14 +986,22 @@ onMounted(async () => {
   smartLists = await smartListservice.index({'filter[resource_type]': 'oportunidad'}).then(res => res.data.data);  
 
 
+  
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
+  let creatorColumn = table.columns.find(column => column.key == 'creator');
+
+  creatorColumn.filter.options = users;
 
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;
 
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
+
+  if (! can('view:created_by')) {
+    table.columns = table.columns.filter(column => column.key != 'creator');
+  }
 
   page.isLoading = false;
   fetchPage(mainQuery);
