@@ -25,9 +25,14 @@
           @click="handleSelect(task.resource)" 
         >
           <span 
-            class="whitespace-normal leading-4 font-semibold"
+            class="whitespace-normal leading-4 font-bold"
           >
             {{ task.content }}
+          </span>
+          <span 
+            class="whitespace-normal "
+          >
+            {{ task.resource?.name }}
           </span>
           <span
             class="text-xs"
