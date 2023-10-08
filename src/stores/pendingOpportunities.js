@@ -7,7 +7,8 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
       data: [],
       showModal: false,
       showAlert: false,
-      interval: null
+      interval: null,
+      intervalSound: null
     }
   },
   actions: {
@@ -27,14 +28,22 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
               }
 
               this.showAlert = true;
+              this.setIntervanSound();
           } else {
             this.showAlert = false;
             this.showModal = false;
           }              
       }, 9000);      
     },
+    setIntervanSound() {
+      this.intervalSound = setInterval(function () {
+        console.log('suena...');
+        (new Audio('/assets/sounds/tip_sound.wav')).play();
+      }, 3000);
+    },
     stopIntervalFn() {
       clearInterval(this.interval);
+      clearInterval(this.intervalSound);
     },
     answered(id) {
       this.data = this.data.filter(item => item.id != id);
@@ -42,6 +51,9 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
       if (this.isEmpty) {
         this.showAlert = false;
         this.showModal = false;
+        if (this.intervalSound) {
+          clearInterval(this.intervalSound);
+        }
       }
     }
   },

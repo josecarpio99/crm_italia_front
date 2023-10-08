@@ -26,7 +26,8 @@ export const can = function (name) {
   if (name == 'view:opportunities_by_lead_qualifier') {
     if (
       authStore.isMasterOrDirector() ||
-      authStore.hasAccessByRole(roles.LEAD_QUALIFIER)
+      authStore.hasAccessByRole(roles.ADMIN) ||
+      authStore.hasAccessByRole(roles.LEAD_QUALIFIER) 
       ) {
       return true;
     }
