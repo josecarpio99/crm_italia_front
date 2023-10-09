@@ -391,6 +391,7 @@
 			"origins": "Orígenes",
 			"reports": "Reportes",
 			"assigned_leads": "Leads Asignados",
+			"deal_status": "Leads Ganado - Perdido",
 			"sells_by_advisors": "Ventas por asesores"
 		}
   },

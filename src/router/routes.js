@@ -28,6 +28,7 @@ import {default as OpportunitiesBestSizes} from "@/views/pages/private/reports/O
 import {default as FirmQuotes} from "@/views/pages/private/reports/FirmQuotes";
 import {default as Scorecard} from "@/views/pages/private/reports/Scorecard";
 import {default as SellsByAdvisors} from "@/views/pages/private/reports/SellsByAdvisors";
+import {default as DealStatus} from "@/views/pages/private/reports/DealStatus";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
 import {default as OpportunitiesByLeadQualifier} from "@/views/pages/private/reports/OpportunitiesByLeadQualifier";
 import {default as ReportList} from "@/views/pages/private/reports/ReportList";
@@ -210,6 +211,12 @@ const routes = [
                         path: "origins",
                         meta: {requiresAuth: true},
                         component: Origins
+                    },
+                    {
+                        name: "reports.deal_status",
+                        path: "leads-ganado-perdido",
+                        meta: {requiresAuth: true, requiresPermission: 'view:deal_status_report'},
+                        component: DealStatus
                     },
                 ]
             }

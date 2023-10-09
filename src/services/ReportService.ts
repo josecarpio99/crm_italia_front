@@ -20,5 +20,16 @@ export default class ReportService extends ModelService {
               'Content-Type': 'application/json'
           }
       );
-  }
+    }
+
+    public dealStatus(params = {}) {
+        let path = this.url + `/deal/status`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
 }

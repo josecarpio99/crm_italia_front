@@ -5,7 +5,6 @@
     :is-loading="page.isLoading"
   >
     <Panel :is-loading="isLoading">
-
       <div class="mb-6 pb-4 border-b-2">
         <h4 class="textl-lg font-semibold">Filtros</h4>
 
@@ -40,47 +39,26 @@
           <div>            
             <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
               <span class="inline-block h-4 w-4 bg-green-300 mr-2"></span>
-              Prospección
+              Ganado
             </h4>
             <div class="flex gap-4">
-              <div class="font-semibold">Total: <span><ValueField :value="sourceData?.prospeccion?.sum" /></span></div>
-              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.prospeccion?.count }}</span></div>
+              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{dealStatusData?.won?.count }}</span></div>
             </div>
           </div>
 
           <div>            
             <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
-              <span class="inline-block h-4 w-4 bg-yellow-300 mr-2"></span>
-              Publicidad - Guardia
+              <span class="inline-block h-4 w-4 bg-red-300 mr-2"></span>
+              Perdido
             </h4>
             <div class="flex gap-4">
-              <div class="font-semibold">Total: <span><ValueField :value="sourceData?.publicidad?.sum" /></span></div>
-              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.publicidad?.count }}</span></div>
-            </div>
-          </div>
-
-          <div>            
-            <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
-              <span class="inline-block h-4 w-4 bg-blue-300 mr-2"></span>
-              Recompra
-            </h4>
-            <div class="flex gap-4">
-              <div class="font-semibold">Total: <span><ValueField :value="sourceData?.recompra?.sum" /></span></div>
-              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{sourceData?.recompra?.count }}</span></div>
+              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{dealStatusData?.lost?.count }}</span></div>
             </div>
           </div>
 
         </div>
 
-        <div class="flex flex-col items-center lg:flex-row gap-4 max-w-[1000px] mx-auto">
-  
-          <div class="w-full">
-            <Bar
-              id="my-chart-id"
-              :options="barChart.chartOptions"
-              :data="barChart.chartData"
-            />
-          </div>
+        <div class="flex flex-col items-center lg:flex-row gap-4 max-w-lg mx-auto">       
   
           <div class="w-full">
             <Pie
@@ -93,8 +71,6 @@
         </div>
 
       </div>
-
-
     </Panel>
   </Page>
 </template>
@@ -104,19 +80,17 @@ import {watch, onMounted, reactive, ref } from 'vue';
 import {trans} from "@/helpers/i18n";
 import Page from "@/views/layouts/Page";
 import Panel from "@/views/components/Panel";
-import DealService from "@/services/DealService";
+import ReportService from "@/services/ReportService";
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import Dropdown from "@/views/components/input/Dropdown";
-import ValueField from "@/views/components/ValueField";
 import { branches } from "@/stub/statuses";
-import { Bar, Pie } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import { Bar, Pie } from 'vue-chartjs';
+import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 
-
-const dealService = new DealService();
+const reportService = new ReportService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
@@ -166,26 +140,16 @@ const mainQuery = reactive({
 });
 
 const page = reactive({
-  id: 'origins_page',
-  title: trans('global.pages.origins'),
+  id: 'deal_status_page',
+  title: trans('global.menu.deal_status'),
   toggleFilters: false,
   showFooter: false,
   isLoading: false
 });
 
-const barChart = reactive({
-  chartData: {
-    labels: [ ''],
-    datasets: [ { data: [] } ]
-  },
-  chartOptions: {
-    responsive: true
-  }
-});
-
 const pieChart = reactive({
   chartData: {
-    labels: ['Prospección', 'Publicidad - Guardia', 'Recompra'],
+    labels: ['Ganado', 'Perdido'],
     datasets: [ { data: [] } ]
   },
   chartOptions: {
@@ -196,47 +160,23 @@ const pieChart = reactive({
   }
 });
 
-const sourceData = ref(null);
+const dealStatusData = ref(null);
 
 function fetchPage(params) {
   isLoading.value = true;
   let query = prepareQuery(params);
-  dealService
-      .index(query)
+  reportService
+      .dealStatus(query)
       .then((response) => {
-          sourceData.value = response.data.meta.source;
-          barChart.chartData.datasets = [
-            {
-              label: 'Prospección',
-              data: [
-                response.data.meta.source.prospeccion.sum
-              ],
-              backgroundColor: '#86EFAC'
-            },
-            {
-              label: 'Publicidad - Guardia',
-              data: [
-                response.data.meta.source.publicidad.sum
-              ],
-              backgroundColor: '#FDE047'
-            },
-            {
-              label: 'Recompra',
-              data: [
-                response.data.meta.source.recompra.sum
-              ],
-              backgroundColor: '#93C5FD'
-            }
-          ]
+          dealStatusData.value = response.data.data;
 
           pieChart.chartData.datasets = [
             {
               data: [
-                response.data.meta.source.prospeccion.count,
-                response.data.meta.source.publicidad.count,
-                response.data.meta.source.recompra.count
+                response.data.data.won.count,
+                response.data.data.lost.count
               ],
-              backgroundColor: ['#86EFAC', '#FDE047', '#93C5FD']
+              backgroundColor: ['#86EFAC', '#FCA5A5']
             },          
           ]
           isLoading.value = false;
@@ -254,7 +194,6 @@ function handleOwnerSelect(item) {
 function handleBranchSelect(item) {
   mainQuery.filters.branch.value = branchSelected.value?.id || null;
 }
-
 
 watch(mainQuery, (newTableState) => {  
   fetchPage(mainQuery);
