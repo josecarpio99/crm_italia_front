@@ -435,6 +435,20 @@ export const dealColumns = [
   }
 }, 
 {
+  key: 'closed_at',
+  label: trans('global.labels.stage_moved_at'),
+  show: false,
+  locked: false,
+  sorteable: true,
+  filterable: true,
+  editable: false,
+  filter: {
+    modelValue:'',
+    type: 'select',
+    options: datesFilter
+  }          
+},
+{
     key: 'category',
     label: trans('deals.labels.category'),
     show: true,
@@ -661,6 +675,20 @@ export const cotizadoColumns = [
       options: dealStatus
     }
   }, 
+  {
+    key: 'closed_at',
+    label: trans('global.labels.stage_moved_at'),
+    show: false,
+    locked: false,
+    sorteable: true,
+    filterable: true,
+    editable: false,
+    filter: {
+      modelValue:'',
+      type: 'select',
+      options: datesFilter
+    }          
+  },
 {
     key: 'category',
     label: trans('deals.labels.category'),
@@ -867,7 +895,21 @@ export const oportunidadColumns = [
     type: 'list',
     options: dealStatus
   }
-}, 
+},
+{
+  key: 'closed_at',
+  label: trans('global.labels.stage_moved_at'),
+  show: false,
+  locked: false,
+  sorteable: true,
+  filterable: true,
+  editable: false,
+  filter: {
+    modelValue:'',
+    type: 'select',
+    options: datesFilter
+  }          
+},
 {
     key: 'category',
     label: trans('deals.labels.category'),

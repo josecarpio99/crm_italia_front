@@ -299,6 +299,14 @@
               <EstimatedCloseDateRangeField :value="item.estimated_close_date_range" />
             </template>
 
+            <template #cell-closed_at="{item}">            
+                {{ 
+                  item.stage_moved_at && item.status != 'en proceso'
+                    ? $date(item.stage_moved_at).format() 
+                    : null 
+                }}          
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -458,6 +466,10 @@ const mainQuery = reactive({
           value: 'en proceso',
           comparison: '='
       },
+      closed_at: {
+          value: '',
+          comparison: '='
+      },
       created_at: {
           value: '',
           comparison: '='
@@ -614,8 +626,8 @@ function onCellChange(payload) {
 function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'status' || column.key == 'creator') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
-    } else if (column.key == 'created_at') {
-      mainQuery.filters['created_at'].value = value?.id || null;
+    } else if (column.key == 'created_at' || column.key == 'closed_at') {
+      mainQuery.filters[column.key].value = value?.id || null;
     } else if (column.key == 'value') {  
       let newValue = (!value.minValue && !value.maxValue) ? null : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
       mainQuery.filters['value'].value = newValue;
@@ -660,6 +672,7 @@ function updateColumnsForSmartList() {
     status: statusFilter, 
     name: nameFilter,
     created_at: createdAtFilter,
+    closed_at: closedAtFilter,
     value: valueFilter,
     category: categoryFilter,
 
@@ -692,6 +705,13 @@ function updateColumnsForSmartList() {
     
     let createdAtColumn = table.columns.find(column => column.key == 'created_at');
     createdAtColumn.filter.modelValue = selectedDate;         
+  }   
+
+  if (closedAtFilter.value) { 
+    let selectedDate = datesFilter.find(option => option.id == closedAtFilter.value);
+    
+    let closedAtColumn = table.columns.find(column => column.key == 'closed_at');
+    closedAtColumn.filter.modelValue = selectedDate;         
   }   
 
   if (sourceFilter.value) {
@@ -846,11 +866,13 @@ function resetQueryOfRemovedColumns() {
   table.columns.forEach(column => {
     if (!column.show) {
       if (mainQuery.filters[column.key]) {
-        if (column.key == 'category') {
-          mainQuery.filters.category_id.value = '';
-        } else {
-          mainQuery.filters[column.key].value = '';  
-        }
+        // if (column.key == 'category') {
+        //   mainQuery.filters.category_id.value = '';
+        // } else {
+        //   mainQuery.filters[column.key].value = '';  
+        // }
+        mainQuery.filters[column.key].value = '';  
+
         column.filter.modelValue = null;
       }
     }   

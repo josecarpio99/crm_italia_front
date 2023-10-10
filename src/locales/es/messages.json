@@ -336,6 +336,7 @@
       "checkall": "Seleccionar todo",
       "id": "IDENTIFICACIÓN",
       "id_pound": "",
+      "stage_moved_at": "Fecha de Cierre",
       "requirement": "Requerimientos",
       "associated_contact": "Contacto asociado",
       "document": "Documento",
