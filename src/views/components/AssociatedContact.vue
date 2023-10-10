@@ -29,6 +29,13 @@
           >
             {{ customer.name }}
           </router-link>
+          <div class="flex items-center mb-2" v-if="customer.city">
+            <Icon 
+              class="mr-2 align-middle" 
+              :name="'map-marker'" 
+            />
+            <span>{{ customer.city }}</span>
+          </div>
           <div class="flex items-center mb-2" v-if="customer.mobile">
             <Icon 
               class="mr-2 align-middle" 
