@@ -3,7 +3,9 @@ import {createWebHistory, createRouter} from "vue-router";
 import routes from "@/router/routes";
 
 import {useAuthStore} from "@/stores/auth";
+import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 import {can} from '@/helpers/permissions';
+import {roles} from "@/stub/roles";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -14,8 +16,18 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
     if (!authStore.user) {
-        await authStore.getCurrentUser();
+        await authStore.getCurrentUser();        
     }
+
+    if (authStore.user) {
+        if (authStore.user?.role === roles.ADVISOR) {
+            const pendingOpportunitiesStore = usePendingOpportunitiesStore();
+            if (! pendingOpportunitiesStore.interval) {
+                pendingOpportunitiesStore.setIntervalFn();            
+            }
+        }      
+    }
+
     if (!authStore.user) {
         authStore.clearBrowserData();
     }

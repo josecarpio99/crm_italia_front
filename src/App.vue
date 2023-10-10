@@ -403,26 +403,17 @@ export default {
         
         state.contentReady = true;
 
-        if (authStore.user.role === roles.ADVISOR) {
-            pendingOpportunitiesStore.setIntervalFn();
-            // const interval = setInterval(async () => {
-            //     await pendingOpportunitiesStore.getPendingOpportunities();
-            //     if (pendingOpportunitiesStore.first) {
-            //         if (pendingOpportunitiesStore.showAlert == false) {
-            //             pendingOpportunitiesStore.showModal = true;                        
-            //         }
-
-            //         pendingOpportunitiesStore.showAlert = true;
-            //     }                
-            // }, 2000);
-        }
+        // if (authStore.user.role === roles.ADVISOR) {
+        //     pendingOpportunitiesStore.setIntervalFn();
+        // }
       }  
 
       onBeforeMount(async () => {        
           if (route.query.hasOwnProperty('verified') && route.query.verified) {
               alertStore.success(trans('global.phrases.email_verified'));
-          }
+          }        
       });
+      
 
     //   onMounted(async () => {
     //     if (authStore.user.role === roles.ADVISOR) {
