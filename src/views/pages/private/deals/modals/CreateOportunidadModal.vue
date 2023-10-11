@@ -137,6 +137,15 @@
             />                     
 
           </div> 
+
+          <TextInput 
+            class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />   
           
           <TextInput 
             class="mb-4" 
@@ -234,6 +243,7 @@ const initialState = {
   value: 0,  
   name: null,
   requirement: null,
+  city: null,
   customer: {
     company_name: null,
     name: null,

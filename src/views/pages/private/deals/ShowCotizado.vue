@@ -70,7 +70,12 @@
               />
               <span>{{ $date(deal.created_at).format() }}</span>
             </div>
-          </div> 
+          </div>
+
+          <div v-if="deal.city" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.city') }}</h4>
+            <span class="whitespace-normal">{{ deal.city }}</span>
+          </div>
           
           <div v-if="deal.requirement" class="mb-6">
             <h4 class="font-semibold">{{ trans('global.labels.requirement') }}</h4>

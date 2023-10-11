@@ -99,6 +99,15 @@
 
           <TextInput 
             class="mb-4" 
+            type="text" 
+            :required="false" 
+            name="city" 
+            v-model="form.city" 
+            :label="trans('customers.labels.city')"
+          />   
+
+          <TextInput 
+            class="mb-4" 
             type="textarea" 
             :required="false" 
             name="requirement" 
