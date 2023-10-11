@@ -497,7 +497,7 @@ export const dealColumns = [
     show: true,
     locked: false,
     editable: false,
-    sorteable: false,
+    sorteable: true,
     filterable: false,
     filter: {
       modelValue: '',
@@ -738,7 +738,7 @@ export const cotizadoColumns = [
       show: true,
       locked: false,
       editable: false,
-      sorteable: false,
+      sorteable: true,
       filterable: false,
       filter: {
         modelValue: '',
@@ -959,7 +959,7 @@ export const oportunidadColumns = [
     show: true,
     locked: false,
     editable: false,
-    sorteable: false,
+    sorteable: true,
     filterable: false,
     filter: {
       modelValue: '',
