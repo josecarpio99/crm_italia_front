@@ -115,6 +115,7 @@
               ref="saveAndCreateOportunidad"
               name="saveAndCreateOportunidad"
               id="saveAndCreateOportunidad"
+              checked
             >
             <label for="saveAndCreateOportunidad">Guardar y crear oportunidad</label>
           </div>
@@ -238,20 +239,26 @@ async function onSubmit() {
   v$.value.$reset();
 
   globalUserState.loadingElements['convert-lead'] = true;
+
+  form.create_opportunity = createOportunidad;
+
   leadService.convert(
       props.lead.id, 
       reduceProperties(form, ['category_id','owner_id', 'source_id'], 'id')
     ).then(async (res) => {                
     if (res?.status == 200 || res?.status == 201) {
         await customersStore.getCustomerList();
-        if (createOportunidad) {
-          requirement.value = res.data.data.requirement;
-          customerId.value = res.data.data.id;
-          showCreateOportunidadModal.value = true;
-        } else {
-          emit('close-modal');
-          router.push({name: 'customers.show', params: {id: res.data.data.id}});
-        }
+        // if (createOportunidad) {
+        //   requirement.value = res.data.data.requirement;
+        //   customerId.value = res.data.data.id;
+        //   showCreateOportunidadModal.value = true;
+        // } else {
+        //   emit('close-modal');
+        //   router.push({name: 'customers.show', params: {id: res.data.data.id}});
+        // }
+
+        emit('close-modal');
+        router.push({name: 'customers.show', params: {id: res.data.data.id}});
     }
   })
   .finally(() => {

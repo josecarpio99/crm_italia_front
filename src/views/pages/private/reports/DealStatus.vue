@@ -22,6 +22,15 @@
 
           <Dropdown  
             class="w-full max-w-[16rem]"
+            :label="trans('global.labels.created_at')"
+            name="date" 
+            :options="datesFilter" 
+            @input="handleDateSelect"   
+            v-model="dateSelected"
+          />  
+
+          <Dropdown  
+            class="w-full max-w-[16rem]"
             :label="trans('global.labels.adviser_in_charge')"
             selectLabel="name"
             name="owner" 
@@ -89,6 +98,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import { branches } from "@/stub/statuses";
 import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
+import { datesFilter } from "@/stub/date";
 
 const reportService = new ReportService();
 const alertStore = useAlertStore();
@@ -98,6 +108,7 @@ const authStore = useAuthStore();
 const isLoading = ref(true);
 const ownerSelected = ref(null);
 const branchSelected = ref(null);
+const dateSelected = ref(null);
 const users = usersStore.userList;
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, ArcElement, LinearScale)
@@ -193,6 +204,10 @@ function handleOwnerSelect(item) {
 
 function handleBranchSelect(item) {
   mainQuery.filters.branch.value = branchSelected.value?.id || null;
+}
+
+function handleDateSelect(item) {
+  mainQuery.filters.created_at.value = dateSelected.value?.id || null;
 }
 
 watch(mainQuery, (newTableState) => {  
