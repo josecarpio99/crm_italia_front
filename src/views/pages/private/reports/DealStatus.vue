@@ -8,7 +8,7 @@
       <div class="mb-6 pb-4 border-b-2">
         <h4 class="textl-lg font-semibold">Filtros</h4>
 
-        <div class="flex flex-col gap-4 max-w-lg sm:flex-row">
+        <div class="flex flex-col gap-4 max-w-2xl sm:flex-row">
 
           <Dropdown  
             v-if="authStore.isMasterOrDirector()"
