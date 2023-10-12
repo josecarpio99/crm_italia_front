@@ -66,7 +66,7 @@
             </template>
 
             <template #cell-created_at="{item}">            
-                {{ $date(item.created_at).format('DD MMM, YYYY') }}          
+                {{ $date(item.created_at).format() }}          
             </template>
 
           </Table>

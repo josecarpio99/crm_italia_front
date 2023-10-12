@@ -8,7 +8,7 @@ const $date = function(date = null) {
   
   return {
     $dayjs,
-    format(format = 'DD MMM, YYYY') {
+    format(format = 'DD MMM, YYYY h:mm A') {
       return $dayjs.locale("es").format(format);
     }
   }
