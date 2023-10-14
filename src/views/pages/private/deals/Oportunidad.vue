@@ -481,7 +481,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: [],           
+  columns: oportunidadColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -491,7 +491,7 @@ const table = reactive({
   records: []  
 })  
 
-Object.assign(table.columns, structuredClone(oportunidadColumns));
+// Object.assign(table.columns, structuredClone(oportunidadColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
@@ -1013,8 +1013,14 @@ onMounted(async () => {
     table.columns = table.columns.filter(column => column.key != 'creator');
   }
 
+  table.columns.forEach(column => {
+    if (column.filterable && column.filter.modelValue) {
+      onTableFilter({column, value: column.filter.modelValue})
+    }
+  });
+
   page.isLoading = false;
-  fetchPage(mainQuery);
+  // fetchPage(mainQuery);
 });
 
 </script>

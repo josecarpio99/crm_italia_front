@@ -480,7 +480,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: [],           
+  columns: dealColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -490,7 +490,7 @@ const table = reactive({
   records: []  
 })  
 
-Object.assign(table.columns, structuredClone(dealColumns));
+// Object.assign(table.columns, structuredClone(dealColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
@@ -616,7 +616,7 @@ function onTableFilter({column, value}) {
     } else if (column.key == 'created_at' || column.key == 'closed_at') {
       mainQuery.filters[column.key].value = value?.id || null;
     } else if (column.key == 'category') {
-      mainQuery.filters['category_id'].value = value || null;
+      mainQuery.filters['category'].value = value || null;
     } else if (column.key == 'value') {  
       let newValue = (!value.minValue && !value.maxValue) ? null : `${value.minValue ?? 0},${value.maxValue ?? 0}`;    
       mainQuery.filters['value'].value = newValue;
@@ -981,8 +981,14 @@ onMounted(async () => {
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
 
+  table.columns.forEach(column => {
+    if (column.filterable) {
+      onTableFilter({column, value: column.filter.modelValue})
+    }
+  });
+
   page.isLoading = false;
-  fetchPage(mainQuery);
+  // fetchPage(mainQuery);
 });
 
 </script>

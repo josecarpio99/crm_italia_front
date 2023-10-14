@@ -357,7 +357,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: [],           
+  columns: customerColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -377,7 +377,7 @@ const table = reactive({
   records: []  
 });
 
-Object.assign(table.columns, structuredClone(customerColumns));
+// Object.assign(table.columns, structuredClone(customerColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected));
@@ -840,9 +840,15 @@ onMounted(async () => {
 
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
+
+  table.columns.forEach(column => {
+    if (column.filterable) {
+      onTableFilter({column, value: column.filter.modelValue})
+    }
+  });
   
   page.isLoading = false;
-  fetchPage(mainQuery);
+  // fetchPage(mainQuery);
 });
 
 </script>

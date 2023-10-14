@@ -578,7 +578,7 @@ const page = reactive({
 });
 
 const table = reactive({ 
-  columns: [],           
+  columns: cotizadoColumns,           
   pagination: {
       meta: null,
       links: null,
@@ -588,7 +588,7 @@ const table = reactive({
   records: []  
 })  
 
-Object.assign(table.columns, structuredClone(cotizadoColumns));
+// Object.assign(table.columns, structuredClone(cotizadoColumns));
 
 const selectedFields = computed(() => table.columns.filter(item => item.show).map(item => item.key));
 const selectedRecords = computed(() => table.records.filter(item => item.selected))
@@ -1153,8 +1153,14 @@ onMounted(async () => {
     table.columns = table.columns.filter(column => column.key != 'creator');
   }
 
+  table.columns.forEach(column => {
+    if (column.filterable) {
+      onTableFilter({column, value: column.filter.modelValue})
+    }
+  });
+
   page.isLoading = false;
-  fetchPage(mainQuery);
+  // fetchPage(mainQuery);
 });
 
 </script>

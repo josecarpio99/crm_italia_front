@@ -452,10 +452,10 @@ export const dealColumns = [
   filterable: true,
   editable: true,
   filter: {
-    modelValue: {
+    modelValue: [{
       id: 'en proceso',
       label: 'En proceso',
-    },
+    }],
     type: 'multiselect',
     options: dealStatus
   },
@@ -693,10 +693,10 @@ export const cotizadoColumns = [
     filterable: true,
     editable: true,
     filter: {
-      modelValue: {
+      modelValue: [{
         id: 'en proceso',
         label: 'En proceso',
-      },
+      }],
       type: 'multiselect',
       options: dealStatus
     },
