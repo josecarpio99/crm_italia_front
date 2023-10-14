@@ -125,7 +125,7 @@
       <template #default>
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange"
           @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick"
-          @all-selected="handleAllSelected"
+          @all-selected="handleAllSelected" :row-class="rowClassFn"
           >
             <template #cell-name="{item}">
               <router-link 
@@ -179,6 +179,13 @@
               <SourceField :value="item?.source?.name" />
             </template>
 
+            <template #cell-next_task="{item}">                  
+              <NextTaskField 
+                :task="item?.lastActiveTask" 
+                @submit="(args) => onTaskFormSubmit({record: item, ...args})" 
+               />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -228,6 +235,7 @@ import router from "@/router";
 import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import SmartListService from "@/services/SmartListService";
+import TaskService from "@/services/TaskService";
 import {watch, onMounted, onBeforeMount, reactive, ref, computed } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -252,6 +260,7 @@ import StarToggle from "@/views/components/input/StarToggle";
 import BranchField from "@/views/components/BranchField";
 import SourceField from "@/views/components/SourceField";
 import DealCategoryField from "@/views/components/DealCategoryField";
+import NextTaskField from "@/views/components/NextTaskField";
 import {customerColumns} from "@/stub/columns";
 import {customerCategories} from "@/stub/categories";
 import { datesFilter } from "@/stub/date";
@@ -263,10 +272,12 @@ import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useSourcesStore} from "@/stores/sources";
 import toast from '@/helpers/toast';
+import dayjs from "dayjs";
 
 const route = useRoute();
 const service = new CustomerService();
 const smartListservice = new SmartListService();
+const taskService = new TaskService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
@@ -767,6 +778,39 @@ async function onBulkDelete() {
       fetchPage(mainQuery);
     });
   })
+}
+
+function rowClassFn(item) {
+
+  if (
+    item.star &&
+    ( 
+      ! item.lastActiveTask || 
+      dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at)) 
+    )
+  ) 
+  {
+    return ['bg-red-100', 'border-y-2', 'border-red-300'];
+  }   
+}
+
+function onTaskFormSubmit({content, due_at, owner, record}) {
+  taskService.store({
+    content: content,
+    due_at: due_at,
+    owner_id: owner.id,
+    task_type: 'customer',
+    id: record.id,
+    user_id: authStore.user.id
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      let item = table.records.find((item) => item.id == record.id);
+      if (! item.lastActiveTask) {
+        item.lastActiveTask = res.data.data;
+      }
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {

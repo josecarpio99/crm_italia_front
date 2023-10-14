@@ -104,7 +104,22 @@ export const customerColumns = [
       locked: false,
       sorteable: false,
       editable: true
-  },    
+  },
+  {
+    key: 'next_task',
+    label: trans('global.labels.next_task'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: true,
+    filterable: false,
+    filter: {
+      modelValue: '',
+      type: 'input'            
+    },
+    cellKey: 'lastActivetask.id',
+    cellLabel: 'lastActivetask.name'
+  },
   {
       key: 'category',
       label: trans('customers.labels.category'),
@@ -265,6 +280,21 @@ export const leadColumns = [
     locked: false,
     sorteable: false,
     editable: true
+  },
+  {
+    key: 'next_task',
+    label: trans('global.labels.next_task'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: true,
+    filterable: false,
+    filter: {
+      modelValue: '',
+      type: 'input'            
+    },
+    cellKey: 'lastActivetask.id',
+    cellLabel: 'lastActivetask.name'
   },
   {
     key: 'category',

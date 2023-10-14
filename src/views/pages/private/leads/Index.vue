@@ -178,6 +178,13 @@
               <SourceField :value="item?.source?.name" />
             </template>
 
+            <template #cell-next_task="{item}">                  
+              <NextTaskField 
+                :task="item?.lastActiveTask" 
+                @submit="(args) => onTaskFormSubmit({record: item, ...args})" 
+               />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -231,6 +238,7 @@ import {trans} from "@/helpers/i18n";
 import CustomerService from "@/services/CustomerService";
 import LeadService from "@/services/LeadService";
 import SmartListService from "@/services/SmartListService";
+import TaskService from "@/services/TaskService";
 import {watch, onMounted, onBeforeMount, reactive, ref, computed } from 'vue';
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {toUrl} from "@/helpers/routing";
@@ -253,6 +261,7 @@ import Dropdown from "@/views/components/input/Dropdown";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import BranchField from "@/views/components/BranchField";
 import SourceField from "@/views/components/SourceField";
+import NextTaskField from "@/views/components/NextTaskField";
 import {leadColumns} from "@/stub/columns";
 import { leadStatuses, branches } from "@/stub/statuses";
 import { datesFilter } from "@/stub/date";
@@ -264,11 +273,13 @@ import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
 import {leadCategories} from "@/stub/categories";
 import {can} from "@/helpers/permissions";
+import dayjs from "dayjs";
 
 const route = useRoute();
 const leadService = new LeadService();
 const customerService = new CustomerService();
 const smartListservice = new SmartListService();
+const taskService = new TaskService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
@@ -748,6 +759,25 @@ async function onBulkDelete() {
       fetchPage(mainQuery);
     });
   })
+}
+
+function onTaskFormSubmit({content, due_at, owner, record}) {
+  taskService.store({
+    content: content,
+    due_at: due_at,
+    owner_id: owner.id,
+    task_type: 'lead',
+    id: record.id,
+    user_id: authStore.user.id
+  }).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      let item = table.records.find((item) => item.id == record.id);
+      if (! item.lastActiveTask) {
+        item.lastActiveTask = res.data.data;
+      }
+    }
+  });
 }
 
 watch(mainQuery, (newTableState) => {
