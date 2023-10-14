@@ -233,14 +233,6 @@ export default {
             //       to: '/panel/dashboard',
             //   },
               {
-                  name: trans('global.pages.wallet'),
-                  icon: 'users',
-                  showDesktop: true,
-                  showMobile: true,
-                  requiresAbility: false,
-                  to: '/panel/customers/list',
-              },
-              {
                   name: trans('global.pages.leads'),
                   icon: 'flag',
                   showDesktop: true,
@@ -248,6 +240,14 @@ export default {
                   requiresAbility: false,
                   permission : 'view:leads',
                   to: '/panel/leads/list',
+              },
+              {
+                  name: trans('global.pages.wallet'),
+                  icon: 'users',
+                  showDesktop: true,
+                  showMobile: true,
+                  requiresAbility: false,
+                  to: '/panel/customers/list',
               },
               {
                   name: trans('deals.menu.oportunidades'),

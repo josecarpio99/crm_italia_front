@@ -27,17 +27,7 @@
               name="customer" 
               v-model="form.customer_id"  
               :errorMessage="v$.customer_id.$errors.length ? v$.customer_id.$errors[0].$message : ''"
-            />
-
-            <Dropdown  
-              class="mb-4 deal_status"
-              :required="false"
-              :label="trans('deals.labels.cotizado_status')"
-              name="status" 
-              :options="dealStatus" 
-              v-model="form.status"  
-              :errorMessage="v$.status.$errors.length ? v$.status.$errors[0].$message : ''"
-            />
+            />        
 
             <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
               <MoneyInput 
@@ -232,7 +222,6 @@ function onCloseModal() {
 onMounted( async () => {
   Object.assign(form, props.deal);
   
-  form.status = dealStatus.find(option => option.id === form.status);
   form.customer_id = customerList.value.find(option => option.id === form.customer?.id);
   form.source_id = sources.find(option => option.id === form.source?.id);
   form.owner_id = users.find(option => option.id === form.owner?.id);

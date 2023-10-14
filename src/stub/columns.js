@@ -876,41 +876,6 @@ export const oportunidadColumns = [
     cellLabel: 'source.name'
 },
 {
-  key: 'status',
-  label: trans('deals.labels.cotizado_status'),
-  show: true,
-  locked: false,
-  sorteable: false,
-  filterable: true,
-  editable: true,
-  filter: {
-    modelValue: {
-      id: 'en proceso',
-      label: 'En proceso',
-    },
-    type: 'multiselect',
-    options: dealStatus
-  },
-  edit: {
-    type: 'list',
-    options: dealStatus
-  }
-},
-{
-  key: 'closed_at',
-  label: trans('global.labels.stage_moved_at'),
-  show: false,
-  locked: false,
-  sorteable: true,
-  filterable: true,
-  editable: false,
-  filter: {
-    modelValue:'',
-    type: 'select',
-    options: datesFilter
-  }          
-},
-{
     key: 'category',
     label: trans('deals.labels.category'),
     show: true,

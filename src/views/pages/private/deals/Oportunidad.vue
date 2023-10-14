@@ -197,19 +197,7 @@
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"
-              />
-
-              <Button
-                theme="outline_success"
-                :label="trans('deals.labels.update_won')"
-                @click="handleBulkStatusUpdate('ganado')"
-              />
-
-              <Button
-                theme="outline_danger"
-                :label="trans('deals.labels.update_lost')"
-                @click="handleBulkStatusUpdate('perdido')"
-              />
+              />              
             </div>
           </div>
 
@@ -463,7 +451,7 @@ const mainQuery = reactive({
           comparison: '='
       },
       status: {
-          value: 'en proceso',
+          value: '',
           comparison: '='
       },
       closed_at: {
@@ -899,7 +887,7 @@ function handleRowClick({record}) {
 }
 
 function rowClassFn(item) {
-  if (item.status != 'en proceso') return '';
+  // if (item.status != 'en proceso') return '';
   if (
     ! item.lastActiveTask || 
     dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
