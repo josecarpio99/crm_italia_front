@@ -88,6 +88,7 @@
                 </div>
                 
                 <NotificationList />
+                <PendingTasks />
             
                   <span class="text-white bg-theme-500 text-xs mr-[0.250rem] h-min lowercase self-center px-2 rounded-xl">{{ trans('users.labels.' + authStore.user.role) }}</span>
                   <a class="flex cursor-pointer focus:outline-none align-middle" @click="state.isAccountDropdownOpen = !state.isAccountDropdownOpen">
@@ -162,6 +163,7 @@ import {trans} from '@/helpers/i18n';
 import Menu from "@/views/layouts/Menu";
 import Icon from "@/views/components/icons/Icon";
 import GlobalSearch from "@/views/components/GlobalSearch";
+import PendingTasks from "@/views/components/PendingTasks";
 import NotificationList from "@/views/components/NotificationList";
 import Button from "@/views/components/input/Button.vue";
 import CreatePersonModal from "@/views/pages/private/customers/modals/CreatePersonModal.vue";
@@ -196,6 +198,7 @@ export default {
       Button,
       PendingOpportunityAlert,
       GlobalSearch,
+      PendingTasks,
       NotificationList
   },
   setup() {

@@ -13,7 +13,9 @@ export const useAuthStore = defineStore("auth", {
         return {
             user: null,
             lastIncompletedTasks: [],
+            notifications: [],
             error: null,
+            interval: null
         };
     },
     actions: {
@@ -49,6 +51,10 @@ export const useAuthStore = defineStore("auth", {
                 const response = await authService.getCurrentUser();
                 this.user = response.data.data;
                 this.lastIncompletedTasks = response.data.data.lastIncompletedTasks;
+                this.notifications = response.data.data.notifications;
+                if (!this.interval) {
+                    this.setIntervalFn();
+                }
                 this.loading = false
             } catch (error) {
                 this.loading = false
@@ -110,6 +116,7 @@ export const useAuthStore = defineStore("auth", {
         },
         stopIntervals() {
             const pendingOpportunitiesStore = usePendingOpportunitiesStore();
+            clearInterval(this.interval);
             pendingOpportunitiesStore.stopIntervalFn();    
         },
         hasAbilities(abilities) {
@@ -171,7 +178,13 @@ export const useAuthStore = defineStore("auth", {
             }
 
             return false
-        }
+        },
+
+        setIntervalFn() {
+            this.interval = setInterval(async () => {      
+               this.getCurrentUser();                           
+            }, 30000);      
+        },
     },
     getters: {
         isAdmin: (state) => {
