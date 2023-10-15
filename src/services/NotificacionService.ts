@@ -14,6 +14,12 @@ export default class NotificacionService extends ModelService {
         url = url + `/?id=${id}`;        
       }
 
-      return this.post(url);
+      return this.post(
+        this.url + '/mark-as-read',
+        {id}, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
   }
 }

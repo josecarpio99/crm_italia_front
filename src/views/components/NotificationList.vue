@@ -16,7 +16,7 @@
     </span>
     <div 
       v-if="showList"
-      class="mt-4 rounded-lg shadow-lg absolute top-8 left-[-8rem]  z-50 w-max min-w-[18rem] max-w-[24rem] overflow-auto border-2"
+      class="mt-4 rounded-lg shadow-lg absolute top-8 left-[-8rem] bg-white z-50 w-max min-w-[18rem] max-w-[24rem] overflow-auto border-2"
     >
       <ul v-if="notifications.length > 0" class="text-xs text-gray-600 max-h-[30rem] overflow-auto">
         
