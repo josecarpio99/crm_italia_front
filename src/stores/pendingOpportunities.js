@@ -33,7 +33,7 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
             this.showAlert = false;
             this.showModal = false;
           }              
-      }, 9000);      
+      }, 12000);      
     },
     setIntervanSound() {
       this.intervalSound = setInterval(function () {
