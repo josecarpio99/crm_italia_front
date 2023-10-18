@@ -130,7 +130,12 @@
           <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
-          <AssociatedContact :customer="deal.customer" />
+          <AssociatedContact 
+            :customer="deal.customer" 
+            :contacts="deal.associatedContacts"
+            @add="handleAddCustomer"            
+            @remove="handleRemoveCustomer"            
+          />
           <Task @submit="onTaskSubmit" />
           <DealFlow :deal="deal" />
           <Document @submit="onDocumentSubmit" />
@@ -411,6 +416,44 @@ function setIntervalFn() {
       });   
     }, 8000);
   }
+}
+
+function handleAddCustomer({customer}) {
+  dealService.attachDetach(
+      deal.id,
+      {
+        type: 'attach',
+        customer_id: customer.value.id
+      }
+    ).then((res) => {             
+      if (res?.status == 200 || res?.status == 201 || res?.status == 204) {
+        toast.success();
+        fetchRecord();
+      }
+  }).catch(({response}) => {
+    if (response?.status == 422) {
+        toast.error(response?.data.message)
+      }
+  })
+}
+
+function handleRemoveCustomer({customer}) {
+  alertHelpers.confirmDanger(function () {
+    dealService.attachDetach(
+        deal.id,
+        {
+          type: 'detach',
+          customer_id: customer.id
+        }
+      ).then((res) => {               
+        if (res?.status == 200 || res?.status == 201 || res?.status == 204) {
+          toast.success();
+          fetchRecord();
+        }
+    }).catch(({response}) => {
+     
+    })
+  });
 }
 
 onBeforeMount(async () => {  

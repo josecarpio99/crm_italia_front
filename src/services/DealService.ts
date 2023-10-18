@@ -17,6 +17,16 @@ export default class DealService extends ModelService {
         );
     }
 
+    public attachDetach(id, payload) {
+        return this.post( 
+            this.url + `/${id}/contact/alter`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
+
     public confirm(id) {
         return this.post( 
             this.url + `/${id}/confirm`,

@@ -339,6 +339,7 @@
       "stage_moved_at": "Fecha de Cierre",
       "requirement": "Requerimientos",
       "associated_contact": "Contacto asociado",
+      "associated_contacts": "Contactos Asociados",
       "document": "Documento",
       "documents": "Documentos",
       "created_by": "Creado por",
