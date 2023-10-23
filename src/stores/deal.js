@@ -23,7 +23,7 @@ export const useDealStore = defineStore("deal", {
                 comparison: '='
             },    
             source: {
-                value: '',
+                value: '2',
                 comparison: '='
             },    
             stage: {

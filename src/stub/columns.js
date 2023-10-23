@@ -430,7 +430,10 @@ export const dealColumns = [
     filterable: true,
     editable: true,
     filter: {
-      modelValue: '',
+      modelValue: [{
+        id: 2,
+        name: 'Publicidad - Guardia',
+      }],
       type: 'multiselect',
       options: [],
       optionsLabel: 'name'
