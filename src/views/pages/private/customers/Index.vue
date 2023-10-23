@@ -67,6 +67,7 @@
               type="text" 
               name="global-search" 
               label="Buscar"
+              ref="searchInput"
               @update:modelValue="setSearchQueryValue"
             />            
           </div>
@@ -273,6 +274,8 @@ import {useAuthStore} from "@/stores/auth";
 import {useSourcesStore} from "@/stores/sources";
 import toast from '@/helpers/toast';
 import dayjs from "dayjs";
+import {useCustomersStore} from "@/stores/customers";
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 const service = new CustomerService();
@@ -282,8 +285,10 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
 const sourcesStore = useSourcesStore();
+const customersStore = useCustomersStore();
 
 const tableKey = ref(1);
+const searchInput = ref(null);
 const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
@@ -291,55 +296,56 @@ let sources = sourcesStore.sourceList;
 let smartList = null;
 let smartLists =  [];
 
+const mainQuery = reactive(customersStore.mainQuery);
 
-const mainQuery = reactive({
-  page: 1,
-  limit: PAGE_LIMIT,
-  search: '',
-  sort: '',
-  filters: {
-      search: {
-          value: '',
-          comparison: '='
-      },    
-      name: {
-          value: '',
-          comparison: '='
-      },    
-      company_name: {
-          value: '',
-          comparison: '='
-      }, 
-      source: {
-          value: '',
-          comparison: '='
-      },     
-      owner: {
-          value: '',
-          comparison: '='
-      },
-      star: {
-          value: '',
-          comparison: '='
-      },
-      branch: {
-          value: '',
-          comparison: '='
-      },
-      status: {
-          value: '',
-          comparison: '='
-      },   
-      category_id: {
-          value: '',
-          comparison: '='
-      },
-      created_at: {
-          value: '',
-          comparison: '='
-      }
-  }
-});
+// const mainQuery = reactive({
+//   page: 1,
+//   limit: PAGE_LIMIT,
+//   search: '',
+//   sort: '',
+//   filters: {
+//       search: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       name: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       company_name: {
+//           value: '',
+//           comparison: '='
+//       }, 
+//       source: {
+//           value: '',
+//           comparison: '='
+//       },     
+//       owner: {
+//           value: '',
+//           comparison: '='
+//       },
+//       star: {
+//           value: '',
+//           comparison: '='
+//       },
+//       branch: {
+//           value: '',
+//           comparison: '='
+//       },
+//       status: {
+//           value: '',
+//           comparison: '='
+//       },   
+//       category_id: {
+//           value: '',
+//           comparison: '='
+//       },
+//       created_at: {
+//           value: '',
+//           comparison: '='
+//       }
+//   }
+// });
 
 const page = reactive({
   id: 'list_customers',
@@ -841,14 +847,16 @@ onMounted(async () => {
   sourceColumn.filter.options = sources;
   sourceColumn.edit.options = sources;
 
-  table.columns.forEach(column => {
-    if (column.filterable) {
-      onTableFilter({column, value: column.filter.modelValue})
-    }
-  });
+  // table.columns.forEach(column => {
+  //   if (column.filterable) {
+  //     onTableFilter({column, value: column.filter.modelValue})
+  //   }
+  // });
+
+  searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;
   
   page.isLoading = false;
-  // fetchPage(mainQuery);
+  fetchPage(mainQuery);
 });
 
 </script>

@@ -207,6 +207,7 @@
               type="text" 
               name="global-search" 
               label="Buscar"
+              ref="searchInput"
               @update:modelValue="setSearchQueryValue"
             />             
           </div>
@@ -385,6 +386,7 @@ import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
 import {dealCategories} from "@/stub/categories";
 import {can} from "@/helpers/permissions";
+import {useOportunidadStore} from "@/stores/oportunidad";
 
 const route = useRoute();
 const dealService = new DealService();
@@ -395,8 +397,10 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
 const authStore = useAuthStore();
+const oportunidadStore = useOportunidadStore();
 
 const tableKey = ref(1);
+const searchInput = ref(null);
 const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
@@ -404,66 +408,68 @@ let sources = sourcesStore.sourceList;
 let smartList = null;
 let smartLists =  [];
 
-const mainQuery = reactive({
-  page: 1,
-  limit: PAGE_LIMIT,
-  search: '',
-  sort: '',
-  filters: {
-      search: {
-          value: '',
-          comparison: '='
-      },  
-      type: {
-          value: 'oportunidad',
-          comparison: '='
-      },    
-      name: {
-          value: '',
-          comparison: '='
-      },    
-      source: {
-          value: '',
-          comparison: '='
-      },    
-      stage: {
-          value: '',
-          comparison: '='
-      },    
-      owner: {
-          value: '',
-          comparison: '='
-      },
-      creator: {
-          value: '',
-          comparison: '='
-      },
-      branch: {
-          value: '',
-          comparison: '='
-      },
-      value: {
-          value: '',
-          comparison: '='
-      },
-      category: {
-          value: '',
-          comparison: '='
-      },
-      status: {
-          value: '',
-          comparison: '='
-      },
-      closed_at: {
-          value: '',
-          comparison: '='
-      },
-      created_at: {
-          value: '',
-          comparison: '='
-      }
-  }
-});
+const mainQuery = reactive(oportunidadStore.mainQuery);
+
+// const mainQuery = reactive({
+//   page: 1,
+//   limit: PAGE_LIMIT,
+//   search: '',
+//   sort: '',
+//   filters: {
+//       search: {
+//           value: '',
+//           comparison: '='
+//       },  
+//       type: {
+//           value: 'oportunidad',
+//           comparison: '='
+//       },    
+//       name: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       source: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       stage: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       owner: {
+//           value: '',
+//           comparison: '='
+//       },
+//       creator: {
+//           value: '',
+//           comparison: '='
+//       },
+//       branch: {
+//           value: '',
+//           comparison: '='
+//       },
+//       value: {
+//           value: '',
+//           comparison: '='
+//       },
+//       category: {
+//           value: '',
+//           comparison: '='
+//       },
+//       status: {
+//           value: '',
+//           comparison: '='
+//       },
+//       closed_at: {
+//           value: '',
+//           comparison: '='
+//       },
+//       created_at: {
+//           value: '',
+//           comparison: '='
+//       }
+//   }
+// });
 
 const page = reactive({
   id: 'list_deals',
@@ -1013,14 +1019,16 @@ onMounted(async () => {
     table.columns = table.columns.filter(column => column.key != 'creator');
   }
 
-  table.columns.forEach(column => {
-    if (column.filterable && column.filter.modelValue) {
-      onTableFilter({column, value: column.filter.modelValue})
-    }
-  });
+  // table.columns.forEach(column => {
+  //   if (column.filterable && column.filter.modelValue) {
+  //     onTableFilter({column, value: column.filter.modelValue})
+  //   }
+  // });
+
+  searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;
 
   page.isLoading = false;
-  // fetchPage(mainQuery);
+  fetchPage(mainQuery);
 });
 
 </script>

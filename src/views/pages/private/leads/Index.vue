@@ -67,6 +67,7 @@
               type="text" 
               name="global-search" 
               label="Buscar"
+              ref="searchInput"
               @update:modelValue="setSearchQueryValue"
             />             
           </div>
@@ -274,6 +275,8 @@ import toast from '@/helpers/toast';
 import {leadCategories} from "@/stub/categories";
 import {can} from "@/helpers/permissions";
 import dayjs from "dayjs";
+import {useLeadsStore} from "@/stores/leads";
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 const leadService = new LeadService();
@@ -284,8 +287,10 @@ const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const sourcesStore = useSourcesStore();
 const authStore = useAuthStore();
+const leadStore = useLeadsStore();
 
 const tableKey = ref(1);
+const searchInput = ref(null);
 const queryHasChange = ref(false);
 const showSmartListModal = ref(false);
 let users = usersStore.userList;
@@ -293,50 +298,52 @@ let sources = sourcesStore.sourceList;
 let smartList = null;
 let smartLists = null;
 
-const mainQuery = reactive({
-  page: 1,
-  limit: PAGE_LIMIT,
-  search: '',
-  sort: '',
-  filters: {
-      search: {
-          value: '',
-          comparison: '='
-      },  
-      name: {
-          value: '',
-          comparison: '='
-      },    
-      company_name: {
-          value: '',
-          comparison: '='
-      },    
-      source: {
-          value: '',
-          comparison: '='
-      },
-      branch: {
-          value: '',
-          comparison: '='
-      },    
-      owner: {
-          value: '',
-          comparison: '='
-      },
-      creator: {
-          value: '',
-          comparison: '='
-      },
-      category: {
-          value: '',
-          comparison: '='
-      },
-      created_at: {
-          value: '',
-          comparison: '='
-      },
-  }
-});
+const mainQuery = reactive(leadStore.mainQuery);
+
+// const mainQuery = reactive({
+//   page: 1,
+//   limit: PAGE_LIMIT,
+//   search: '',
+//   sort: '',
+//   filters: {
+//       search: {
+//           value: '',
+//           comparison: '='
+//       },  
+//       name: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       company_name: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       source: {
+//           value: '',
+//           comparison: '='
+//       },
+//       branch: {
+//           value: '',
+//           comparison: '='
+//       },    
+//       owner: {
+//           value: '',
+//           comparison: '='
+//       },
+//       creator: {
+//           value: '',
+//           comparison: '='
+//       },
+//       category: {
+//           value: '',
+//           comparison: '='
+//       },
+//       created_at: {
+//           value: '',
+//           comparison: '='
+//       },
+//   }
+// });
 
 const page = reactive({
   id: 'list_leads',
@@ -708,7 +715,7 @@ function resetQueryOfRemovedColumns() {
     if (!column.show) {
       if (mainQuery.filters[column.key]) {
         if (column.key == 'category') {
-          mainQuery.filters.category_id.value = '';
+          mainQuery.filters.category.value = '';
         } else {
           mainQuery.filters[column.key].value = '';  
         }
@@ -812,14 +819,16 @@ onMounted(async () => {
     table.columns = table.columns.filter(column => column.key != 'creator');
   }
 
-  table.columns.forEach(column => {
-    if (column.filterable) {
-      onTableFilter({column, value: column.filter.modelValue})
-    }
-  });
-  
+  // table.columns.forEach(column => {
+  //   if (column.filterable) {
+  //     onTableFilter({column, value: column.filter.modelValue})
+  //   }
+  // });  
+
+  searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;  
+
   page.isLoading = false;
-  // fetchPage(mainQuery);
+  fetchPage(mainQuery);
 });
 
 </script>
