@@ -313,7 +313,7 @@
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
             </div>
             <div class="flex items-center">
-              <span>{{ trans('deals.labels.value_total') }}</span>
+              <span>{{ trans('deals.labels.value_estimated') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
                 MXN{{ numberFormatter.format(table.pagination.meta.valueSum) }}
               </span>

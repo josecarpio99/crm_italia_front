@@ -37,7 +37,6 @@ export const usePendingOpportunitiesStore = defineStore("pendingOpportunities", 
     },
     setIntervanSound() {
       this.intervalSound = setInterval(function () {
-        console.log('suena...');
         (new Audio('/assets/sounds/tip_sound.wav')).play();
       }, 3000);
     },
