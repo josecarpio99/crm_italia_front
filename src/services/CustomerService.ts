@@ -7,6 +7,19 @@ export default class CustomerService extends ModelService {
         this.url = 'v1/customer';
     }
 
+    public export(params = {}) {
+        let path = this.url + '/export';
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, {
+            headers: {
+                'Accept': '*'
+            }
+        });
+    }
+
     public toggleStar(id) {
         return this.post( 
             this.url + `/${id}/star`,

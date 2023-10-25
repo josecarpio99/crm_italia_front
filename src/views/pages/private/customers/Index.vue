@@ -35,6 +35,14 @@
 
       <template #page-actions>
         <div class="flex items-center">
+          <Button
+            class="mr-2"
+            icon="fa fa-file-excel-o"
+            theme="outline"
+            :label="trans('global.actions.export')"
+            @click="handleExport"
+          />
+
           <FieldsButton
             :columns="table.columns"
             @update="onFieldsChange"
@@ -819,6 +827,32 @@ function onTaskFormSubmit({content, due_at, owner, record}) {
   });
 }
 
+function handleExport() {
+  let exportColumns = [];  
+
+  table.columns.forEach(item => {
+    if (
+      item.key != 'checkall' &&
+      item.key != 'star' &&
+      item.show
+    ) {
+      exportColumns.push(item.key);
+    }
+  });
+
+  let query = prepareQuery(mainQuery);
+  query.columns = exportColumns;
+  query = new URLSearchParams(query).toString();
+
+  let exportUrl = import.meta.env.VITE_API_URL + '/customer/export';
+
+  if (query) {
+    exportUrl += '?' + query;
+  }
+
+  window.open(exportUrl, '_blank');
+}
+
 watch(mainQuery, (newTableState) => {
   if (smartList) {
     checkIfTableChange();
@@ -856,7 +890,7 @@ onMounted(async () => {
   searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;
   
   page.isLoading = false;
-  fetchPage(mainQuery);
+  fetchPage(mainQuery);  
 });
 
 </script>

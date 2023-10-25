@@ -35,6 +35,14 @@
 
       <template #page-actions>
         <div class="flex items-center">
+          <Button
+            class="mr-2"
+            icon="fa fa-file-excel-o"
+            theme="outline"
+            :label="trans('global.actions.export')"
+            @click="handleExport"
+          />
+
           <FieldsButton
             :columns="table.columns"
             @update="onFieldsChange"
@@ -1102,6 +1110,32 @@ function handleBulkStatusUpdate(status) {
     });
   })
 }
+
+function handleExport() {
+  let exportColumns = [];  
+
+  table.columns.forEach(item => {
+    if (
+      item.key != 'checkall' &&
+      item.show
+    ) {
+      exportColumns.push(item.key);
+    }
+  });
+
+  let query = prepareQuery(mainQuery);
+  query.columns = exportColumns;
+  query = new URLSearchParams(query).toString();
+
+  let exportUrl = import.meta.env.VITE_API_URL + '/deal/export';
+
+  if (query) {
+    exportUrl += '?' + query;
+  }
+
+  window.open(exportUrl, '_blank');
+}
+
 
 watch(mainQuery, (newTableState) => {
   if (smartList) {
