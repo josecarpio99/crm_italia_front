@@ -104,7 +104,7 @@ import {watch, onMounted, reactive, ref } from 'vue';
 import {trans} from "@/helpers/i18n";
 import Page from "@/views/layouts/Page";
 import Panel from "@/views/components/Panel";
-import DealService from "@/services/DealService";
+import ReportService from "@/services/ReportService";
 import {getResponseError, prepareQuery} from "@/helpers/api";
 import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
@@ -116,7 +116,7 @@ import { Bar, Pie } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
 
-const dealService = new DealService();
+const reportService = new ReportService();
 const alertStore = useAlertStore();
 const usersStore = useUsersStore();
 const authStore = useAuthStore();
@@ -201,29 +201,29 @@ const sourceData = ref(null);
 function fetchPage(params) {
   isLoading.value = true;
   let query = prepareQuery(params);
-  dealService
-      .index(query)
+  reportService
+      .dealSource(query)
       .then((response) => {
-          sourceData.value = response.data.meta.source;
+          sourceData.value = response.data.source;
           barChart.chartData.datasets = [
             {
               label: 'Prospección',
               data: [
-                response.data.meta.source.prospeccion.sum
+                response.data.source.prospeccion.sum
               ],
               backgroundColor: '#86EFAC'
             },
             {
               label: 'Publicidad - Guardia',
               data: [
-                response.data.meta.source.publicidad.sum
+                response.data.source.publicidad.sum
               ],
               backgroundColor: '#FDE047'
             },
             {
               label: 'Recompra',
               data: [
-                response.data.meta.source.recompra.sum
+                response.data.source.recompra.sum
               ],
               backgroundColor: '#93C5FD'
             }
@@ -232,9 +232,9 @@ function fetchPage(params) {
           pieChart.chartData.datasets = [
             {
               data: [
-                response.data.meta.source.prospeccion.count,
-                response.data.meta.source.publicidad.count,
-                response.data.meta.source.recompra.count
+                response.data.source.prospeccion.count,
+                response.data.source.publicidad.count,
+                response.data.source.recompra.count
               ],
               backgroundColor: ['#86EFAC', '#FDE047', '#93C5FD']
             },          
