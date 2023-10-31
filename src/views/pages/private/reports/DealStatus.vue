@@ -126,7 +126,7 @@ import {useUsersStore} from "@/stores/users";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import Dropdown from "@/views/components/input/Dropdown";
-import { branches } from "@/stub/statuses";
+// import { branches } from "@/stub/statuses";
 import { Bar, Pie } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
 import { datesFilter } from "@/stub/date";
@@ -138,9 +138,33 @@ const authStore = useAuthStore();
 
 const isLoading = ref(true);
 const ownerSelected = ref(null);
-const branchSelected = ref(null);
+const branchSelected = ref({id: null, label: 'TODOS'});
 const dateSelected = ref(null);
 const users = usersStore.userList;
+
+const branches = ref([
+  {
+    id: null,
+    label: 'TODOS',
+  },  
+  {
+    id: 'CDMX',
+    label: 'CDMX',
+  },  
+  {
+    id: 'AGS',
+    label: 'AGS',
+  },  
+  {
+    id: 'MTY',
+    label: 'MTY',
+  },  
+  {
+    id: 'QRO',
+    label: 'QRO',
+  }
+])
+
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, ArcElement, LinearScale)
 
