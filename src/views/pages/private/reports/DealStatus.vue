@@ -65,6 +65,16 @@
             </div>
           </div>
 
+          <div>            
+            <h4 class="flex justify-center items-center text-center text-gray-600 font-bold mb-4">
+              <span class="inline-block h-4 w-4 bg-yellow-300 mr-2"></span>
+              En Proceso
+            </h4>
+            <div class="flex gap-4">
+              <div class="font-semibold">Cantidad: <span class="text-lg font-bold text-gray-600">{{dealStatusData?.inProgress?.count }}</span></div>
+            </div>
+          </div>
+
         </div>
 
         <div class="flex flex-col items-center lg:flex-row gap-4 max-w-lg mx-auto">       
@@ -77,6 +87,27 @@
             />
           </div>        
   
+        </div>
+
+        <div class="mt-6">
+
+          <h3 class="text-gray-600 font-semibold text-xl text-center mb-4">Hit Rate</h3>
+          
+          <div class="flex justify-center items-center gap-6">
+
+            <div class="flex flex-col items-center gap-4">
+              <h4 class="text-gray-500 font-semibold text-lg">Cantidad</h4>
+              <span class="text-gray-600 font-semibold text-4xl">
+                {{ dealStatusData?.hit_rate?.count.toFixed(2) + '%' }}
+              </span>
+            </div>
+            <div class="flex flex-col items-center gap-4">
+              <h4 class="text-gray-500 font-semibold text-lg">Valor</h4>
+              <span class="text-gray-600 font-semibold text-4xl">
+                {{ dealStatusData?.hit_rate?.amount.toFixed(2) + '%' }}
+              </span>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -120,7 +151,7 @@ const mainQuery = reactive({
   sort: '',
   filters: {
       type: {
-          value: '',
+          value: 'cotizado',
           comparison: '='
       },    
       name: {
@@ -160,7 +191,7 @@ const page = reactive({
 
 const pieChart = reactive({
   chartData: {
-    labels: ['Ganado', 'Perdido'],
+    labels: ['Ganado', 'Perdido', 'En Progreso'],
     datasets: [ { data: [] } ]
   },
   chartOptions: {
@@ -185,9 +216,10 @@ function fetchPage(params) {
             {
               data: [
                 response.data.data.won.count,
-                response.data.data.lost.count
+                response.data.data.lost.count,
+                response.data.data.inProgress.count
               ],
-              backgroundColor: ['#86EFAC', '#FCA5A5']
+              backgroundColor: ['#86EFAC', '#FCA5A5', '#FDE047']
             },          
           ]
           isLoading.value = false;
