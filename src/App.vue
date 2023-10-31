@@ -273,8 +273,8 @@ export default {
                   icon: 'bullhorn',
                   showDesktop: true,
                   showMobile: true,
-                  requiresAbility: false,
-                  requiresRole: roles.SUPERADMIN,
+                  requiresAbility: true,
+                  permission: 'view:created_by',
                   to: '/panel/deals/publicidad/list',
               },           
               {
