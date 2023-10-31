@@ -304,6 +304,14 @@
                 }}          
             </template>
 
+            <template #cell-confirmed_at="{item}">          
+              <ResponseTimeField 
+                v-if="item.confirmed_at"
+                :value="item.confirmed_at" 
+                :compDate="item.created_at"
+              />
+            </template>
+
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
             </template>
@@ -395,6 +403,7 @@ import toast from '@/helpers/toast';
 import {dealCategories} from "@/stub/categories";
 import {can} from "@/helpers/permissions";
 import {useOportunidadStore} from "@/stores/oportunidad";
+import ResponseTimeField from "@/views/components/ResponseTimeField";
 
 const route = useRoute();
 const dealService = new DealService();

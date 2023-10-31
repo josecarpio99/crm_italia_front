@@ -779,7 +779,8 @@ export const cotizadoColumns = [
       },
       cellKey: 'lastActivetask.id',
       cellLabel: 'lastActivetask.name'
-  },    
+  },  
+          
   {
       key: 'created_at',
       label: trans('global.labels.created_at'),
@@ -965,6 +966,15 @@ export const oportunidadColumns = [
     },
     cellKey: 'lastActivetask.id',
     cellLabel: 'lastActivetask.name'
+  },
+  {
+    key: 'confirmed_at',
+    label: trans('deals.labels.response_time'),
+    show: false,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: false,          
   }, 
   {
       key: 'created_at',
