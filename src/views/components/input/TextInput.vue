@@ -12,8 +12,9 @@
                :type="type"
                :value="modelValue"
                :required="required"
-               :disabled="disabled"
+               :disabled="disabled"               
                :min="min"
+               :max="max"
                @input="onInput"
                :placeholder="placeholder"
                :autocomplete="autocomplete"
@@ -85,6 +86,10 @@ export default defineComponent({
             default: null,
         },
         min: {
+            type: String,
+            default: null,
+        },
+        max: {
             type: String,
             default: null,
         },

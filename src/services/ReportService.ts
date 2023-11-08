@@ -43,4 +43,37 @@ export default class ReportService extends ModelService {
             'Content-Type': 'application/json'
         });
     }
+
+    public branch(params = {}) {
+        let path = this.url + `/branch`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
+
+    public owner(params = {}) {
+        let path = this.url + `/owner`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
+
+    public userAudit(params = {}) {
+        let path = this.url + `/user/audit`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
 }

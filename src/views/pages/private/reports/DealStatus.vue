@@ -96,17 +96,17 @@
           <div class="flex justify-center items-center gap-6">
 
             <div class="flex flex-col items-center gap-4">
-              <h4 class="text-gray-500 font-semibold text-lg">Cantidad</h4>
+              <!-- <h4 class="text-gray-500 font-semibold text-lg">Cantidad</h4> -->
               <span class="text-gray-600 font-semibold text-4xl">
                 {{ dealStatusData?.hit_rate?.count.toFixed(2) + '%' }}
               </span>
             </div>
-            <div class="flex flex-col items-center gap-4">
+            <!-- <div class="flex flex-col items-center gap-4">
               <h4 class="text-gray-500 font-semibold text-lg">Valor</h4>
               <span class="text-gray-600 font-semibold text-4xl">
                 {{ dealStatusData?.hit_rate?.amount.toFixed(2) + '%' }}
               </span>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -138,14 +138,14 @@ const authStore = useAuthStore();
 
 const isLoading = ref(true);
 const ownerSelected = ref(null);
-const branchSelected = ref({id: null, label: 'TODOS'});
+const branchSelected = ref({id: null, label: 'TODAS'});
 const dateSelected = ref(null);
 const users = usersStore.userList;
 
 const branches = ref([
   {
     id: null,
-    label: 'TODOS',
+    label: 'TODAS',
   },  
   {
     id: 'CDMX',

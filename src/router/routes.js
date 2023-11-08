@@ -31,6 +31,9 @@ import {default as SellsByAdvisors} from "@/views/pages/private/reports/SellsByA
 import {default as DealStatus} from "@/views/pages/private/reports/DealStatus";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
 import {default as OpportunitiesByLeadQualifier} from "@/views/pages/private/reports/OpportunitiesByLeadQualifier";
+import {default as BranchReport} from "@/views/pages/private/reports/BranchReport";
+import {default as OwnerReport} from "@/views/pages/private/reports/OwnerReport";
+import {default as UserAuditReport} from "@/views/pages/private/reports/UserAuditReport";
 import {default as ReportList} from "@/views/pages/private/reports/ReportList";
 
 import {roles} from "@/stub/roles";
@@ -217,6 +220,24 @@ const routes = [
                         path: "leads-ganado-perdido",
                         meta: {requiresAuth: true, requiresPermission: 'view:deal_status_report'},
                         component: DealStatus
+                    },
+                    {
+                        name: "reports.branch",
+                        path: "resumen-global",
+                        meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
+                        component: BranchReport
+                    },
+                    {
+                        name: "reports.owner",
+                        path: "resumen-por-sucursales",
+                        meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
+                        component: OwnerReport
+                    },
+                    {
+                        name: "reports.user_audit",
+                        path: "auditoria-atencion-leads",
+                        meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
+                        component: UserAuditReport
                     },
                 ]
             }
