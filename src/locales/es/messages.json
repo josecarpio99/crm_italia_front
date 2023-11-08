@@ -328,7 +328,8 @@
       "edit": "Actualizar",
       "delete": "Borrar",
       "convert": "Convertir",
-      "export": "Exportar"
+      "export": "Exportar",
+      "filter": "Filtrar"
     },
     "alerts": {
       "success": "¡Éxito!",

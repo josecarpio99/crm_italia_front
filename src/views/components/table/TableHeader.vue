@@ -51,6 +51,14 @@
 
           <div class="flex justify-between border-b-[1px] pb-2 mb-4">
             <Button 
+              theme="outline"
+              class=""
+              :label="trans('global.actions.filter')"
+              :disabled="filterIsClean()"
+              @click="showInput = false"
+            />
+
+            <Button 
               theme="info"
               class="ml-auto"
               :label="trans('global.buttons.clean_filter')"
