@@ -400,6 +400,23 @@ export const dealColumns = [
       cellLabel: 'owner.branch'
   },
   {
+    key: 'creator',
+    label: trans('global.labels.created_by'),
+    show: true,
+    locked: false,
+    sorteable: false,
+    filterable: true,
+    editable: false,
+    filter: {
+      modelValue: '',
+      type: 'multiselect',
+      options: [],
+      optionsLabel: 'name'
+    },   
+    cellKey: 'creator.id',
+    cellLabel: 'creator.name'
+  },
+  {
     key: 'owner',
     label: trans('global.labels.owner'),
     show: true,

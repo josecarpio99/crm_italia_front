@@ -263,6 +263,11 @@
               <PipelineStage :stage-id="item.stage.id" />
             </template>
 
+            <template #cell-creator="{item}">             
+              <CircleAvatarIcon :avatarUrl="item.creator?.avatar_url" :user="item.creator" />              
+              {{ item.creator?.name }}
+            </template>
+
             <template #cell-owner="{item}">             
               <CircleAvatarIcon :avatarUrl="item.owner?.avatar_url" :user="item.owner" />              
               {{ item.owner?.name }}
@@ -617,7 +622,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'branch' || column.key == 'status') {
+    if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'branch' || column.key == 'status' || column.key == 'creator') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at' || column.key == 'closed_at') {
       mainQuery.filters[column.key].value = value?.id || null;
@@ -661,6 +666,7 @@ function fetchSmartList(id) {
 function updateColumnsForSmartList() {
   const {
     owner: ownerFilter, 
+    creator: creatorFilter, 
     branch: branchFilter,
     source: sourceFilter, 
     status: statusFilter, 
@@ -724,6 +730,15 @@ function updateColumnsForSmartList() {
     let ownerColumn = table.columns.find(column => column.key == 'owner');
     ownerColumn.filter.modelValue = selectedUsers;         
   } 
+
+  if (creatorFilter.value) {
+    let selectedUsers = creatorFilter.value.split(',').map(item => {
+      return users.find(option => option.id == item);
+    });
+    
+    let creatorColumn = table.columns.find(column => column.key == 'creator');
+    creatorColumn.filter.modelValue = selectedUsers;         
+  }
   
   if (statusFilter.value) {
     let selectedStatus = statusFilter.value.split(',').map(item => {
@@ -980,6 +995,9 @@ onMounted(async () => {
 
   let ownerColumn = table.columns.find(column => column.key == 'owner');
   let sourceColumn = table.columns.find(column => column.key == 'source');
+  let creatorColumn = table.columns.find(column => column.key == 'creator');
+
+  creatorColumn.filter.options = users;
 
   ownerColumn.filter.options = users;
   ownerColumn.edit.options = users;

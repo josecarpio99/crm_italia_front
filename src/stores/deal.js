@@ -34,6 +34,10 @@ export const useDealStore = defineStore("deal", {
                 value: '',
                 comparison: '='
             },
+            creator: {
+                value: '',
+                comparison: '='
+            },
             branch: {
                 value: '',
                 comparison: '='
