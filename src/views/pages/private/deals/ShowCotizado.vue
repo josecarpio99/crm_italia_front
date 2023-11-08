@@ -103,7 +103,7 @@
 
   </Page>
 
-  <EditCotizadoModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" :key="modalKey" />
+  <EditCotizadoModal v-if="deal" :show-delete="can('view:delete')" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" :key="modalKey" />
 
 </template>
 

@@ -202,6 +202,7 @@
 
             <div v-if="!page.isLoading" class="ml-6 flex items-center gap-2">
               <Button
+                v-if="can('view:delete')"
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"

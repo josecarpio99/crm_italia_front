@@ -131,7 +131,7 @@
 
   </Page>
 
-  <EditLeadModal v-if="lead" :show-delete="true" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal('EditLeadModal')" @delete="onModalDelete" />
+  <EditLeadModal v-if="lead" :show-delete="can('view:delete')" :modalActive="showEditLeadModal" :lead="lead" @updated="onModalUpdate" @close-modal="toggleModal('EditLeadModal')" @delete="onModalDelete" />
 
   <ConvertLeadModal v-if="lead" :modalActive="showConvertLeadModal" :lead="lead" @close-modal="toggleModal('ConvertLeadModal')" />
 

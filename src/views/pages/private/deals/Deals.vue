@@ -194,6 +194,7 @@
 
             <div class="ml-6">
               <Button
+                v-if="can('view:delete')"
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"
@@ -407,6 +408,7 @@ import {useAuthStore} from "@/stores/auth";
 import toast from '@/helpers/toast';
 import {dealCategories} from "@/stub/categories";
 import {useDealStore} from "@/stores/deal";
+import {can} from "@/helpers/permissions";
 
 const route = useRoute();
 const dealService = new DealService();

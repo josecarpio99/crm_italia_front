@@ -145,7 +145,7 @@
 
   </Page>
 
-  <EditOportunidadModal v-if="deal" :show-delete="true" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditDealModal')" @delete="onModalDelete" :key="modalKey" />
+  <EditOportunidadModal v-if="deal" :show-delete="can('view:delete')" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditDealModal')" @delete="onModalDelete" :key="modalKey" />
   <ConvertOportunidadModal v-if="deal" :modalActive="showConvertDealModal" :deal="deal" @close-modal="toggleModal('ConvertDealModal')" />
 
 </template>

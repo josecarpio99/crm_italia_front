@@ -63,6 +63,7 @@
 
             <div class="ml-6">
               <Button
+                v-if="can('view:delete')"
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"

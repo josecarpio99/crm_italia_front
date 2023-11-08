@@ -135,7 +135,7 @@
   <CreateCotizadoModal v-if="customer" :customer_id="customer.id" :modalActive="showCreateCotizadoModal" @close-modal="toggleModal('showCreateCotizadoModal')"/>
 
   <!-- <EditPersonModal v-if="customer" :show-delete="true" :modalActive="showEditPersonModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" /> -->
-  <EditCompanyModal v-if="customer" :show-delete="true" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal('showEditCompanyModal')" @delete="onModalDelete" />
+  <EditCompanyModal v-if="customer" :show-delete="can('view:delete')" :modalActive="showEditCompanyModal" :customer="customer" @updated="onModalUpdate" @close-modal="toggleModal('showEditCompanyModal')" @delete="onModalDelete" />
 
 </template>
 

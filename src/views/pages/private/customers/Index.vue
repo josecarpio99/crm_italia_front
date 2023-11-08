@@ -62,6 +62,7 @@
 
             <div class="ml-6">
               <Button
+                v-if="can('view:delete')"
                 theme="danger"
                 :label="trans('global.actions.delete')"
                 @click="onBulkDelete"
@@ -282,6 +283,7 @@ import {useAuthStore} from "@/stores/auth";
 import {useSourcesStore} from "@/stores/sources";
 import toast from '@/helpers/toast';
 import dayjs from "dayjs";
+import {can} from "@/helpers/permissions";
 import {useCustomersStore} from "@/stores/customers";
 import { storeToRefs } from 'pinia';
 
