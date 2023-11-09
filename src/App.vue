@@ -274,7 +274,7 @@ export default {
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: true,
-                  permission: 'view:created_by',
+                  permission: 'view:deal_status_report',
                   to: '/panel/deals/publicidad/list',
               },           
               {
