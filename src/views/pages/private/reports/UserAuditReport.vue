@@ -138,22 +138,25 @@ const table = reactive({
     {
       key: 'owner',
       label: trans('global.labels.owner'),
-      show: true,     
+      show: true,  
+      sorteable: true   
     },   
     {
       key: 'branch',
       label: trans('users.labels.branch'),
-      show: true,     
+      show: true,
     },   
     {
       key: 'active_deals',
       label: 'Activos',
       show: true,     
+      sorteable: true
     },
     {
       key: 'warning_deals',
       label: 'Apercibidos',
       show: true,     
+      sorteable: true
     }    
   ],           
   pagination: {

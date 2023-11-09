@@ -52,7 +52,7 @@
             </template>          
 
             <template #cell-hit_rate="{item}">           
-              {{ item.hit_rate.toFixed(2) + '%' }}
+              {{ (item.hit_rate ? Number(item.hit_rate).toFixed(2) : '0.00') + '%' }}
             </template>
             
           </Table>
@@ -142,37 +142,45 @@ const table = reactive({
     {
       key: 'owner',
       label: trans('global.labels.owner'),
-      show: true,     
+      show: true,
+      sorteable: true
     },
     {
       key: 'total',
       label: trans('total'),
-      show: true,     
+      show: true,
+      sorteable: true
     },
     {
       key: 'ganados',
       label: 'Ganados',
-      show: true,     
+      show: true,
+      sorteable: true
     },
     {
       key: 'perdidos',
       label: 'Perdidos',
-      show: true,     
+      show: true,
+      sorteable: true
     },
     {
       key: 'vivos',
       label: 'Vivos',
-      show: true,     
+      show: true,
+      sorteable: true   
+
     },
     {
       key: 'hit_rate',
       label: 'Hit Rate',
-      show: true,     
+      show: true,
+      sorteable: true
     },
     {
       key: 'venta_neta',
       label: 'Venta Neta',
-      show: true,     
+      show: true,
+      sorteable: true
     }
   ],           
   pagination: {

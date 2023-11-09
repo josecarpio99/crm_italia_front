@@ -47,7 +47,7 @@
             </template>
 
             <template #cell-roa="{item}">           
-              {{ item.roa.toFixed(2) + '%' }}
+              {{ item.roa.toFixed(2) }}
             </template>
 
             
