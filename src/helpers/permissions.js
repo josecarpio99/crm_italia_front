@@ -72,6 +72,19 @@ export const can = function (name) {
     return false;
   }
 
+  if (name == 'view:deals') {
+    if (
+      authStore.isMasterOrDirector() ||
+      authStore.hasAccessByRole(roles.ADMIN) ||
+      authStore.hasAccessByRole(roles.TEAM_LEADER) ||
+      authStore.hasAccessByRole(roles.LEAD_QUALIFIER) 
+      ) {
+      return true;
+    }
+
+    return false;
+  }
+
   if (name == 'view:leads') {
     if (authStore.isDirector()) {
       return false;
