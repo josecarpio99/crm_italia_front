@@ -799,7 +799,9 @@ async function onBulkDelete() {
 function rowClassFn(item) {
 
   if (
-    item.star &&
+    item.star &&    
+    item.active_opportunities_count == 0 &&
+    item.active_quotes_count == 0  &&    
     ( 
       ! item.lastActiveTask || 
       dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at)) 

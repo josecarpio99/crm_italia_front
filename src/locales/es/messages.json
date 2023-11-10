@@ -64,6 +64,8 @@
       "key_contact": "Cuenta clave",
       "star": "Contacto estrella",
       "email": "Correo",
+      "active_opportunities": "Oportunidades Activas",
+      "active_quotes": "Cotizaciones Activas",
       "customer_source": "Origen del contacto",
       "name": "Nombre del contacto",
       "total_contacts": "Total de contactos",

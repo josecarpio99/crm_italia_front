@@ -106,6 +106,22 @@ export const customerColumns = [
       editable: true
   },
   {
+      key: 'active_opportunities_count',
+      label: trans('customers.labels.active_opportunities'),
+      show: true,
+      locked: false,
+      sorteable: true,
+      editable: false
+  },
+  {
+      key: 'active_quotes_count',
+      label: trans('customers.labels.active_quotes'),
+      show: true,
+      locked: false,
+      sorteable: true,
+      editable: false
+  },
+  {
     key: 'next_task',
     label: trans('global.labels.next_task'),
     show: true,
