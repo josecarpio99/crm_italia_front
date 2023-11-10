@@ -372,6 +372,8 @@
       "without_tasks": "Sin tareas",
       "without_documents": "Sin documentos",
       "without_associated_contact": "Sin contacto asociado",
+      "without_active_opportunities": "Sin oportunidades activas",
+      "without_active_quotes": "Sin cotizaciones activas",
       "owner": "Propiedad",
       "email": "Correo electrónico",
       "role": "Role",
