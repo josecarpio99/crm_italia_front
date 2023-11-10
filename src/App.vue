@@ -270,7 +270,7 @@ export default {
               },           
               {
                   name: trans('global.pages.publicity'),
-                  icon: 'bullhorn',
+                  icon: 'list-ul',
                   showDesktop: true,
                   showMobile: true,
                   requiresAbility: true,
