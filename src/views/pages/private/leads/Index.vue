@@ -52,34 +52,45 @@
       </template>
 
       <template #filters>
-        <div class="py-4 pl-10 bg-white">
-
-          <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
-            <div class="flex text-lg text-gray-600 gap-1">
-              <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
-              <span>/</span>
-              <span>{{ table.pagination.meta.total }}</span>
+        <div class="py-4 pl-10 flex justify-between bg-white">
+          
+          <div>
+            <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
+              <div class="flex text-lg text-gray-600 gap-1">
+                <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
+                <span>/</span>
+                <span>{{ table.pagination.meta.total }}</span>
+              </div>
+  
+              <div class="ml-6">
+                <Button
+                  v-if="can('view:delete')"
+                  theme="danger"
+                  :label="trans('global.actions.delete')"
+                  @click="onBulkDelete"
+                />
+              </div>
+            </div>
+  
+            <div v-else >
+              <TextInput
+                class="flex items-center gap-2 w-64"
+                type="text" 
+                name="global-search" 
+                label="Buscar"
+                ref="searchInput"
+                @update:modelValue="setSearchQueryValue"
+              />            
             </div>
 
-            <div class="ml-6">
-              <Button
-                v-if="can('view:delete')"
-                theme="danger"
-                :label="trans('global.actions.delete')"
-                @click="onBulkDelete"
-              />
-            </div>
           </div>
 
-          <div v-else >
-            <TextInput
-              class="flex items-center gap-2 w-64"
-              type="text" 
-              name="global-search" 
-              label="Buscar"
-              ref="searchInput"
-              @update:modelValue="setSearchQueryValue"
-            />             
+          <div class="pr-8">
+            <Button
+              :disabled="! filterApplied"
+              :label="trans('global.buttons.clean_filters')"
+              @click="resetFilters"
+            />
           </div>
         </div>
       </template>
@@ -309,6 +320,10 @@ let smartList = null;
 let smartLists = null;
 
 const mainQuery = reactive(leadStore.mainQuery);
+
+const filterApplied = ref(Object.keys(mainQuery.filters).some(key => {
+  return mainQuery.filters[key].value;
+}));
 
 // const mainQuery = reactive({
 //   page: 1,
@@ -822,7 +837,27 @@ function handleExport() {
   window.open(exportUrl, '_blank');
 }
 
+function resetFilters() {
+  table.columns.forEach((column) => {
+    if (column.filterable) {
+      column.filter.modelValue = '';      
+    }
+  });
+
+  Object.keys(mainQuery.filters).forEach(key => {
+    mainQuery.filters[key].value = '';
+  })
+
+  searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;
+
+  tableKey.value++;
+}
+
 watch(mainQuery, (newTableState) => {
+  filterApplied.value = Object.keys(mainQuery.filters).some(key => {
+    return mainQuery.filters[key].value;
+  });
+  
   if (smartList) {
     checkIfTableChange();
   }

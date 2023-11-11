@@ -238,75 +238,46 @@
       </template>
 
       <template #filters>
-        <div class="py-4 pl-10 bg-white">
+        <div class="py-4 pl-10 flex justify-between bg-white">
 
-          <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
-
-            <div class="flex text-lg text-gray-600 gap-1">
-              <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
-              <span>/</span>
-              <span>{{ table.pagination.meta.total }}</span>
-            </div>
-
-            <!-- <div class="ml-6">
-              <VDropdown 
-                placement="right"
-              >
-                <Button 
-                  :label="trans('global.buttons.change_status')"
+          <div>
+            <div v-if="selectedRecords.length > 0 && !table.loading" class="flex items-center">
+              <div class="flex text-lg text-gray-600 gap-1">
+                <span class="text-theme-500 font-semibold">{{ selectedRecords.length }} </span>
+                <span>/</span>
+                <span>{{ table.pagination.meta.total }}</span>
+              </div>
+  
+              <div class="ml-6">
+                <Button
+                  v-if="can('view:delete')"
+                  theme="danger"
+                  :label="trans('global.actions.delete')"
+                  @click="onBulkDelete"
                 />
-    
-                <template #popper>
-                  <ul>
-                    <li 
-                      class="py-2 px-4 cursor-pointer border-2 border-green-500 text-green-500 hover:bg-gray-100"
-                      @click="handleBulkStatusUpdate('vendido')"
-                    >
-                      Vendido
-                    </li>
-                    <li 
-                      class="py-2 px-4 cursor-pointer border-2 border-red-500 text-red-500 hover:bg-gray-100"
-                      @click="handleBulkStatusUpdate('perdido')"
-                    >
-                      Perdido
-                    </li>
-                  </ul>
-                </template>
-              </VDropdown>
-            </div> -->
-
-            <div v-if="!page.isLoading" class="ml-6 flex items-center gap-2">
-              <Button
-                v-if="can('view:delete')"
-                theme="danger"
-                :label="trans('global.actions.delete')"
-                @click="onBulkDelete"
-              />
-
-              <Button
-                theme="outline_success"
-                :label="trans('deals.labels.update_won')"
-                @click="handleBulkStatusUpdate('ganado')"
-              />
-
-              <Button
-                theme="outline_danger"
-                :label="trans('deals.labels.update_lost')"
-                @click="handleBulkStatusUpdate('perdido')"
-              />
+              </div>
             </div>
+  
+            <div v-else >
+              <TextInput
+                class="flex items-center gap-2 w-64"
+                type="text" 
+                name="global-search" 
+                label="Buscar"
+                ref="searchInput"
+                @update:modelValue="setSearchQueryValue"
+              />            
+            </div>
+
           </div>
 
-          <div v-else >
-            <TextInput
-              class="flex items-center gap-2 w-64"
-              type="text" 
-              name="global-search" 
-              label="Buscar"
-              ref="searchInput"
-              @update:modelValue="setSearchQueryValue"
-            />           
-          </div>
+          <div class="pr-8">
+            <Button
+              :disabled="! filterApplied"
+              :label="trans('global.buttons.clean_filters')"
+              @click="resetFilters"
+            />
+          </div>           
         </div>
       </template>
 
@@ -516,6 +487,13 @@ let smartLists = [];
 
 const mainQuery = reactive(cotizadoStore.mainQuery);
 
+const filterApplied = ref(Object.keys(mainQuery.filters).some(key => {
+  if (key == 'type') {
+    return false;
+  } else {
+    return mainQuery.filters[key].value;s
+  }
+}));
 // const mainQuery = reactive({
 //   page: 1,
 //   limit: PAGE_LIMIT,
@@ -1137,8 +1115,41 @@ function handleExport() {
   window.open(exportUrl, '_blank');
 }
 
+function resetFilters() {
+  table.columns.forEach((column) => {
+    if (column.filterable) {
+      if (column.key == 'value') {
+        column.filter.modelValue = {
+          minValue: null,
+          maxValue: null
+        };     
+        
+      } else {
+        column.filter.modelValue = '';
+      }
+    }
+  });
+
+  Object.keys(mainQuery.filters).forEach(key => {
+    if (key != 'type') {
+      mainQuery.filters[key].value = '';      
+    }
+  })
+
+  searchInput.value.$el.querySelector('input').value = mainQuery.filters.search.value;
+
+  tableKey.value++;
+}
 
 watch(mainQuery, (newTableState) => {
+  filterApplied.value = Object.keys(mainQuery.filters).some(key => {
+    if (key == 'type') {
+      return false;
+    } else {
+      return mainQuery.filters[key].value;s
+    }
+  })
+
   if (smartList) {
     checkIfTableChange();
   }
