@@ -41,7 +41,7 @@
         
        
       </ul>
-      <p v-else class="text-gray-500 my-4">{{ trans('global.labels.without_active_oportunities') }}</p>
+      <p v-else class="text-gray-500 my-4">{{ trans('global.labels.without_active_opportunities') }}</p>
 
     </div>
   </div>
