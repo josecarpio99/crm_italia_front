@@ -51,7 +51,7 @@ export const useOportunidadStore = defineStore("oportunidad", {
                 comparison: '='
             },
             status: {
-                value: '',
+                value: 'en proceso',
                 comparison: '='
             },
             closed_at: {

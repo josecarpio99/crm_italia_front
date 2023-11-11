@@ -212,3 +212,14 @@ export const dealStatus = [
     label: 'En proceso',
   },
 ]
+
+export const dealStatusWithoutWon = [  
+  {
+    id: 'perdido',
+    label: 'Perdido',
+  },  
+  {
+    id: 'en proceso',
+    label: 'En proceso',
+  },
+]

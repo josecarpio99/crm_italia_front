@@ -41,10 +41,10 @@
             />
           </div>
 
-          <!-- <div v-if="deal.status" class="mb-6">
+          <div v-if="deal.status" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.cotizado_status') }}</h4>
             <DealStatusField :value="deal.status" />
-          </div>   -->
+          </div>  
 
           <div v-if="deal.category" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.category') }}</h4>
@@ -341,7 +341,7 @@ async function onModalUpdate() {
 
 function updateStatus(status) {
   alertHelpers.confirmDanger(function () {
-    page.actions.pop();
+    // page.actions.pop();
     page.actions.pop();
   
     page.loading = true;
@@ -459,24 +459,24 @@ function handleRemoveCustomer({customer}) {
 onBeforeMount(async () => {  
   await fetchRecord();  
 
-  // if (deal.status == 'en proceso') {
-  //   page.actions.push(
-  //     {      
-  //       id: 'update_won',
-  //       theme: 'outline_success',
-  //       name: trans('deals.labels.update_won'),
-  //       type: 'button'      
-  //     }
-  //   );
-  //   page.actions.push(
-  //     {      
-  //       id: 'update_lost',
-  //       theme: 'outline_danger',
-  //       name: trans('deals.labels.update_lost'),
-  //       type: 'button'      
-  //     }
-  //   );
-  // }
+  if (deal.status == 'en proceso') {
+    // page.actions.push(
+    //   {      
+    //     id: 'update_won',
+    //     theme: 'outline_success',
+    //     name: trans('deals.labels.update_won'),
+    //     type: 'button'      
+    //   }
+    // );
+    page.actions.push(
+      {      
+        id: 'update_lost',
+        theme: 'outline_danger',
+        name: trans('deals.labels.update_lost'),
+        type: 'button'      
+      }
+    );
+  }
 });
 
 onUnmounted(() => {
