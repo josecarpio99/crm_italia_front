@@ -208,6 +208,13 @@
                   :label="trans('global.actions.delete')"
                   @click="onBulkDelete"
                 />
+
+                <Button
+                  class="ml-2"
+                  theme="outline_danger"
+                  :label="trans('deals.labels.update_lost')"
+                  @click="handleBulkStatusUpdate('perdido')"
+                />
               </div>
             </div>
   

@@ -255,6 +255,20 @@
                   :label="trans('global.actions.delete')"
                   @click="onBulkDelete"
                 />
+
+                <Button
+                  theme="outline_success"
+                  class="ml-2"
+                  :label="trans('deals.labels.update_won')"
+                  @click="handleBulkStatusUpdate('ganado')"
+                />
+
+                <Button
+                  class="ml-2"
+                  theme="outline_danger"
+                  :label="trans('deals.labels.update_lost')"
+                  @click="handleBulkStatusUpdate('perdido')"
+                />
               </div>
             </div>
   
