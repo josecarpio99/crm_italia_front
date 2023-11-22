@@ -154,10 +154,16 @@ const table = reactive({
     },
     {
       key: 'warning_deals',
-      label: 'Apercibidos',
+      label: 'Rojo',
       show: true,     
       sorteable: true
-    }    
+    },   
+    {
+      key: 'warning_deals',
+      label: 'Rojo Intenso',
+      show: true,     
+      sorteable: true
+    },   
   ],           
   pagination: {
       meta: null,
