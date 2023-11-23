@@ -8,7 +8,7 @@
         <div class="py-4 pl-10 bg-white flex items-center gap-4">
           <Dropdown  
             v-if="authStore.isMasterOrDirector()"
-            class="flex items-center gap-2 max-w-[16rem]"
+            class="flex items-center gap-2 max-w-[16rem] w-full"
             :label="trans('users.labels.branch')"
             name="branch" 
             :options="branches" 
@@ -16,7 +16,7 @@
             v-model="branchSelected"            
           /> 
 
-          <TextInput
+          <!-- <TextInput
             class="flex items-center gap-2 w-64"
             type="date" 
             name="since-input" 
@@ -34,7 +34,7 @@
             v-model="untilDate"
             :max="dayjs().format('YYYY-MM-DD')"
             @update:modelValue="setUntilQueryValue"
-          />  
+          />   -->
         </div>
       </template> 
       <template #default>
@@ -111,11 +111,11 @@ const mainQuery = reactive({
   sort: '',
   filters: {        
       since: {
-          value: sinceDate,
+          value: '',
           comparison: '='
       },       
       until: {
-          value: untilDate,
+          value: '',
           comparison: '='
       },       
       branch: {
@@ -157,13 +157,7 @@ const table = reactive({
       label: 'Rojo',
       show: true,     
       sorteable: true
-    },   
-    {
-      key: 'warning_deals',
-      label: 'Rojo Intenso',
-      show: true,     
-      sorteable: true
-    },   
+    },     
   ],           
   pagination: {
       meta: null,
