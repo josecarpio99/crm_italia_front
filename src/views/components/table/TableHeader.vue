@@ -47,67 +47,74 @@
       :popperClass="`table-header ${['select', 'multiselect', 'radio'].includes(column.filter.type) ? 'with-select' : ''}`"
       @hide="handleBlur"
      >
-        <template #popper>    
-
-          <div class="flex justify-between border-b-[1px] pb-2 mb-4">
-            <Button 
-              theme="outline"
-              class=""
-              :label="trans('global.actions.filter')"
-              :disabled="filterIsClean()"
-              @click="showInput = false"
-            />
-
-            <Button 
-              theme="info"
-              class="ml-auto"
-              :label="trans('global.buttons.clean_filter')"
-              :disabled="filterIsClean()"
-              @click="cleanFilter"
-            />
-          </div>
-
-          <TextInput 
-            v-if="column.filter.type == 'input'"
-            class="mb-4" type="text" name="filter" v-model="inputValue" 
-            :label="$t('global.labels.filter')"
-          />
-
-          <Toggle 
-            v-if="column.filter.type == 'toggle'"
-            class="mb-4" name="filter" v-model="inputValue" 
-          />
-
-          <div           
-            v-if="column.filter.type == 'range'"
-          >
-            <span class="mb-2 block text-center text-gray-500">{{ column.label }}</span>
-            <div class="flex justify-between gap-2">
-              <TextInput 
-                class="mb-4" type="text" name="minValue" v-model="inputValue.minValue"
-              />       
+        <template #popper>  
+          
+          <slot name="popup-filter">
+            <div class="flex justify-between border-b-[1px] pb-2 mb-4">
+              <Button 
+                theme="outline"
+                class=""
+                :label="trans('global.actions.filter')"
+                :disabled="filterIsClean()"
+                @click="showInput = false"
+              />
   
-              <TextInput 
-                class="mb-4" type="text" name="maxValue" v-model="inputValue.maxValue"
+              <Button 
+                theme="info"
+                class="ml-auto"
+                :label="trans('global.buttons.clean_filter')"
+                :disabled="filterIsClean()"
+                @click="cleanFilter"
               />
             </div>
+  
+            <slot name="popup-content">
+              <TextInput 
+                v-if="column.filter.type == 'input'"
+                class="mb-4" type="text" name="filter" v-model="inputValue" 
+                :label="$t('global.labels.filter')"
+              />
+    
+              <Toggle 
+                v-if="column.filter.type == 'toggle'"
+                class="mb-4" name="filter" v-model="inputValue" 
+              />
+    
+              <div           
+                v-if="column.filter.type == 'range'"
+              >
+                <span class="mb-2 block text-center text-gray-500">{{ column.label }}</span>
+                <div class="flex justify-between gap-2">
+                  <TextInput 
+                    class="mb-4" type="text" name="minValue" v-model="inputValue.minValue"
+                  />       
+      
+                  <TextInput 
+                    class="mb-4" type="text" name="maxValue" v-model="inputValue.maxValue"
+                  />
+                </div>
+    
+              </div>
+    
+              <Dropdown  
+                v-else-if="['select', 'multiselect', 'radio'].includes(column.filter.type)"
+                :open="true"
+                :options="column.filter.options"
+                :selectLabel="column.filter.optionsLabel"
+                name="type" 
+                v-model="inputValue" 
+                :label="$t('global.labels.filter')"
+                :showLabel="true"
+                :showPointer="false"
+                :placeholder="'Buscar...'"
+                :multiple="column.filter.type == 'multiselect'"
+    
+              /> 
+  
+            </slot>
+          </slot>
 
-          </div>
 
-          <Dropdown  
-            v-else-if="['select', 'multiselect', 'radio'].includes(column.filter.type)"
-            :open="true"
-            :options="column.filter.options"
-            :selectLabel="column.filter.optionsLabel"
-            name="type" 
-            v-model="inputValue" 
-            :label="$t('global.labels.filter')"
-            :showLabel="true"
-            :showPointer="false"
-            :placeholder="'Buscar...'"
-            :multiple="column.filter.type == 'multiselect'"
-
-          /> 
 
         </template>
     </VDropdown>

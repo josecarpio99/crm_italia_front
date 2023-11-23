@@ -20,7 +20,12 @@
               @sort-change="onSortChange" 
               @filter-change="onFilterChange"  
               @all-selected="onAllSelected"            
-            />
+            >
+              <template #popup-filter>
+                <slot :column="column" :name="'column-filter-' + column.key">
+                </slot> 
+              </template>
+            </TableHeader>
 
           </template>
           <th v-if="actions" scope="col"

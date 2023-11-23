@@ -149,6 +149,10 @@
           @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick"
           @all-selected="handleAllSelected" :row-class="rowClassFn"
           >
+            <!-- <template #column-filter-created_at="{column}">
+              <span>Aver</span>
+            </template> -->
+
             <template #cell-name="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
