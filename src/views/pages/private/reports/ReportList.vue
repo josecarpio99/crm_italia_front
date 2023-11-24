@@ -39,6 +39,12 @@
           </li>
 
           <li v-if="can('view:branch_report')">
+            <router-link :to="{name: 'reports.user_audit'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
+              {{ trans('global.pages.user_audit') }}
+            </router-link>
+          </li>
+
+          <li v-if="can('view:branch_report')">
             <router-link :to="{name: 'reports.branch'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.pages.global_resume') }}
             </router-link>
@@ -62,13 +68,7 @@
               {{ trans('global.pages.resume_by_branch') }}
               (<span class="text-sm">Con Ganados de Otros Períodos</span>)
             </router-link>
-          </li>
-
-          <li v-if="can('view:branch_report')">
-            <router-link :to="{name: 'reports.user_audit'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
-              {{ trans('global.pages.user_audit') }}
-            </router-link>
-          </li>
+          </li>         
 
         </ul>
       </div>
