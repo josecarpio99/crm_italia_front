@@ -9,49 +9,63 @@
           <li v-if="authStore.isMasterOrDirector()">
             <router-link               
               :to="{name: 'reports.scorecard'}" 
-              class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+              class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.menu.scorecard') }}
             </router-link>
           </li>
 
           <li>
-            <router-link :to="{name: 'reports.origins'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.origins'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.menu.origins') }}
             </router-link>
           </li>
 
           <li v-if="can('view:opportunities_by_lead_qualifier')">
-            <router-link :to="{name: 'reports.opportunities_by_lead_qualifier'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.opportunities_by_lead_qualifier'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.menu.assigned_leads') }}
             </router-link>
           </li>
 
           <li v-if="can('view:deal_status_report')">
-            <router-link :to="{name: 'reports.deal_status'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.deal_status'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.menu.deal_status') }}
             </router-link>
           </li>
 
           <li v-if="authStore.isMasterOrDirector()">
-            <router-link :to="{name: 'reports.sells_by_advisors'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.sells_by_advisors'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.menu.sells_by_advisors') }}
             </router-link>
           </li>
 
           <li v-if="can('view:branch_report')">
-            <router-link :to="{name: 'reports.branch'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.branch'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.pages.global_resume') }}
             </router-link>
           </li>
 
           <li v-if="can('view:branch_report')">
-            <router-link :to="{name: 'reports.owner'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.branch-period'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
+              {{ trans('global.pages.global_resume') }}
+              (<span class="text-sm">Con Ganados de Otros Períodos</span>)
+            </router-link>
+          </li>
+
+          <li v-if="can('view:branch_report')">
+            <router-link :to="{name: 'reports.owner'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.pages.resume_by_branch') }}
             </router-link>
           </li>
 
           <li v-if="can('view:branch_report')">
-            <router-link :to="{name: 'reports.user_audit'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide">
+            <router-link :to="{name: 'reports.owner-period'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
+              {{ trans('global.pages.resume_by_branch') }}
+              (<span class="text-sm">Con Ganados de Otros Períodos</span>)
+            </router-link>
+          </li>
+
+          <li v-if="can('view:branch_report')">
+            <router-link :to="{name: 'reports.user_audit'}" class="border-2 border-theme-500 p-4 text-theme-500 hover:bg-gray-100 text-center uppercase w-full font-semibold rounded-lg block tracking-wide whitespace-normal">
               {{ trans('global.pages.user_audit') }}
             </router-link>
           </li>

@@ -32,7 +32,9 @@ import {default as DealStatus} from "@/views/pages/private/reports/DealStatus";
 import {default as Origins} from "@/views/pages/private/reports/Origins";
 import {default as OpportunitiesByLeadQualifier} from "@/views/pages/private/reports/OpportunitiesByLeadQualifier";
 import {default as BranchReport} from "@/views/pages/private/reports/BranchReport";
+import {default as BranchReportPeriod} from "@/views/pages/private/reports/BranchReportPeriod";
 import {default as OwnerReport} from "@/views/pages/private/reports/OwnerReport";
+import {default as OwnerReportPeriod} from "@/views/pages/private/reports/OwnerReportPeriod";
 import {default as UserAuditReport} from "@/views/pages/private/reports/UserAuditReport";
 import {default as ReportList} from "@/views/pages/private/reports/ReportList";
 
@@ -228,10 +230,22 @@ const routes = [
                         component: BranchReport
                     },
                     {
+                        name: "reports.branch-period",
+                        path: "resumen-global-con-periodos",
+                        meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
+                        component: BranchReportPeriod
+                    },
+                    {
                         name: "reports.owner",
                         path: "resumen-por-sucursales",
                         meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
                         component: OwnerReport
+                    },
+                    {
+                        name: "reports.owner-period",
+                        path: "resumen-por-sucursales-con-periodos",
+                        meta: {requiresAuth: true, requiresPermission: 'view:branch_report'},
+                        component: OwnerReportPeriod
                     },
                     {
                         name: "reports.user_audit",

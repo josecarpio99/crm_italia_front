@@ -55,8 +55,30 @@ export default class ReportService extends ModelService {
         });
     }
 
+    public branchPeriod(params = {}) {
+        let path = this.url + `/branch-period`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
+
     public owner(params = {}) {
         let path = this.url + `/owner`;
+        let query = new URLSearchParams(params).toString();
+        if (query) {
+            path += '?' + query
+        }
+        return this.get(path, null, {
+            'Content-Type': 'application/json'
+        });
+    }
+
+    public ownerPeriod(params = {}) {
+        let path = this.url + `/owner-period`;
         let query = new URLSearchParams(params).toString();
         if (query) {
             path += '?' + query
