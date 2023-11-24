@@ -826,7 +826,7 @@ function rowClassFn(item) {
     item.active_quotes_count == 0  &&    
     ( 
       ! item.lastActiveTask || 
-      dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at)) 
+      dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at).add(1, 'day')) 
     )
   ) 
   {

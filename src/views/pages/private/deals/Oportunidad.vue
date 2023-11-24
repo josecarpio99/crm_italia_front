@@ -939,7 +939,7 @@ function rowClassFn(item) {
   // if (item.status != 'en proceso') return '';
   if (
     ! item.lastActiveTask || 
-    dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at))
+    dayjs().isAfter(dayjs(item?.lastActiveTask?.due_at).add(1, 'day'))
   ) 
   {
     return ['bg-red-100', 'border-y-2', 'border-red-300'];
