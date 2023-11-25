@@ -513,7 +513,11 @@ function onTableFilter({column, value}) {
       ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
-      mainQuery.filters['created_at'].value = value?.id || null;
+      if (typeof value == 'string') {
+        mainQuery.filters[column.key].value = value || null;        
+      } else {
+        mainQuery.filters['created_at'].value = value?.id || null;
+      }
     }
     else {
         mainQuery.filters[column.key].value = value || null;
@@ -581,10 +585,15 @@ function updateColumnsForSmartList() {
     }
 
     if (createdAtFilter.value) { 
-      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
-      
       let createdAtColumn = table.columns.find(column => column.key == 'created_at');
-      createdAtColumn.filter.modelValue = selectedDate;         
+
+      if (createdAtFilter.value.includes(',')) {
+        createdAtColumn.filter.modelValue = createdAtFilter.value;      
+      } else {
+        let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+        
+        createdAtColumn.filter.modelValue = selectedDate;
+      }        
     }    
 
     if (ownerFilter.value) {

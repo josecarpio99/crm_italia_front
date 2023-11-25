@@ -188,7 +188,7 @@ export const customerColumns = [
       editable: false,
       filter: {
         modelValue:'',
-        type: 'select',
+        type: 'date-select-range',
         options: datesFilter
       }          
   },
@@ -364,7 +364,7 @@ export const leadColumns = [
     editable: false,
     filter: {
       modelValue:'',
-      type: 'select',
+      type: 'date-select-range',
       options: datesFilter
     }          
 },
@@ -510,7 +510,7 @@ export const dealColumns = [
   editable: false,
   filter: {
     modelValue:'',
-    type: 'select',
+    type: 'date-select-range',
     options: datesFilter
   }          
 },
@@ -582,7 +582,7 @@ export const dealColumns = [
       filterable: true,
       filter: {
         modelValue:'',
-        type: 'select',
+        type: 'date-select-range',
         options: datesFilter
       }        
   },         
@@ -751,7 +751,7 @@ export const cotizadoColumns = [
     editable: false,
     filter: {
       modelValue:'',
-      type: 'select',
+      type: 'date-select-range',
       options: datesFilter
     }          
   },
@@ -824,7 +824,7 @@ export const cotizadoColumns = [
       filterable: true,
       filter: {
         modelValue:'',
-        type: 'select',
+        type: 'date-select-range',
         options: datesFilter
       }        
   },         
@@ -1040,7 +1040,7 @@ export const oportunidadColumns = [
       filterable: true,
       filter: {
         modelValue:'',
-        type: 'select',
+        type: 'date-select-range',
         options: datesFilter
       }        
   },         

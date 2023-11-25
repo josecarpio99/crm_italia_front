@@ -148,11 +148,7 @@
           <Table :id="page.id" :key="tableKey" v-if="table" :columns="table.columns" :records="table.records" :pagination="table.pagination" :is-loading="table.loading" @page-changed="onTablePageChange" @action="onTableAction" @sort="onTableSort" @filter="onTableFilter" @cell-change="onCellChange"
           @moved="onColumnMoved" @scroll-end="onScrollEnd" :infinite-scroll="true" :clickeable-row="table.clickeableRow" @row-click="handleRowClick"
           @all-selected="handleAllSelected" :row-class="rowClassFn"
-          >
-            <!-- <template #column-filter-created_at="{column}">
-              <span>Aver</span>
-            </template> -->
-
+          > 
             <template #cell-name="{item}">
               <router-link 
                 class="font-semibold hover:text-blue-700 hover:underline"
@@ -555,7 +551,11 @@ function onTableFilter({column, value}) {
         mainQuery.filters['star'].value = value.id || null;
     } 
     else if (column.key == 'created_at') {
+      if (typeof value == 'string') {
+        mainQuery.filters[column.key].value = value || null;        
+      } else {
         mainQuery.filters['created_at'].value = value?.id || null;
+      }
     } 
     else if (column.key == 'category') {
         mainQuery.filters['category_id'].value = value || null;
@@ -630,11 +630,17 @@ function updateColumnsForSmartList() {
     starColumn.filter.modelValue = starOptionSelected;         
   }
 
-  if (createdAtFilter.value) { 
-    let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
-    
+  if (createdAtFilter.value) {
     let createdAtColumn = table.columns.find(column => column.key == 'created_at');
-    createdAtColumn.filter.modelValue = selectedDate;         
+
+    if (createdAtFilter.value.includes(',')) {
+      createdAtColumn.filter.modelValue = createdAtFilter.value;      
+    } else {
+      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+      
+      createdAtColumn.filter.modelValue = selectedDate;
+    }
+    
   }    
 
   if (categoryIdFilter.value) {  

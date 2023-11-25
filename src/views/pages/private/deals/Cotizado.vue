@@ -719,7 +719,11 @@ function onTableFilter({column, value}) {
     if (column.key == 'owner' || column.key == 'source' || column.key == 'stage' || column.key == 'branch' || column.key == 'status' || column.key == 'creator') {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at' || column.key == 'closed_at') {
-      mainQuery.filters[column.key].value = value?.id || null;
+      if (typeof value == 'string') {
+        mainQuery.filters[column.key].value = value || null;        
+      } else {
+        mainQuery.filters[column.key].value = value?.id || null;
+      }
     } else if (column.key == 'value') {     
       let newValue = (!value.minValue && !value.maxValue) ? null : `${value.minValue ?? 0},${value.maxValue ?? 0}`; 
       mainQuery.filters['value'].value = newValue;
@@ -792,17 +796,27 @@ function updateColumnsForSmartList() {
   }
 
   if (createdAtFilter.value) { 
-    let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
-    
     let createdAtColumn = table.columns.find(column => column.key == 'created_at');
-    createdAtColumn.filter.modelValue = selectedDate;         
+
+    if (createdAtFilter.value.includes(',')) {
+      createdAtColumn.filter.modelValue = createdAtFilter.value;      
+    } else {
+      let selectedDate = datesFilter.find(option => option.id == createdAtFilter.value);
+      
+      createdAtColumn.filter.modelValue = selectedDate;
+    }        
   }
 
-  if (closedAtFilter.value) { 
-    let selectedDate = datesFilter.find(option => option.id == closedAtFilter.value);
-    
+  if (closedAtFilter.value) {
     let closedAtColumn = table.columns.find(column => column.key == 'closed_at');
-    closedAtColumn.filter.modelValue = selectedDate;         
+      
+    if (closedAtFilter.value.includes(',')) {
+      closedAtColumn.filter.modelValue = closedAtFilter.value;      
+    } else {
+      let selectedDate = datesFilter.find(option => option.id == closedAtFilter.value);
+      
+      closedAtColumn.filter.modelValue = selectedDate;
+    }
   } 
 
   if (sourceFilter.value) {
