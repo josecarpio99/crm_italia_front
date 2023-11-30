@@ -266,7 +266,7 @@ function selectAll(event) {
 
 onMounted(() => {
   if (props.column.filter?.type == 'date-select-range') {
-    if (inputValue.value.includes(',')) {
+    if (typeof inputValue.value == 'string' && inputValue.value.includes(',')) {
       showDateRange.value = true;
       let [sinceDateVal, untilDateVal] = [...inputValue.value.split(',')];
 
