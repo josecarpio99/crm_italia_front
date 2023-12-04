@@ -534,7 +534,7 @@ export const dealColumns = [
   }, 
   {
       key: 'value',
-      label: trans('deals.labels.value_estimated'),
+      label: trans('deals.labels.value'),
       show: true,
       locked: false,
       editable: true,
