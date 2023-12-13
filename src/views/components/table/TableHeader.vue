@@ -28,7 +28,8 @@
 
       <div 
         v-if="column.filterable" 
-        class="inline-block float-right ml-auto invisible group-hover:visible"
+        class="inline-block float-right ml-auto group-hover:visible"
+        :class="{invisible: filterIsClean()}"
       >
         <span @click="handleClick"  class="flex mt-[1px] ml-4 text-base cursor-pointer hover:text-gray-700">
           <i class="fa fa-filter"></i>
@@ -227,6 +228,10 @@ function handleBlur()
 function filterIsClean() {
   if (props.column.filter?.type == 'range') {
     return !inputValue.minValue && !inputValue.maxValue;
+  }
+
+  if (Array.isArray(inputValue.value)) {
+    return inputValue.value.length == 0;
   }
 
   return !inputValue.value;
