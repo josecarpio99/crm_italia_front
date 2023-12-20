@@ -53,6 +53,38 @@
             
           </Table>
       </template>
+
+      <template v-if="!table.loading" #footer>
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
+          </div>
+          <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[850px] text-gray-500 tracking-tight">
+
+            <div class="flex items-center">
+              <span>Total Venta Neta</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_venta_neta.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+            <div class="flex items-center">
+              <span>Total Inversión</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_inversion.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+            <div class="flex items-center">
+              <span>Total Venta Neta <span class="font-semibold text-lg">-</span> Total Inversión</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_neto.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </template>
   </Page>  
 </template>
 
@@ -72,6 +104,7 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import { branches } from "@/stub/statuses";
 import TextInput from "@/views/components/input/TextInput";
 import dayjs from 'dayjs';
+import {numberFormatter} from "@/helpers/data";
 
 const reportService = new ReportService();
 const sinceDate = dayjs().startOf('month').format('YYYY-MM-DD');
@@ -98,7 +131,7 @@ const page = reactive({
   id: 'branch_report',
   title: trans('global.pages.global_resume'),
   toggleFilters: false,
-  showFooter: false,
+  showFooter: true,
   isLoading: false
 });
 
@@ -154,6 +187,7 @@ const table = reactive({
       meta: null,
       links: null,
   },
+  meta: null,
   loading: true,
   records: null  
 });
@@ -175,12 +209,10 @@ function onTableSort(params) {
 }
 
 function setSinceQueryValue(value) {
-  console.log(value);
   mainQuery.filters.since.value = value;
 }
 
 function setUntilQueryValue(value) {
-  console.log(value);
   mainQuery.filters.until.value = value;
 }
 
@@ -192,6 +224,7 @@ function fetchPage(params) {
       .branch(query)
       .then((response) => {
           table.records = response.data.data;
+          table.meta = response.data.meta;
           table.loading = false;
       })
       .catch((error) => {

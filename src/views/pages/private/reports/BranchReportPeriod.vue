@@ -53,6 +53,38 @@
             
           </Table>
       </template>
+
+      <template v-if="!table.loading" #footer>
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
+          </div>
+          <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[850px] text-gray-500 tracking-tight">
+
+            <div class="flex items-center">
+              <span>Total Venta Neta</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_venta_neta.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+            <div class="flex items-center">
+              <span>Total Inversión</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_inversion.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+            <div class="flex items-center">
+              <span>Total Venta Neta <span class="font-semibold text-lg">-</span> Total Inversión</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_neto.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </template>
   </Page>  
 </template>
 
@@ -98,7 +130,7 @@ const page = reactive({
   id: 'branch_report',
   title: trans('global.pages.global_resume') + ' (Con Ganados de Otros Períodos)',
   toggleFilters: false,
-  showFooter: false,
+  showFooter: true,
   isLoading: false
 });
 
@@ -155,6 +187,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
+  meta: null,
   records: null  
 });
 
@@ -192,6 +225,7 @@ function fetchPage(params) {
       .branchPeriod(query)
       .then((response) => {
           table.records = response.data.data;
+          table.meta = response.data.meta;
           table.loading = false;
       })
       .catch((error) => {

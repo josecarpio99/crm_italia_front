@@ -57,6 +57,52 @@
             
           </Table>
       </template>
+
+      <template v-if="!table.loading" #footer>
+        <div class="flex items-center">
+          <div class="flex items-center">
+            <span class="text-lg text-gray-600 font-semibold">{{ trans('global.labels.resume') }}</span>
+          </div>
+          <div class="flex ml-14 gap-10 text-sm uppercase w-full lg:w-[950px] text-gray-500 tracking-tight">
+
+            <div class="flex items-center">
+              <span>Total</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                {{ table.meta?.total }}
+              </span>
+            </div>  
+
+            <div class="flex items-center">
+              <span>Ganados</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                {{ table.meta?.total_ganados }}
+              </span>
+            </div>  
+
+            <div class="flex items-center">
+              <span>Perdidos</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                {{ table.meta?.total_perdidos }}
+              </span>
+            </div>  
+
+            <div class="flex items-center">
+              <span>Vivos</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                {{ table.meta?.total_vivos }}
+              </span>
+            </div>  
+
+            <div class="flex items-center">
+              <span>Total Venta Neta</span>
+              <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
+                MXN {{ table.meta?.total_venta_neta.toLocaleString('en-US', { maximumFractionDigits: 0 }) }}
+              </span>
+            </div>        
+
+          </div>
+        </div>
+      </template>
   </Page>  
 </template>
 
@@ -133,7 +179,7 @@ const page = reactive({
   id: 'owner_report',
   title: trans('global.pages.resume_by_branch') + ' (Con Ganados de Otros Períodos)',
   toggleFilters: false,
-  showFooter: false,
+  showFooter: true,
   isLoading: false
 });
 
@@ -188,6 +234,7 @@ const table = reactive({
       links: null,
   },
   loading: true,
+  meta: null,
   records: null  
 });
 
@@ -229,6 +276,7 @@ function fetchPage(params) {
       .ownerPeriod(query)
       .then((response) => {
           table.records = response.data.data;
+          table.meta = response.data.meta;
           table.loading = false;
       })
       .catch((error) => {
