@@ -1,6 +1,6 @@
 <template>
   <th scope="col" v-if="column.key == 'checkall'"
-    class="align-middle  group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 bg-gray-50 sticky top-0"
+    class="align-middle  group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 sticky top-0"
   >
     <input 
       class="" 
@@ -11,7 +11,12 @@
     />
   </th>
   <th scope="col" v-else
-    class="align-middle  group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 border-gray-200 bg-gray-50 sticky top-0" :class="column.class">
+    class="align-middle  group px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-r-2 sticky top-0 border-gray-200'" 
+    :class="[
+      column.class, 
+      filterIsClean() ? ['bg-gray-50'] : ['bg-gray-200']
+      ]"
+    >
 
     <div class="flex">
 
