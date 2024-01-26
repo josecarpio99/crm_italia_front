@@ -743,7 +743,7 @@ export const cotizadoColumns = [
   }, 
   {
     key: 'closed_at',
-    label: trans('global.labels.stage_moved_at'),
+    label: 'Fecha de Proyecto Ganado',
     show: false,
     locked: false,
     sorteable: true,
