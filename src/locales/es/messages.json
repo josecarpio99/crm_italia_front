@@ -144,6 +144,8 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "quote": "Cotización", 
+      "profitability_format": "Formato de Rentabilidad", 
       "cotizado_status": "Status", 
       "response_time": "Tiempo de respuesta", 
       "edit_oportunidad": "Editar oportunidad", 
@@ -349,6 +351,8 @@
       "requirement": "Requerimientos",
       "associated_contact": "Contacto asociado",
       "associated_contacts": "Contactos Asociados",
+      "attach_quote": "Adjuntar Cotización",
+      "attach_profitability_format": "Adjuntar Formato de Rentabilidad",
       "document": "Documento",
       "documents": "Documentos",
       "created_by": "Creado por",

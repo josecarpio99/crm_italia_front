@@ -390,6 +390,38 @@
               </span>                
             </template>
 
+            <template #cell-quote="{item}">
+              <div v-if="item.media_files.length > 0">
+                <Icon 
+                  class="text-red-500 text-2xl" 
+                  name="file-pdf-o" 
+                />
+              </div>
+              <div v-else class="flex items-center gap-2">
+                <Icon 
+                  class="text-red-500 text-2xl" 
+                  name="exclamation-circle" 
+                />
+                No existe
+              </div>
+            </template>
+
+            <template #cell-profitability_format="{item}">
+              <div v-if="item.media_profitability.length > 0">
+                <Icon 
+                  class="text-green-500 text-2xl" 
+                  name="file-excel-o" 
+                />
+              </div>
+              <div v-else class="flex items-center gap-2">
+                <Icon 
+                  class="text-red-500 text-2xl" 
+                  name="exclamation-circle" 
+                />
+                No existe
+              </div>
+            </template>
+
           </Table>
       </template>
 

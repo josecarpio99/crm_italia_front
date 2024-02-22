@@ -138,7 +138,23 @@
           />
           <Task @submit="onTaskSubmit" />
           <DealFlow :deal="deal" />
-          <Document @submit="onDocumentSubmit" />
+          <Document 
+            @submit="(params) => onDocumentSubmit({...params, collection: 'files'})" 
+            :is-loading="isLoadingDocument"
+            :documents="documentStore.mediaFiles"
+            accept="application/pdf"
+          >
+            <template #title>{{ trans('global.labels.attach_quote') }}</template>
+          </Document>
+
+          <Document 
+            @submit="(params) => onDocumentSubmit({...params, collection: 'profitability'})" 
+            :is-loading="isLoadingDocument"
+            :documents="documentStore.mediaProfitability"
+            accept="application/vnd.ms-excel"
+          >
+            <template #title>{{ trans('global.labels.attach_profitability_format') }}</template>
+          </Document>
         </div>
       </div>
     </Panel>
@@ -209,6 +225,7 @@ const documentService = new DocumentService();
 const route = useRoute();
 const showEditDealModal = ref(false);
 const showConvertDealModal = ref(false);
+const isLoadingDocument = ref(false);
 const modalKey = ref(0);
 
 let deal = null;
@@ -283,16 +300,19 @@ function onTaskSubmit({content, due_at, owner}) {
   });
 }
 
-function onDocumentSubmit({file}) {
+function onDocumentSubmit({file, collection}) {
+  isLoadingDocument.value = true;
   const formData = new FormData();
   formData.append("file", file);
   formData.append("model_type", 'deal');
+  formData.append("collection", collection);
   formData.append("model_id", deal.id);
   documentService.store(formData, {'Content-type': 'multipart/form-data'}
   ).then(res => {
     if (res.status == 200 || res.status == 201 || res.status == 204) {
       toast.success();  
-      fetchRecord();
+      isLoadingDocument.value = false;
+      fetchRecord();      
     }
   });
 }

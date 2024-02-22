@@ -790,6 +790,18 @@ export const cotizadoColumns = [
       },       
   },          
   {
+      key: 'quote',
+      label: trans('deals.labels.quote'),
+      show: true,
+      locked: false,  
+  },          
+  {
+      key: 'profitability_format',
+      label: trans('deals.labels.profitability_format'),
+      show: true,
+      locked: false,  
+  },          
+  {
       key: 'estimated_close_date_range',
       label: trans('deals.labels.estimated_close_date'),
       show: false,

@@ -7,6 +7,10 @@ export const useDocumentStore = defineStore("docuemnts", {
       documents: []
     }
   },
+  getters: {
+    mediaFiles: (state) => state.documents.filter(document => document.collection_name == 'files'),
+    mediaProfitability: (state) => state.documents.filter(document => document.collection_name == 'profitability'),
+  },
   actions: {
     async update(payload) {
       const documentService = new DocumentService();          
