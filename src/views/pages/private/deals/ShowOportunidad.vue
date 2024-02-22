@@ -155,6 +155,15 @@
           >
             <template #title>{{ trans('global.labels.attach_profitability_format') }}</template>
           </Document>
+
+          <Document 
+            @submit="(params) => onDocumentSubmit({...params, collection: 'client'})" 
+            :is-loading="isLoadingDocument"
+            :documents="documentStore.mediaClient"
+            accept="image/jpeg,image/gif,image/png,application/pdf"
+          >
+            <template #title>{{ trans('global.labels.attach_client') }}</template>
+          </Document>
         </div>
       </div>
     </Panel>

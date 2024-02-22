@@ -124,7 +124,11 @@
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
           <Task @submit="onTaskSubmit" />
-          <Document @submit="onDocumentSubmit" />
+          <Document 
+            @submit="onDocumentSubmit" 
+            :documents="documentStore.mediaFiles"
+            :is-loading="isLoadingDocument"
+          />
         </div>
       </div>
     </Panel>
@@ -186,6 +190,7 @@ const documentService = new DocumentService();
 const route = useRoute();
 const showEditLeadModal = ref(false);
 const showConvertLeadModal = ref(false);
+const isLoadingDocument = ref(false);
 let lead = null;
 
 const page = reactive({
@@ -256,14 +261,17 @@ function onTaskSubmit({content, due_at, owner}) {
 }
 
 function onDocumentSubmit({file}) {
+  isLoadingDocument.value = true;
   const formData = new FormData();
   formData.append("file", file);
   formData.append("model_type", 'lead');
   formData.append("model_id", lead.id);
+  formData.append("collection", 'files');
   documentService.store(formData, {'Content-type': 'multipart/form-data'}
   ).then(res => {
     if (res.status == 200 || res.status == 201 || res.status == 204) {
       toast.success();  
+      isLoadingDocument.value = false;
       fetchRecord();
     }
   });

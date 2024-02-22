@@ -127,7 +127,11 @@
           <ActiveOpportunities :deals="customer.activeOpportunities" />
           <ActiveQuotes :deals="customer.activeQuotes" />
           <Task @submit="onTaskSubmit" />
-          <Document @submit="onDocumentSubmit" />
+          <Document 
+            @submit="onDocumentSubmit" 
+            :documents="documentStore.mediaFiles"
+            :is-loading="isLoadingDocument"
+          />
         </div>
       </div>
     </Panel>
@@ -196,6 +200,7 @@ const route = useRoute();
 const showEditCompanyModal = ref(false);
 const showCreateOportunidadModal = ref(false);
 const showCreateCotizadoModal = ref(false);
+const isLoadingDocument = ref(false);
 let customer = null;
 
 const page = reactive({
@@ -272,14 +277,17 @@ function onTaskSubmit({content, due_at, owner}) {
 }
 
 function onDocumentSubmit({file}) {
+  isLoadingDocument.value = true;
   const formData = new FormData();
   formData.append("file", file);
   formData.append("model_type", 'customer');
   formData.append("model_id", customer.id);
+  formData.append("collection", 'files');
   documentService.store(formData, {'Content-type': 'multipart/form-data'}
   ).then(res => {
     if (res.status == 200 || res.status == 201 || res.status == 204) {
       toast.success();  
+      isLoadingDocument.value = false;
       fetchRecord();
     }
   });

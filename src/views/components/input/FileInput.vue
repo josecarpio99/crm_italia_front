@@ -174,9 +174,9 @@ export default defineComponent({
             if (!filesArr || !filesArr.length) {
                 return false;
             }
-            if (!filesAccept(filesArr)) {
-                return false;
-            }
+            // if (!filesAccept(filesArr)) {
+            //     return false;
+            // }
             if (!props.multiple) {
                 emit('update:modelValue', filesArr[0]);
                 return emit('input', filesArr[0]);
