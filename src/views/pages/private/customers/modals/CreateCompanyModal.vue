@@ -101,7 +101,18 @@
             name="city" 
             v-model="form.city" 
             :label="trans('customers.labels.city')"
-          />   
+          />
+
+          <FileInput 
+              name="logo" 
+              :required="true" 
+              :label="trans('global.labels.logo')" 
+              v-model="form.logo" 
+              @clear="form.logo = ''" 
+              class="mb-4"
+              :accept="'image/*'"
+            >
+          </FileInput>
           
           <div class="flex items-center justify-end gap-2 pl-2 pt-4">
             <input 
@@ -133,6 +144,7 @@ import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
+import FileInput from "@/views/components/input/FileInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import StarToggle from "@/views/components/input/StarToggle";
 import { customerCategories } from "@/stub/categories";
@@ -179,7 +191,8 @@ const initialState = {
   owner_id: {
     id: authStore.user.id,
     name: authStore.user.name,
-  }
+  },
+  logo: null
 };
 
 const form = reactive({...initialState});

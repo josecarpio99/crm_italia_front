@@ -102,7 +102,18 @@
             name="city" 
             v-model="form.city" 
             :label="trans('customers.labels.city')"
-          /> 
+          />
+
+          <FileInput 
+              name="logo" 
+              :required="true" 
+              :label="trans('global.labels.logo')" 
+              v-model="form.image" 
+              @clear="form.image = ''" 
+              class="mb-4"
+              :accept="'image/*'"
+            >
+          </FileInput>
 
         </div>
       </div>
@@ -118,6 +129,7 @@ import {trans} from "@/helpers/i18n";
 import BaseModal from '@/views/components/BaseModal';
 import Form from "@/views/components/Form";
 import TextInput from "@/views/components/input/TextInput";
+import FileInput from "@/views/components/input/FileInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import StarToggle from "@/views/components/input/StarToggle";
 import { customerCategories } from "@/stub/categories";
@@ -195,7 +207,7 @@ function onSubmit() {
   v$.value.$reset();
 
   let data = reduceProperties(form, ['category_id', 'sector_id', 'owner_id', 'source_id'], 'id');
-
+  data.logo = form.image;
   customerService.handleUpdate(
       'update-company', 
       form.id,

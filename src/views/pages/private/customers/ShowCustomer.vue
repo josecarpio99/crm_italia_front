@@ -101,6 +101,11 @@
           <div v-if="customer.city" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.city') }}</h4>
             <span class="whitespace-normal">{{ customer.city }}</span>
+          </div>
+
+          <div v-if="customer.logo" class="mb-8">
+            <h4 class="font-semibold">{{ trans('global.labels.logo') }}</h4>
+            <img class="img h-20" :src="customer.logo.img_url" alt="Logo">
           </div>       
 
           <!-- <div v-if="customer.origin" class="mb-6">

@@ -344,6 +344,7 @@
       "confirm_action_message": "¿Está seguro de que desea realizar esta acción?"
     },
     "labels": {
+      "logo": "Logo",
       "checkall": "Seleccionar todo",
       "id": "IDENTIFICACIÓN",
       "id_pound": "",

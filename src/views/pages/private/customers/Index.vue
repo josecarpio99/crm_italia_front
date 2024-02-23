@@ -498,6 +498,7 @@ function fetchSmartList(id) {
 
 function onCellChange(payload) {
   let record = table.records.find((item) => item.id == payload.record.id);
+  record.logo = null;
   let oldRecord = {...record};
 
   if (record.category) {
