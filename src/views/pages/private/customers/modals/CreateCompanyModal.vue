@@ -105,7 +105,6 @@
 
           <FileInput 
               name="logo" 
-              :required="true" 
               :label="trans('global.labels.logo')" 
               v-model="form.logo" 
               @clear="form.logo = ''" 
