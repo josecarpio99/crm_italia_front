@@ -391,7 +391,7 @@
             </template>
 
             <template #cell-quote="{item}">
-              <div v-if="item.media_files.length > 0">
+              <div v-if="item.quotes.length > 0">
                 <Icon 
                   class="text-red-500 text-2xl" 
                   name="file-pdf-o" 

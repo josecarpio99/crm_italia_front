@@ -144,6 +144,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "attached_quotes": "Cotizaciones Adjuntas", 
       "quote": "Cotización", 
       "profitability_format": "Formato de Rentabilidad", 
       "cotizado_status": "Status", 

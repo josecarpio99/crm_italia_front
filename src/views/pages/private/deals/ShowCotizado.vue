@@ -96,6 +96,9 @@
           />
           <Task @submit="onTaskSubmit" />
           <DealFlow :deal="deal" />
+
+          <AttachedQuotes :quotes="deal.quotes" />
+
           <Document 
             @submit="(params) => onDocumentSubmit({...params, collection: 'files'})" 
             :is-loading="isLoadingDocument"
@@ -155,6 +158,7 @@ import {useDocumentStore} from "@/stores/document";
 import Panel from "@/views/components/Panel";
 import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
+import AttachedQuotes from "@/views/components/AttachedQuotes";
 import DealStatusField from "@/views/components/DealStatusField";
 import ValueField from "@/views/components/ValueField";
 import SourceField from "@/views/components/SourceField";
