@@ -8,7 +8,13 @@
           <slot name="title">{{ trans('deals.labels.attached_quotes') }}</slot>
         </h5>
       </div>
-      <div class="text-right basis-2/12 flex justify-end items-center">       
+      <div class="text-right basis-2/12 flex justify-between items-center">
+        <Icon 
+          :name="'external-link'" 
+          class="text-gray-500 cursor-pointer" 
+          @click.stop="handleClick"
+          title="Abrir Cotizador"
+        />
         <Icon :name="isOpen ? 'angle-up' : 'angle-down'" class="text-gray-500" />
       </div>
     </div>
@@ -39,6 +45,12 @@
           </div>
 
           <div class="flex justify-end items-center ml-auto text-blue-600 invisible group-hover:visible">
+            <Icon 
+                name="external-link" 
+                class="cursor-pointer mr-2"
+                @click="openExternalQuote(quote.id)"
+                title="Abrir Cotización"
+              />
             <a :href="quote.url" target="_blank">
               <Icon 
                 name="cloud-download" 
@@ -91,5 +103,15 @@ const selectedQuote = ref(null);
 const isOpen = ref(true);
 const showModal = ref(false);
 const showFile = ref(false);
+const cotizadorUrl = import.meta.env.VITE_COTIZADOR_URL;
+console.log(cotizadorUrl);
+
+function handleClick() {
+  window.open(cotizadorUrl, '_blank')
+}
+
+function openExternalQuote(id) {
+  window.open(cotizadorUrl + '/panel/cotizar/' + id, '_blank')
+}
 
 </script>
