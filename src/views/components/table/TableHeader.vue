@@ -204,10 +204,10 @@ const showDateRange = ref(false);
 const sinceDate = ref(null);
 const untilDate = ref(null);
 
-watch(inputValue, (newValue) => {  
-  inputValue.value = newValue;   
-  emit('filter-change', {column: props.column, value: newValue});
-});
+// watch(inputValue, (newValue) => {  
+//   inputValue.value = newValue;   
+//   emit('filter-change', {column: props.column, value: newValue});
+// });
 
 function onSortChange(column, direction) {
   emit('sort-change', {column, direction})
@@ -243,7 +243,7 @@ function filterIsClean() {
 }
 
 function filter() {
-  // emit('filter-change', {column: props.column, value: inputValue.value});
+  emit('filter-change', {column: props.column, value: inputValue.value});
   showInput.value = false;
 }
 
