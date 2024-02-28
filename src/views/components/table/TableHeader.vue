@@ -243,7 +243,8 @@ function filterIsClean() {
 }
 
 function filter() {
-  emit('filter-change', {column: props.column, value: inputValue.value});
+  let value = props.column.filter?.type == 'range' ? inputValue : inputValue.value;
+  emit('filter-change', {column: props.column, value: value});
   showInput.value = false;
 }
 
