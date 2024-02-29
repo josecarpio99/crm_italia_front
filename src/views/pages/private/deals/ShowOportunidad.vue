@@ -138,6 +138,8 @@
           />
           <Task @submit="onTaskSubmit" />
           <DealFlow :deal="deal" />
+          <AttachedQuotes :quotes="deal.quotes" />
+
           <Document 
             @submit="(params) => onDocumentSubmit({...params, collection: 'files'})" 
             :is-loading="isLoadingDocument"
@@ -217,6 +219,7 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
 import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 import {roles} from "@/stub/roles";
+import AttachedQuotes from "@/views/components/AttachedQuotes";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
