@@ -25,6 +25,18 @@
             :max="dayjs().format('YYYY-MM-DD')"
             @update:modelValue="setUntilQueryValue"
           />  
+
+          <Dropdown  
+            class="flex items-center gap-2"
+            select-class="w-[15rem]"
+            :label="trans('deals.labels.source') + ':'"
+            :select-label="'name'"
+            name="source" 
+            placeholder="Selecciona el Origen"
+            :options="sources" 
+            @input="handleSourceSelect"   
+            v-model="sourceSelected"            
+          /> 
         </div>
       </template> 
       <template #default>
@@ -104,10 +116,17 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import { branches } from "@/stub/statuses";
 import TextInput from "@/views/components/input/TextInput";
 import dayjs from 'dayjs';
+import Dropdown from "@/views/components/input/Dropdown";
+import {useSourcesStore} from "@/stores/sources";
 
 const reportService = new ReportService();
 const sinceDate = dayjs().startOf('month').format('YYYY-MM-DD');
 const untilDate = dayjs().format('YYYY-MM-DD');
+const sourceSelected = ref({
+  id: 2,
+  name: 'Publicidad - Guardia'
+});
+let sources = useSourcesStore().sourceList;
 
 const mainQuery = reactive({
   page: 1,
@@ -122,7 +141,11 @@ const mainQuery = reactive({
       until: {
           value: untilDate,
           comparison: '='
-      },       
+      },
+      source: {
+          value: 2,
+          comparison: '='
+      },     
   }
 });
 
@@ -215,6 +238,10 @@ function setSinceQueryValue(value) {
 function setUntilQueryValue(value) {
   console.log(value);
   mainQuery.filters.until.value = value;
+}
+
+function handleSourceSelect(item) {
+  mainQuery.filters.source.value = sourceSelected.value?.id || null;
 }
 
 function fetchPage(params) {

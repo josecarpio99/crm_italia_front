@@ -34,7 +34,19 @@
             v-model="untilDate"
             :max="dayjs().format('YYYY-MM-DD')"
             @update:modelValue="setUntilQueryValue"
-          />  
+          />
+          
+          <Dropdown  
+            class="flex items-center gap-2"
+            select-class="w-[15rem]"
+            :label="trans('deals.labels.source') + ':'"
+            :select-label="'name'"
+            name="source" 
+            placeholder="Selecciona el Origen"
+            :options="sources" 
+            @input="handleSourceSelect"   
+            v-model="sourceSelected"            
+          /> 
         </div>
       </template> 
       <template #default>
@@ -123,6 +135,7 @@ import TextInput from "@/views/components/input/TextInput";
 import Dropdown from "@/views/components/input/Dropdown";
 import dayjs from 'dayjs';
 import {useAuthStore} from "@/stores/auth";
+import {useSourcesStore} from "@/stores/sources";
 
 const authStore = useAuthStore();
 
@@ -130,6 +143,11 @@ const reportService = new ReportService();
 const sinceDate = dayjs().startOf('month').format('YYYY-MM-DD');
 const untilDate = dayjs().format('YYYY-MM-DD');
 const branchSelected = ref({id: null, label: 'TODAS'});
+const sourceSelected = ref({
+  id: 2,
+  name: 'Publicidad - Guardia'
+});
+let sources = useSourcesStore().sourceList;
 
 const branches = ref([
   {
@@ -171,7 +189,11 @@ const mainQuery = reactive({
       branch: {
           value: '',
           comparison: '='
-      },       
+      },
+      source: {
+          value: 2,
+          comparison: '='
+      }, 
   }
 });
 
@@ -266,6 +288,10 @@ function setUntilQueryValue(value) {
 
 function handleBranchSelect(item) {
   mainQuery.filters.branch.value = branchSelected.value?.id || null;
+}
+
+function handleSourceSelect(item) {
+  mainQuery.filters.source.value = sourceSelected.value?.id || null;
 }
 
 function fetchPage(params) {

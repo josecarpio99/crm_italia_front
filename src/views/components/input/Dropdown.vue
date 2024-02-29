@@ -12,6 +12,8 @@
             :options="$props.options" 
             :id="$props.name" 
             :name="$props.name"
+            :placeholder="$props.placeholder"
+            :class="$props.selectClass"
             :label="$props.selectLabel"            
             :closeOnSelect="$props.closeOnSelect"
             :dropdown-should-open="dropdownShouldOpen"
@@ -100,6 +102,10 @@ export default defineComponent({
             default: 3
         },
         errorMessage: {
+            type: String,
+            default: '',
+        },
+        selectClass: {
             type: String,
             default: '',
         }
