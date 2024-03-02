@@ -1,5 +1,4 @@
 name: Vite Deploy
-
 on:
   push:
     branches: [ "main" ]
