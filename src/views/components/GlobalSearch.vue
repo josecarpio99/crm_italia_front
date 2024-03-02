@@ -7,7 +7,7 @@
       id="global-search" 
       name="global-search"
       label="name"     
-      placeholder="Buscar"
+      placeholder="Buscar..."
       @search="handleSearch"
       @option:selected="handleSelect"
     >
