@@ -66,6 +66,14 @@
             <template #cell-hit_rate="{item}">           
               {{ (item.hit_rate ? Number(item.hit_rate).toFixed(2) : '0.00') + '%' }}
             </template>
+
+            <template #cell-inversion="{item}">           
+              <ValueField :value="item.inversion" />
+            </template>
+
+            <template #cell-roa="{item}">           
+              {{ item.roa.toFixed(2) }}
+            </template>
             
           </Table>
       </template>
@@ -249,7 +257,19 @@ const table = reactive({
       label: 'Venta Neta',
       show: true,
       sorteable: true
-    }
+    },
+    {
+      key: 'inversion',
+      label: 'Inversión',
+      show: true,    
+      sorteable: true
+    },
+    {
+      key: 'roa',
+      label: 'ROA',
+      show: true,
+      sorteable: true
+    },
   ],           
   pagination: {
       meta: null,
