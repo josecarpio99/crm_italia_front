@@ -17,6 +17,7 @@
             <TableHeader  
               :column="column" 
               :currentSort="currentSort"
+              :is-loading="isLoading"
               @sort-change="onSortChange" 
               @filter-change="onFilterChange"  
               @all-selected="onAllSelected"            

@@ -32,9 +32,10 @@
       </div>
 
       <div 
-        v-if="column.filterable" 
+        v-if="column.filterable"
+        v-show="!props.isLoading"
         class="inline-block float-right ml-auto group-hover:visible"
-        :class="{invisible: filterIsClean()}"
+        :class="{invisible: filterIsClean() || !props.isLoading}"
       >
         <span @click="handleClick"  class="flex mt-[1px] ml-4 text-base cursor-pointer hover:text-gray-700">
           <i class="fa fa-filter"></i>
@@ -189,6 +190,10 @@ const props = defineProps({
   currentSort: {
     type: Object,
     required: true
+  },
+  isLoading: {
+    type: Boolean,
+    default: false
   }
 });
 
