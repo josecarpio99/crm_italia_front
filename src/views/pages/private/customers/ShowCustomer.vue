@@ -132,6 +132,8 @@
           <ActiveOpportunities :deals="customer.activeOpportunities" />
           <ActiveQuotes :deals="customer.activeQuotes" />
           <Task @submit="onTaskSubmit" />
+          <CustomerProjects :projects="customer.projects" />
+          
           <Document 
             @submit="onDocumentSubmit" 
             :documents="documentStore.mediaFiles"
@@ -175,6 +177,7 @@ import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ActiveOpportunities from "@/views/components/ActiveOpportunities";
 import ActiveQuotes from "@/views/components/ActiveQuotes";
+import CustomerProjects from "@/views/components/CustomerProjects";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
