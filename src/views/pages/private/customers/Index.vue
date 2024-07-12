@@ -545,7 +545,7 @@ function onCellChange(payload) {
 }
 
 function onTableFilter({column, value}) {
-    if (column.key == 'owner' || column.key == 'status' || column.key == 'branch' || column.key == 'source') {
+    if (column.key == 'owner' || column.key == 'status' || column.key == 'branch' || column.key == 'source' || column.key == 'category') {      
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     }
     else if (column.key == 'star') {
@@ -607,6 +607,7 @@ function updateColumnsForSmartList() {
     status: statusFilter, 
     name: nameFilter, 
     category_id: categoryIdFilter,
+    // category: categoryFilter,
     created_at: createdAtFilter,
   } = smartList.definition.query.filters;
 
@@ -645,10 +646,12 @@ function updateColumnsForSmartList() {
   }    
 
   if (categoryIdFilter.value) {  
-    let selectedcategory = customerCategories.find(option => option.id == categoryIdFilter.value.id);
+    let selectedCategories = branchFilter.value.split(',').map(item => {
+      return customerCategories.find(option => option.id == item);
+    });
     
     let categoryIdColumn = table.columns.find(column => column.key == 'category');
-    categoryIdColumn.filter.modelValue = selectedcategory;         
+    categoryIdColumn.filter.modelValue = selectedCategories;         
   }
 
   if (ownerFilter.value) {

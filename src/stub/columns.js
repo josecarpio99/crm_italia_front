@@ -146,7 +146,7 @@ export const customerColumns = [
       editable: true,
       filter: {
         modelValue: '',
-        type: 'select',
+        type: 'multiselect',
         options: customerCategories
       },
       edit: {
@@ -322,7 +322,7 @@ export const leadColumns = [
     editable: false,
     filter: {
       modelValue: '',
-      type: 'select',
+      type: 'multiselect',
       options: leadCategories
     },
     edit: {
@@ -524,7 +524,7 @@ export const dealColumns = [
     editable: false,
     filter: {
       modelValue: '',
-      type: 'select',
+      type: 'multiselect',
       options: dealCategories
     },
     edit: {
@@ -765,7 +765,7 @@ export const cotizadoColumns = [
     editable: false,
     filter: {
       modelValue: '',
-      type: 'select',
+      type: 'multiselect',
       options: dealCategories
     },
     edit: {
@@ -985,7 +985,7 @@ export const oportunidadColumns = [
     editable: false,
     filter: {
       modelValue: '',
-      type: 'select',
+      type: 'multiselect',
       options: dealCategories
     },
     edit: {

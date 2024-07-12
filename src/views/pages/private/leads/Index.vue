@@ -510,6 +510,7 @@ function onTableFilter({column, value}) {
       || column.key == 'source'
       || column.key == 'branch'
       || column.key == 'creator'
+      || column.key == 'category'
       ) {
       mainQuery.filters[column.key].value = (value) ? value.map(item => item.id).join(',') : null;
     } else if (column.key == 'created_at') {
@@ -564,10 +565,12 @@ function updateColumnsForSmartList() {
     } = smartList.definition.query.filters;
 
     if (categoryFilter.value) {  
-      let selectedcategory = leadCategories.find(option => option.id == categoryFilter.value.id);
+      let selectedCategories = categoryFilter.value.split(',').map(item => {
+        return leadCategories.find(option => option.id == item);
+      });
       
       let categoryColumn = table.columns.find(column => column.key == 'category');
-      categoryColumn.filter.modelValue = selectedcategory;         
+      categoryColumn.filter.modelValue = selectedCategories;         
     }
 
     if (nameFilter.value) {      

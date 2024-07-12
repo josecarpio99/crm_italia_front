@@ -44,7 +44,7 @@ export const useCustomersStore = defineStore("customers", {
                   value: '',
                   comparison: '='
               },   
-              category_id: {
+              category: {
                   value: '',
                   comparison: '='
               },
