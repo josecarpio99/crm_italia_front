@@ -20,7 +20,7 @@
     />
 
     <TextInput
-      class="mb-4"
+      class="mb-6"
       type="email"
       :required="true"
       name="email"
@@ -31,7 +31,7 @@
     <div class="text-right">
       <Button
         theme="info"
-        :label="'Agregar'"
+        :label="'Guardar'"
       />
     </div>
   </Form>
