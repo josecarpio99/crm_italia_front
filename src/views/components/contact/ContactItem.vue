@@ -1,18 +1,43 @@
 <template>
   <li class="flex items-center p-2">
-    <div class="flex flex-col">
+    <div class="flex flex-col w-full">
       <VDropdown
         :triggers="[]"
         placement="left"
         :shown="showDropdown"
         @hide="showDropdown = false"
       >
-        <span 
-          class="text-blue-500 whitespace-normal leading-4 cursor-pointer"
-          @click.stop="showDropdown = !showDropdown"
-        >
-          {{ contact.name }}
-        </span>
+        <div class="flex justify-between items-center mb-3">
+          <span 
+            class=" whitespace-normal leading-4 flex gap-2 items-center"
+          >
+            <Icon name="user-o" class="text-gray-500" />
+            {{ contact.name }}
+          </span>
+          <div>
+            <Icon 
+              class="text-gray-500 cursor-pointer hover:text-blue-500"
+              name="pencil" 
+              @click="showDropdown = !showDropdown"
+            />
+
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <span 
+            class=" whitespace-normal leading-4 flex gap-2 items-center"
+          >
+            <Icon name="envelope" class="text-gray-500" />
+            {{ contact.email }}
+          </span>
+
+          <span 
+            class=" whitespace-normal leading-4 flex gap-2 items-center"
+          >
+            <Icon name="phone" class="text-gray-500" />
+            {{ contact.phone }}
+          </span>
+        </div>
         <template #popper>
           <ContactForm class="w-96 p-6" :contact="contact" @submit="onSubmit" />
         </template>

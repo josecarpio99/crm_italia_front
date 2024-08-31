@@ -4,7 +4,7 @@
       class="flex items-center border-b-[1px] py-2 pl-4 pr-6 cursor-pointer hover:bg-gray-100"
       @click="isOpen = !isOpen"
     >
-      <Icon name="check-square-o" class="basis-1/12 text-gray-500 cursor-pointer" />
+      <Icon name="users" class="basis-1/12 text-gray-500 cursor-pointer mr-1" />
       <div class="basis-full">
         <h5 class="font-semibold">{{ 'Contactos' }}</h5>
       </div>
@@ -19,7 +19,7 @@
     <div v-if="isOpen" class="flex items-center justify-center p-2">
       <ul 
         v-if="contacts.length > 0"
-        class="w-full"
+        class="w-full divide-y divide-gray-200 flex flex-col gap-3"
       >
         <ContactItem v-for="contact in contacts" :contact="contact" @update="onUpdate"  />      
       </ul>
