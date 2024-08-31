@@ -124,6 +124,11 @@
           <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
+          <ContactsList 
+            :contacts="lead.contacts"
+            @submit="onContactSubmit" 
+            @update="onContactUpdate" 
+          />
           <Task @submit="onTaskSubmit" />
           <Document 
             @submit="onDocumentSubmit" 
@@ -156,6 +161,7 @@ import LeadService from "@/services/LeadService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
 import DocumentService from "@/services/DocumentService";
+import ContactService from "@/services/ContactService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import {useTaskStore} from "@/stores/tasks";
@@ -175,6 +181,7 @@ import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import SourceField from "@/views/components/SourceField";
+import ContactsList from "@/views/components/contact/ContactsList.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -187,6 +194,7 @@ const leadService = new LeadService();
 const noteService = new NoteService();
 const taskService = new TaskService();
 const documentService = new DocumentService();
+const contactService = new ContactService();
 
 const route = useRoute();
 const showEditLeadModal = ref(false);
@@ -321,6 +329,38 @@ function onModalDelete() {
       router.push({name: 'leads.list'});
     });
   });
+}
+
+function onContactUpdate(params) {
+  let data = {
+    ...params.data,
+    contact_type: 'lead',
+    id: lead.id
+  }
+
+  contactService.update(params.id, data).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      fetchRecord();
+    }
+  })
+}
+
+function onContactSubmit(params) {
+  contactService.store(
+    {
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      id: lead.id,
+      contact_type: 'lead',
+    }
+  ).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      fetchRecord();
+    }
+  })
 }
 
 async function fetchRecord() {

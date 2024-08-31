@@ -384,7 +384,6 @@ function onContactUpdate(params) {
 }
 
 function onContactSubmit(params) {
-  console.log(params);  
 
   contactService.store(
     {

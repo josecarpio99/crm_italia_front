@@ -23,19 +23,21 @@
 
           </div>
         </div>
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center gap-3">
           <span 
             class=" whitespace-normal leading-4 flex gap-2 items-center"
           >
             <Icon name="envelope" class="text-gray-500" />
-            {{ contact.email }}
+            <span class="text-sm">{{ contact.email }}</span>
           </span>
 
           <span 
-            class=" whitespace-normal leading-4 flex gap-2 items-center"
+            class=" leading-4 flex gap-2 items-center"
           >
             <Icon name="phone" class="text-gray-500" />
-            {{ contact.phone }}
+            <span class="text-sm whitespace-normal ">
+              {{ contact.phone }}
+            </span> 
           </span>
         </div>
         <template #popper>
