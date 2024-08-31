@@ -130,6 +130,11 @@
           <ListFeed />
         </div>
         <div class="basis-9/12 overflow-auto pt-2 px-4">
+          <ContactsList 
+            :contacts="customer.contacts"
+            @submit="onContactSubmit" 
+            @update="onContactUpdate" 
+          />
           <ActiveOpportunities :deals="customer.activeOpportunities" />
           <ActiveQuotes :deals="customer.activeQuotes" />
           <Task @submit="onTaskSubmit" />
@@ -167,6 +172,7 @@ import CustomerService from "@/services/CustomerService";
 import NoteService from "@/services/NoteService";
 import TaskService from "@/services/TaskService";
 import DocumentService from "@/services/DocumentService";
+import ContactService from "@/services/ContactService";
 import {useAuthStore} from "@/stores/auth";
 import {useAlertStore} from "@/stores";
 import {useTaskStore} from "@/stores/tasks";
@@ -192,6 +198,7 @@ import Button from "@/views/components/input/Button";
 import StarToggle from "@/views/components/input/StarToggle";
 import DealCategoryField from "@/views/components/DealCategoryField";
 import SourceField from "@/views/components/SourceField";
+import ContactsList from "@/views/components/contact/ContactsList.vue";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -204,6 +211,7 @@ const customerService = new CustomerService();
 const noteService = new NoteService();
 const taskService = new TaskService();
 const documentService = new DocumentService();
+const contactService = new ContactService();
 
 const route = useRoute();
 const showEditCompanyModal = ref(false);
@@ -358,6 +366,40 @@ function onModalDelete() {
       router.push({name: 'customers.list'});
     });
   });
+}
+
+function onContactUpdate(params) {
+  let data = {
+    ...params.data,
+    contact_type: 'customer',
+    id: customer.id
+  }
+
+  contactService.update(params.id, data).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      fetchRecord();
+    }
+  })
+}
+
+function onContactSubmit(params) {
+  console.log(params);  
+
+  contactService.store(
+    {
+      name: params.name,
+      email: params.email,
+      phone: params.phone,
+      id: customer.id,
+      contact_type: 'customer',
+    }
+  ).then(res => {
+    if (res.status == 200 || res.status == 201) {
+      toast.success();
+      fetchRecord();
+    }
+  })
 }
 
 async function fetchRecord() {
