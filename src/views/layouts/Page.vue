@@ -21,7 +21,19 @@
             class="flex flex-wrap justify-between py-6 px-8 pb-2 border-b-2 bg-white"
         >
             <div>
-                <div class="flex">
+                <div class="flex ">
+                    <span 
+                        v-if="$props.showGoBack"
+                        class="flex items-center mr-3"
+                    >
+                        <Icon
+                            name="chevron-left"
+                            class="text-gray-500 text-lg hover:text-gray-700 cursor-pointer"
+                            v-tooltip.right="'Volver'"
+                            @click="$router.go(-1)"
+                        />
+                    </span>
+
                     <span class="mr-2">
                         <Icon 
                             v-if="$props.displayTopMenu" 
@@ -173,7 +185,11 @@ export default defineComponent({
         displayTopMenu: {
             type: Boolean,
             default: false
-        }        
+        },
+        showGoBack: {
+            type: Boolean,
+            default: false
+        }  
     },
     emits: ['action', 'title-change'],
     setup(props, {emit}) {

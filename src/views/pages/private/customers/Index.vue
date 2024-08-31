@@ -8,6 +8,7 @@
     :displayTopMenu="true"
     :is-loading="page.isLoading"
     :title-editable="smartList ? true : false"
+    :show-go-back="Boolean(route.params.id)"
     @title-change="updateSmartListName"
   >      
       <template #top-menu> 

@@ -5,6 +5,7 @@
     :breadcrumbs="page.breadcrumbs" 
     :pagePadding="false" 
     :is-loading="page.loading"
+    :show-go-back="true"
     @action="onPageAction"
   >  
 
