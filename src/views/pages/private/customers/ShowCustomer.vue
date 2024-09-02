@@ -135,8 +135,9 @@
             @submit="onContactSubmit" 
             @update="onContactUpdate" 
           />
-          <ActiveOpportunities :deals="customer.activeOpportunities" />
-          <ActiveQuotes :deals="customer.activeQuotes" />
+          <!-- <ActiveOpportunities :deals="customer.activeOpportunities" />
+          <ActiveQuotes :deals="customer.activeQuotes" /> -->
+          <ActiveDeals :deals="customer.activeDeals" />
           <Task @submit="onTaskSubmit" />
           <CustomerProjects :projects="customer.projects" />
           
@@ -184,6 +185,7 @@ import Note from "@/views/components/Note";
 import Document from "@/views/components/Document";
 import ActiveOpportunities from "@/views/components/ActiveOpportunities";
 import ActiveQuotes from "@/views/components/ActiveQuotes";
+import ActiveDeals from "@/views/components/ActiveDeals";
 import CustomerProjects from "@/views/components/CustomerProjects";
 import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
