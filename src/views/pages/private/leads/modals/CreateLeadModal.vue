@@ -18,36 +18,51 @@
             />
 
             <TextInput 
-              class="mb-4" 
+              class="mb-2" 
               type="text" 
               :required="false" 
-              name="name" 
-              v-model="form.name" 
-              :label="trans('customers.labels.name')"
-            />         
+              name="razon_social" 
+              v-model="form.razon_social" 
+              :label="trans('customers.labels.razon_social')"
+            />    
 
           </div>
           
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput 
-              class="mb-4" 
-              type="email" 
-              :required="false" 
-              name="email" 
-              v-model="form.email" 
-              :label="trans('users.labels.email')"
-            />
 
-            <TextInput 
-              class="mb-4 w-full " 
-              type="text" 
-              :required="false" 
-              name="mobile" 
-              v-model="form.mobile" 
-              :label="trans('customers.labels.mobile')"
-            />          
+            <div class="bg-gray-50 rounded-sm border p-4 mb-2">
+              <h4 class="text-gray-700 text-center mb-1">{{ trans('customers.labels.contact_data') }}</h4>
+              <TextInput 
+                class="mb-4" 
+                type="text" 
+                :required="false" 
+                name="name" 
+                v-model="form.name" 
+                :label="trans('customers.labels.name')"
+              />     
+  
+              <TextInput 
+                class="mb-4" 
+                type="email" 
+                :required="false" 
+                name="email" 
+                v-model="form.email" 
+                :label="trans('users.labels.email')"
+              />
+  
+              <TextInput 
+                class="mb-4 w-full " 
+                type="text" 
+                :required="false" 
+                name="mobile" 
+                v-model="form.mobile" 
+                :label="trans('customers.labels.mobile')"
+              />          
+
+            </div>
+            
             
             <Dropdown  
               class="mb-4 customer_category"
@@ -143,6 +158,7 @@ const isLoading = ref(true);
 
 const initialState = {
   company_name: null,           
+  razon_social: null,           
   name: null,           
   email: null,
   mobile: null,

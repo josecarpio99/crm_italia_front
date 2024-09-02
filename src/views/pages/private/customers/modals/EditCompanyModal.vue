@@ -27,6 +27,15 @@
               :errorMessage="v$.company_name.$errors.length ? v$.company_name.$errors[0].$message : ''"
             />
 
+            <TextInput 
+              class="mb-2" 
+              type="text" 
+              :required="false" 
+              name="razon_social" 
+              v-model="form.razon_social" 
+              :label="trans('customers.labels.razon_social')"
+            /> 
+
             <!-- <TextInput 
               class="mb-4" 
               type="text" 
@@ -167,15 +176,15 @@ const rules = {
   source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
-  name: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  mobile: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
-  email: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
+  // name: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // mobile: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // }, 
+  // email: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
   category_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   }, 

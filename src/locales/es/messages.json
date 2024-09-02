@@ -53,6 +53,7 @@
   },
   "customers": {
     "labels": {
+      "contact_data": "Datos Del Contacto",
       "razon_social": "Razón social",
       "edit_person": "Editar persona",
       "edit_company": "Editar compañia",

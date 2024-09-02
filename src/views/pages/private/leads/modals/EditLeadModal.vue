@@ -16,6 +16,15 @@
               v-model="form.company_name" 
               :label="trans('customers.labels.company_name')"
             />
+
+            <TextInput 
+              class="mb-2" 
+              type="text" 
+              :required="false" 
+              name="razon_social" 
+              v-model="form.razon_social" 
+              :label="trans('customers.labels.razon_social')"
+            />    
 <!-- 
             <TextInput 
               class="mb-4" 

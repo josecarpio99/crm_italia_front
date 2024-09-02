@@ -24,42 +24,55 @@
               v-model="form.company_name" 
               :label="trans('customers.labels.company_name')"
               :errorMessage="vv$.company_name.$errors.length ? vv$.company_name.$errors[0].$message : ''"
-            />
-
+            />            
+            
             <TextInput 
-              class="mb-4" 
+              class="mb-2" 
               type="text" 
-              :required="true" 
-              name="name" 
-              v-model="form.name" 
-              :label="trans('customers.labels.name')"
-              :errorMessage="vv$.name.$errors.length ? vv$.name.$errors[0].$message : ''"
-            />         
+              :required="false" 
+              name="razon_social" 
+              v-model="form.razon_social" 
+              :label="trans('customers.labels.razon_social')"
+            /> 
 
           </div>
           
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput 
-              class="mb-4" 
-              type="email" 
-              :required="true" 
-              name="email" 
-              v-model="form.email" 
-              :label="trans('users.labels.email')"
-              :errorMessage="vv$.email.$errors.length ? vv$.email.$errors[0].$message : ''"
-            />
+            <div class="bg-gray-50 rounded-sm border p-4 mb-2">
+              <h4 class="text-gray-700 text-center mb-1">{{ trans('customers.labels.contact_data') }}</h4>
 
-            <TextInput 
-              class="mb-4 w-full " 
-              type="text" 
-              :required="true" 
-              name="mobile" 
-              v-model="form.mobile" 
-              :label="trans('customers.labels.mobile')"
-              :errorMessage="vv$.mobile.$errors.length ? vv$.mobile.$errors[0].$message : ''"
-            />          
+              <TextInput 
+                class="mb-4" 
+                type="text" 
+                :required="true" 
+                name="name" 
+                v-model="form.name" 
+                :label="trans('customers.labels.name')"
+                :errorMessage="vv$.name.$errors.length ? vv$.name.$errors[0].$message : ''"
+              />     
+
+              <TextInput 
+                class="mb-4" 
+                type="email" 
+                :required="true" 
+                name="email" 
+                v-model="form.email" 
+                :label="trans('users.labels.email')"
+                :errorMessage="vv$.email.$errors.length ? vv$.email.$errors[0].$message : ''"
+              />
+  
+              <TextInput 
+                class="mb-4 w-full " 
+                type="text" 
+                :required="true" 
+                name="mobile" 
+                v-model="form.mobile" 
+                :label="trans('customers.labels.mobile')"
+                :errorMessage="vv$.mobile.$errors.length ? vv$.mobile.$errors[0].$message : ''"
+              />          
+            </div>
             
             <Dropdown  
               class="mb-4 customer_category"
@@ -86,7 +99,7 @@
           <Dropdown  
             :required="false"
             class="mb-4 deal_source"
-            :label="trans('customers.labels.customer_source')"
+            :label="trans('customers.labels.origin')"
             selectLabel="name"
             name="source" 
             :options="sourcesStore.sourceList" 
@@ -181,7 +194,8 @@ const showCreateOportunidadModal = ref(false);
 const initialState = {
   // is_company: 1,
   star: false,           
-  company_name: null,      
+  company_name: null,
+  razon_social: null,  
   city: null,           
   name: null,           
   email: null,
