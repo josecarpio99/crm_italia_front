@@ -24,39 +24,53 @@
             />
 
             <TextInput 
-              class="mb-4" 
+              class="mb-2" 
               type="text" 
-              :required="true" 
-              name="name" 
-              v-model="form.name" 
-              :label="trans('customers.labels.name')"
-              :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
-            />         
+              :required="false" 
+              name="razon_social" 
+              v-model="form.razon_social" 
+              :label="trans('customers.labels.razon_social')"
+            />       
 
           </div>
           
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput 
-              class="mb-4" 
-              type="email" 
-              :required="true" 
-              name="email" 
-              v-model="form.email" 
-              :label="trans('users.labels.email')"
-              :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
-            />
 
-            <TextInput 
-              class="mb-4 w-full " 
-              type="text" 
-              :required="true" 
-              name="mobile" 
-              v-model="form.mobile" 
-              :label="trans('customers.labels.mobile')"
-              :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
-            />          
+            <!-- <div class="bg-gray-50 rounded-sm border p-4 mb-2">
+              <h4 class="text-gray-700 text-center mb-1">{{ trans('customers.labels.contact_data') }}</h4>             
+
+              <TextInput 
+                class="mb-4" 
+                type="text" 
+                :required="true" 
+                name="name" 
+                v-model="form.name" 
+                :label="trans('customers.labels.name')"
+                :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
+              />   
+
+              <TextInput 
+                class="mb-4" 
+                type="email" 
+                :required="true" 
+                name="email" 
+                v-model="form.email" 
+                :label="trans('users.labels.email')"
+                :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
+              />
+  
+              <TextInput 
+                class="mb-4 w-full " 
+                type="text" 
+                :required="true" 
+                name="mobile" 
+                v-model="form.mobile" 
+                :label="trans('customers.labels.mobile')"
+                :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
+              />          
+            </div> -->
             
             <Dropdown  
               class="mb-4 customer_category"
@@ -168,10 +182,11 @@ const props = defineProps({
 
 
 const initialState = {
-  company_name: '',           
-  name: '',           
-  email: '',
-  mobile: '',
+  company_name: '',
+  razon_social: '',    
+  // name: '',           
+  // email: '',
+  // mobile: '',
   city: '',
   requirement: null,
   category_id: null,
@@ -188,15 +203,15 @@ const rules = {
   source_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   },
-  name: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
-  mobile: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  }, 
-  email: {
-    required: helpers.withMessage(trans('global.validation.required'), required)
-  },
+  // name: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
+  // mobile: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // }, 
+  // email: {
+  //   required: helpers.withMessage(trans('global.validation.required'), required)
+  // },
   category_id: {
     required: helpers.withMessage(trans('global.validation.required'), required)
   }, 
@@ -285,6 +300,7 @@ onMounted( async () => {
   form.source_id = sourcesStore.sourceList.find(option => option.id === props.lead.source?.id);
 
   form.company_name = props.lead.company_name;
+  form.razon_social = props.lead.razon_social;
   form.name = props.lead.name;
   form.email = props.lead.email;
   form.city = props.lead.city;
