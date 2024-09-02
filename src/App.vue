@@ -273,8 +273,8 @@ export default {
                   icon: 'list-ul',
                   showDesktop: true,
                   showMobile: true,
-                  requiresAbility: true,
-                  permission: 'view:deals',
+                  requiresAbility: false,
+                //   permission: 'view:deals',
                   to: '/panel/deals/publicidad/list',
               },           
               {
