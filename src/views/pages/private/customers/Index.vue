@@ -21,7 +21,7 @@
                   :class="{'border-blue-300': !route.params.id}"
                   :to="{name: 'customers.list'}"
                 >
-                  <h4 class="text-2xl">{{ trans('global.pages.customer') }}</h4>
+                  <h4 class="text-2xl">{{ trans('global.pages.wallet') }}</h4>
                 </router-link>
 
             </div>
@@ -381,7 +381,7 @@ const page = reactive({
   title: '',
   breadcrumbs: [
       {
-          name: trans('global.pages.customers'),
+          name: trans('global.pages.wallet'),
           to: toUrl('/customers'),
           active: true,
       }
