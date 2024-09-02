@@ -159,6 +159,7 @@
       "edit_cotizado": "Editar cotización", 
       "update_won": "Cambiar a Ganado", 
       "update_lost": "Cambiar a Perdido", 
+      "update_in_progress": "Cambiar a En Proceso", 
       "convert_oportunidad": "Convertir a Oportunidad", 
       "add_deal": "Agregar trato", 
       "total_deals": "Total de registros", 

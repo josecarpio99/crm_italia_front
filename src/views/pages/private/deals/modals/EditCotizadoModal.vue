@@ -1,6 +1,6 @@
 <template>
   <BaseModal :isLoading="isLoading" :show-delete="props.showDelete" @close-modal="onCloseModal" @save-modal="onSubmit" @delete="$emit('delete')">
-    <template #title>{{ trans('deals.labels.edit_cotizado') }}</template>
+    <template #title>{{ 'Editr Proyecto' }}</template>
     <Alert class="mb-4"/>
 
     <Form ref="formRef" id="update-deal" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">

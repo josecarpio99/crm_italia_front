@@ -9,8 +9,8 @@
     @action="onPageAction"
   >  
     <template #beside-title>
-      <div class="flex items-center ml-6" v-if="deal">
-        <slot v-for="(action, j) in page.actions" :name="'page-actions-'+action.id">
+      <div class="flex items-center gap-2 ml-6" v-if="deal">
+        <slot v-for="(action, j) in [...page.actions, ...statusActions[deal.status] ?? []]" :name="'page-actions-'+action.id">
             <Button v-if="action.hasOwnProperty('to') && action.to" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :to="action.to" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
             <Button v-else @click="onPageAction({action: action})" :class="{'mr-3' : j < (page.actions.length-1)}" class="py-[.375rem]" :title="action.name" :icon="action.hasOwnProperty('icon') ? action.icon : null" :theme="action.hasOwnProperty('theme') ? action.theme : null" :label="action.name"/>
         </slot>
@@ -151,7 +151,14 @@
 
   </Page>
 
-  <EditCotizadoModal v-if="deal" :show-delete="can('view:delete')" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal" @delete="onModalDelete" :key="modalKey" />
+  <EditCotizadoModal v-if="deal" :show-delete="can('view:delete')" :modalActive="showEditDealModal" :deal="deal" @updated="onModalUpdate" @close-modal="toggleModal('EditCotizadoModal')" @delete="onModalDelete" :key="modalKey" />
+  <UpdateDealToInProgressModal 
+    v-if="deal" 
+    :modalActive="showUpdateDealToInProgressModal" 
+    :deal="deal"
+    @close-modal="toggleModal('UpdateDealToInProgressModal')" 
+    @submit="fetchRecord"
+   />
 
 </template>
 
@@ -190,6 +197,7 @@ import Task from "@/views/components/task/Task";
 import ListFeed from "@/views/components/ListFeed";
 import Page from "@/views/layouts/Page";
 import EditCotizadoModal from "@/views/pages/private/deals/modals/EditCotizadoModal.vue";
+import UpdateDealToInProgressModal from "@/views/pages/private/deals/modals/UpdateDealToInProgressModal.vue";
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
@@ -212,9 +220,41 @@ const documentService = new DocumentService();
 
 const route = useRoute();
 const showEditDealModal = ref(false);
+const showUpdateDealToInProgressModal = ref(false);
 const isLoadingDocument = ref(false);
 const modalKey = ref(0);
 let deal = null;
+
+const statusActions = {
+  'nuevo': [
+    {      
+      id: 'update_in_progress',
+      theme: 'outline_info',
+      name: trans('deals.labels.update_in_progress'),
+      type: 'button'      
+    },
+    {      
+      id: 'update_lost',
+      theme: 'outline_danger',
+      name: trans('deals.labels.update_lost'),
+      type: 'button'      
+    },
+  ],
+  'en proceso': [
+      {      
+        id: 'update_won',
+        theme: 'outline_success',
+        name: trans('deals.labels.update_won'),
+        type: 'button'      
+      },
+      {      
+        id: 'update_lost',
+        theme: 'outline_danger',
+        name: trans('deals.labels.update_lost'),
+        type: 'button'      
+      }    
+  ]
+}
 
 const page = reactive({
     id: 'show_deal',
@@ -297,7 +337,10 @@ function onDocumentSubmit({file, collection}) {
 function onPageAction(data) {
   switch(data.action.id) {
     case 'edit':
-      toggleModal();
+      toggleModal('EditCotizadoModal');
+      break;
+    case 'update_in_progress':
+      toggleModal('UpdateDealToInProgressModal');
       break;
     case 'update_won':
       updateStatus('ganado');
@@ -308,46 +351,53 @@ function onPageAction(data) {
   }
 }
 
-function toggleModal() {
+function toggleModal(key) {
   alertStore.clear();
-  showEditDealModal.value = !showEditDealModal.value;   
+ 
+  if (key == 'EditCotizadoModal') {
+    showEditDealModal.value = !showEditDealModal.value;
+  }
 
-  if (
-    showEditDealModal.value == true
+  if (key == 'UpdateDealToInProgressModal') {
+    showUpdateDealToInProgressModal.value = !showUpdateDealToInProgressModal.value;
+  }
+
+  if(
+    showEditDealModal.value == true ||
+    showUpdateDealToInProgressModal.value == true
   ) {
-      alertStore.showOnPage = false;
+    alertStore.showOnPage = false;
   } else {
-      alertStore.showOnPage = true;
+    alertStore.showOnPage = true;
   }
 }
 
 async function onModalUpdate() {  
   await fetchRecord();
-  console.log(deal.status);
-  if (deal.status == 'en proceso' && page.actions.length == 1) {
-    page.actions.push(
-      {      
-        id: 'update_won',
-        theme: 'outline_success',
-        name: trans('deals.labels.update_won'),
-        type: 'button'      
-      }
-    );
-    page.actions.push(
-      {      
-        id: 'update_lost',
-        theme: 'outline_danger',
-        name: trans('deals.labels.update_lost'),
-        type: 'button'      
-      }
-    );
-  }
+  // if (deal.status == 'en proceso' && page.actions.length == 1) {
+  //   page.actions.push(
+  //     {      
+  //       id: 'update_won',
+  //       theme: 'outline_success',
+  //       name: trans('deals.labels.update_won'),
+  //       type: 'button'      
+  //     }
+  //   );
+  //   page.actions.push(
+  //     {      
+  //       id: 'update_lost',
+  //       theme: 'outline_danger',
+  //       name: trans('deals.labels.update_lost'),
+  //       type: 'button'      
+  //     }
+  //   );
+  // }
 }
 
 function updateStatus(status) {
   alertHelpers.confirmDanger(function () {
-    page.actions.pop();
-    page.actions.pop();
+    // page.actions.pop();
+    // page.actions.pop();
   
     page.loading = true;
     let data = {
@@ -376,6 +426,7 @@ function onModalDelete() {
 async function fetchRecord() {
   page.loading = true;
   return dealService.find(route.params.id).then((response) => {
+    
     deal = response.data.data;
     taskStore.tasks = deal.tasks;
     noteStore.notes = deal.notes;
@@ -441,24 +492,24 @@ function answered() {
 onMounted(async () => {  
   await fetchRecord();  
 
-  if (deal.status == 'en proceso') {
-    page.actions.push(
-      {      
-        id: 'update_won',
-        theme: 'outline_success',
-        name: trans('deals.labels.update_won'),
-        type: 'button'      
-      }
-    );
-    page.actions.push(
-      {      
-        id: 'update_lost',
-        theme: 'outline_danger',
-        name: trans('deals.labels.update_lost'),
-        type: 'button'      
-      }
-    );
-  }
+  // if (deal.status == 'en proceso') {
+  //   page.actions.push(
+  //     {      
+  //       id: 'update_won',
+  //       theme: 'outline_success',
+  //       name: trans('deals.labels.update_won'),
+  //       type: 'button'      
+  //     }
+  //   );
+  //   page.actions.push(
+  //     {      
+  //       id: 'update_lost',
+  //       theme: 'outline_danger',
+  //       name: trans('deals.labels.update_lost'),
+  //       type: 'button'      
+  //     }
+  //   );
+  // }
 });
 </script>
 

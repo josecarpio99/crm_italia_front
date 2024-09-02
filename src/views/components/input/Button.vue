@@ -73,6 +73,9 @@ export default defineComponent({
                 case 'outline_success':
                     value += 'border-2 border-green-500 border-solid hover:bg-green-600 hover:text-white hover:border-transparent'
                     break;
+                case 'outline_info':
+                    value += 'border-2 border-gray-500 border-solid hover:bg-gray-600 hover:text-white hover:border-transparent'
+                    break;
                 case 'outline_danger':
                     value += 'border-2 border-red-500 border-solid hover:bg-red-600 hover:text-white hover:border-transparent'
                     break;

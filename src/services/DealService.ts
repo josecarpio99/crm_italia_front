@@ -17,6 +17,16 @@ export default class DealService extends ModelService {
         );
     }
 
+    public updateToInprogress(id, payload) {
+        return this.post( 
+            this.url + `/${id}/update-to-in-progress`,
+            payload, 
+             {
+                'Content-Type': 'application/json'
+            }
+        );
+    }
+
     public attachDetach(id, payload) {
         return this.post( 
             this.url + `/${id}/contact/alter`,

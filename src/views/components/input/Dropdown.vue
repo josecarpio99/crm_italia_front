@@ -248,7 +248,8 @@ div[data-value="Publicidad - Guardia"] .vs__selected
 
 div[data-value="A - Micro y Personas Físicas"] .vs__selected,
 div[data-value="6 meses o más"] .vs__selected,
-div[data-value="Recompra"] .vs__selected
+div[data-value="Recompra"] .vs__selected,
+div[data-value="Nuevo"] .vs__selected,
 {
     @apply bg-blue-300;
     @apply text-gray-600;
@@ -271,7 +272,7 @@ div[data-value="En proceso"] .vs__selected
 .customer_category .vs__dropdown-menu li:nth-child(1),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(1),
 .deal_source .vs__dropdown-menu li:nth-child(1),
-.deal_status .vs__dropdown-menu li:nth-child(1)
+.deal_status .vs__dropdown-menu li:nth-child(2)
 {
     @apply bg-green-300;
     @apply text-gray-600;
@@ -287,19 +288,21 @@ div[data-value="En proceso"] .vs__selected
 
 .customer_category .vs__dropdown-menu li:nth-child(3),
 .estimated_close_date_range .vs__dropdown-menu li:nth-child(3),
-.deal_source .vs__dropdown-menu li:nth-child(3)
+.deal_source .vs__dropdown-menu li:nth-child(3),
+.deal_status .vs__dropdown-menu li:nth-child(1)
+
 {
     @apply bg-blue-300;
     @apply text-gray-600;
 }
 
-.deal_status .vs__dropdown-menu li:nth-child(2)
+.deal_status .vs__dropdown-menu li:nth-child(3)
 {
     @apply bg-red-300;
     @apply text-gray-600;
 }
 
-.deal_status .vs__dropdown-menu li:nth-child(3)
+.deal_status .vs__dropdown-menu li:nth-child(4)
 {
     @apply bg-gray-300;
     @apply text-gray-600;
