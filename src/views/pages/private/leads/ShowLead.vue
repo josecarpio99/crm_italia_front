@@ -24,11 +24,6 @@
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
 
-          <div v-if="lead.company_name" class="mb-6">
-            <h4 class="font-semibold">{{ trans('customers.labels.company_name') }}</h4>
-            <span>{{ lead.company_name }}</span>
-          </div>
-
           <div v-if="lead.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.owner') }}</h4>
             <div class="flex w-fit items-center bg-gray-100 p-2 pl-0 rounded-2xl">
@@ -48,6 +43,18 @@
           <div v-if="lead.status" class="mb-6">
             <h4 class="font-semibold">{{ trans('leads.labels.status') }}</h4>
             <span>{{ lead.status }}</span>
+          </div>
+
+          <div v-if="lead.razon_social" class="mb-6">
+            <h4 class="font-semibold">{{ trans('leads.labels.razon_social') }}</h4>
+            <span>{{ lead.razon_social }}</span>
+          </div>
+
+          
+
+          <div v-if="lead.name" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.name') }}</h4>
+            <span>{{ lead.name }}</span>
           </div>
         
           <div v-if="lead.mobile" class="mb-6">
@@ -370,7 +377,7 @@ async function fetchRecord() {
     taskStore.tasks = lead.tasks;
     noteStore.notes = lead.notes;
     documentStore.documents = lead.media;
-    page.title = lead.name;
+    page.title = lead.company_name;
     if (lead.is_company) {
       page.titleIcon = {name: 'building-o'}
     }

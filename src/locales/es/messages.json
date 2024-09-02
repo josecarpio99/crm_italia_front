@@ -53,6 +53,7 @@
   },
   "customers": {
     "labels": {
+      "razon_social": "Razón social",
       "edit_person": "Editar persona",
       "edit_company": "Editar compañia",
       "add_contact": "Agregar contacto",
@@ -100,6 +101,7 @@
       "sure_to_convert": "¿Está seguro de que desea convertir {name}?"
     },
     "labels": {
+      "razon_social": "Razón social",
       "edit_lead": "Editar Prospecto", 
       "add_lead": "Agregar Prospecto", 
       "requirement": "Requerimiento", 
@@ -345,6 +347,7 @@
       "confirm_action_message": "¿Está seguro de que desea realizar esta acción?"
     },
     "labels": {
+      "company": "Empresa",
       "logo": "Logo",
       "checkall": "Seleccionar todo",
       "id": "IDENTIFICACIÓN",

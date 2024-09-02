@@ -16,7 +16,7 @@
               v-model="form.company_name" 
               :label="trans('customers.labels.company_name')"
             />
-
+<!-- 
             <TextInput 
               class="mb-4" 
               type="text" 
@@ -24,30 +24,30 @@
               name="name" 
               v-model="form.name" 
               :label="trans('customers.labels.name')"
-            />         
+            />          -->
 
           </div>
           
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput 
+            <!-- <TextInput 
               class="mb-4" 
               type="email" 
               :required="false" 
               name="email" 
               v-model="form.email" 
               :label="trans('users.labels.email')"
-            />
+            /> -->
 
-            <TextInput 
+            <!-- <TextInput 
               class="mb-4 w-full " 
               type="text" 
               :required="false" 
               name="mobile" 
               v-model="form.mobile" 
               :label="trans('customers.labels.mobile')"
-            />          
+            />           -->
             
             <Dropdown  
               class="mb-4 customer_category"

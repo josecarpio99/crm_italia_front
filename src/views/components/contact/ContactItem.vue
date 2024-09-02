@@ -27,7 +27,7 @@
           <span 
             class=" whitespace-normal leading-4 flex gap-2 items-center"
           >
-            <Icon name="envelope" class="text-gray-500" />
+            <Icon name="envelope-o" class="text-gray-500" />
             <span class="text-sm">{{ contact.email }}</span>
           </span>
 

@@ -66,6 +66,11 @@
             <SourceField :value="customer?.source?.name" />
           </div> 
 
+          <div v-if="customer.razon_social" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.razon_social') }}</h4>
+            <span>{{ customer.razon_social }}</span>
+          </div>
+
           <div v-if="customer.name" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.name') }}</h4>
             <span>{{ customer.name }}</span>
@@ -233,12 +238,12 @@ const page = reactive({
     filters: false,
     breadcrumbs: [
         {
-            name: trans('global.pages.customers'),
+            name: trans('global.pages.wallet'),
             to: toUrl('/customers/list'),
 
         },
         {
-            name: trans('global.pages.customer'),
+            name: trans('global.labels.company'),
             active: true,
         }
     ], 
