@@ -242,16 +242,15 @@
           >
 
             <template #cell-deal="{item}">
-              <router-link 
+              <!-- <router-link 
                 v-if="item.type == 'oportunidad'"
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'deals.oportunidades.show', params: {id: item.id}}"
               >
                 <Icon v-if="item.name" class="mr-2 text-gray-500 text-xl align-middle" name="sign-in" />
                 {{ item.name}}
-              </router-link>
+              </router-link> -->
               <router-link 
-                v-else
                 class="font-semibold hover:text-blue-700 hover:underline"
                 :to="{name: 'deals.cotizados.show', params: {id: item.id}}"
               >
@@ -951,7 +950,8 @@ function onScrollEnd() {
 }
 
 function handleRowClick({record}) {
-  let route = record.type == 'oportunidad' ? 'deals.oportunidades.show' : 'deals.cotizados.show'
+  // let route = record.type == 'oportunidad' ? 'deals.oportunidades.show' : 'deals.cotizados.show'
+  let route = 'deals.cotizados.show'
   router.push({name: route, params: {id: record.id }});
 }
 

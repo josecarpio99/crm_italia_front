@@ -13,17 +13,17 @@
         <h3 class="text-2xl uppercase text-gray-700 font-bold">
           {{ 
           pendingOpportunitiesStore.count > 1 
-            ? `Tienes ${pendingOpportunitiesStore.count} oportunidades asignadas` 
-            : 'Nueva oportunidad asignada' 
+            ? `Tienes ${pendingOpportunitiesStore.count} proyectos asignados` 
+            : 'Nuevo proyecto asignado' 
           }}
         </h3>
       </div>
 
       <div>
-        <router-link :to="{name: 'deals.oportunidades.show', params: {id: deal.id}}">
+        <router-link :to="{name: 'deals.cotizados.show', params: {id: deal.id}}">
           <Button
             class="uppercase font-semibold"
-            :label="trans('global.buttons.go_to_opportunity')"
+            :label="'Ir al Proyecto'"
             @click="pendingOpportunitiesStore.showModal = false"
           />
         

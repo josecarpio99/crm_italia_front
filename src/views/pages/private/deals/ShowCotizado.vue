@@ -19,7 +19,26 @@
 
     <Panel v-if="deal" :borderRounded="false" :bodyPadding="false" >
       <div class="flex w-full max-h-[70vh]">
-        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">         
+        <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">   
+          
+          <div v-if="deal.created_by_lead_qualifier" class="mb-6">
+            <h4 class="font-semibold mb-2">{{ trans('deals.labels.response_time') }}</h4>
+            <Countup
+              v-if="! deal.confirmed_at"
+              class="mb-2" 
+              :date="deal.created_at" 
+             />
+            <ResponseTimeField 
+              v-else
+              :value="deal.confirmed_at" 
+              :compDate="deal.created_at"
+            />
+            <Button
+              v-if="! deal.confirmed_at && authStore.user.id == deal.owner?.id"
+              :label="trans('global.buttons.already_attended')"
+              @click="answered"
+            />
+          </div>
 
           <div v-if="deal.status" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.cotizado_status') }}</h4>
@@ -174,6 +193,9 @@ import EditCotizadoModal from "@/views/pages/private/deals/modals/EditCotizadoMo
 import Icon from "@/views/components/icons/Icon";
 import CircleAvatarIcon from "@/views/components/icons/CircleAvatar";
 import Button from "@/views/components/input/Button";
+import Countup from "@/views/components/Countup";
+import ResponseTimeField from "@/views/components/ResponseTimeField";
+import {usePendingOpportunitiesStore} from "@/stores/pendingOpportunities";
 
 const authStore = useAuthStore();
 const alertStore = useAlertStore();
@@ -181,6 +203,7 @@ const taskStore = useTaskStore();
 const noteStore = useNoteStore();
 const feedStore = useFeedStore();
 const documentStore = useDocumentStore();
+const pendingOpportunitiesStore = usePendingOpportunitiesStore();
 
 const dealService = new DealService();
 const noteService = new NoteService();
@@ -199,12 +222,12 @@ const page = reactive({
     filters: false,
     breadcrumbs: [
         {
-            name: trans('global.pages.cotizados'),
+            name: trans('global.pages.projects'),
             to: toUrl('/deals/oportunidades/list'),
 
         },
         {
-            name: trans('global.pages.cotizado'),
+            name: trans('global.pages.project'),
             active: true,
         }
     ], 
@@ -401,6 +424,18 @@ function handleRemoveCustomer({customer}) {
      
     })
   });
+}
+
+function answered() {
+  dealService.confirm(
+      deal.id
+    ).then((res) => {                
+    if (res?.status == 200 || res?.status == 201 || res?.status == 204) {
+      toast.success();
+      pendingOpportunitiesStore.answered(deal.id);
+      fetchRecord();
+    }
+  })
 }
 
 onMounted(async () => {  

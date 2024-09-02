@@ -4,7 +4,8 @@
     :class="{
       'bg-green-300': value == 'ganado',
       'bg-red-300': value == 'perdido',
-      'bg-gray-200': value == 'en proceso'
+      'bg-gray-200': value == 'en proceso',
+      'bg-blue-200': value == 'nuevo',
     }"
   >
     {{ value }}

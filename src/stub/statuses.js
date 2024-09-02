@@ -200,6 +200,10 @@ export const customerStarStatus = [
 
 export const dealStatus = [
   {
+    id: 'nuevo',
+    label: 'Nuevo',
+  },  
+  {
     id: 'ganado',
     label: 'Ganado',
   },  
