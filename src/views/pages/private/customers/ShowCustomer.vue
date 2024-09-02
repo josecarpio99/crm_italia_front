@@ -25,10 +25,10 @@
       <div class="flex w-full max-h-[70vh]">
         <div class="basis-full border-r-2 overflow-auto pt-4 pr-4 pl-10">
 
-          <div v-if="customer.company_name" class="mb-6">
+          <!-- <div v-if="customer.company_name" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.company_name') }}</h4>
             <span>{{ customer.company_name }}</span>
-          </div>
+          </div> -->
 
           <div v-if="customer.owner" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.owner') }}</h4>
@@ -65,6 +65,11 @@
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.source') }}</h4>
             <SourceField :value="customer?.source?.name" />
           </div> 
+
+          <div v-if="customer.name" class="mb-6">
+            <h4 class="font-semibold">{{ trans('customers.labels.name') }}</h4>
+            <span>{{ customer.name }}</span>
+          </div>
 
           <div v-if="customer.mobile" class="mb-6">
             <h4 class="font-semibold">{{ trans('customers.labels.mobile') }}</h4>
@@ -410,7 +415,7 @@ async function fetchRecord() {
     taskStore.tasks = customer.tasks;
     noteStore.notes = customer.notes;
     documentStore.documents = customer.media;
-    page.title = customer.name;
+    page.title = customer.company_name;
     if (customer.is_company) {
       page.titleIcon = {name: 'building-o'}
     }

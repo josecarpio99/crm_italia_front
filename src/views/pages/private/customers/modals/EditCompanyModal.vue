@@ -27,7 +27,7 @@
               :errorMessage="v$.company_name.$errors.length ? v$.company_name.$errors[0].$message : ''"
             />
 
-            <TextInput 
+            <!-- <TextInput 
               class="mb-4" 
               type="text" 
               :required="true" 
@@ -35,14 +35,14 @@
               v-model="form.name" 
               :label="trans('customers.labels.name')"
               :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
-            />         
+            />          -->
 
           </div>
           
           <div class="w-full ">
             <!-- <div class="flex flex-col sm:flex-row gap-2">
             </div> -->
-            <TextInput 
+            <!-- <TextInput 
               class="mb-4" 
               type="email" 
               :required="true" 
@@ -50,9 +50,9 @@
               v-model="form.email" 
               :label="trans('users.labels.email')"
               :errorMessage="v$.email.$errors.length ? v$.email.$errors[0].$message : ''"
-            />
+            /> -->
 
-            <TextInput 
+            <!-- <TextInput 
               class="mb-4 w-full " 
               type="text" 
               :required="true" 
@@ -60,7 +60,7 @@
               v-model="form.mobile" 
               :label="trans('customers.labels.mobile')"
               :errorMessage="v$.mobile.$errors.length ? v$.mobile.$errors[0].$message : ''"
-            />          
+            />           -->
             
             <Dropdown  
               class="mb-4 customer_category"
