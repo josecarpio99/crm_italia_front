@@ -147,6 +147,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "updated_status_date": "Fecha de Cambio de Status",
       "client": "Cliente",
       "proyect_name": "Nombre del proyecto",
       "attached_quotes": "Cotizaciones Adjuntas", 

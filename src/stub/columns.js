@@ -463,10 +463,11 @@ export const dealColumns = [
     filterable: true,
     editable: true,
     filter: {
-      modelValue: [{
-        id: 2,
-        name: 'Publicidad - Guardia',
-      }],
+      // modelValue: [{
+      //   id: 2,
+      //   name: 'Publicidad - Guardia',
+      // }],
+      modelValue: '',
       type: 'multiselect',
       options: [],
       optionsLabel: 'name'
@@ -488,10 +489,16 @@ export const dealColumns = [
   filterable: true,
   editable: true,
   filter: {
-    modelValue: [{
-      id: 'en proceso',
-      label: 'En proceso',
-    }],
+    modelValue: [
+      {
+        id: 'en proceso',
+        label: 'En proceso',
+      },
+      {
+        id: 'nuevo',
+        label: 'Nuevo',
+      },
+  ],
     type: 'multiselect',
     options: dealStatus
   },
@@ -502,7 +509,7 @@ export const dealColumns = [
 }, 
 {
   key: 'closed_at',
-  label: trans('global.labels.stage_moved_at'),
+  label: trans('deals.labels.updated_status_date'),
   show: false,
   locked: false,
   sorteable: true,

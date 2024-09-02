@@ -23,7 +23,7 @@ export const useDealStore = defineStore("deal", {
                 comparison: '='
             },    
             source: {
-                value: '2',
+                value: '',
                 comparison: '='
             },    
             stage: {
@@ -51,7 +51,7 @@ export const useDealStore = defineStore("deal", {
                 comparison: '='
             },
             status: {
-                value: 'en proceso',
+                value: 'en proceso,nuevo',
                 comparison: '='
             },
             closed_at: {
