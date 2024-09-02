@@ -114,11 +114,7 @@ const mainQuery = reactive({
   limit: PAGE_LIMIT,
   search: '',
   sort: '',
-  filters: {
-      type: {
-          value: 'oportunidad',
-          comparison: '='
-      },    
+  filters: { 
       name: {
           value: '',
           comparison: '='
