@@ -4,7 +4,7 @@
       @click="isOpen = !isOpen">
       <Icon name="arrows-h" class="basis-1/12 text-gray-500 cursor-pointer" />
       <div class="basis-full">
-        <h5 class="font-semibold">Historial de la {{ deal.type == 'oportunidad' ? 'Oportunidad' : 'Cotización' }}</h5>
+        <h5 class="font-semibold">Historial del Proyecto</h5>
       </div>
       <div class="text-right basis-2/12 flex justify-between items-center">
         <div>
@@ -31,14 +31,23 @@
             <span class="text-xs">
               {{ $date(deal.converted_to_opportunity).format() }}
             </span>
-          </div>
+          </div>       
 
           <div v-if="deal.converted_to_quote" class="flex gap-1 flex-col text-gray-500 border-b-2 pb-2">
             <span class="font-semibold text-gray-600">
-              Convertido a cotización el:
+              Convertido a poyecto el:
             </span>
             <span class="text-xs">
               {{ $date(deal.converted_to_quote).format() }}
+            </span>
+          </div>
+
+          <div v-if="deal.move_to_in_progress" class="flex gap-1 flex-col text-gray-500 border-b-2 pb-2">
+            <span class="font-semibold text-gray-600">
+              A en proceso el:
+            </span>
+            <span class="text-xs">
+              {{ $date(deal.move_to_in_progress).format() }}
             </span>
           </div>
 
