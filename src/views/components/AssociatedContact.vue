@@ -73,7 +73,7 @@
             class="font-semibold text-blue-500 hover:text-blue-700 hover:underline mb-4"
             :to="{name: 'customers.show', params: {id: customer.id}}"
           >
-            {{ customer.name }}
+            {{ customer.company_name }}
           </router-link>
           <div class="flex items-center mb-2" v-if="customer.city">
             <Icon 

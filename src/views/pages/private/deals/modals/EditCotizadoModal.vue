@@ -15,14 +15,14 @@
               :required="false" 
               name="name" 
               v-model="form.name" 
-              :label="trans('deals.labels.cotizado_name')"
+              :label="trans('deals.labels.proyect_name')"
               :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
             /> 
 
             <Dropdown  
               class="mb-4" 
               :required="false"           
-              :label="trans('deals.labels.main_contact')"
+              :label="trans('deals.labels.client')"
               :options="customerList" 
               selectLabel="name"
               name="customer" 
@@ -45,7 +45,7 @@
                 class="md:mb-0 md:w-1/2" 
                 name="value" 
                 v-model="form.value" 
-                :label="trans('deals.labels.cotizado_estimated_value')" 
+                :label="trans('deals.labels.value')" 
                 :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
               />
 
@@ -68,7 +68,7 @@
             <Dropdown  
               :required="false"
               class="mb-4 deal_source"
-              :label="trans('deals.labels.cotizado_source')"
+              :label="trans('deals.labels.source')"
               selectLabel="name"
               name="source" 
               :options="sources" 

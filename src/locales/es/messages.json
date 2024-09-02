@@ -147,6 +147,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "client": "Cliente",
       "proyect_name": "Nombre del proyecto",
       "attached_quotes": "Cotizaciones Adjuntas", 
       "quote": "Cotización", 

@@ -44,7 +44,7 @@
 
           <div v-if="deal.move_to_in_progress" class="flex gap-1 flex-col text-gray-500 border-b-2 pb-2">
             <span class="font-semibold text-gray-600">
-              A en proceso el:
+              En proceso el:
             </span>
             <span class="text-xs">
               {{ $date(deal.move_to_in_progress).format() }}

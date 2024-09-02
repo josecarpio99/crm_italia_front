@@ -1,6 +1,6 @@
 <template>
   <BaseModal :isLoading="isLoading" @close-modal="onCloseModal" @save-modal="onSubmit">
-    <template #title>{{ trans('deals.labels.add_cotizado') }}</template>
+    <template #title>{{ 'Agregar Proyecto' }}</template>
     <Alert class="mb-4"/>
 
     <Form ref="formRef" id="create-cotizado" @submit.prevent="onSubmit" class="w-[700px] max-w-[100%]">      
@@ -15,7 +15,7 @@
         :required="false" 
         name="name" 
         v-model="form.name" 
-        :label="trans('deals.labels.cotizado_name')"
+        :label="trans('deals.labels.proyect_name')"
         :errorMessage="v$.name.$errors.length ? v$.name.$errors[0].$message : ''"
       /> 
 
@@ -24,7 +24,7 @@
           class="md:mb-0 md:w-1/2" 
           name="value" 
           v-model="form.value" 
-          :label="trans('deals.labels.cotizado_estimated_value')" 
+          :label="trans('deals.labels.value')" 
           :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
         />
 
@@ -39,11 +39,11 @@
         />
       </div>
 
-      <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo contacto" />
+      <Toggle v-model="showCustomerSection" class="mb-2 text-right" label="Agregar nuevo cliente" />
 
       <div v-show="showCustomerSection" class="rounded-lg p-4 mb-6 bg-gray-100">
 
-        <p class="text-gray-600 font-semibold mb-2">{{ trans('deals.phrases.main_contact') }}</p>
+        <p class="text-gray-600 font-semibold mb-2">{{ 'Datos del cliente' }}</p>
 
         <TextInput 
           class="mb-4 w-full"           
@@ -87,7 +87,7 @@
         v-show="! showCustomerSection"
         class="mb-4" 
         :required="false"           
-        :label="trans('deals.labels.main_contact')"
+        :label="trans('deals.labels.client')"
         :options="customerList" 
         selectLabel="name"
         name="customer" 
@@ -109,7 +109,7 @@
             <Dropdown  
               :required="false"
               class="mb-4 deal_source"
-              :label="trans('deals.labels.cotizado_source')"
+              :label="trans('deals.labels.source')"
               selectLabel="name"
               name="source" 
               :options="sources" 
