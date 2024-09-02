@@ -263,7 +263,7 @@ const page = reactive({
     breadcrumbs: [
         {
             name: trans('global.pages.projects'),
-            to: toUrl('/deals/oportunidades/list'),
+            to: toUrl('/deals/publicidad/list'),
 
         },
         {
@@ -432,9 +432,9 @@ async function fetchRecord() {
     noteStore.notes = deal.notes;
     documentStore.documents = deal.media;
     page.title = deal.name;
-    if (deal.type == 'cotizado') {
-      page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
-    }
+    // if (deal.type == 'cotizado') {
+    //   page.breadcrumbs[0].to = toUrl('/deals/cotizados/list')
+    // }
     page.loading = false;
   });
 }
