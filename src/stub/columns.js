@@ -26,19 +26,19 @@ export const customerColumns = [
       options: customerStarStatus
     }
   },
-  {
-      key: 'name',
-      label: trans('customers.labels.name'),
-      show: true,
-      locked: true,
-      editable: true,
-      sorteable: true,
-      filterable: true,
-      filter: {
-        modelValue: null,
-        type: 'input'
-      }
-  },
+  // {
+  //     key: 'name',
+  //     label: trans('customers.labels.name'),
+  //     show: true,
+  //     locked: true,
+  //     editable: true,
+  //     sorteable: true,
+  //     filterable: true,
+  //     filter: {
+  //       modelValue: null,
+  //       type: 'input'
+  //     }
+  // },
   {
       key: 'company_name',
       label: trans('customers.labels.company_name'),
@@ -89,22 +89,22 @@ export const customerColumns = [
     cellKey: 'owner.id',
     cellLabel: 'owner.name'
   }, 
-  {
-      key: 'email',
-      label: trans('global.labels.email'),
-      show: true,
-      locked: true,
-      sorteable: true,
-      editable: true
-  },    
-  {
-      key: 'mobile',
-      label: trans('customers.header.phone'),
-      show: true,
-      locked: false,
-      sorteable: false,
-      editable: true
-  },
+  // {
+  //     key: 'email',
+  //     label: trans('global.labels.email'),
+  //     show: true,
+  //     locked: true,
+  //     sorteable: true,
+  //     editable: true
+  // },    
+  // {
+  //     key: 'mobile',
+  //     label: trans('customers.header.phone'),
+  //     show: true,
+  //     locked: false,
+  //     sorteable: false,
+  //     editable: true
+  // },
   {
       key: 'active_opportunities_count',
       label: trans('customers.labels.active_opportunities'),
@@ -201,19 +201,19 @@ export const leadColumns = [
     show: true,
     locked: true 
   },
-  {
-      key: 'name',
-      label: trans('customers.labels.name'),
-      show: true,
-      locked: true,
-      editable: true,
-      sorteable: true,
-      filterable: true,
-      filter: {
-        modelValue: '',
-        type: 'input'            
-      }
-  },
+  // {
+  //     key: 'name',
+  //     label: trans('customers.labels.name'),
+  //     show: true,
+  //     locked: true,
+  //     editable: true,
+  //     sorteable: true,
+  //     filterable: true,
+  //     filter: {
+  //       modelValue: '',
+  //       type: 'input'            
+  //     }
+  // },
   {
       key: 'company_name',
       label: trans('customers.labels.company_name'),
@@ -281,22 +281,22 @@ export const leadColumns = [
       cellKey: 'owner.id',
       cellLabel: 'owner.name'
   },
-  {
-    key: 'email',
-    label: trans('global.labels.email'),
-    show: true,
-    locked: true,
-    sorteable: true,
-    editable: true
-  },    
-  {
-    key: 'mobile',
-    label: trans('customers.header.phone'),
-    show: true,
-    locked: false,
-    sorteable: false,
-    editable: true
-  },
+  // {
+  //   key: 'email',
+  //   label: trans('global.labels.email'),
+  //   show: true,
+  //   locked: true,
+  //   sorteable: true,
+  //   editable: true
+  // },    
+  // {
+  //   key: 'mobile',
+  //   label: trans('customers.header.phone'),
+  //   show: true,
+  //   locked: false,
+  //   sorteable: false,
+  //   editable: true
+  // },
   {
     key: 'next_task',
     label: trans('global.labels.next_task'),
@@ -379,7 +379,7 @@ export const dealColumns = [
   },   
   {
       key: 'name',
-      label: trans('global.labels.name'),
+      label: trans('deals.labels.proyect_name'),
       show: true,
       locked: true,
       editable: true,
@@ -392,13 +392,13 @@ export const dealColumns = [
   },
   {
     key: 'contact_name',
-    label: trans('customers.labels.name'),
+    label: trans('customers.labels.company_name'),
     show: true,
     locked: true,
     editable: false,
     sorteable: false,
     filterable: false,
-    cellLabel: 'customer.name'
+    cellLabel: 'customer.company_name'
   }, 
   {
       key: 'branch',
