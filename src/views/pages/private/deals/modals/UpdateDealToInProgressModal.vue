@@ -23,7 +23,7 @@
                 class="md:mb-0 md:w-1/2" 
                 name="value" 
                 v-model="form.value" 
-                :label="trans('deals.labels.cotizado_estimated_value')" 
+                :label="trans('deals.labels.value')" 
                 :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
               />
 
