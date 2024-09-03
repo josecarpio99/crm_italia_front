@@ -342,7 +342,7 @@
               <span>{{ trans('deals.labels.total_deals') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">{{ table.pagination.meta.total }}</span>
             </div>
-            <div class="flex items-center">
+            <!-- <div class="flex items-center">
               <span>{{ trans('deals.labels.value_estimated') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
                 MXN{{ numberFormatter.format(table.pagination.meta.oportunidad.sum) }}
@@ -353,7 +353,7 @@
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
                 MXN{{ numberFormatter.format(table.pagination.meta.cotizado.sum) }}
               </span>
-            </div>
+            </div> -->
             <div class="flex items-center">
               <span>{{ trans('deals.labels.value_total') }}</span>
               <span class="ml-2 text-xl font-semibold text-gray-400 tracking-tight">
