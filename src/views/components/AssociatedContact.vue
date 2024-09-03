@@ -4,7 +4,8 @@
       @click="isOpen = !isOpen">
       <Icon name="user-o" class="basis-1/12 text-gray-500 cursor-pointer" />
       <div class="basis-full">
-        <h5 class="font-semibold">{{ trans('global.labels.associated_contacts') }}</h5>
+        <!-- <h5 class="font-semibold">{{ trans('global.labels.associated_contacts') }}</h5> -->
+        <h5 class="font-semibold">{{ 'Cliente Asociado' }}</h5>
       </div>
       <div class="text-right basis-2/12 flex justify-between items-center">
         <div>
