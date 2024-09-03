@@ -147,6 +147,7 @@
       "amount_quoted": "Monto cotizado"
     },
     "labels": {
+      "create_project": "Crear Proyecto",
       "updated_status_date": "Fecha de Cambio de Status",
       "discount": "Descuento",
       "client": "Cliente",

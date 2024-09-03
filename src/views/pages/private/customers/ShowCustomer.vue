@@ -255,8 +255,8 @@ const page = reactive({
         type: 'button'
       },
       {
-        id: 'add_oportunidad',
-        name: trans('deals.labels.convert_oportunidad'),
+        id: 'add_project',
+        name: trans('deals.labels.create_project'),
         theme: 'outline',
         type: 'button'
       },
@@ -327,11 +327,11 @@ function onPageAction(data) {
     case 'edit':
       toggleModal('showEditCompanyModal');
       break;
-    case 'add_oportunidad':
-      toggleModal('showCreateOportunidadModal');
+    case 'add_project':
+      toggleModal('showCreateCotizadoModal');
       break;
-    // case 'add_cotizado':
-    //   toggleModal('showCreateCotizadoModal');
+    // case 'add_oportunidad':
+    //   toggleModal('showCreateOportunidadModal');
     //   break;
   }
 }
