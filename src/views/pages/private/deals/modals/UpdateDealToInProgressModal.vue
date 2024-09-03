@@ -8,27 +8,37 @@
       <div class="flex gap-2 flex-col">
           <div class="w-full">           
 
-            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
+            <Dropdown  
+              class=" estimated_close_date_range mb-4"
+              :required="true"
+              :label="trans('deals.labels.estimated_close_date')"
+              :options="dealEstimatedCloseDateRange" 
+              name="estimated_close_date_range" 
+              v-model="form.estimated_close_date_range"     
+              :errorMessage="v$.estimated_close_date_range.$errors.length ? v$.estimated_close_date_range.$errors[0].$message : ''"
+            />
+
+            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-2">
               <MoneyInput 
                 class="md:mb-0 md:w-1/2" 
                 name="value" 
                 v-model="form.value" 
                 :label="trans('deals.labels.cotizado_estimated_value')" 
                 :errorMessage="v$.value.$errors.length ? v$.value.$errors[0].$message : ''"
-
               />
 
-              <Dropdown  
-                class="md:mb-0 md:w-1/2 estimated_close_date_range"
-                :required="true"
-                :label="trans('deals.labels.estimated_close_date')"
-                :options="dealEstimatedCloseDateRange" 
-                name="estimated_close_date_range" 
-                v-model="form.estimated_close_date_range"     
-                :errorMessage="v$.estimated_close_date_range.$errors.length ? v$.estimated_close_date_range.$errors[0].$message : ''"
+              <TextInput 
+                class="md:mb-0 md:w-1/2" 
+                name="discount" 
+                type="number"
+                v-model="form.discount" 
+                :label="trans('deals.labels.discount')"
+                :errorMessage="v$.discount.$errors.length ? v$.discount.$errors[0].$message : ''"
               />
+
             </div>
-                   
+            
+      
                    
           </div>          
 
@@ -83,6 +93,7 @@ const props = defineProps({
 const initialState = {
   estimated_close_date_range: null,
   value: 0,
+  discount: 0
 };
 
 const form = reactive({...initialState});
@@ -93,7 +104,10 @@ const rules = {
   },
   estimated_close_date_range: {
     required: helpers.withMessage(trans('global.validation.required'), required)
-  } 
+  },
+  discount: {
+    required: helpers.withMessage(trans('global.validation.required'), required)
+  }
 }
 
 const v$ = useVuelidate(rules, form);
@@ -139,6 +153,7 @@ function onCloseModal() {
 onMounted( async () => {
   form.estimated_close_date_range = dealEstimatedCloseDateRange.find(option => option.id === props.deal.estimated_close_date_range);
   form.value = props.deal.value;
+  form.discount = props.deal.discount;
   
   isLoading.value = false;
 });

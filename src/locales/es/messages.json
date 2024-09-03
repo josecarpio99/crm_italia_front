@@ -148,6 +148,7 @@
     },
     "labels": {
       "updated_status_date": "Fecha de Cambio de Status",
+      "discount": "Descuento",
       "client": "Cliente",
       "proyect_name": "Nombre del proyecto",
       "attached_quotes": "Cotizaciones Adjuntas", 

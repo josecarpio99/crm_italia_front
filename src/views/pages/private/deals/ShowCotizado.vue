@@ -69,12 +69,12 @@
           <div v-if="deal.value" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.value') }}</h4>
             <ValueField :value="deal.value" :large="true" />
-          </div>        
+          </div>  
 
-          <div v-if="deal.win_probability" class="mb-6">
-            <h4 class="font-semibold">{{ trans('deals.labels.win_probability') }}</h4>
-            <span>{{ deal.win_probability + '%' }}</span>
-          </div>      
+          <div class="mb-6">
+            <h4 class="font-semibold">{{ trans('deals.labels.discount') }}</h4>
+            <span class="font-semibold text-gray-600 text-lg">{{ deal.discount ?? 0 }}</span>
+          </div>  
 
           <div v-if="deal.estimated_close_date_range" class="mb-6">
             <h4 class="font-semibold mb-2">{{ trans('deals.labels.estimated_close_date') }}</h4>

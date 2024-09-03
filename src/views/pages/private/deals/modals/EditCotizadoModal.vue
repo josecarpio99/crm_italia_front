@@ -40,7 +40,7 @@
               :errorMessage="v$.status.$errors.length ? v$.status.$errors[0].$message : ''"
             /> 
 
-            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-4">
+            <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-2">
               <MoneyInput 
                 class="md:mb-0 md:w-1/2" 
                 name="value" 
@@ -63,11 +63,11 @@
                    
           </div>
 
-          <div class="w-full">           
+          <div class="w-full mb-2">           
 
             <Dropdown  
               :required="false"
-              class="mb-4 deal_source"
+              class="deal_source"
               :label="trans('deals.labels.source')"
               selectLabel="name"
               name="source" 
@@ -92,19 +92,29 @@
             />                      
 
           </div>
-
+<!-- 
           <div class="w-full">            
 
-          </div>
+          </div> -->
 
-          <TextInput 
-            class="mb-4" 
-            type="text" 
-            :required="false" 
-            name="city" 
-            v-model="form.city" 
-            :label="trans('customers.labels.city')"
-          />   
+          <div class="flex gap-4 flex-col md:flex-row md:justify-between mb-2">
+            <TextInput 
+              class="md:w-1/2" 
+              type="text" 
+              :required="false" 
+              name="city" 
+              v-model="form.city" 
+              :label="trans('customers.labels.city')"
+            />
+
+            <TextInput 
+                class="md:mb-0 md:w-1/2" 
+                name="discount" 
+                type="number"
+                v-model="form.discount" 
+                :label="trans('deals.labels.discount')"
+              />
+          </div>
 
           <TextInput 
             class="mb-4" 
