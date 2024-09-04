@@ -211,6 +211,10 @@
 
             <template #cell-created_at="{item}">            
                 {{ $date(item.created_at).format() }}          
+            </template>            
+
+            <template #cell-last_sell_at="{item}">            
+                {{ item.latestWonDeal ? $date(item.latestWonDeal.stage_moved_at).format() : '' }}          
             </template>
           </Table>
       </template>

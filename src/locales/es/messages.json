@@ -53,6 +53,8 @@
   },
   "customers": {
     "labels": {
+      "active_projects": "Proyectos Activos",
+      "last_sell_at": "Fecha de Última Venta",
       "contact_data": "Datos Del Contacto",
       "razon_social": "Razón social",
       "edit_person": "Editar persona",

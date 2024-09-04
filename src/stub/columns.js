@@ -105,17 +105,25 @@ export const customerColumns = [
   //     sorteable: false,
   //     editable: true
   // },
+  // {
+  //     key: 'active_opportunities_count',
+  //     label: trans('customers.labels.active_opportunities'),
+  //     show: true,
+  //     locked: false,
+  //     sorteable: true,
+  //     editable: false
+  // },
+  // {
+  //     key: 'active_quotes_count',
+  //     label: trans('customers.labels.active_quotes'),
+  //     show: true,
+  //     locked: false,
+  //     sorteable: true,
+  //     editable: false
+  // },
   {
-      key: 'active_opportunities_count',
-      label: trans('customers.labels.active_opportunities'),
-      show: true,
-      locked: false,
-      sorteable: true,
-      editable: false
-  },
-  {
-      key: 'active_quotes_count',
-      label: trans('customers.labels.active_quotes'),
+      key: 'active_deals_count',
+      label: trans('customers.labels.active_projects'),
       show: true,
       locked: false,
       sorteable: true,
@@ -135,6 +143,15 @@ export const customerColumns = [
     },
     cellKey: 'lastActivetask.id',
     cellLabel: 'lastActivetask.name'
+  },
+  {
+    key: 'last_sell_at',
+    label: trans('customers.labels.last_sell_at'),
+    show: true,
+    locked: false,
+    editable: false,
+    sorteable: false,
+    filterable: false,
   },
   {
       key: 'category',
